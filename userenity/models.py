@@ -31,3 +31,5 @@ class Account(models.Model):
     def age(self):
         TODAY = datetime.date.today()
         return u'%s' % dateutil.relativedelta(TODAY, self.birth_date).years
+
+User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])
