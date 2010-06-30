@@ -21,7 +21,7 @@ class Account(models.Model):
     website = models.URLField(_('website'), blank=True, verify_exists=True)
 
     def __unicode__(self):
-        return u'%s' % self.user
+        return '%s' % self.user
 
     @models.permalink
     def get_absolute_url(self):
