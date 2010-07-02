@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Userina's documentation!
-===================================
+Userina Introduction
+====================
 
 This documentation covers the first release of django-userina application. What
 we have tried to do here is to make a Django application that takes care off
@@ -17,7 +17,8 @@ philosophy encombs the following.
     activated after two days, they get another e-mail with an activation URI
     and their account is disabled for the moment.
 
-Contents:
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
@@ -28,6 +29,5 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
