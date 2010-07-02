@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
-import datetime, dateutil
+import datetime
+from dateutil.relativedelta import relativedelta
 
 class Account(models.Model):
     """
@@ -29,7 +30,7 @@ class Account(models.Model):
 
     @property
     def age(self):
-        TODAY = datetime.date.today()
-        return u'%s' % dateutil.relativedelta(TODAY, self.birth_date).years
+        today = datetime.date.today()
+        return relativedelta(today, self.birth_date).years
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

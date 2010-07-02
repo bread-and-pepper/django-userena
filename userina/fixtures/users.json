@@ -1,0 +1,33 @@
+[{"pk": 1,
+  "model": "auth.user",
+  "fields": {"username": "john", 
+             "first_name": "John",
+             "last_name": "Doe",
+             "is_active": true,
+             "is_superuser": true,
+             "is_staff": true,
+             "last_login": "2010-07-02 12:34:40",
+             "groups": [],
+             "user_permissions": [],
+             "password": "sha1$f4858$541410862291a908e2348baaa22eee37aec8bea2",
+             "email": "john@doe.com",
+             "date_joined": "2010-06-25 14:14:55"
+             }
+ },
+ {"pk": 2,
+  "model": "auth.user",
+  "fields": {"username": "jane", 
+             "first_name": "Jane",
+             "last_name": "Doe",
+             "is_active": true,
+             "is_superuser": true,
+             "is_staff": true,
+             "last_login": "2010-07-02 12:34:40",
+             "groups": [],
+             "user_permissions": [],
+             "password": "sha1$f4858$541410862291a908e2348baaa22eee37aec8bea2",
+             "email": "jane@doe.com",
+             "date_joined": "2010-06-25 14:14:55"
+             }
+ }
+]
