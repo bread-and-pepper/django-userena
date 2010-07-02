@@ -1,11 +1,11 @@
 from distutils.core import setup
 
-setup(name='django-userenity',
+setup(name='django-userina',
       version='0.1.0',
       description='Complete user management application for Django',
       author='Petar Radosevic',
       author_email='petar@wunki.org',
-      url='http://github.com/wunki/django-userenity',
+      url='http://github.com/wunki/django-userina',
       download_url='http://github.com/wunki/django-userenity/downloads',
       packages=['accounts'],
       requires=[

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from userenity.models import Account
+from userina.models import Account
 
 admin.site.unregister(User)
 class AccountInline(admin.StackedInline):
