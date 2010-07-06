@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 import datetime
 from dateutil.relativedelta import relativedelta
 
+class AccountManager(models.Manager):
+    """ Extra functionality for the account manager """
+    def create_user(self, **kwargs):
+        username, email, password = kwargs['username'], kwargs['email'], kwargs['password1']
+        return None
+
 class Account(models.Model):
     """
     A user account which stores all the nescessary information to have a full
@@ -20,6 +26,8 @@ class Account(models.Model):
     gender = models.PositiveSmallIntegerField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True)
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     website = models.URLField(_('website'), blank=True, verify_exists=True)
+
+    objects = AccountManager()
 
     def __unicode__(self):
         return '%s' % self.user
