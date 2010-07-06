@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from userina.models import Account
 
 admin.site.unregister(User)
+
 class AccountInline(admin.StackedInline):
     model = Account
 
