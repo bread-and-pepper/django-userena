@@ -10,7 +10,7 @@
              "groups": [],
              "user_permissions": [],
              "password": "sha1$f4858$541410862291a908e2348baaa22eee37aec8bea2",
-             "email": "john@doe.com",
+             "email": "john@example.com",
              "date_joined": "2010-06-25 14:14:55"
              }
  },
@@ -26,7 +26,7 @@
              "groups": [],
              "user_permissions": [],
              "password": "sha1$f4858$541410862291a908e2348baaa22eee37aec8bea2",
-             "email": "jane@doe.com",
+             "email": "jane@example.com",
              "date_joined": "2010-06-25 14:14:55"
              }
  }

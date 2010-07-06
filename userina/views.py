@@ -1,4 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.views.generic.simple import direct_to_template
+
+from userina.forms import SignupForm
 
 def activate(request, activation_key):
     """ Activate an account through an activation key """
@@ -17,9 +20,19 @@ def signout(request, redirect=None):
     """ Signout a user and redirect them to the ``redirect``. """
     pass
 
-def signup(request):
+def signup(request, template_name='userina/registration_form.html'):
     """ Signup a user """
-    pass
+    form = SignupForm()
+
+    if request.method == 'POST':
+        form = SignupForm(data=request.POST)
+        if form.is_valid():
+            # Register new user
+            pass
+
+    return direct_to_template(request,
+                              template_name,
+                              extra_context={'form': form})
 
 def password_reset(request):
     """

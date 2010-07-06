@@ -47,7 +47,7 @@ urlpatterns = patterns('',
                            direct_to_template,
                            {'template': 'userina_password_complete.html'},
                            name='userina_password_complete'),
-                       url(r'',
+                       url(r'/$',
                            userina_views.detail,
                            name='userina_detail'),
 )
