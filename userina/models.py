@@ -2,6 +2,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils.hashcompat import sha_constructor
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.urlresolvers import reverse
+
+from userina import settings as userina_settings
 
 import datetime, random
 from dateutil.relativedelta import relativedelta
@@ -25,8 +31,10 @@ class AccountManager(models.Manager):
         if isinstance(username, unicode):
             username = username.encode('utf-8')
         verification_key = sha_constructor(salt+username).hexdigest()
-        return self.create(user=user,
-                           verification_key=verification_key)
+        account = self.create(user=user,
+                              verification_key=verification_key)
+        account.send_verification_email()
+        return account
 
 class Account(models.Model):
     """
@@ -64,8 +72,29 @@ class Account(models.Model):
         today = datetime.date.today()
         return relativedelta(today, self.birth_date).years
 
+    @property
+    def get_verification_url(self):
+        """ Making it simple to supply the verification URI """
+        site = Site.objects.get_current()
+        path = reverse('userina_verify',
+                       kwargs={'verification_key': self.verification_key})
+        return 'http://%(domain)s%(path)s' % {'domain': site.domain,
+                                              'path': path}
+
     def send_verification_email(self):
         """ Sends a verification e-mail to the user """
-        pass
+        site = Site.objects.get_current()
+        context= {'account': self,
+                  'verification_days': userina_settings.ACCOUNT_VERIFICATION_DAYS,
+                  'site': site}
+
+        subject = render_to_string('userina/verification_email_subject.txt',
+                                   context)
+        # Email subject *must not* contain newlines
+        subject = ''.join(subject.splitlines())
+
+        message = render_to_string('userina/verification_email_message.txt',
+                                   context)
+        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

@@ -1,13 +1,22 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.core import mail
+from django.core.urlresolvers import reverse
+from django.contrib.sites.models import Site
 
 from userina.models import Account
+
+import re
 
 class AccountModelTests(TestCase):
     """ Test the model and manager of Account """
     user_username = 'alice'
     user_password= 'swordfish'
     user_email = 'alice@example.com'
+
+    user_info = {'username': 'alice',
+                 'password': 'swordfish',
+                 'email': 'alice@example.com'}
 
     fixtures = ['users.json', 'accounts.json']
 
@@ -36,15 +45,15 @@ class AccountModelTests(TestCase):
         Test the creation of a new user.
 
         ``Account.create_user`` should create a new user that is set to active.
+        It should also create a new account for this user.
 
         """
-        new_user = Account.objects.create_user(self.user_username,
-                                               self.user_email,
-                                               self.user_password)
-        self.assertEqual(new_user.username, 'alice')
-        self.assertEqual(new_user.email, 'alice@example.com')
-        self.failUnless(new_user.check_password('swordfish'))
+        new_user = Account.objects.create_user(**self.user_info)
+        self.assertEqual(new_user.username, self.user_info['username'])
+        self.assertEqual(new_user.email, self.user_info['email'])
+        self.failUnless(new_user.check_password(self.user_info['password']))
         self.failUnless(new_user.is_active)
+        self.failUnlessEqual(Account.objects.filter(user__email=self.user_info['email']).count(), 1)
 
     def test_verification_email(self):
         """
@@ -52,17 +61,45 @@ class AccountModelTests(TestCase):
         by ``Account.send_verification_email``.
 
         """
-        new_account = Account.objects.create_user(self.user_username,
-                                                  self.user_email,
-                                                  self.user_password)
+        new_user = Account.objects.create_user(**self.user_info)
+        self.failUnlessEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, [self.user_email])
 
     def test_create_account(self):
         """
         Test the creation of a new account.
 
-        ``Account.create_account`` should create a new account for this user.
+        ``Account.objects.create_account`` should create a new account for this user.
         The user is not verified yet therefore should get an e-mail which
         contains the ``verification_key``.
 
         """
+        new_user = User.objects.create_user(**self.user_info)
+        new_account = Account.objects.create_account(new_user)
+
+        self.assertEqual(Account.objects.filter(user__email=self.user_info['email']).count(), 1)
+        self.assertEqual(new_account.user.id, new_user.id)
+        self.failUnless(re.match('^[a-f0-9]{40}$', new_account.verification_key))
+
+    def test_get_verification_url(self):
+        """
+        Test the verification URL that is created by
+        ``Account.get_verification_url``.
+
+        """
+        account = Account.objects.create_user(**self.user_info).account
+        site = Site.objects.get_current()
+
+        verification_url = 'http://%(domain)s%(path)s' % {'domain': site.domain,
+                                                           'path': reverse('userina_verify',
+                                                                           kwargs={'verification_key': account.verification_key})}
+        self.failUnlessEqual(account.get_verification_url, verification_url)
+
+    def test_verification_valid(self):
+        pass
+
+    def test_verification_invalid(self):
+        pass
+
+    def test_verification_expired(self):
         pass

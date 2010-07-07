@@ -1,0 +1,10 @@
+Dear {{ account.user.username }},
+
+thank you for registering to {{ site.name }}.
+
+To verify your e-mail address you should click on the link below:
+
+{{ account.get_verification_url }}
+
+Sincerely,
+{{ site.name }}
