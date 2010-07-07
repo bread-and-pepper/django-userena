@@ -5,13 +5,13 @@ from userina import views as userina_views
 
 urlpatterns = patterns('',
                        # Activate
-                       url(r'^activate/complete/$',
+                       url(r'^verify/complete/$',
                            direct_to_template,
                            {'template': 'userina/activation_complete.html'},
-                           name='userina_activation_complete'),
-                       url(r'^activate/(?P<activation_key>\w+)/$',
-                           userina_views.activate,
-                           name='userina_activate'),
+                           name='userina_verification_complete'),
+                       url(r'^verify/(?P<verification_key>\w+)/$',
+                           userina_views.verify,
+                           name='userina_verify'),
 
                        # Signin, signout and signup
                        url(r'^signin/$',

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from userina.models import Account
 
+# Unregister the current User admin. We can do so much better.
 admin.site.unregister(User)
 
 class AccountInline(admin.StackedInline):
