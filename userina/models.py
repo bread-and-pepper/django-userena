@@ -9,8 +9,10 @@ from django.core.urlresolvers import reverse
 
 from userina import settings as userina_settings
 
-import datetime, random
+import datetime, random, re
 from dateutil.relativedelta import relativedelta
+
+SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 class AccountManager(models.Manager):
     """ Extra functionality for the account manager. """
@@ -35,6 +37,23 @@ class AccountManager(models.Manager):
                               verification_key=verification_key)
         account.send_verification_email()
         return account
+
+    def verify_account(self, verification_key):
+        """
+        Verify a ``Account`` by supplying a valid ``verification_key``.
+
+        """
+        if SHA1_RE.search(verification_key):
+            try:
+                account = self.get(verification_key=verification_key)
+            except self.Model.DoesNotExist:
+                return False
+            if not account.verification_key_expired():
+                account.verification_key = userina_settings.USERINA_VERIFIED
+                account.verified = True
+                account.save()
+                return account
+        return False
 
 class Account(models.Model):
     """
@@ -81,11 +100,19 @@ class Account(models.Model):
         return 'http://%(domain)s%(path)s' % {'domain': site.domain,
                                               'path': path}
 
+    def verification_key_expired(self):
+        """
+        Returns ``True`` when the ``verification_key`` of the account is
+        expired and ``False`` if the key is still valid.
+
+        """
+        return False
+
     def send_verification_email(self):
         """ Sends a verification e-mail to the user """
         site = Site.objects.get_current()
         context= {'account': self,
-                  'verification_days': userina_settings.ACCOUNT_VERIFICATION_DAYS,
+                  'verification_days': userina_settings.USERINA_VERIFICATION_DAYS,
                   'site': site}
 
         subject = render_to_string('userina/verification_email_subject.txt',

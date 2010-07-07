@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
 from userina.models import Account
+from userina import settings as userina_settings
 
 import re
 
@@ -96,7 +97,18 @@ class AccountModelTests(TestCase):
         self.failUnlessEqual(account.get_verification_url, verification_url)
 
     def test_verification_valid(self):
-        pass
+        account = Account.objects.create_user(**self.user_info).account
+
+        verified_account = Account.objects.verify_account(account.verification_key)
+
+        # The returned account should be the same as the one just created.
+        self.failUnlessEqual(account, verified_account)
+
+        # The account should now be verified.
+        self.failIf(verified_account.is_verified)
+
+        # The verification key should be the same as in the settings
+        self.assertEqual(account.verification_key, userina_settings.USERINA_VERIFIED)
 
     def test_verification_invalid(self):
         pass
