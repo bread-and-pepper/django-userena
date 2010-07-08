@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 from userina.models import Account
 from userina import settings as userina_settings
 
-import re
+import re, datetime
 
 class AccountModelTests(TestCase):
     """ Test the model and manager of Account """
@@ -82,6 +82,29 @@ class AccountModelTests(TestCase):
         self.assertEqual(new_account.user.id, new_user.id)
         self.failUnless(re.match('^[a-f0-9]{40}$', new_account.verification_key))
 
+    def test_expired_account(self):
+        """
+        ``Account.verification_key_expired()`` is ``True`` when the
+        ``verification_key_created`` is more days ago than defined in
+        ``USERINA_VERIFICATION_DAYS``.
+
+        """
+        account = Account.objects.create_user(**self.user_info).account
+        account.verification_key_created -= datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS + 1)
+        account.save()
+
+        account = Account.objects.get(user__username='alice')
+        self.failUnless(account.verification_key_expired())
+
+    def test_unexpired_account(self):
+        """
+        ``Account.verification_key_expired()`` is ``False`` when the
+        ``verification_key_created`` is within the defined timeframe.``
+
+        """
+        account = Account.objects.create_user(**self.user_info).account
+        self.failIf(account.verification_key_expired())
+
     def test_get_verification_url(self):
         """
         Test the verification URL that is created by
@@ -97,8 +120,13 @@ class AccountModelTests(TestCase):
         self.failUnlessEqual(account.get_verification_url, verification_url)
 
     def test_verification_valid(self):
-        account = Account.objects.create_user(**self.user_info).account
+        """
+        Verification of the account with a valid ``verification_key`` should
+        verify the account and set a new invalid ``verification_key`` that is
+        defined in the setting ``USERINA_VERIFIED``.
 
+        """
+        account = Account.objects.create_user(**self.user_info).account
         verified_account = Account.objects.verify_account(account.verification_key)
 
         # The returned account should be the same as the one just created.
@@ -108,10 +136,35 @@ class AccountModelTests(TestCase):
         self.failIf(verified_account.is_verified)
 
         # The verification key should be the same as in the settings
-        self.assertEqual(account.verification_key, userina_settings.USERINA_VERIFIED)
+        self.assertEqual(verified_account.verification_key, userina_settings.USERINA_VERIFIED)
 
     def test_verification_invalid(self):
-        pass
+        """
+        Verification with a key that's invalid should make
+        ``Account.objects.verify_account`` return ``False``.
+
+        """
+        self.failIf(Account.objects.verify_account('wrong_key'))
 
     def test_verification_expired(self):
-        pass
+        """
+        Verification with a key that's expired should also make
+        ``Account.objects.verify_account`` return ``False``.
+
+        """
+        account = Account.objects.create_user(**self.user_info).account
+
+        # Set the date that the key is created a day further away than allowed
+        account.verification_key_created -= datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS + 1)
+        account.save()
+
+        # Try to verify the account
+        Account.objects.verify_account(account.verification_key)
+
+        verified_account = Account.objects.get(user__username='alice')
+
+        # Account verification should have failed
+        self.failIf(verified_account.is_verified)
+
+        # The verification key should still be a hash
+        self.assertEqual(account.verification_key, verified_account.verification_key)

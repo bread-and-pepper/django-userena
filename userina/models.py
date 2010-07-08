@@ -69,13 +69,16 @@ class Account(models.Model):
     mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True)
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
-                                              blank=True, null=True)
+                                              blank=True,
+                                              null=True)
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     website = models.URLField(_('website'), blank=True, verify_exists=True)
     is_verified = models.BooleanField(_('verified'),
                                       default=False,
                                       help_text=_("Designates whether this user has verified his e-mail address."))
     verification_key = models.CharField(_('verification key'), max_length=40)
+    verification_key_created = models.DateTimeField(_('creation date of verification key'),
+                                                    auto_now_add=True)
 
     objects = AccountManager()
 
@@ -105,7 +108,16 @@ class Account(models.Model):
         Returns ``True`` when the ``verification_key`` of the account is
         expired and ``False`` if the key is still valid.
 
+        The key is either expired when the key is set to the value defined in
+        ``USERINA_VERIFIED`` or ``verification_key_created`` is beyond the
+        amount of days defined in ``USERINA_VERIFICATION_DAYS``.
+
         """
+        expiration_date = datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS)
+        if self.verification_key == userina_settings.USERINA_VERIFIED:
+            return True
+        if datetime.datetime.now() >= self.verification_key_created + expiration_date:
+            return True
         return False
 
     def send_verification_email(self):
