@@ -11,5 +11,5 @@ USERINA_VERIFIED = getattr(settings, 'USERINA_VERIFIED', 'ALREADY_VERIFIED')
 
 # The amount of weeks a user can choose te be remembered
 USERINA_REMEMBER_ME_DAYS = getattr(settings,
-                                   'USERINA_REMEMBER_ME_WEEKS',
-                                   (gettext('two weeks'), 14))
+                                   'USERINA_REMEMBER_ME_DAYS',
+                                   (gettext('a month'), 30))

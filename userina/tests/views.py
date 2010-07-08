@@ -116,3 +116,33 @@ class AccountViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'userina/signout.html')
+
+    def test_valid_verification(self):
+        """ A ``GET`` to the verification view """
+        # First, register an account.
+        self.client.post(reverse('userina_signup'),
+                         data={'username': 'alice',
+                               'email': 'alice@example.com',
+                               'password1': 'swordfish',
+                               'password2': 'swordfish',
+                               'tos': 'on'})
+        account = Account.objects.get(user__email='alice@example.com')
+        response = self.client.get(reverse('userina_verify',
+                                           kwargs={'verification_key': account.verification_key}))
+        self.assertRedirects(response,
+                             reverse('userina_verification_complete'))
+
+        account = Account.objects.get(user__email='alice@example.com')
+        self.failUnless(account.is_verified)
+
+
+    def test_invalid_verification(self):
+        """
+        A ``GET`` to the verification view with a wrong ``verification_key``.
+
+        """
+        response = self.client.get(reverse('userina_verify',
+                                           kwargs={'verification_key': 'fake'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userina/verification.html')

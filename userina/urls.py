@@ -14,7 +14,7 @@ urlpatterns = patterns('',
                        # Activate
                        url(r'^verify/complete/$',
                            direct_to_template,
-                           {'template': 'userina/activation_complete.html'},
+                           {'template': 'userina/verification_complete.html'},
                            name='userina_verification_complete'),
                        url(r'^verify/(?P<verification_key>\w+)/$',
                            userina_views.verify,

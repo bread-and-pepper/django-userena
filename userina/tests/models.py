@@ -133,7 +133,7 @@ class AccountModelTests(TestCase):
         self.failUnlessEqual(account, verified_account)
 
         # The account should now be verified.
-        self.failIf(verified_account.is_verified)
+        self.failUnless(verified_account.is_verified)
 
         # The verification key should be the same as in the settings
         self.assertEqual(verified_account.verification_key, userina_settings.USERINA_VERIFIED)

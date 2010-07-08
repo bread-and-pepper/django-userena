@@ -5,14 +5,21 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.conf import settings
+from django.http import Http404
 
 from userina.forms import SignupForm, AuthenticationForm
 from userina.models import Account
 from userina import settings as userina_settings
+from userina import UserinaAuthenticationBackend
 
-def verify(request, verification_key):
+def verify(request, verification_key, template_name='userina/verification.html'):
     """ Verify an account through an verification key """
-    pass
+    account = Account.objects.verify_account(verification_key)
+    if account:
+        return redirect(reverse('userina_verification_complete'))
+    else:
+        return direct_to_template(request,
+                                  template_name)
 
 def signin(request, template_name='userina/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME):

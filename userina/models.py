@@ -50,7 +50,7 @@ class AccountManager(models.Manager):
                 return False
             if not account.verification_key_expired():
                 account.verification_key = userina_settings.USERINA_VERIFIED
-                account.verified = True
+                account.is_verified = True
                 account.save()
                 return account
         return False

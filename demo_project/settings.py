@@ -32,6 +32,11 @@ DATABASES = {
     }
 }
 
+if DEBUG:
+    # Use the Python SMTP debugging server. You can run it with:
+    # ``python -m smtpd -n -c DebuggingServer localhost:1025``.
+    EMAIL_PORT = 1025
+
 TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'en-us'
 
