@@ -8,6 +8,14 @@ from userina.models import Account
 
 class AccountViewsTests(TestCase):
     """ Test the account views """
+    fixtures = ['users']
+
+    def test_disabled_view(self):
+        """ A ``GET`` to the ``disabled`` view """
+        response = self.client.get(reverse('userina_disabled'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userina/disabled.html')
 
     def test_signup_view(self):
         """ A ``GET`` to the ``signup`` view """
@@ -39,3 +47,36 @@ class AccountViewsTests(TestCase):
 
         # Check for new user.
         self.assertEqual(Account.objects.filter(user__email__iexact='alice@example.com').count(), 1)
+
+
+    def test_signin_view(self):
+        """ A ``GET`` to the signin view should render the correct form """
+        response = self.client.get(reverse('userina_signin'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userina/signin_form.html')
+
+        # Check the correct form is used
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.AuthenticationForm))
+
+    def test_signin_view_inactive(self):
+        """ A ``POST`` from a inactive user """
+        user = User.objects.get(email='john@example.com')
+        user.is_active = False
+        user.save()
+
+        response = self.client.post(reverse('userina_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish'})
+
+        self.assertRedirects(response,
+                             reverse('userina_disabled'))
+
+    def test_signin_view_succes(self):
+        """ A ``POST`` to the signin view should redirect the user. """
+        response = self.client.post(reverse('userina_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish'})
+
+        # Check for redirect

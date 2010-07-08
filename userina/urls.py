@@ -4,6 +4,12 @@ from django.views.generic.simple import direct_to_template
 from userina import views as userina_views
 
 urlpatterns = patterns('',
+                       # Inactive user
+                       url(r'^disabled/$',
+                           direct_to_template,
+                           {'template': 'userina/disabled.html'},
+                           name='userina_disabled'),
+
                        # Activate
                        url(r'^verify/complete/$',
                            direct_to_template,
@@ -47,7 +53,7 @@ urlpatterns = patterns('',
                            direct_to_template,
                            {'template': 'userina_password_complete.html'},
                            name='userina_password_complete'),
-                       url(r'/$',
+                       url(r'^profile/$',
                            userina_views.detail,
                            name='userina_detail'),
 )

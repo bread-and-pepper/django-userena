@@ -52,3 +52,37 @@ class SignupFormTests(TestCase):
                                       'tos': 'on'})
 
         self.failUnless(form.is_valid())
+
+class AuthenticationFormTests(TestCase):
+    """ Test the ``AuthenticationForm`` """
+    fixtures = ['users',]
+    def test_signin_form(self):
+        """
+        Check that the ``SigninForm`` requires both identification and password
+
+        """
+        invalid_data_dicts = [
+            {'data': {'identification': '',
+                      'password': 'inhalefish'},
+             'error': ('identification', [u'Either supply us with your e-mail address or username.'])},
+            {'data': {'identification': 'john',
+                      'password': 'inhalefish'},
+             'error': ('__all__', [u'Please enter a correct username or email and password. Note that both fields are case-sensitive.'])}
+        ]
+
+        for invalid_dict in invalid_data_dicts:
+            form = forms.AuthenticationForm(data=invalid_dict['data'])
+            self.failIf(form.is_valid())
+            self.assertEqual(form.errors[invalid_dict['error'][0]],
+                             invalid_dict['error'][1])
+
+        valid_data_dicts = [
+            {'identification': 'john',
+             'password': 'blowfish'},
+            {'identification': 'john@example.com',
+             'password': 'blowfish'}
+        ]
+
+        for valid_dict in valid_data_dicts:
+            form = forms.AuthenticationForm(valid_dict)
+            self.failUnless(form.is_valid())
