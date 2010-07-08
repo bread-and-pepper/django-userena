@@ -7,3 +7,6 @@ lib/
 lib64
 include/
 src/
+
+# Demo project
+demo_project/demo_project.db
