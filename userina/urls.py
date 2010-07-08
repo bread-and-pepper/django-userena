@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth import views as auth_views
 
 from userina import views as userina_views
 
@@ -24,7 +25,8 @@ urlpatterns = patterns('',
                            userina_views.signin,
                            name='userina_signin'),
                        url(r'^signout/$',
-                           userina_views.signout,
+                           auth_views.logout,
+                           {'template_name': 'userina/signout.html'},
                            name='userina_signout'),
                        url(r'^signup/$',
                            userina_views.signup,

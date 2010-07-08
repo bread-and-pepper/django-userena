@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
+from userina import settings as userina_settings
+
 attrs_dict = {'class': 'required'}
 
 class SignupForm(forms.Form):
@@ -71,6 +73,9 @@ class AuthenticationForm(forms.Form):
                                      max_length=75,
                                      error_messages={'required': _('Either supply us with your e-mail address or username.')})
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
+                                     required=False,
+                                     label=_(u'Remember me for %(days)s' % {'days': userina_settings.USERINA_REMEMBER_ME_DAYS[0]}))
 
     def clean(self):
         identification = self.cleaned_data.get('identification')

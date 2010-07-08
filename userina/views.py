@@ -8,6 +8,7 @@ from django.conf import settings
 
 from userina.forms import SignupForm, AuthenticationForm
 from userina.models import Account
+from userina import settings as userina_settings
 
 def verify(request, verification_key):
     """ Verify an account through an verification key """
@@ -27,12 +28,16 @@ def signin(request, template_name='userina/signin_form.html',
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            identification, password = (form.cleaned_data['identification'],
-                                        form.cleaned_data['password'])
+            identification, password, remember_me = (form.cleaned_data['identification'],
+                                                     form.cleaned_data['password'],
+                                                     form.cleaned_data['remember_me'])
             user = authenticate(identification=identification,
                                 password=password)
             if user.is_active:
                 login(request, user)
+                if remember_me:
+                    request.session.set_expiry(userina_settings.USERINA_REMEMBER_ME_DAYS[1] * 3600)
+                else: request.session.set_expiry(0)
                 return redirect(redirect_to)
             else:
                 return redirect(reverse('userina_disabled'))
@@ -89,6 +94,8 @@ def password_change(request):
     pass
 
 @login_required
-def detail(request):
+def detail(request, template_name='userina/detail.html'):
     """ View your own account """
-    pass
+    return direct_to_template(request,
+                              template_name,
+                              extra_context={})

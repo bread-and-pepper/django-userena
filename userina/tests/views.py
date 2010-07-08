@@ -2,9 +2,11 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from userina import forms
 from userina.models import Account
+from userina import settings as userina_settings
 
 class AccountViewsTests(TestCase):
     """ Test the account views """
@@ -60,6 +62,31 @@ class AccountViewsTests(TestCase):
         self.failUnless(isinstance(response.context['form'],
                                    forms.AuthenticationForm))
 
+    def test_signin_view_remember_on(self):
+        """
+        A ``POST`` to the signin with tells it to remember the user for
+        ``REMEMBER_ME_ DAYS``.
+
+        """
+        response = self.client.post(reverse('userina_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish',
+                                          'remember_me': 'on'})
+        self.assertEqual(self.client.session.get_expiry_age(),
+                         userina_settings.USERINA_REMEMBER_ME_DAYS[1] * 3600)
+
+    def test_signin_view_remember_on(self):
+        """
+        A ``POST`` to the signin view of which the user doesn't want to be
+        remembered.
+
+        """
+        response = self.client.post(reverse('userina_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish'})
+
+        self.failUnless(self.client.session.get_expire_at_browser_close())
+
     def test_signin_view_inactive(self):
         """ A ``POST`` from a inactive user """
         user = User.objects.get(email='john@example.com')
@@ -80,3 +107,12 @@ class AccountViewsTests(TestCase):
                                           'password': 'blowfish'})
 
         # Check for redirect
+        self.assertRedirects(response,
+                             settings.LOGIN_REDIRECT_URL)
+
+    def test_signout_view(self):
+        """ A ``GET`` to the signout view """
+        response = self.client.get(reverse('userina_signout'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userina/signout.html')

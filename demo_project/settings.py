@@ -80,3 +80,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'userina',
 )
+
+# Settings required for userina
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
