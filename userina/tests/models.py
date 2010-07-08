@@ -115,7 +115,7 @@ class AccountModelTests(TestCase):
         site = Site.objects.get_current()
 
         verification_url = 'http://%(domain)s%(path)s' % {'domain': site.domain,
-                                                           'path': reverse('userina_verify',
+                                                          'path': reverse('userina_verify',
                                                                            kwargs={'verification_key': account.verification_key})}
         self.failUnlessEqual(account.get_verification_url, verification_url)
 
