@@ -1,1 +1,9 @@
+# Documentation
 docs/_build/
+
+# Virtual environment
+bin/
+lib/
+lib64
+include/
+src/

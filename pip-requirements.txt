@@ -1,0 +1,5 @@
+# Django
+http://www.djangoproject.com/download/1.2.1/tarball/
+
+# Python-dateutils
+http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz
