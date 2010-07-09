@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 from userina import views as userina_views
 
@@ -55,15 +56,19 @@ urlpatterns = patterns('',
                            {'template_name': 'userina/password_reset_complete.html'}),
 
                        # Account settings
-                       url(r'^password/$',
+                       # TODO: Password change should work with usernames
+                       url(r'^me/password/$',
                            auth_views.password_change,
                            {'template_name': 'userina/password_form.html'},
                            name='userina_password_change'),
-                       url(r'^password/complete/$',
+                       url(r'^me/password/complete/$',
                            auth_views.password_change_done,
                            {'template_name': 'userina/password_complete.html'},
                            name='userina_password_change_complete'),
-                       url(r'^profile/$',
+                       url(r'^me/$',
+                           userina_views.me,
+                           name='userina_me'),
+                       url(r'^(?P<username>[\w+])/$',
                            userina_views.detail,
                            name='userina_detail'),
-)
+ )

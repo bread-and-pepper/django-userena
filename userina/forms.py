@@ -34,15 +34,20 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         """
-        Validate that the username is alphanumeric and is not already
-        in use.
+        Validate that the username is alphanumeric and is not already in use.
+        Also validates that the username is not listed in
+        ``USERINA_FORBIDDEN_USERNAMES`` list.
 
         """
         try:
             user = User.objects.get(username__iexact=self.cleaned_data['username'])
         except User.DoesNotExist:
-            return self.cleaned_data['username']
-        raise forms.ValidationError(_('This username is already taken.'))
+            pass
+        else:
+            raise forms.ValidationError(_('This username is already taken.'))
+        if self.cleaned_data['username'].lower() in userina_settings.USERINA_FORBIDDEN_USERNAMES:
+            raise forms.ValidationError(_('This username is not allowed.'))
+        return self.cleaned_data['username']
 
     def clean_email(self):
         """ Validate that the e-mail address is unique """

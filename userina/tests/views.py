@@ -146,3 +146,23 @@ class AccountViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'userina/verification.html')
+
+    def test_profile_view(self):
+        """
+        A ``GET`` to a profile page.
+
+        """
+        response = self.client.get(reverse('userina_me'))
+
+        # Anonymous user should not be able to view the profile page
+        self.assertRedirects(response,
+                             reverse('userina_signin') + '?next=' + reverse('userina_me'))
+
+        # John should
+        self.client.login(username='john', password='blowfish')
+        response = self.client.get(reverse('userina_me'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userina/me.html')
+

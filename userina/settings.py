@@ -13,3 +13,6 @@ USERINA_VERIFIED = getattr(settings, 'USERINA_VERIFIED', 'ALREADY_VERIFIED')
 USERINA_REMEMBER_ME_DAYS = getattr(settings,
                                    'USERINA_REMEMBER_ME_DAYS',
                                    (gettext('a month'), 30))
+
+# Forbidden usernames
+USERINA_FORBIDDEN_USERNAMES = ('register', 'activate', 'username',)

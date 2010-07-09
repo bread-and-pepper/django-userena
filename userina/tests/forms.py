@@ -28,6 +28,14 @@ class SignupFormTests(TestCase):
                       'tos': 'on'},
              'error': ('username', [u'This username is already taken.'])},
 
+            # Forbidden username
+            {'data': {'username': 'regisTer',
+                      'email': 'foo@example.com',
+                      'password': 'foo',
+                      'password2': 'foo2',
+                      'tos': 'on'},
+             'error': ('username', [u'This username is not allowed.'])},
+
             # Already taken email
             {'data': {'username': 'alice',
                       'email': 'john@example.com',

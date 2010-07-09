@@ -80,29 +80,16 @@ def signup(request, template_name='userina/signup_form.html'):
                               template_name,
                               extra_context={'form': form})
 
-def password_reset(request):
-    """
-    Resets your password by sending you a new URI which enables you to choose a
-    new password
-
-    """
-    pass
-
-def password_reset_confirm(request, token):
-    """
-    Let's you choose a new password if your ``token`` is correct.
-
-    """
-    pass
-
 @login_required
-def password_change(request):
-    """ Change your password """
-    pass
-
-@login_required
-def detail(request, template_name='userina/detail.html'):
+def me(request, template_name='userina/me.html'):
     """ View your own account """
+    return direct_to_template(request,
+                              template_name,
+                              extra_context={})
+
+
+def detail(request, username, template_name='userina/detail.html'):
+    """ View the account of others """
     return direct_to_template(request,
                               template_name,
                               extra_context={})
