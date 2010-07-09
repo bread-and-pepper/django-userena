@@ -87,5 +87,6 @@ INSTALLED_APPS = (
 )
 
 # Settings required for userina
+LOGIN_REDIRECT_URL = '/accounts/me/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
