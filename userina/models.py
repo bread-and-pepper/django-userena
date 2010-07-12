@@ -56,6 +56,22 @@ class AccountManager(models.Manager):
                 return account
         return False
 
+    def notify_almost_expired(self):
+        """
+        Check for accounts that are ``USERINA_VERIFICATION_NOTIFY`` days before
+        expiration.
+
+        """
+        if userina_settings.USERINA_VERIFICATION_NOTIFY:
+            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userina_settings.USERINA_VERIFICATION_DAYS - userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
+
+            notified_accounts = self.filter(is_verified=False,
+                                            verification_key_created__lte=expiration_date,
+                                            verification_notification_send=False)
+            for account in notified_accounts:
+                account.send_expiry_notification()
+
+
     def delete_expired_users(self):
         """
         Checks for expired accounts and delete's the ``User`` associated with
@@ -66,10 +82,10 @@ class AccountManager(models.Manager):
         """
         accounts = self.filter(is_verified=False,
                                user__is_staff=False)
-        deleted_users = set()
+        deleted_users = []
         for account in accounts:
             if account.verification_key_expired():
-                deleted_users.add(account.user)
+                deleted_users.append(account.user)
                 account.user.delete()
         return deleted_users
 
@@ -93,15 +109,17 @@ class Account(models.Model):
     website = models.URLField(_('website'), blank=True, verify_exists=True)
     is_verified = models.BooleanField(_('verified'),
                                       default=False,
-                                      help_text=_('Designates whether this user \
-                                                  has verified his e-mail \
-                                                  address.'))
+                                      help_text=_('Designates whether this user has verified his e-mail address.'))
     verification_key = models.CharField(_('verification key'), max_length=40,
                                         blank=True)
     verification_key_created = models.DateTimeField(_('creation date of \
                                                       verification key'),
                                                     blank=True,
                                                     null=True)
+    verification_notification_send = models.BooleanField(_('notification send'),
+                                                         default=False,
+                                                         help_text=_('Designates whether this user has already got a notification about verifying their account.'))
+
     objects = AccountManager()
 
     def __unicode__(self):
@@ -144,10 +162,9 @@ class Account(models.Model):
 
     def send_verification_email(self):
         """ Sends a verification e-mail to the user """
-        site = Site.objects.get_current()
         context= {'account': self,
                   'verification_days': userina_settings.USERINA_VERIFICATION_DAYS,
-                  'site': site}
+                  'site': Site.objects.get_current()}
 
         subject = render_to_string('userina/verification_email_subject.txt',
                                    context)
@@ -157,5 +174,18 @@ class Account(models.Model):
         message = render_to_string('userina/verification_email_message.txt',
                                    context)
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+
+    def send_expiry_notification(self):
+        """ Notify the user that his account is about to expire """
+        context = {'account': self,
+                   'verification_days': userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
+                   'site': Site.objects.get_current()}
+
+        subject = ''.join(subject.splitlines())
+        message = render_to_string('userina/verification_notify_message.txt',
+                                   context)
+        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+        self.verification_notification_send = True
+        self.save()
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

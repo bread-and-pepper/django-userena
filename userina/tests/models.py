@@ -168,3 +168,33 @@ class AccountModelTests(TestCase):
 
         # The verification key should still be a hash
         self.assertEqual(account.verification_key, verified_account.verification_key)
+
+    def test_delete_expired_users(self):
+        """
+        Test if expired users are deleted from the database.
+
+        """
+        expired_account = Account.objects.create_user(**self.user_info).account
+        expired_account.verification_key_created -= datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS + 1)
+        expired_account.save()
+
+        deleted_users = Account.objects.delete_expired_users()
+
+        self.failUnlessEqual(deleted_users[0].username, 'alice')
+
+    def test_notification_expired_users(self):
+        """
+        Test if the notification is send out to people if there account is
+        ``USERINA_VERIFICATION_NOTIFY_DAYS`` away from being deactivated.
+
+        """
+        account = Account.objects.create_user(**self.user_info).account
+        window = userina_settings.USERINA_VERIFICATION_DAYS - userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS
+        account.verification_key_created -= datetime.timedelta(days=window)
+        account.save()
+
+        notifications = Account.objects.notify_almost_expired()
+
+        # Check if verification e-mail get's registered as send out.
+        account = Account.objects.get(user__username='alice')
+        self.failUnless(account.verification_notification_send)
