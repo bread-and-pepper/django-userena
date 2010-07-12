@@ -34,7 +34,8 @@ class AccountManager(models.Manager):
             username = username.encode('utf-8')
         verification_key = sha_constructor(salt+username).hexdigest()
         account = self.create(user=user,
-                              verification_key=verification_key)
+                              verification_key=verification_key,
+                              verification_key_created=datetime.datetime.now())
         account.send_verification_email()
         return account
 
@@ -54,6 +55,23 @@ class AccountManager(models.Manager):
                 account.save()
                 return account
         return False
+
+    def delete_expired_users(self):
+        """
+        Checks for expired accounts and delete's the ``User`` associated with
+        it.
+
+        Skips if the user ``is_staff``. Returns the deleted accounts.
+
+        """
+        accounts = self.filter(is_verified=False,
+                               user__is_staff=False)
+        deleted_users = set()
+        for account in accounts:
+            if account.verification_key_expired():
+                deleted_users.add(account.user)
+                account.user.delete()
+        return deleted_users
 
 class Account(models.Model):
     """
@@ -75,11 +93,15 @@ class Account(models.Model):
     website = models.URLField(_('website'), blank=True, verify_exists=True)
     is_verified = models.BooleanField(_('verified'),
                                       default=False,
-                                      help_text=_("Designates whether this user has verified his e-mail address."))
-    verification_key = models.CharField(_('verification key'), max_length=40)
-    verification_key_created = models.DateTimeField(_('creation date of verification key'),
-                                                    auto_now_add=True)
-
+                                      help_text=_('Designates whether this user \
+                                                  has verified his e-mail \
+                                                  address.'))
+    verification_key = models.CharField(_('verification key'), max_length=40,
+                                        blank=True)
+    verification_key_created = models.DateTimeField(_('creation date of \
+                                                      verification key'),
+                                                    blank=True,
+                                                    null=True)
     objects = AccountManager()
 
     def __unicode__(self):
