@@ -11,10 +11,6 @@ import re, datetime
 
 class AccountModelTests(TestCase):
     """ Test the model and manager of Account """
-    user_username = 'alice'
-    user_password= 'swordfish'
-    user_email = 'alice@example.com'
-
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
@@ -64,7 +60,7 @@ class AccountModelTests(TestCase):
         """
         new_user = Account.objects.create_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, [self.user_email])
+        self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
     def test_create_account(self):
         """
@@ -196,5 +192,13 @@ class AccountModelTests(TestCase):
         notifications = Account.objects.notify_almost_expired()
 
         # Check if verification e-mail get's registered as send out.
-        account = Account.objects.get(user__username='alice')
+        account = Account.objects.get(user__username=self.user_info['username'])
         self.failUnless(account.verification_notification_send)
+        # Two e-mails have been send out, 1 registration, 1 notification
+        self.failUnlessEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
+        # Account should now be set as notified
+        self.failUnless(account.verification_notification_send)
+
+        # There should be no more notifications
+        self.failUnlessEqual(len(Account.objects.notify_almost_expired()), 0)

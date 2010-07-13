@@ -65,12 +65,15 @@ class AccountManager(models.Manager):
         if userina_settings.USERINA_VERIFICATION_NOTIFY:
             expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userina_settings.USERINA_VERIFICATION_DAYS - userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
 
-            notified_accounts = self.filter(is_verified=False,
-                                            verification_key_created__lte=expiration_date,
-                                            verification_notification_send=False)
-            for account in notified_accounts:
-                account.send_expiry_notification()
-
+            accounts = self.filter(is_verified=False,
+                                   user__is_staff=False,
+                                   verification_notification_send=False)
+            notified_accounts = []
+            for account in accounts:
+                if account.verification_key_almost_expired():
+                    account.send_expiry_notification()
+                    notified_accounts.append(account)
+            return notified_accounts
 
     def delete_expired_users(self):
         """
@@ -153,10 +156,20 @@ class Account(models.Model):
         amount of days defined in ``USERINA_VERIFICATION_DAYS``.
 
         """
-        expiration_date = datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS)
+        expiration_days = datetime.timedelta(days=userina_settings.USERINA_VERIFICATION_DAYS)
         if self.verification_key == userina_settings.USERINA_VERIFIED:
             return True
-        if datetime.datetime.now() >= self.verification_key_created + expiration_date:
+        if datetime.datetime.now() >= self.verification_key_created + expiration_days:
+            return True
+        return False
+
+    def verification_key_almost_expired(self):
+        """
+        Returns ``True`` when the ``verification_key`` is almost expired.
+
+        """
+        notification_days = datetime.timedelta(days=(userina_settings.USERINA_VERIFICATION_DAYS - userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
+        if datetime.datetime.now() >= self.verification_key_created + notification_days:
             return True
         return False
 
@@ -178,9 +191,11 @@ class Account(models.Model):
     def send_expiry_notification(self):
         """ Notify the user that his account is about to expire """
         context = {'account': self,
-                   'verification_days': userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
+                   'days_left': userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
                    'site': Site.objects.get_current()}
 
+        subject = render_to_string('userina/verification_notify_subject.txt',
+                                   context)
         subject = ''.join(subject.splitlines())
         message = render_to_string('userina/verification_notify_message.txt',
                                    context)

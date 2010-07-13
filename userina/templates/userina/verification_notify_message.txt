@@ -1,0 +1,10 @@
+Dear {{ account.user.username }},
+
+Your account on {{ site.name }} is about to expire in {{ days_left }} days.
+
+To verify your account you should click on the link below:
+
+{{ account.get_verification_url }}
+
+Sincerely,
+{{ site.name }}
