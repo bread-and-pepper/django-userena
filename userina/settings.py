@@ -26,4 +26,4 @@ USERINA_REMEMBER_ME_DAYS = getattr(settings,
                                    (gettext('a month'), 30))
 
 # Forbidden usernames.
-USERINA_FORBIDDEN_USERNAMES = ('register', 'activate', 'username',)
+USERINA_FORBIDDEN_USERNAMES = ('signup', 'signout', 'signin', 'verify', 'me', 'password')

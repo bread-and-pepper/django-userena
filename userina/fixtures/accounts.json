@@ -4,5 +4,6 @@
              "gender": 1,
              "website": "http://breadandpepper.com",
              "user": 1,
-             "mugshot": ""
+             "mugshot": "",
+             "verification_key": "ALREADY_VERIFIED"
   }}]

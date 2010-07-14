@@ -148,10 +148,7 @@ class AccountViewsTests(TestCase):
                                 'userina/verification.html')
 
     def test_profile_view(self):
-        """
-        A ``GET`` to a profile page.
-
-        """
+        """ A ``GET`` to a profile page. """
         response = self.client.get(reverse('userina_me'))
 
         # Anonymous user should not be able to view the profile page
@@ -165,4 +162,30 @@ class AccountViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'userina/me.html')
+
+    def test_change_email_view(self):
+        """ A ``GET`` to the change e-mail view. """
+        response = self.client.get(reverse('userina_email_change'))
+
+        # Anonymous user should not be able to view the profile page
+        self.assertRedirects(response,
+                             reverse('userina_signin') + '?next=' + reverse('userina_email_change'))
+
+        # Login
+        self.client.login(username='john', password='blowfish')
+        response = self.client.get(reverse('userina_email_change'))
+
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the correct form is used.
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.ChangeEmailForm))
+
+        self.assertTemplateUsed(response,
+                                'userina/me_email_form.html')
+
+    def test_change_valid_email_view(self):
+        """ A ``POST`` with a valid e-mail address """
+        response = self.client.post(reverse('userina_email_change'),
+                                    data={'email': 'jane@example.com'})
 

@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 
 from userina import settings as userina_settings
 
@@ -122,6 +123,9 @@ class Account(models.Model):
     verification_notification_send = models.BooleanField(_('notification send'),
                                                          default=False,
                                                          help_text=_('Designates whether this user has already got a notification about verifying their account.'))
+    temporary_email = models.EmailField(_('temporary_email'),
+                                        blank=True,
+                                        help_text=_('Temporary email address when the user requests an email change.'))
 
     objects = AccountManager()
 
@@ -173,20 +177,27 @@ class Account(models.Model):
             return True
         return False
 
-    def send_verification_email(self):
-        """ Sends a verification e-mail to the user """
+    def send_verification_email(self, new_email=False):
+        """ Sends a verification e-mail to the user.
+
+        If ``new_email`` is set to ``True`` than the user will get an
+        verification email address to his ``temporary_email`` address. This way
+        they can verify their new e-mail address.
+        """
         context= {'account': self,
                   'verification_days': userina_settings.USERINA_VERIFICATION_DAYS,
                   'site': Site.objects.get_current()}
 
         subject = render_to_string('userina/verification_email_subject.txt',
                                    context)
-        # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
 
         message = render_to_string('userina/verification_email_message.txt',
                                    context)
-        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+        send_mail(subject,
+                  message,
+                  settings.DEFAULT_FROM_EMAIL,
+                  [self.temporary_email if new_email else self.user.email,])
 
     def send_expiry_notification(self):
         """ Notify the user that his account is about to expire """
@@ -201,6 +212,19 @@ class Account(models.Model):
                                    context)
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
         self.verification_notification_send = True
+        self.save()
+
+    def change_email(self, email):
+        """ Changes the e-mail address for a user """
+        # Email is temporary until verified
+        self.temporary_email = email
+
+        # New verification key
+        salt = sha_constructor(str(random.random())).hexdigest()[:5]
+        self.verification_key = sha_constructor(salt+self.user.username).hexdigest()
+
+        # Send email for verification
+        self.send_verification_email(new_email=True)
         self.save()
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

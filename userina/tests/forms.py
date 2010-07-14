@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 
 from userina import forms
 
@@ -29,7 +30,7 @@ class SignupFormTests(TestCase):
              'error': ('username', [u'This username is already taken.'])},
 
             # Forbidden username
-            {'data': {'username': 'regisTer',
+            {'data': {'username': 'SignUp',
                       'email': 'foo@example.com',
                       'password': 'foo',
                       'password2': 'foo2',
@@ -94,3 +95,27 @@ class AuthenticationFormTests(TestCase):
         for valid_dict in valid_data_dicts:
             form = forms.AuthenticationForm(valid_dict)
             self.failUnless(form.is_valid())
+
+class ChangeEmailFormTests(TestCase):
+    """ Test the ``ChangeEmailForm`` """
+    fixtures = ['users']
+    def test_change_email_form(self):
+        user = User.objects.get(email__iexact='john@example.com')
+        invalid_data_dicts = [
+            # No change in e-mail address
+            {'data': {'email': 'john@example.com'},
+             'error': ('email', [u'Your already known under this email address.'])},
+            # An e-mail address used by another
+            {'data': {'email': 'jane@example.com'},
+             'error': ('email', [u'This email address is already in use. Please supply a different email address.'])},
+        ]
+        for invalid_dict in invalid_data_dicts:
+            form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
+            self.failIf(form.is_valid())
+            self.assertEqual(form.errors[invalid_dict['error'][0]],
+                             invalid_dict['error'][1])
+
+        # Test a valid post
+        form = forms.ChangeEmailForm(user,
+                                     data={'email': 'john@newexample.com'})
+        self.failUnless(form.is_valid())

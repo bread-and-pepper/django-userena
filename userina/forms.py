@@ -91,3 +91,27 @@ class AuthenticationForm(forms.Form):
             if user is None:
                 raise forms.ValidationError(_("Please enter a correct username or email and password. Note that both fields are case-sensitive."))
         return self.cleaned_data
+
+class ChangeEmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
+                                                               maxlength=75)),
+                             label=_("Email address"))
+
+    def __init__(self, user, *args, **kwargs):
+        """
+        The current ``user`` needs to be supplied with this form so that we can
+        check if the e-mail address is still free.
+
+        """
+        super(ChangeEmailForm, self).__init__(*args, **kwargs)
+        if not isinstance(user, User):
+            raise TypeError, "user must be an instance of User"
+        else: self.user = user
+
+    def clean_email(self):
+        """ Validate that the e-mail address is not already registered with another user """
+        if self.cleaned_data['email'].lower() == self.user.email:
+            raise forms.ValidationError(_('Your already known under this email address.'))
+        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
+            raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
+        return self.cleaned_data['email']

@@ -1,1 +1,1 @@
-Registration on {{ site.name }}.
+Your signup at {{ site.name }}.

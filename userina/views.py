@@ -7,7 +7,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.conf import settings
 from django.http import Http404
 
-from userina.forms import SignupForm, AuthenticationForm
+from userina.forms import SignupForm, AuthenticationForm, ChangeEmailForm
 from userina.models import Account
 from userina import settings as userina_settings
 from userina import UserinaAuthenticationBackend
@@ -85,8 +85,25 @@ def me(request, template_name='userina/me.html'):
     """ View your own account """
     return direct_to_template(request,
                               template_name,
-                              extra_context={})
+                              extra_context={'account': request.user.account})
 
+@login_required
+def email_change(request, template_name='userina/me_email_form.html'):
+    """ Change your e-mail address. Doing this requires a new verification """
+    form = ChangeEmailForm(request.user)
+    if request.method == 'POST':
+        form = ChangeEmailForm(request.user,
+                               data=request.POST)
+
+        if form.is_valid():
+            new_email = form.cleaned_data['email']
+            # Change the e-mail address
+            request.user.account.change_email(new_email)
+            return redirect(reverse('userina_email_complete'))
+
+    return direct_to_template(request,
+                              template_name,
+                              extra_context={'form': form})
 
 def detail(request, username, template_name='userina/detail.html'):
     """ View the account of others """

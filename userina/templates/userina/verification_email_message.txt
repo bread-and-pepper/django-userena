@@ -1,6 +1,6 @@
 Dear {{ account.user.username }},
 
-thank you for registering to {{ site.name }}.
+thank you for signing up at {{ site.name }}.
 
 To verify your e-mail address you should click on the link below:
 

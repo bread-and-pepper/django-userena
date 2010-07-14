@@ -202,3 +202,24 @@ class AccountModelTests(TestCase):
 
         # There should be no more notifications
         self.failUnlessEqual(len(Account.objects.notify_almost_expired()), 0)
+
+    def test_change_email(self):
+        """
+        A user can change their e-mail address. But this new e-mail address
+        still needs to be verified.
+
+        """
+        account = Account.objects.get(user__email__iexact='john@example.com')
+
+        # Let's change john's e-mail address.
+        account.change_email('john@newexample.com')
+
+        # ``Account.temporary_email`` should be set to the new e-mail address.
+        self.failUnlessEqual(account.temporary_email, 'john@newexample.com')
+
+        # There shoulde be a new verification key
+        self.failIfEqual(account.verification_key,
+                         userina_settings.USERINA_VERIFIED)
+        # Check that the e-mail is send out
+        self.failUnlessEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['john@newexample.com'])
