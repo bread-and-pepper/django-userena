@@ -1,0 +1,21 @@
+# Django Userina
+
+Django-userina is a application which combines all the good practices as shown
+in django-profiles and django-registration into one application. The difference
+with those just mentioned is that Django-userina's admin is directly managable
+under the standard Django user module.
+
+Django-userina also has some good practices:
+
+- After signup a user get's a verification email. A user can make use of the
+  application a couple of days (setting) before having to verify their account.
+  The user also get's a notification if their account is still not verified
+  after `x` amount of days.
+
+- Changing your e-mail address also needs verification. Only when the URI
+  inside the send verification e-mail is clicked will the new e-mail address be
+  used.
+
+- Each account has their own detail page, for ex. ``/accounts/jane/`` and each
+  account also has it's own settings page accessible by the owner. For ex.
+  ``/accounts/me/``.
