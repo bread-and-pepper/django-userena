@@ -1,7 +1,7 @@
 .. _installation:
 
-Settings.
-=========
+Settings
+========
 
 Userina comes with a few settings that enables you to tweak the user experience
 for you users. There are also a few Django settings that are relevant for
