@@ -5,16 +5,23 @@ in django-profiles and django-registration into one application. The difference
 with those just mentioned is that Django-userina's admin is directly managable
 under the standard Django user module.
 
-Django-userina also has some good practices:
+Django-userina uses some good practices:
 
 - After signup a user get's a verification email. A user can make use of the
-  application a couple of days (setting) before having to verify their account.
-  The user also get's a notification if their account is still not verified
-  after `x` amount of days.
+  application ``USERINA_VERIFICATION_DAYS`` days before having to verify their
+  account.  The user also get's a notification if their account is still not
+  verified ``USERINA_VERIFICATION_NOTIFY_DAYS`` days before the verification
+  key get's invalid.
 
 - A user can signin with their e-mail address or username (ala Github style).
   Django-userina will look which one is used and try to log the user in with
   supplied credentials.
+
+- At signin the user can choose to be remembered for
+  ``USERINA_REMEMBER_ME_DAYS`` of time.
+
+- Usernames defined in ``USERINA_FORBIDDEN_USERNAMES`` list are not allowed at
+  signup.
 
 - Changing your e-mail address also needs verification. Only when the URI
   inside the send verification e-mail is clicked will the new e-mail address be
