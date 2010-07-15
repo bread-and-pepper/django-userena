@@ -2,7 +2,7 @@ Dear {{ account.user.username }},
 
 thank you for signing up at {{ site.name }}.
 
-To verify your e-mail address you should click on the link below:
+To verify your account you should click on the link below:
 
 {{ account.get_verification_url }}
 

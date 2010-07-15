@@ -52,7 +52,15 @@ class AccountManager(models.Manager):
                 return False
             if not account.verification_key_expired():
                 account.verification_key = userina_settings.USERINA_VERIFIED
-                account.is_verified = True
+
+                # Check to see if the account is new, or that it only need a
+                # e-mail change.
+                if account.temporary_email:
+                    account.user.email = account.temporary_email
+                    account.user.save()
+                    account.temporary_email = ''
+                else:
+                    account.is_verified = True
                 account.save()
                 return account
         return False
@@ -183,17 +191,22 @@ class Account(models.Model):
         If ``new_email`` is set to ``True`` than the user will get an
         verification email address to his ``temporary_email`` address. This way
         they can verify their new e-mail address.
+
         """
+        new_account_templates = ['userina/emails/verification_email_subject.txt',
+                                 'userina/emails/verification_email_message.txt']
+        new_email_templates = ['userina/emails/verification_new_email_subject.txt',
+                               'userina/emails/verification_new_email_message.txt']
+        templates = new_email_templates if new_email else new_account_templates
+
         context= {'account': self,
                   'verification_days': userina_settings.USERINA_VERIFICATION_DAYS,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userina/verification_email_subject.txt',
-                                   context)
+        subject = render_to_string(templates[0], context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userina/verification_email_message.txt',
-                                   context)
+        message = render_to_string(templates[1], context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
@@ -205,10 +218,10 @@ class Account(models.Model):
                    'days_left': userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
                    'site': Site.objects.get_current()}
 
-        subject = render_to_string('userina/verification_notify_subject.txt',
+        subject = render_to_string('userina/emails/verification_notify_subject.txt',
                                    context)
         subject = ''.join(subject.splitlines())
-        message = render_to_string('userina/verification_notify_message.txt',
+        message = render_to_string('userina/emails/verification_notify_message.txt',
                                    context)
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
         self.verification_notification_send = True
@@ -222,6 +235,7 @@ class Account(models.Model):
         # New verification key
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
         self.verification_key = sha_constructor(salt+self.user.username).hexdigest()
+        self.verification_key_created = datetime.datetime.now()
 
         # Send email for verification
         self.send_verification_email(new_email=True)

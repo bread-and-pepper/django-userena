@@ -223,3 +223,17 @@ class AccountModelTests(TestCase):
         # Check that the e-mail is send out
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['john@newexample.com'])
+
+
+    def test_valid_change_email(self):
+        """ Test a valid verification of a new e-mail """
+        account = Account.objects.get(user__email__iexact='john@example.com')
+        account.change_email('john@newexample.com')
+
+        # Verify the email change
+        verified_account = Account.objects.verify_account(account.verification_key)
+        self.failUnlessEqual(account, verified_account)
+
+        self.failUnlessEqual(verified_account.user.email, 'john@newexample.com')
+        self.failUnlessEqual(verified_account.temporary_email, '')
+        self.failUnlessEqual(verified_account.verification_key, userina_settings.USERINA_VERIFIED)
