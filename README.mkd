@@ -30,3 +30,7 @@ Django-userina uses some good practices:
 - Each account has their own detail page, for ex. ``/accounts/jane/`` and each
   account also has it's own settings page accessible by the owner. For ex.
   ``/accounts/me/``.
+
+# Installation
+
+See the docs for installation instructions.

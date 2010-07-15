@@ -23,11 +23,16 @@ Contents
 .. toctree::
    :maxdepth: 2
    
-   quickstart
+   installation
+   settings
+   commands
+   forms
+   views
+   templates
+   faq
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`search`
-
