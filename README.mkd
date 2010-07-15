@@ -12,6 +12,10 @@ Django-userina also has some good practices:
   The user also get's a notification if their account is still not verified
   after `x` amount of days.
 
+- A user can signin with their e-mail address or username (ala Github style).
+  Django-userina will look which one is used and try to log the user in with
+  supplied credentials.
+
 - Changing your e-mail address also needs verification. Only when the URI
   inside the send verification e-mail is clicked will the new e-mail address be
   used.
