@@ -9,4 +9,4 @@ important, the cart is what you want to be riding.
 Hilarious introduction aside, you should visit userina's website for more
 information, documentation and (soon) a demo.
 
-http://bread-and-pepper.github.com/django-userina
+[Userina's Homepage](http://bread-and-pepper.github.com/django-userina)
