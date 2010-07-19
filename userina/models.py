@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 
 from userina import settings as userina_settings
+from userina.utils import get_gravatar
 
 import datetime, random, re
 from dateutil.relativedelta import relativedelta
@@ -240,5 +241,19 @@ class Account(models.Model):
         # Send email for verification
         self.send_verification_email(new_email=True)
         self.save()
+
+    def get_mugshot_url(self):
+        """
+        Returns the image containing the mugshot for the user. This can either
+        an uploaded image or a gravatar.
+
+        The uploaded image has precedence above the avatar.
+
+        """
+        if self.mugshot:
+            return self.mugshot.url
+        else:
+            return get_gravatar(self.user.email,
+                                userina_settings.USERINA_MUGSHOT_SIZE)
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

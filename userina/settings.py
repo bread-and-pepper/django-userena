@@ -27,3 +27,6 @@ USERINA_REMEMBER_ME_DAYS = getattr(settings,
 
 # Forbidden usernames.
 USERINA_FORBIDDEN_USERNAMES = ('signup', 'signout', 'signin', 'verify', 'me', 'password')
+
+# Size of the mugshot image (square)
+USERINA_MUGSHOT_SIZE = 140
