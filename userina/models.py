@@ -250,10 +250,20 @@ class Account(models.Model):
         The uploaded image has precedence above the avatar.
 
         """
+        # First check for a mugshot and if any return that.
         if self.mugshot:
             return self.mugshot.url
-        else:
+
+        # Use Gravatar if the user wants to.
+        if userina_settings.USERINA_USE_GRAVATAR:
             return get_gravatar(self.user.email,
-                                userina_settings.USERINA_MUGSHOT_SIZE)
+                                userina_settings.USERINA_MUGSHOT_SIZE,
+                                userina_settings.USERINA_MUGSHOT_DEFAULT)
+
+        # Gravatar not used, check for a default image.
+        else:
+            if userina_settings.USERINA_MUGSHOT_DEFAULT:
+                return userina_settings.USERINA_MUGSHOT_DEFAULT
+            else: return ''
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

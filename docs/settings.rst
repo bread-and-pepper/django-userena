@@ -57,6 +57,46 @@ Default: ``('signup', 'signout', 'signin', 'verify', 'me', 'password')`` (tuple)
 A tuple containing the names which cannot be used as username in the signup
 form.
 
+.. _userina-mugshot-gravatar:
+
+USERINA_MUGSHOT_GRAVATAR
+~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``True`` (boolean)
+
+A boolean defining if mugshots should fallback to `Gravatar
+<http://en.gravatar.com/>`_ service when no mugshot is uploaded by the user.
+
+USERINA_MUGSHOT_DEFAULT
+~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``identicon`` (string)
+
+A string for the default image used when no mugshot is found. This can be
+either a URI to an image or if :ref:`userina-mugshot-gravatar` is
+``True`` one of the following options:
+
+``404``
+    Do not load any image if none is associated with the email hash, instead
+    return an HTTP 404 (File Not Found) response.
+
+``mm``
+    Mystery-man, a simple, cartoon-style silhouetted outline of a person (does
+    not vary by email hash).
+
+``identicon``
+    A geometric pattern based on an email hash.
+
+``monsterid``
+    A generated 'monster' with different colors, faces, etc.
+
+``wavatar``
+    Generated faces with differing features and backgrounds
+
+USERINA_MUGSHOT_SIZE
+~~~~~~~~~~~~~~~~~~~~
+Default: ``80`` (int)
+
+Integer defining the size (in pixels) of the sides of the mugshot image.
+
 Django settings
 ---------------
 
