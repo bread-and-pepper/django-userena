@@ -255,7 +255,7 @@ class Account(models.Model):
             return self.mugshot.url
 
         # Use Gravatar if the user wants to.
-        if userina_settings.USERINA_USE_GRAVATAR:
+        if userina_settings.USERINA_MUGSHOT_GRAVATAR:
             return get_gravatar(self.user.email,
                                 userina_settings.USERINA_MUGSHOT_SIZE,
                                 userina_settings.USERINA_MUGSHOT_DEFAULT)
