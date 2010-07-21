@@ -6,15 +6,6 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 sys.path.append(os.path.dirname(SITE_ROOT))
 
-# dateutil is a requirement.
-try:
-    import dateutil
-except ImportError:
-    raise ImportError(
-        'django-swingtime requires the "dateutil" package '
-        '(http://labix.org/python-dateutil)'
-    )
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -48,7 +39,7 @@ USE_L10N = True
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 MEDIA_URL = '/media/'
 
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 SECRET_KEY = 'sx405#tc)5m@s#^jh5l7$k#cl3ekg)jtbo2ds(n(kw@gp0t7x@'
 
@@ -83,6 +74,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'easy_thumbnails',
     'userina',
 )
 

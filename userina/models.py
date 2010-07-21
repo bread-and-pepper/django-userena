@@ -13,8 +13,20 @@ from userina.utils import get_gravatar
 
 import datetime, random, re
 from dateutil.relativedelta import relativedelta
+from easy_thumbnails.fields import ThumbnailerImageField
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
+
+def upload_to_mugshot(instance, filename):
+    """
+    Uploads a mugshot for a user to the ``USERINA_MUGSHOT_PATH``
+
+    """
+    extension = filename.split('.')[-1]
+    hash = sha_constructor(str(instance.user.id)).hexdigest()[:10]
+    return '%(path)s%(hash)s.%(extension)s' % {'path': userina_settings.USERINA_MUGSHOT_PATH,
+                                               'hash': hash,
+                                               'extension': extension}
 
 class AccountManager(models.Manager):
     """ Extra functionality for the account manager. """
@@ -108,18 +120,30 @@ class Account(models.Model):
     functional user implementation on your Django website.
 
     """
+    MUGSHOT_SETTINGS = {'size': (userina_settings.USERINA_MUGSHOT_SIZE,
+                                 userina_settings.USERINA_MUGSHOT_SIZE),
+                        'crop': 'smart'}
     GENDER_CHOICES = (
         (1, _('Male')),
         (2, _('Female')),
     )
     user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
-    mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True)
+    mugshot = ThumbnailerImageField(_('mugshot'),
+                                    blank=True,
+                                    upload_to=upload_to_mugshot,
+                                    resize_source=MUGSHOT_SETTINGS)
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
                                               null=True)
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
     website = models.URLField(_('website'), blank=True, verify_exists=True)
+    location =  models.CharField(_('location'), max_length=255, blank=True)
+    birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    about_me = models.TextField(_('about me'), blank=True)
+
+
+    # Fields used for managing the account
+    last_active = models.DateTimeField(null=True, blank=True)
     is_verified = models.BooleanField(_('verified'),
                                       default=False,
                                       help_text=_('Designates whether this user has verified his e-mail address.'))
@@ -141,8 +165,26 @@ class Account(models.Model):
     def __unicode__(self):
         return '%s' % self.user
 
+    def save(self, *args, **kwargs):
+        try:
+            this = self.objects.get(id=self.id)
+            if this.mugshot != self.mugshot:
+                this.mugshot.delete()
+        except: pass
+        super(Account, self).save(*args, **kwargs)
+
     @models.permalink
     def get_absolute_url(self):
+        pass
+
+    @property
+    def activity(self):
+        """
+        Returning the activity of the user
+
+        @TIP: http://www.arnebrodowski.de/blog/482-Tracking-user-activity-with-Django.html
+
+        """
         pass
 
     @property

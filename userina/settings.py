@@ -48,3 +48,8 @@ USERINA_MUGSHOT_DEFAULT = getattr(settings,
 USERINA_MUGSHOT_SIZE = getattr(settings,
                                'USERINA_MUGSHOT_SIZE',
                                80)
+
+# The directory where the mugshots will be saved
+USERINA_MUGSHOT_PATH = getattr(settings,
+                               'USERINA_MUGSHOT_PATH',
+                               'mugshots/')
