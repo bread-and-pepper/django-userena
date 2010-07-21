@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'userina.UserinaAuthenticationBackend',
+    'userena.UserinaAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -75,10 +75,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'easy_thumbnails',
-    'userina',
+    'userena',
 )
 
-# Settings required for userina
+# Settings required for userena
 LOGIN_REDIRECT_URL = '/accounts/me/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'

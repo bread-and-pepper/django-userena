@@ -1,9 +1,0 @@
-[{"pk": 1,
-  "model": "userina.account",
-  "fields": {"birth_date": "1982-09-14",
-             "gender": 1,
-             "website": "http://breadandpepper.com",
-             "user": 1,
-             "mugshot": "",
-             "verification_key": "ALREADY_VERIFIED"
-  }}]
