@@ -23,7 +23,8 @@ def upload_to_mugshot(instance, filename):
 
     """
     extension = filename.split('.')[-1]
-    hash = sha_constructor(str(instance.user.id)).hexdigest()[:10]
+    salt = sha_constructor(str(random.random())).hexdigest()[:5]
+    hash = sha_constructor(salt+str(instance.user.id)).hexdigest()[:10]
     return '%(path)s%(hash)s.%(extension)s' % {'path': userina_settings.USERINA_MUGSHOT_PATH,
                                                'hash': hash,
                                                'extension': extension}
@@ -164,14 +165,6 @@ class Account(models.Model):
 
     def __unicode__(self):
         return '%s' % self.user
-
-    def save(self, *args, **kwargs):
-        try:
-            this = self.objects.get(id=self.id)
-            if this.mugshot != self.mugshot:
-                this.mugshot.delete()
-        except: pass
-        super(Account, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
