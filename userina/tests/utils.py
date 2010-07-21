@@ -25,11 +25,11 @@ class UtilsTests(TestCase):
                                          'type': 'identicon'})
 
         # Check different default
-        http_404 = get_gravatar('alice@example.com', default=404)
+        http_404 = get_gravatar('alice@example.com', default='404')
         self.failUnlessEqual(http_404,
                              template % {'hash': hash,
                                          'size': 80,
-                                         'type': 404})
+                                         'type': '404'})
 
         # Is it really a 404?
         response = self.client.get(http_404)

@@ -53,11 +53,6 @@ def signin(request, template_name='userina/signin_form.html',
                               template_name,
                               extra_context={'form': form})
 
-@login_required
-def signout(request, redirect=None):
-    """ Signout a user and redirect them to the ``redirect``. """
-    pass
-
 def signup(request, template_name='userina/signup_form.html'):
     """ Signup a user """
     form = SignupForm()
@@ -82,14 +77,14 @@ def signup(request, template_name='userina/signup_form.html'):
 
 @login_required
 def me(request, template_name='userina/me.html'):
-    """ View your own account """
+    """ View your own account. Enabling the user to change their settings. """
     return direct_to_template(request,
                               template_name,
                               extra_context={'account': request.user.account})
 
 @login_required
 def email_change(request, template_name='userina/me_email_form.html'):
-    """ Change your e-mail address. Doing this requires a new verification """
+    """ Change your e-mail address. Doing this requires a new verification. """
     form = ChangeEmailForm(request.user)
     if request.method == 'POST':
         form = ChangeEmailForm(request.user,
@@ -106,7 +101,7 @@ def email_change(request, template_name='userina/me_email_form.html'):
                               extra_context={'form': form})
 
 def detail(request, username, template_name='userina/detail.html'):
-    """ View the account of others """
+    """ View the account of others. """
     return direct_to_template(request,
                               template_name,
                               extra_context={})

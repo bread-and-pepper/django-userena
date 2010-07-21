@@ -19,7 +19,9 @@ SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 def upload_to_mugshot(instance, filename):
     """
-    Uploads a mugshot for a user to the ``USERINA_MUGSHOT_PATH``
+    Uploads a mugshot for a user to the ``USERINA_MUGSHOT_PATH`` and creating a
+    unique hash for the image. This is for privacy reasons so others can't just
+    browse through the mugshot directory.
 
     """
     extension = filename.split('.')[-1]
@@ -32,6 +34,10 @@ def upload_to_mugshot(instance, filename):
 class AccountManager(models.Manager):
     """ Extra functionality for the account manager. """
     def create_user(self, username, email, password):
+        """
+        A simple wrapper that creates a new ``User`` and a new ``Account``.
+
+        """
         new_user = User.objects.create_user(username, email, password)
         new_user.save()
 
@@ -40,7 +46,11 @@ class AccountManager(models.Manager):
 
     def create_account(self, user):
         """
-        Create a ``Account`` for a given ``User``.
+        Create an ``Account`` for a given ``User``.
+
+        Also creates a ``verification_key`` for this account. After the account
+        is created an e-mail is send with ``send_verification_email`` to the
+        user with this key.
 
         """
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
@@ -56,7 +66,19 @@ class AccountManager(models.Manager):
 
     def verify_account(self, verification_key):
         """
-        Verify a ``Account`` by supplying a valid ``verification_key``.
+        Verify an ``Account`` by supplying a valid ``verification_key``.
+
+        If the key is valid and an account is found, verify the account and
+        return the verified account. But not before checking if the
+        verification is for a _new_ account or a _updated_ account.
+
+        A new account is when a user signed up and tries to verify the account.
+        Only ``is_verified`` should be set to ``True``.
+
+        If a user wants to change their e-mail address they also need to verify
+        it. You could say that ``verify_account`` is then a verify_email. When
+        this is the case, after successfull verification, the users e-mail
+        address should be set to the ``temporary_email``.
 
         """
         if SHA1_RE.search(verification_key):
@@ -82,7 +104,10 @@ class AccountManager(models.Manager):
     def notify_almost_expired(self):
         """
         Check for accounts that are ``USERINA_VERIFICATION_NOTIFY`` days before
-        expiration.
+        expiration. For each account that's found ``send_expiry_notification``
+        is called.
+
+        Returns a list of all the accounts that have received a notification.
 
         """
         if userina_settings.USERINA_VERIFICATION_NOTIFY:
@@ -101,9 +126,9 @@ class AccountManager(models.Manager):
     def delete_expired_users(self):
         """
         Checks for expired accounts and delete's the ``User`` associated with
-        it.
+        it. Skips if the user ``is_staff``.
 
-        Skips if the user ``is_staff``. Returns the deleted accounts.
+        Returns a list of the deleted accounts.
 
         """
         accounts = self.filter(is_verified=False,
@@ -128,11 +153,13 @@ class Account(models.Model):
         (1, _('Male')),
         (2, _('Female')),
     )
+
     user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
                                     upload_to=upload_to_mugshot,
-                                    resize_source=MUGSHOT_SETTINGS)
+                                    resize_source=MUGSHOT_SETTINGS,
+                                    help_text=(_('A personal image displayed in your profile.'))
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
@@ -142,8 +169,7 @@ class Account(models.Model):
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
 
-
-    # Fields used for managing the account
+    # Fields used for managing accounts
     last_active = models.DateTimeField(null=True, blank=True)
     is_verified = models.BooleanField(_('verified'),
                                       default=False,
@@ -182,12 +208,37 @@ class Account(models.Model):
 
     @property
     def age(self):
+        """ Returns integer telling the age in years for the user """
         today = datetime.date.today()
         return relativedelta(today, self.birth_date).years
 
+    def change_email(self, email):
+        """
+        Changes the e-mail address for a user.
+
+        A user needs to verify this new e-mail address before it becomes
+        active. By storing there new e-mail address in a temporary field --
+        ``temporary_email`` -- we are able to set this e-mail address after the
+        user has verified it by clicking on the verification URI in the
+        verification e-mail. This e-mail get's send by
+        ``send_verification_email``.
+
+        """
+        # Email is temporary until verified
+        self.temporary_email = email
+
+        # New verification key
+        salt = sha_constructor(str(random.random())).hexdigest()[:5]
+        self.verification_key = sha_constructor(salt+self.user.username).hexdigest()
+        self.verification_key_created = datetime.datetime.now()
+
+        # Send email for verification
+        self.send_verification_email(new_email=True)
+        self.save()
+
     @property
     def get_verification_url(self):
-        """ Making it simple to supply the verification URI """
+        """ Simplify it to get the verification URI """
         site = Site.objects.get_current()
         path = reverse('userina_verify',
                        kwargs={'verification_key': self.verification_key})
@@ -215,6 +266,9 @@ class Account(models.Model):
         """
         Returns ``True`` when the ``verification_key`` is almost expired.
 
+        A key is almost expired when the there are less than
+        ``USERINA_VERIFICATION_NOTIFY_DAYS`` days left before expiration.
+
         """
         notification_days = datetime.timedelta(days=(userina_settings.USERINA_VERIFICATION_DAYS - userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
         if datetime.datetime.now() >= self.verification_key_created + notification_days:
@@ -222,13 +276,19 @@ class Account(models.Model):
         return False
 
     def send_verification_email(self, new_email=False):
-        """ Sends a verification e-mail to the user.
+        """
+        Sends a verification e-mail to the user.
+
+        This e-mail is either when the user wants to verify his newly created
+        account or when the user changed their e-mail address.
 
         If ``new_email`` is set to ``True`` than the user will get an
         verification email address to his ``temporary_email`` address. This way
         they can verify their new e-mail address.
 
         """
+        # Which templates to use, either for a new account, or for a e-mail
+        # address change.
         new_account_templates = ['userina/emails/verification_email_subject.txt',
                                  'userina/emails/verification_email_message.txt']
         new_email_templates = ['userina/emails/verification_new_email_subject.txt',
@@ -249,7 +309,13 @@ class Account(models.Model):
                   [self.temporary_email if new_email else self.user.email,])
 
     def send_expiry_notification(self):
-        """ Notify the user that his account is about to expire """
+        """
+        Notify the user that his account is about to expire.
+
+        Sends an e-mail to the user telling them that their account is
+        ``USERINA_VERIFICATION_NOTIFY_DAYS`` away before expiring.
+
+        """
         context = {'account': self,
                    'days_left': userina_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
                    'site': Site.objects.get_current()}
@@ -263,26 +329,16 @@ class Account(models.Model):
         self.verification_notification_send = True
         self.save()
 
-    def change_email(self, email):
-        """ Changes the e-mail address for a user """
-        # Email is temporary until verified
-        self.temporary_email = email
-
-        # New verification key
-        salt = sha_constructor(str(random.random())).hexdigest()[:5]
-        self.verification_key = sha_constructor(salt+self.user.username).hexdigest()
-        self.verification_key_created = datetime.datetime.now()
-
-        # Send email for verification
-        self.send_verification_email(new_email=True)
-        self.save()
-
     def get_mugshot_url(self):
         """
         Returns the image containing the mugshot for the user. This can either
-        an uploaded image or a gravatar.
+        an uploaded image or a Gravatar.
 
-        The uploaded image has precedence above the avatar.
+        Gravatar functionality will only be used when
+        ``USERINA_MUGSHOT_GRAVATAR`` is set to ``True``.
+
+        Return ``None`` when Gravatar is not used and no default image is
+        supplied by ``USERINA_MUGSHOT_DEFAULT``.
 
         """
         # First check for a mugshot and if any return that.
