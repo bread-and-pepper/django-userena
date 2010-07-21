@@ -159,7 +159,7 @@ class Account(models.Model):
                                     blank=True,
                                     upload_to=upload_to_mugshot,
                                     resize_source=MUGSHOT_SETTINGS,
-                                    help_text=(_('A personal image displayed in your profile.'))
+                                    help_text=_('A personal image displayed in your profile.'))
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
