@@ -3,11 +3,12 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
+from django.conf import settings
 
 from userina.models import Account
 from userina import settings as userina_settings
 
-import re, datetime
+import re, datetime, hashlib
 
 class AccountModelTests(TestCase):
     """ Test the model and manager of Account """
@@ -16,6 +17,11 @@ class AccountModelTests(TestCase):
                  'email': 'alice@example.com'}
 
     fixtures = ['users.json', 'accounts.json']
+
+    def test_get_absolute_url(self):
+        """ Test if the ``get_absolute_url`` function returns the proper URI """
+        account = Account.objects.get(pk=1)
+        self.failUnlessEqual(account.get_absolute_url(), reverse('userina_me'))
 
     def test_age_property(self):
         """ Test if the ``user.age`` returns the correct age. """
@@ -237,3 +243,46 @@ class AccountModelTests(TestCase):
         self.failUnlessEqual(verified_account.user.email, 'john@newexample.com')
         self.failUnlessEqual(verified_account.temporary_email, '')
         self.failUnlessEqual(verified_account.verification_key, userina_settings.USERINA_VERIFIED)
+
+
+    def test_get_mugshot_url_without_gravatar(self):
+        """
+        Test if the correct mugshot is returned for the user when
+        ``USERINA_MUGSHOT_GRAVATAR`` is set to ``False``.
+
+        """
+        # This user has no mugshot, and gravatar is disabled. And to make
+        # matters worse, there isn't even a default image.
+        userina_settings.USERINA_MUGSHOT_GRAVATAR = False
+        account = Account.objects.get(pk=1)
+        self.failUnlessEqual(account.get_mugshot_url(), None)
+
+        # There _is_ a default image
+        userina_settings.USERINA_MUGSHOT_DEFAULT = 'http://example.com'
+        account = Account.objects.get(pk=1)
+        self.failUnlessEqual(account.get_mugshot_url(), 'http://example.com')
+
+    def test_get_mugshot_url_with_gravatar(self):
+        """
+        Test if the correct mugshot is returned when the user makes use of gravatar.
+
+        """
+        template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
+        account = Account.objects.get(pk=1)
+
+        gravatar_hash = hashlib.md5(account.user.email).hexdigest()
+
+        # Test with the default settings
+        self.failUnlessEqual(account.get_mugshot_url(),
+                             template % {'hash': gravatar_hash,
+                                         'size': userina_settings.USERINA_MUGSHOT_SIZE,
+                                         'default': userina_settings.USERINA_MUGSHOT_DEFAULT})
+
+        # Change userina settings
+        userina_settings.USERINA_MUGSHOT_SIZE = 180
+        userina_settings.USERINA_MUGSHOT_DEFAULT = '404'
+
+        self.failUnlessEqual(account.get_mugshot_url(),
+                             template % {'hash': gravatar_hash,
+                                         'size': userina_settings.USERINA_MUGSHOT_SIZE,
+                                         'default': userina_settings.USERINA_MUGSHOT_DEFAULT})

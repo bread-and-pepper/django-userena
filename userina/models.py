@@ -168,7 +168,7 @@ class Account(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        pass
+        return ('userina_me', ())
 
     @property
     def activity(self):
@@ -295,10 +295,10 @@ class Account(models.Model):
                                 userina_settings.USERINA_MUGSHOT_SIZE,
                                 userina_settings.USERINA_MUGSHOT_DEFAULT)
 
-        # Gravatar not used, check for a default image.
+        # Gravatar not used, check for a default image. Don't use the gravatar defaults
         else:
-            if userina_settings.USERINA_MUGSHOT_DEFAULT:
+            if userina_settings.USERINA_MUGSHOT_DEFAULT not in ['404', 'mm', 'identicon', 'monsterid', 'wavatar']:
                 return userina_settings.USERINA_MUGSHOT_DEFAULT
-            else: return ''
+            else: return None
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])
