@@ -1,10 +1,37 @@
 {% extends 'userena/base_userena.html' %}
+{% load i18n %}
 
 {% block content %}
-<h1>Welcome {{ user.username }}.</h1>
-
+<h1>{% trans "Your account" %}</h1>
+<img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+<table>
+    <tr>
+        <th scope="col">{% trans "Name" %}</th>
+        <td>{{ account.user.get_full_name }}</td>
+    </tr>
+    <tr>
+        <th scope="col">{% trans "Email" %}</th>
+        <td>{{ account.user.email }}</td>
+    </tr>
+    <tr>
+        <th scope="col">{% trans "Age" %}</th>
+        <td>{{ account.age }}</td>
+    </tr>
+    <tr>
+        <th scope="col">{% trans "Website" %}</th>
+        <td>{{ account.website }}</td>
+    </tr>
+    <tr>
+        <th scope="col">{% trans "Location" %}</th>
+        <td>{{ account.location }}</td>
+    </tr>
+</table>
+<div id="account-about-me">
+    <h3>About me</h3>
+    {{ account.about_me }}
+</div>
 <ul>
-    <li><a href="{% url userena_password_change %}">Change password</a></li>
-    <li><a href="{% url userena_email_change %}">Change e-mail address</a></li>
+    <li><a href="{% url userena_password_change %}">{% trans "Change password" %}</a></li>
+    <li><a href="{% url userena_email_change %}">{% trans "Change e-mail address" %}</a></li>
 </ul>
 {% endblock %}

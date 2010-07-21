@@ -25,7 +25,7 @@ def signin(request, template_name='userena/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME):
     """
     Signin using your e-mail or username and password. You can also select to
-    be remembered for ``USERINA_REMEMBER_DAYS``.
+    be remembered for ``USERENA_REMEMBER_DAYS``.
 
     """
     form = AuthenticationForm()
@@ -43,7 +43,7 @@ def signin(request, template_name='userena/signin_form.html',
             if user.is_active:
                 login(request, user)
                 if remember_me:
-                    request.session.set_expiry(userena_settings.USERINA_REMEMBER_ME_DAYS[1] * 3600)
+                    request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
                 else: request.session.set_expiry(0)
                 return redirect(redirect_to)
             else:

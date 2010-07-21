@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="intro">
+    <h2><span>userena</span><br/>Complete account management</h2>
+    <p>There are a lot of Django application that supply you with profiles, registration or accounts. We were tired of combining those to get full account functionality inside our applications. That's why we build userena. Full account management for your application, trying to make full use the current profile <a href="http://designingsocialinterfaces.com/patterns/Profile">standards</a>.</p>
+
+</div><!-- /intro-->
+
+<ul class="features">
+    <li><h3>The usual..</h3><p>Of course userena has the standard tools that each account management software should have. Tools like signing in, up or out. Changing your settings, etc.</p></li>
+    <li><h3>Gravatar</h3><p>Support for Gravatar. The user can upload it's own mugshot. If the user has no mugshot, userena is able to search a mugshot for the user by looking at the e-mail address.</p></li>
+    <li><h3>Privacy</h3><p>userena want's you to be able to share only the things you want to share. So privacy options are a must. Select <em>what</em> to share to <em>who</em>.</p></li>
+    <li><h3>Battle hardened</h3><p>userena want's you to be able to share only the things you want to share. So privacy options are a must. Select <em>what</em> to share to <em>who</em>.</p></li>
+    <li><h3>In your language</h3><p>userena want's you to be able to share only the things you want to share. So privacy options are a must. Select <em>what</em> to share to <em>who</em>.</p></li>
+</ul>
+<ul class="blocks">
+    <li><h3>Browse source</h3>
+    <a href="http://github.com/bread-and-pepper/django-userena" id="browse">Browse</a>
+    </li>
+    <li><h3>Download</h3>
+    <a href=""  id="download">Download (not yet)</a>
+    </li>
+    <li><h3>Read docs</h3>
+    <a href="/docs/index.html" id="docs">Documentation</a>
+    </li>
+    <li><h3>Try it out!</h3>
+    <a href="{% url userena_signup %}" id="demo">Try it out!</a>
+    </li>
+</ul>
+{% endblock %}

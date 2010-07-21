@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from userena import views as userena_views
+from userena import settings as userena_settings
 
 urlpatterns = patterns('',
                        # Inactive user
@@ -34,7 +35,8 @@ urlpatterns = patterns('',
                            name='userena_signup'),
                        url(r'^signup/complete/$',
                            direct_to_template,
-                           {'template': 'userena/signup_complete.html'},
+                           {'template': 'userena/signup_complete.html',
+                            'extra_context': {'userena_verification_days': userena_settings.USERENA_VERIFICATION_DAYS}},
                            name='userena_signup_complete'),
 
                        # Reset password

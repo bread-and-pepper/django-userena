@@ -19,7 +19,7 @@ SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 def upload_to_mugshot(instance, filename):
     """
-    Uploads a mugshot for a user to the ``USERINA_MUGSHOT_PATH`` and creating a
+    Uploads a mugshot for a user to the ``USERENA_MUGSHOT_PATH`` and creating a
     unique hash for the image. This is for privacy reasons so others can't just
     browse through the mugshot directory.
 
@@ -27,7 +27,7 @@ def upload_to_mugshot(instance, filename):
     extension = filename.split('.')[-1]
     salt = sha_constructor(str(random.random())).hexdigest()[:5]
     hash = sha_constructor(salt+str(instance.user.id)).hexdigest()[:10]
-    return '%(path)s%(hash)s.%(extension)s' % {'path': userena_settings.USERINA_MUGSHOT_PATH,
+    return '%(path)s%(hash)s.%(extension)s' % {'path': userena_settings.USERENA_MUGSHOT_PATH,
                                                'hash': hash,
                                                'extension': extension}
 
@@ -87,7 +87,7 @@ class AccountManager(models.Manager):
             except self.Model.DoesNotExist:
                 return False
             if not account.verification_key_expired():
-                account.verification_key = userena_settings.USERINA_VERIFIED
+                account.verification_key = userena_settings.USERENA_VERIFIED
 
                 # Check to see if the account is new, or that it only need a
                 # e-mail change.
@@ -103,15 +103,15 @@ class AccountManager(models.Manager):
 
     def notify_almost_expired(self):
         """
-        Check for accounts that are ``USERINA_VERIFICATION_NOTIFY`` days before
+        Check for accounts that are ``USERENA_VERIFICATION_NOTIFY`` days before
         expiration. For each account that's found ``send_expiry_notification``
         is called.
 
         Returns a list of all the accounts that have received a notification.
 
         """
-        if userena_settings.USERINA_VERIFICATION_NOTIFY:
-            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userena_settings.USERINA_VERIFICATION_DAYS - userena_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
+        if userena_settings.USERENA_VERIFICATION_NOTIFY:
+            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS))
 
             accounts = self.filter(is_verified=False,
                                    user__is_staff=False,
@@ -146,8 +146,8 @@ class Account(models.Model):
     functional user implementation on your Django website.
 
     """
-    MUGSHOT_SETTINGS = {'size': (userena_settings.USERINA_MUGSHOT_SIZE,
-                                 userena_settings.USERINA_MUGSHOT_SIZE),
+    MUGSHOT_SETTINGS = {'size': (userena_settings.USERENA_MUGSHOT_SIZE,
+                                 userena_settings.USERENA_MUGSHOT_SIZE),
                         'crop': 'smart'}
     GENDER_CHOICES = (
         (1, _('Male')),
@@ -251,12 +251,12 @@ class Account(models.Model):
         expired and ``False`` if the key is still valid.
 
         The key is either expired when the key is set to the value defined in
-        ``USERINA_VERIFIED`` or ``verification_key_created`` is beyond the
-        amount of days defined in ``USERINA_VERIFICATION_DAYS``.
+        ``USERENA_VERIFIED`` or ``verification_key_created`` is beyond the
+        amount of days defined in ``USERENA_VERIFICATION_DAYS``.
 
         """
-        expiration_days = datetime.timedelta(days=userena_settings.USERINA_VERIFICATION_DAYS)
-        if self.verification_key == userena_settings.USERINA_VERIFIED:
+        expiration_days = datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS)
+        if self.verification_key == userena_settings.USERENA_VERIFIED:
             return True
         if datetime.datetime.now() >= self.verification_key_created + expiration_days:
             return True
@@ -267,10 +267,10 @@ class Account(models.Model):
         Returns ``True`` when the ``verification_key`` is almost expired.
 
         A key is almost expired when the there are less than
-        ``USERINA_VERIFICATION_NOTIFY_DAYS`` days left before expiration.
+        ``USERENA_VERIFICATION_NOTIFY_DAYS`` days left before expiration.
 
         """
-        notification_days = datetime.timedelta(days=(userena_settings.USERINA_VERIFICATION_DAYS - userena_settings.USERINA_VERIFICATION_NOTIFY_DAYS))
+        notification_days = datetime.timedelta(days=(userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS))
         if datetime.datetime.now() >= self.verification_key_created + notification_days:
             return True
         return False
@@ -296,7 +296,7 @@ class Account(models.Model):
         templates = new_email_templates if new_email else new_account_templates
 
         context= {'account': self,
-                  'verification_days': userena_settings.USERINA_VERIFICATION_DAYS,
+                  'verification_days': userena_settings.USERENA_VERIFICATION_DAYS,
                   'site': Site.objects.get_current()}
 
         subject = render_to_string(templates[0], context)
@@ -313,11 +313,11 @@ class Account(models.Model):
         Notify the user that his account is about to expire.
 
         Sends an e-mail to the user telling them that their account is
-        ``USERINA_VERIFICATION_NOTIFY_DAYS`` away before expiring.
+        ``USERENA_VERIFICATION_NOTIFY_DAYS`` away before expiring.
 
         """
         context = {'account': self,
-                   'days_left': userena_settings.USERINA_VERIFICATION_NOTIFY_DAYS,
+                   'days_left': userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS,
                    'site': Site.objects.get_current()}
 
         subject = render_to_string('userena/emails/verification_notify_subject.txt',
@@ -335,10 +335,10 @@ class Account(models.Model):
         an uploaded image or a Gravatar.
 
         Gravatar functionality will only be used when
-        ``USERINA_MUGSHOT_GRAVATAR`` is set to ``True``.
+        ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
 
         Return ``None`` when Gravatar is not used and no default image is
-        supplied by ``USERINA_MUGSHOT_DEFAULT``.
+        supplied by ``USERENA_MUGSHOT_DEFAULT``.
 
         """
         # First check for a mugshot and if any return that.
@@ -346,15 +346,15 @@ class Account(models.Model):
             return self.mugshot.url
 
         # Use Gravatar if the user wants to.
-        if userena_settings.USERINA_MUGSHOT_GRAVATAR:
+        if userena_settings.USERENA_MUGSHOT_GRAVATAR:
             return get_gravatar(self.user.email,
-                                userena_settings.USERINA_MUGSHOT_SIZE,
-                                userena_settings.USERINA_MUGSHOT_DEFAULT)
+                                userena_settings.USERENA_MUGSHOT_SIZE,
+                                userena_settings.USERENA_MUGSHOT_DEFAULT)
 
         # Gravatar not used, check for a default image. Don't use the gravatar defaults
         else:
-            if userena_settings.USERINA_MUGSHOT_DEFAULT not in ['404', 'mm', 'identicon', 'monsterid', 'wavatar']:
-                return userena_settings.USERINA_MUGSHOT_DEFAULT
+            if userena_settings.USERENA_MUGSHOT_DEFAULT not in ['404', 'mm', 'identicon', 'monsterid', 'wavatar']:
+                return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

@@ -6,7 +6,7 @@ from optparse import make_option
 class Command(NoArgsCommand):
     """
     Search for users that still haven't verified their e-mail address after
-    ``USERINA_VERIFICATION_DAYS`` and delete them.
+    ``USERENA_VERIFICATION_DAYS`` and delete them.
 
     """
     help = 'Deletes expired users.'

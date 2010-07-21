@@ -1,5 +1,10 @@
 {% extends 'userena/base_userena.html' %}
+{% load i18n %}
 
 {% block content %}
-Thanks for registering. You have been send an e-mail with an verification link.
+<h1>{% trans "Signup complete" %}</h1>
+<p>{% trans "Thanks you for signing up with us!" %}</p>
+<p>{% trans "You have been send an e-mail with an verification link." %}</p>
+<p>{% trans "You can already make use of your account by" %} <a href="{% url userena_signin %}" />{% trans "signing in" %}.</a></p>
+<p>{% blocktrans %}Just don't forget to activate your account within {{ userena_verification_days }} days.{% endblocktrans %}</p>
 {% endblock %}

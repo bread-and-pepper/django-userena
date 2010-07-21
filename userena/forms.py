@@ -36,7 +36,7 @@ class SignupForm(forms.Form):
         """
         Validate that the username is alphanumeric and is not already in use.
         Also validates that the username is not listed in
-        ``USERINA_FORBIDDEN_USERNAMES`` list.
+        ``USERENA_FORBIDDEN_USERNAMES`` list.
 
         """
         try:
@@ -45,7 +45,7 @@ class SignupForm(forms.Form):
             pass
         else:
             raise forms.ValidationError(_('This username is already taken.'))
-        if self.cleaned_data['username'].lower() in userena_settings.USERINA_FORBIDDEN_USERNAMES:
+        if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))
         return self.cleaned_data['username']
 
@@ -80,7 +80,7 @@ class AuthenticationForm(forms.Form):
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
                                      required=False,
-                                     label=_(u'Remember me for %(days)s' % {'days': userena_settings.USERINA_REMEMBER_ME_DAYS[0]}))
+                                     label=_(u'Remember me for %(days)s' % {'days': userena_settings.USERENA_REMEMBER_ME_DAYS[0]}))
 
     def clean(self):
         identification = self.cleaned_data.get('identification')

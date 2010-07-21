@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>{% block title %}Django Userena - Accounts for your Django application{% endblock %}</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Accounts for your Django application" />
+        <meta name="keywords" content="accounts, django, bread and pepper, open source" />
+        <meta name="author" content="Bread and Pepper" />
+
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/master.css" />
+        <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css' />
+    </head>
+    <body>
+        <div id="top">&nbsp;</div>
+        <div id="container">	
+            <div id="header">
+                <h1><a href="{% url promo %}">Userena</a></h1>
+            </div><!-- /header-->
+            <a href="http://github.com/bread-and-pepper/django-userena/fork" id="fork">Fork me hard!</a>
+            <div id="content-container">
+                {% block content %}{% endblock %}
+            </div><!-- /content-container-->
+            <div id="footer"><p>Made by <a href="http://breadandpepper.com">Bread &amp; Pepper</a></p></div>
+        </div><!-- /container-->
+    </body>
+</html>

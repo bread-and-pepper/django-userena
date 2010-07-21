@@ -1,9 +1,10 @@
 {% extends 'userena/base_userena.html' %}
+{% load i18n %}
 
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <p><input type="submit" value="Signup" /></p>
+    <p><input type="submit" value="{% trans "Signup"%}" /></p>
 </form>
 {% endblock %}

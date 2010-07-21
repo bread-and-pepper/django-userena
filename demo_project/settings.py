@@ -37,6 +37,8 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
+DOCUMENT_ROOT = os.path.join(SITE_ROOT, 'docs')
+
 MEDIA_URL = '/media/'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'

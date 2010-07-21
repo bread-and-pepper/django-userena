@@ -1,0 +1,237 @@
+/*	WdeB
+	breadandpepper.com
+	................................... */
+
+@import "reset.css";
+
+
+/*	Main elements
+    ................................... */
+    
+html, body{
+	font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif;
+	background: #eae5e1 url(../img/bg-container.png) repeat-y center top;
+}
+
+#container{
+	width: 1008px;
+	margin: 0 auto;
+	background: url(../img/gridd.png) repeat-y center top;
+}
+
+#top{
+	height: 22px;
+	background-color: #111;
+	border-bottom: 1px solid #fff;
+}
+
+#content-container{
+	overflow: auto;
+	padding: 12px;
+}
+#header{
+	overflow: auto;
+	height: 120px;
+	margin: -2px 0 0 0;
+	padding: 0 13px;
+}
+
+#intro{
+	padding: 50px 0 0 416px;
+	min-height: 300px;
+	background: url(../img/lissy.png) no-repeat 80px center;
+}
+
+
+
+#footer{
+	background: url(../img/stripe.png) repeat-x center top;
+	margin: 40px 12px 60px;
+	padding: 20px 0;
+}
+
+
+/*	Type
+    ................................... */
+
+h1, h2, h3, h4, h5, h6 { font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif; text-transform: uppercase; text-shadow: #ffffff 1px 1px 0px;}
+
+p{
+	font-size: 1.0em;
+	line-height: 1.5em;
+	color: #444;
+	margin: 0 0 0.9em 0;
+	text-shadow: #ffffff 1px 1px 0;
+}
+
+h1{
+	font-size: 3.8em;
+}
+
+h2{
+	font-size: 1.8em;
+	margin: 0 0 9px;
+}
+
+h2 span{
+	font-size: 1.8em;
+	color: #ac1500;
+}
+
+h3{
+	font-size: 1.4em;
+	margin: 0 0 5px;
+}
+
+h4{
+	font-size: 1.2em;
+}
+
+h5{
+	font-size: 1.0em;
+}
+
+h6{
+	font-size: 0.7em;
+}
+
+a{
+	color: #790000;
+	text-decoration: underline;
+}
+
+a#fork{
+	position: fixed;
+	top: -2px;
+	right: -2px;
+	width: 136px;
+	height: 138px;
+	display: block;
+	text-indent: -9999px;
+	background-image: url(../img/forkme.png);
+}
+
+/*	Nav
+    ................................... */
+
+#header h1{
+	width: 150px;
+	height: 112px;
+}
+
+#header h1 a{
+	width: 150px;
+	height: 112px;
+	display: block;
+	text-indent: -9999px;
+	background: url(../img/bread-and-pepper-logo.png) center top;
+}
+
+#header h1 a:hover{
+	background: url(../img/bread-and-pepper-logo.png) center bottom;
+}
+
+/*	features
+    ................................... */
+
+ul.features {
+	overflow: auto;
+	margin: 40px -12px 0;
+}
+
+
+	
+ul.features li{
+	background: url(../img/stripe.png) repeat-x center top;
+	padding: 30px 10px 0 0;
+	float: left;
+	width: 310px;
+	margin: 10px 0 0 12px;
+
+}   
+
+/*	blocks
+    ................................... */
+ul.blocks {
+	overflow: auto;
+	margin: 40px -12px 0;
+}
+
+
+	
+ul.blocks li{
+	background: url(../img/stripe.png) repeat-x center top;
+	padding: 30px 0 0;
+	float: left;
+	width: 237px;
+	margin: 10px 0 0 12px;
+	text-align: center;
+}
+
+#browse{
+	width: 128px;
+	height: 128px;
+	display: block;
+	text-indent: -9999px;
+	background-image: url(../img/icon-browse.png);
+	margin: 20px auto;
+}
+
+#download{
+	width: 128px;
+	height: 128px;
+	display: block;
+	text-indent: -9999px;
+	background-image: url(../img/icon-download.png);
+	margin: 20px auto;
+}
+
+#docs{
+	width: 128px;
+	height: 128px;
+	display: block;
+	text-indent: -9999px;
+	background-image: url(../img/icon-docs.png);
+	margin: 20px auto;
+}
+
+#demo{
+	width: 128px;
+	height: 128px;
+	display: block;
+	text-indent: -9999px;
+	background-image: url(../img/icon-demo.png);
+	margin: 20px auto;
+}      
+
+
+/*	footer
+    ................................... */ 
+    
+a#crew{
+	height: 100px;
+	width: 281px;
+	display: block;
+	text-indent: -9999px;
+	margin: 0 auto;
+	background: url(../img/crew.png) center top;
+}    
+
+a#crew:hover{
+	background-position: 0 bottom;
+}    
+    
+#footer p{
+	text-align: right;
+	font-size: 0.8em;
+}    
+    
+    
+    
+    
+    
+    
+    
+    
+       
+    

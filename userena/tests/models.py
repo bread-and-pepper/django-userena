@@ -88,11 +88,11 @@ class AccountModelTests(TestCase):
         """
         ``Account.verification_key_expired()`` is ``True`` when the
         ``verification_key_created`` is more days ago than defined in
-        ``USERINA_VERIFICATION_DAYS``.
+        ``USERENA_VERIFICATION_DAYS``.
 
         """
         account = Account.objects.create_user(**self.user_info).account
-        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERINA_VERIFICATION_DAYS + 1)
+        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
         account.save()
 
         account = Account.objects.get(user__username='alice')
@@ -125,7 +125,7 @@ class AccountModelTests(TestCase):
         """
         Verification of the account with a valid ``verification_key`` should
         verify the account and set a new invalid ``verification_key`` that is
-        defined in the setting ``USERINA_VERIFIED``.
+        defined in the setting ``USERENA_VERIFIED``.
 
         """
         account = Account.objects.create_user(**self.user_info).account
@@ -138,7 +138,7 @@ class AccountModelTests(TestCase):
         self.failUnless(verified_account.is_verified)
 
         # The verification key should be the same as in the settings
-        self.assertEqual(verified_account.verification_key, userena_settings.USERINA_VERIFIED)
+        self.assertEqual(verified_account.verification_key, userena_settings.USERENA_VERIFIED)
 
     def test_verification_invalid(self):
         """
@@ -157,7 +157,7 @@ class AccountModelTests(TestCase):
         account = Account.objects.create_user(**self.user_info).account
 
         # Set the date that the key is created a day further away than allowed
-        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERINA_VERIFICATION_DAYS + 1)
+        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
         account.save()
 
         # Try to verify the account
@@ -177,7 +177,7 @@ class AccountModelTests(TestCase):
 
         """
         expired_account = Account.objects.create_user(**self.user_info).account
-        expired_account.verification_key_created -= datetime.timedelta(days=userena_settings.USERINA_VERIFICATION_DAYS + 1)
+        expired_account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
         expired_account.save()
 
         deleted_users = Account.objects.delete_expired_users()
@@ -187,11 +187,11 @@ class AccountModelTests(TestCase):
     def test_notification_expired_users(self):
         """
         Test if the notification is send out to people if there account is
-        ``USERINA_VERIFICATION_NOTIFY_DAYS`` away from being deactivated.
+        ``USERENA_VERIFICATION_NOTIFY_DAYS`` away from being deactivated.
 
         """
         account = Account.objects.create_user(**self.user_info).account
-        window = userena_settings.USERINA_VERIFICATION_DAYS - userena_settings.USERINA_VERIFICATION_NOTIFY_DAYS
+        window = userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS
         account.verification_key_created -= datetime.timedelta(days=window)
         account.save()
 
@@ -225,7 +225,7 @@ class AccountModelTests(TestCase):
 
         # There shoulde be a new verification key
         self.failIfEqual(account.verification_key,
-                         userena_settings.USERINA_VERIFIED)
+                         userena_settings.USERENA_VERIFIED)
         # Check that the e-mail is send out
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['john@newexample.com'])
@@ -242,23 +242,23 @@ class AccountModelTests(TestCase):
 
         self.failUnlessEqual(verified_account.user.email, 'john@newexample.com')
         self.failUnlessEqual(verified_account.temporary_email, '')
-        self.failUnlessEqual(verified_account.verification_key, userena_settings.USERINA_VERIFIED)
+        self.failUnlessEqual(verified_account.verification_key, userena_settings.USERENA_VERIFIED)
 
 
     def test_get_mugshot_url_without_gravatar(self):
         """
         Test if the correct mugshot is returned for the user when
-        ``USERINA_MUGSHOT_GRAVATAR`` is set to ``False``.
+        ``USERENA_MUGSHOT_GRAVATAR`` is set to ``False``.
 
         """
         # This user has no mugshot, and gravatar is disabled. And to make
         # matters worse, there isn't even a default image.
-        userena_settings.USERINA_MUGSHOT_GRAVATAR = False
+        userena_settings.USERENA_MUGSHOT_GRAVATAR = False
         account = Account.objects.get(pk=1)
         self.failUnlessEqual(account.get_mugshot_url(), None)
 
         # There _is_ a default image
-        userena_settings.USERINA_MUGSHOT_DEFAULT = 'http://example.com'
+        userena_settings.USERENA_MUGSHOT_DEFAULT = 'http://example.com'
         account = Account.objects.get(pk=1)
         self.failUnlessEqual(account.get_mugshot_url(), 'http://example.com')
 
@@ -275,14 +275,14 @@ class AccountModelTests(TestCase):
         # Test with the default settings
         self.failUnlessEqual(account.get_mugshot_url(),
                              template % {'hash': gravatar_hash,
-                                         'size': userena_settings.USERINA_MUGSHOT_SIZE,
-                                         'default': userena_settings.USERINA_MUGSHOT_DEFAULT})
+                                         'size': userena_settings.USERENA_MUGSHOT_SIZE,
+                                         'default': userena_settings.USERENA_MUGSHOT_DEFAULT})
 
         # Change userena settings
-        userena_settings.USERINA_MUGSHOT_SIZE = 180
-        userena_settings.USERINA_MUGSHOT_DEFAULT = '404'
+        userena_settings.USERENA_MUGSHOT_SIZE = 180
+        userena_settings.USERENA_MUGSHOT_DEFAULT = '404'
 
         self.failUnlessEqual(account.get_mugshot_url(),
                              template % {'hash': gravatar_hash,
-                                         'size': userena_settings.USERINA_MUGSHOT_SIZE,
-                                         'default': userena_settings.USERINA_MUGSHOT_DEFAULT})
+                                         'size': userena_settings.USERENA_MUGSHOT_SIZE,
+                                         'default': userena_settings.USERENA_MUGSHOT_DEFAULT})

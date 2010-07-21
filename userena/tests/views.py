@@ -73,7 +73,7 @@ class AccountViewsTests(TestCase):
                                           'password': 'blowfish',
                                           'remember_me': 'on'})
         self.assertEqual(self.client.session.get_expiry_age(),
-                         userena_settings.USERINA_REMEMBER_ME_DAYS[1] * 3600)
+                         userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
 
     def test_signin_view_remember_on(self):
         """
