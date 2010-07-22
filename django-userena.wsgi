@@ -26,4 +26,8 @@ os.environ['PYTHON_EGG_CACHE'] = HOMEDIR + '.python-eggs'
 os.environ['DJANGO_SETTINGS_MODULE'] = 'demo_project.settings_production'
 
 import django.core.handlers.wsgi
-application = django.core.handlers.wsgi.WSGIHandler()
+_application = django.core.handlers.wsgi.WSGIHandler()
+
+def application(environ, start_response): 
+    environ['wsgi.url_scheme'] = environ.get('HTTP_X_URL_SCHEME', 'http') 
+    return _application(environ, start_response)
