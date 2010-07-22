@@ -1,5 +1,7 @@
 import urllib, hashlib
 
+from userena import settings as userena_settings
+
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a gravatar for a e-mail address.
 
@@ -32,8 +34,13 @@ def get_gravatar(email, size=80, default='identicon'):
                 Generated faces with differing features and backgrounds
 
     """
-    gravatar_url = 'http://www.gravatar.com/avatar/%(gravatar_id)s?' % \
-            {'gravatar_id': hashlib.md5(email.lower()).hexdigest()}
+    if userena_settings.USERENA_USE_HTTPS:
+        base_url = 'https://secure.gravatar.com/avatar/'
+    else: base_url = 'http://www.gravatar.com/avatar/'
+
+    gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
+            {'base_url': base_url,
+             'gravatar_id': hashlib.md5(email.lower()).hexdigest()}
 
     gravatar_url += urllib.urlencode({'s': str(size),
                                       'd': default})

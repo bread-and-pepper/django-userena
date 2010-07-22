@@ -262,6 +262,9 @@ class AccountModelTests(TestCase):
         account = Account.objects.get(pk=1)
         self.failUnlessEqual(account.get_mugshot_url(), 'http://example.com')
 
+        # Settings back to default
+        userena_settings.USERENA_MUGSHOT_GRAVATAR = True
+
     def test_get_mugshot_url_with_gravatar(self):
         """
         Test if the correct mugshot is returned when the user makes use of gravatar.
@@ -286,3 +289,7 @@ class AccountModelTests(TestCase):
                              template % {'hash': gravatar_hash,
                                          'size': userena_settings.USERENA_MUGSHOT_SIZE,
                                          'default': userena_settings.USERENA_MUGSHOT_DEFAULT})
+
+        # Settings back to default
+        userena_settings.USERENA_MUGSHOT_SIZE = 80
+        userena_settings.USERENA_MUGSHOT_DEFAULT = 'identicon'

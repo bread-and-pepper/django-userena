@@ -1,6 +1,8 @@
 from django.test import TestCase
 from userena.utils import get_gravatar
 
+from userena import settings as userena_settings
+
 import hashlib
 
 class UtilsTests(TestCase):
@@ -34,3 +36,15 @@ class UtilsTests(TestCase):
         # Is it really a 404?
         response = self.client.get(http_404)
         self.failUnlessEqual(response.status_code, 404)
+
+        # Test the switch to HTTPS
+        userena_settings.USERENA_USE_HTTPS = True
+
+        template = 'https://secure.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
+        self.failUnlessEqual(get_gravatar('alice@example.com'),
+                             template % {'hash': hash,
+                                         'size': 80,
+                                         'type': 'identicon'})
+
+        # And set back to default
+        userena_settings.USERENA_USE_HTTPS = False

@@ -25,3 +25,6 @@ class DecoratorTests(TestCase):
         # ``assertRedirects`` here because the redirected to page is
         # non-existant.
         self.assertTrue('https' in str(response))
+
+        # Set back to the old settings
+        userena_settings.USERENA_USE_HTTPS = False
