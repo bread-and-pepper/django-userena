@@ -53,3 +53,8 @@ USERENA_MUGSHOT_SIZE = getattr(settings,
 USERENA_MUGSHOT_PATH = getattr(settings,
                                'USERENA_MUGSHOT_PATH',
                                'mugshots/')
+
+# Should some of the views forced to use HTTPS.
+USERENA_USE_HTTPS = getattr(settings,
+                            'USERENA_USE_HTTPS',
+                            False)
