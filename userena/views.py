@@ -1,17 +1,17 @@
-from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import Http404
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
 from userena.models import Account
+from userena.decorators import secure_required
 from userena import settings as userena_settings
 from userena import UserinaAuthenticationBackend
-from userena.decorators import secure_required
 
 @secure_required
 def verify(request, verification_key, template_name='userena/verification.html'):
@@ -108,6 +108,7 @@ def email_change(request, template_name='userena/me_email_form.html'):
 
 def detail(request, username, template_name='userena/detail.html'):
     """ View the account of others. """
+    account = get_object_or_404(Account, user__username__iexact=username)
     return direct_to_template(request,
                               template_name,
-                              extra_context={})
+                              extra_context={'account': account})

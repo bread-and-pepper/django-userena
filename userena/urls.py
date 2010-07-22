@@ -76,7 +76,7 @@ urlpatterns = patterns('',
                        url(r'^me/$',
                            userena_views.me,
                            name='userena_me'),
-                       url(r'^(?P<username>[\w+])/$',
+                        url(r'^(?P<username>\w+)/$',
                            userena_views.detail,
                            name='userena_detail'),
  )

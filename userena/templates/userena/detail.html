@@ -2,5 +2,5 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans 'Account of' %}{{ user.get_full_name }}</h1>
+<h1>{% trans 'Account of' %} {{ account.user.username }}</h1>
 {% endblock %}

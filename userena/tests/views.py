@@ -189,3 +189,9 @@ class AccountViewsTests(TestCase):
         response = self.client.post(reverse('userena_email_change'),
                                     data={'email': 'jane@example.com'})
 
+    def test_detail_view(self):
+        """ A ``GET`` to the detailed view of a user """
+        response = self.client.get(reverse('userena_detail', kwargs={'username': 'john'}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/detail.html')
