@@ -8,5 +8,8 @@ lib64
 include/
 src/
 
+# Certificates
+certs/
+
 # Demo project
 demo_project/demo_project.db
