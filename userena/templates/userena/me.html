@@ -2,36 +2,20 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Your account" %}</h1>
+
+<div class="white-box">
+<h2>{% trans "My account" %}</h2>
 <img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
-<table>
-    <tr>
-        <th scope="col">{% trans "Name" %}</th>
-        <td>{{ account.user.get_full_name }}</td>
-    </tr>
-    <tr>
-        <th scope="col">{% trans "Email" %}</th>
-        <td>{{ account.user.email }}</td>
-    </tr>
-    <tr>
-        <th scope="col">{% trans "Age" %}</th>
-        <td>{{ account.age }}</td>
-    </tr>
-    <tr>
-        <th scope="col">{% trans "Website" %}</th>
-        <td>{{ account.website }}</td>
-    </tr>
-    <tr>
-        <th scope="col">{% trans "Location" %}</th>
-        <td>{{ account.location }}</td>
-    </tr>
-</table>
-<div id="account-about-me">
-    <h3>About me</h3>
-    {{ account.about_me }}
-</div>
+<p><b>{% trans "Name" %}:</b> {{ account.user.get_full_name }}</p>
+<p><b>{% trans "Email" %}:</b> {{ account.user.email }}</p>
+<p><b>{% trans "Age" %}:</b> {{ account.age }}</p>
+<p><b>{% trans "Website" %}:</b> {{ account.website }}</p>
+<p><b>{% trans "Location" %}:</b> {{ account.location }}</p>
+<p><b>{% trans "About me" %}:</b> {{ account.about_me }}</p>
 <ul>
-    <li><a href="{% url userena_password_change %}">{% trans "Change password" %}</a></li>
-    <li><a href="{% url userena_email_change %}">{% trans "Change e-mail address" %}</a></li>
+    <li><a href="{% url userena_email_change %}">{% trans "Edit details" %} &raquo;</a></li>
+    <li><a href="{% url userena_password_change %}">{% trans "Change password" %} &raquo;</a></li>
+    <li><a href="{% url userena_email_change %}">{% trans "Change e-mail address" %} &raquo;</a></li>
 </ul>
+</div>
 {% endblock %}

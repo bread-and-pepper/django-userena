@@ -4,7 +4,23 @@
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <p><input type="submit" value="{% trans "Signin" %}" /></p>
+    <fieldset>
+        <legend>Signin</legend>
+        {% for field in form %}
+        {{ field.errors }}
+        {% comment %} Displaying checkboxes differently {% endcomment %}
+        {% if field.name == 'remember_me' %}
+        <p class="checkbox">
+            <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
+        </p>
+        {% else %}
+        <p>
+            {{ field.label_tag }} 
+            {{ field }}
+        </p>
+        {% endif %}
+        {% endfor %}
+        <input type="submit" value="{% trans "Signin" %}" />
+    </fieldset>
 </form>
 {% endblock %}
