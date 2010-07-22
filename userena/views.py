@@ -11,7 +11,9 @@ from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
 from userena.models import Account
 from userena import settings as userena_settings
 from userena import UserinaAuthenticationBackend
+from userena.decorators import secure_required
 
+@secure_required
 def verify(request, verification_key, template_name='userena/verification.html'):
     """ Verify an account through an verification key """
     account = Account.objects.verify_account(verification_key)
@@ -21,6 +23,7 @@ def verify(request, verification_key, template_name='userena/verification.html')
         return direct_to_template(request,
                                   template_name)
 
+@secure_required
 def signin(request, template_name='userena/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME):
     """
@@ -53,6 +56,7 @@ def signin(request, template_name='userena/signin_form.html',
                               template_name,
                               extra_context={'form': form})
 
+@secure_required
 def signup(request, template_name='userena/signup_form.html'):
     """ Signup a user """
     form = SignupForm()
@@ -75,6 +79,7 @@ def signup(request, template_name='userena/signup_form.html'):
                               template_name,
                               extra_context={'form': form})
 
+@secure_required
 @login_required
 def me(request, template_name='userena/me.html'):
     """ View your own account. Enabling the user to change their settings. """
@@ -82,6 +87,7 @@ def me(request, template_name='userena/me.html'):
                               template_name,
                               extra_context={'account': request.user.account})
 
+@secure_required
 @login_required
 def email_change(request, template_name='userena/me_email_form.html'):
     """ Change your e-mail address. Doing this requires a new verification. """

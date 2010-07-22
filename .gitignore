@@ -11,6 +11,11 @@ src/
 # Certificates
 certs/
 
+# Production server
+logs/
+pip-log.txt
+
 # Demo project
 demo_project/demo_project.db
 demo_project/settings_production.py
+demo_project/media/admin
