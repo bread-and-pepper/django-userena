@@ -112,3 +112,7 @@ def detail(request, username, template_name='userena/detail.html'):
     return direct_to_template(request,
                               template_name,
                               extra_context={'account': account})
+
+def list(request):
+    """ Returns a list of all the users """
+    pass
