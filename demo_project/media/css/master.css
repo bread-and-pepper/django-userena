@@ -76,7 +76,7 @@ html, body{
 #intro{
 	padding: 50px 0 0 416px;
 	min-height: 300px;
-	background: url(../img/lissy.png) no-repeat 80px center;
+	background: url(../img/userena.png) no-repeat 80px center;
 }
 
 
@@ -98,6 +98,10 @@ html, body{
 	-moz-box-shadow: 0 0 3px #999;
 	-webkit-box-shadow: 0 0 3px #999;
         box-shadow: 0 0 3px #999;
+}
+
+#details{
+	min-height: 120px;
 }
 
 
@@ -138,10 +142,10 @@ h2 span{
 	width: 482px;
 	padding: 5px 12px 6px;
 	font-size: 1.9em;
-	color: #a30054;
 	font-weight: bold;
 	text-transform: none;
 	border-bottom: 1px solid #f1edeb;
+	color: #ab292a;
 }
 
 h3{
@@ -188,19 +192,21 @@ a#fork{
 
 .white-box ul{
 	border-top: 3px double #f1edeb;
+	overflow: auto;
 }
 
 .white-box ul li{
 	border-bottom: 1px solid #f1edeb;
-	padding: 12px;
-	list-style-type: disc;
-	list-style-position: inside;
+	width: 33.3%;
+	padding: 12px 0;
+	float: left;
+	text-align: center;
 }
 
 .white-box ul li a{
 	text-decoration: none;
 	font-weight: bold;
-	font-size: 0.8em;
+	font-size: 0.7em;
 }
 
 /*	Forms
@@ -232,8 +238,8 @@ form p label {
 	float: left;
 	display: block;
 	font-weight: bold;
-	line-height: 3.0em;
-	font-size: 0.75em;
+	line-height: 4.0em;
+	font-size: 0.60em;
 	color: #444;
 	text-align: right;
 }
@@ -317,15 +323,16 @@ input[type=submit] {
 	font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif;
 }
 
-input.button:hover {
+input[type=submit]:hover {
 	color: #f9f9f9;
 	cursor: pointer;
 }
 
-input.button:active {
-	background-image: none;
-	background-color: #13c1c6;
+input[type=submit]:active {
 	line-height: 36px;
+	background-color: #bd302d;
+	line-height: 36px;
+	border: 1px inset #ce3024;
 }
 
 #signin input[type=checkbox] {
@@ -356,7 +363,7 @@ legend {
 	width: 482px;
 	padding: 5px 12px 6px;
 	font-size: 1.9em;
-	color: #a30054;
+	color: #ab292a;
 	font-weight: bold;
 	border-bottom: 1px solid #f1edeb;
 }
