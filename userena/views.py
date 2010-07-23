@@ -108,7 +108,8 @@ def email_change(request, template_name='userena/me_email_form.html'):
 
 def detail(request, username, template_name='userena/detail.html'):
     """ View the account of others. """
-    account = get_object_or_404(Account, user__username__iexact=username)
+    account = get_object_or_404(Account,
+                                user__username__iexact=username)
     return direct_to_template(request,
                               template_name,
                               extra_context={'account': account})
