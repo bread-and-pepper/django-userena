@@ -1,4 +1,6 @@
-# Settings for Miss Niks
+# Settings for django-userena.
+# http://django-userena.org
+
 import os
 import sys
 import site

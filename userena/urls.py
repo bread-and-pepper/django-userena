@@ -79,4 +79,7 @@ urlpatterns = patterns('',
                         url(r'^(?P<username>\w+)/$',
                            userena_views.detail,
                            name='userena_detail'),
+                        url(r'^$',
+                            userena_views.list,
+                            name='userena_list'),
  )
