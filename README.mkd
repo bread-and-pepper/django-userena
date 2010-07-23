@@ -1,12 +1,7 @@
-# Django Userina
+# django-userena
 
-After the excellent work James Bennett did on django-registration and
-django-profiles I thought it was time to have a more encompassing Django
-application for managing accounts. I think of it this way; James invented the
-wheel, I build a small go-cart on top of it. Although the wheel is more
-important, the cart is what you want to be riding.
+Django userena's goal is to have a simple way to have full account management
+for django application.
 
-Hilarious introduction aside, you should visit userina's website for more
-information, documentation and (soon) a demo.
-
-[Userina's Homepage](http://bread-and-pepper.github.com/django-userina)
+Visit the [homepage](http://django-userena.org) for more information about
+django-userena.
