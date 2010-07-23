@@ -6,6 +6,7 @@
 <div class="white-box">
     <h2>{{ account.user.username }} {% if account.user.get_full_name %}({{ account.user.get_full_name }}){% endif %}</h2>
     {{ account.filled_in_fields }}
+    <div id="details">
     <img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
     {% if account.user.get_full_name %}
     <p><b>{% trans "Name" %}:</b> {{ account.user.get_full_name }}</p>
@@ -25,10 +26,11 @@
     {% if account.about_me %}
     <p><b>{% trans "About me" %}:</b> {{ account.about_me }}</p>
     {% endif %}
+    </div>
     <ul>
         <li><a href="{% url userena_email_change %}">{% trans "Edit details" %} &raquo;</a></li>
         <li><a href="{% url userena_password_change %}">{% trans "Change password" %} &raquo;</a></li>
-        <li><a href="{% url userena_email_change %}">{% trans "Change e-mail address" %} &raquo;</a></li>
+        <li><a href="{% url userena_email_change %}">{% trans "Change email" %} &raquo;</a></li>
     </ul>
 </div>
 {% endblock %}

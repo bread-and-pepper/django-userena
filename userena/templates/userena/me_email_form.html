@@ -2,8 +2,10 @@
 
 {% block content %}
 <form action="" method="post">
+    <fieldset>
+        <legend>Change email address</legend>
     {% csrf_token %}
     {{ form.as_p }}
-    <p><input type="submit" value="Change email" /></p>
+    <input type="submit" value="Change email" />
 </form>
 {% endblock %}
