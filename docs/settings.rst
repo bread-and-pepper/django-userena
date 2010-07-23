@@ -3,14 +3,14 @@
 Settings
 ========
 
-Userina comes with a few settings that enables you to tweak the user experience
+Userena comes with a few settings that enables you to tweak the user experience
 for you users. There are also a few Django settings that are relevant for
-Userina.
+Userena.
 
-Userina settings
+Userena settings
 ----------------
 
-USERINA_VERIFICATION_DAYS
+USERENA_VERIFICATION_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``7`` (integer)
 
@@ -19,29 +19,29 @@ account. The user will be deleted when they still haven't verified their
 account after these amount of days by running the ``cleanexpired``
 :ref:`command <commands>`.
 
-USERINA_VERIFICATION_NOTIFY
+USERENA_VERIFICATION_NOTIFY
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
 A boolean that turns on/of the sending of a notification when
-``USERINA_VERIFICATION_NOTIFY_DAYS`` away the verification of the user will
+``USERENA_VERIFICATION_NOTIFY_DAYS`` away the verification of the user will
 expire and the user will be deleted.
 
-USERINA_VERIFICATION_NOTIFY_DAYS
+USERENA_VERIFICATION_NOTIFY_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``2`` (integer)
 
 The amount of days, before the expiration of an account, that a notification
 get's send out. Warning the user of his coming demise.
 
-USERINA_VERIFIED
+USERENA_VERIFIED
 ~~~~~~~~~~~~~~~~
 Default: ``ALREADY_VERIFIED`` (string)
 
 This value will be inserted into ``Account.verification_key`` if a key gets
 used successfully.
 
-USERINA_REMEMBER_ME_DAYS
+USERENA_REMEMBER_ME_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``(gettext('a month'), 30))`` (tuple)
 
@@ -50,28 +50,28 @@ user can choose to be remembered by your project. The string is the human
 readable version that gets displayed in the form. The integer stands for the
 amount of days that this string represents.
 
-USERINA_FORBIDDEN_USERNAMES
+USERENA_FORBIDDEN_USERNAMES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``('signup', 'signout', 'signin', 'verify', 'me', 'password')`` (tuple)
 
 A tuple containing the names which cannot be used as username in the signup
 form.
 
-.. _userina-mugshot-gravatar:
+.. _userena-mugshot-gravatar:
 
-USERINA_MUGSHOT_GRAVATAR
+USERENA_MUGSHOT_GRAVATAR
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
 A boolean defining if mugshots should fallback to `Gravatar
 <http://en.gravatar.com/>`_ service when no mugshot is uploaded by the user.
 
-USERINA_MUGSHOT_DEFAULT
+USERENA_MUGSHOT_DEFAULT
 ~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``identicon`` (string)
 
 A string for the default image used when no mugshot is found. This can be
-either a URI to an image or if :ref:`userina-mugshot-gravatar` is
+either a URI to an image or if :ref:`userena-mugshot-gravatar` is
 ``True`` one of the following options:
 
 ``404``
@@ -91,7 +91,7 @@ either a URI to an image or if :ref:`userina-mugshot-gravatar` is
 ``wavatar``
     Generated faces with differing features and backgrounds
 
-USERINA_MUGSHOT_SIZE
+USERENA_MUGSHOT_SIZE
 ~~~~~~~~~~~~~~~~~~~~
 Default: ``80`` (int)
 
@@ -107,7 +107,7 @@ Default: ``/accounts/profile/`` (string)
 The URL where requests are redirected after login when the contrib.auth.login
 view gets no next parameter. 
 
-In userina this URL normally would be ``/accounts/me/``.
+In userena this URL normally would be ``/accounts/me/``.
 
 LOGIN_URL
 ~~~~~~~~~
@@ -116,11 +116,11 @@ Default: ``/accounts/login/`` (string)
 The URL where requests are redirected for login, especially when using the
 login_required() decorator.
 
-In userina this URL normally would be ``/accounts/signin/``.
+In userena this URL normally would be ``/accounts/signin/``.
 
 LOGOUT_URL
 ~~~~~~~~~~
 Default: ``/accounts/logout/`` (string)
 LOGIN_URL counterpart.
 
-In userina this URL normally would be ``/accounts/signout/``.
+In userena this URL normally would be ``/accounts/signout/``.

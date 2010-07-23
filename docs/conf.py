@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Userina documentation build configuration file, created by
+# Userena documentation build configuration file, created by
 # sphinx-quickstart on Fri Jul  2 09:28:08 2010.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -37,7 +37,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Userina'
+project = u'Userena'
 copyright = u'2010, Petar Radosevic'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -158,7 +158,7 @@ html_static_path = ['_static']
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Userinadoc'
+htmlhelp_basename = 'Userenadoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -172,7 +172,7 @@ htmlhelp_basename = 'Userinadoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Userina.tex', u'Userina Documentation',
+  ('index', 'Userena.tex', u'Userena Documentation',
    u'Petar Radosevic', 'manual'),
 ]
 

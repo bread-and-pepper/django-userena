@@ -13,7 +13,7 @@ except ImportError:
 if not 'easy_thumbnails' in django_settings.INSTALLED_APPS:
     raise ImproperlyConfigured('You need the easy_thumbnails application to use django-userena.')
 
-class UserinaAuthenticationBackend(ModelBackend):
+class UserenaAuthenticationBackend(ModelBackend):
     """
     We use a custom backend because we want the user to be able to supply a
     ``email`` or ``username`` to the login form. We will find out what they

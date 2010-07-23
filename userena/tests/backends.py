@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
-from userena import UserinaAuthenticationBackend
+from userena import UserenaAuthenticationBackend
 
-class UserinaAuthenticationBackendTests(TestCase):
+class UserenaAuthenticationBackendTests(TestCase):
     """
     Test the ``UserinaAuthenticationBackend`` which should return a ``User``
     when supplied with a username/email and a correct password.

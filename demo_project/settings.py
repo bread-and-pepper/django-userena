@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'userena.UserinaAuthenticationBackend',
+    'userena.UserenaAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
