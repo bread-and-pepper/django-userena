@@ -11,7 +11,7 @@ from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
 from userena.models import Account
 from userena.decorators import secure_required
 from userena import settings as userena_settings
-from userena import UserinaAuthenticationBackend
+from userena import UserenaAuthenticationBackend
 
 @secure_required
 def verify(request, verification_key, template_name='userena/verification.html'):

@@ -6,12 +6,12 @@ from userena import UserenaAuthenticationBackend
 
 class UserenaAuthenticationBackendTests(TestCase):
     """
-    Test the ``UserinaAuthenticationBackend`` which should return a ``User``
+    Test the ``UserenaAuthenticationBackend`` which should return a ``User``
     when supplied with a username/email and a correct password.
 
     """
     fixtures = ['users',]
-    backend = UserinaAuthenticationBackend()
+    backend = UserenaAuthenticationBackend()
 
     def test_with_username(self):
         """ Test the backend when usernames are supplied. """
