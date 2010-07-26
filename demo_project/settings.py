@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'easy_thumbnails',
     'userena',
+    'extra',
 )
 
 # Settings required for userena

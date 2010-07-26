@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.core.exceptions import ImproperlyConfigured
 
 from userena import settings as userena_settings
 from userena.utils import get_gravatar
@@ -140,7 +141,7 @@ class AccountManager(models.Manager):
                 account.user.delete()
         return deleted_users
 
-class Account(models.Model):
+class BaseAccount(models.Model):
     """
     A user account which stores all the nescessary information to have a full
     functional user implementation on your Django website.
@@ -188,6 +189,10 @@ class Account(models.Model):
                                         help_text=_('Temporary email address when the user requests an email change.'))
 
     objects = AccountManager()
+
+    class Meta:
+        if userena_settings.USERENA_CHILD_MODEL:
+            abstract = True
 
     def __unicode__(self):
         return '%s' % self.user
@@ -357,4 +362,23 @@ class Account(models.Model):
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
+def get_account_model():
+    """
+    Returns the right account model so your user application can be easily
+    extended without adding extra relationships.
+
+    """
+    from django.db.models import get_model
+    if userena_settings.USERENA_CHILD_MODEL:
+        account_model = get_model(*userena_settings.USERENA_CHILD_MODEL.split('.', 2))
+        if not account_model:
+            raise ImproperlyConfigured('Cannot find the model defined in ``USERINA_CHILD_MODEL``.')
+        return account_model
+
+    return Account
+
+# Return the model that's used for account functionality
+Account = get_account_model()
+
+# Always return an account when asked through a user
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

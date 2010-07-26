@@ -58,3 +58,8 @@ USERENA_MUGSHOT_PATH = getattr(settings,
 USERENA_USE_HTTPS = getattr(settings,
                             'USERENA_USE_HTTPS',
                             False)
+
+# Child model. Use it if more fields are needed.
+USERENA_CHILD_MODEL= getattr(settings,
+                             'USERENA_CHILD_MODEL',
+                             None)
