@@ -375,7 +375,7 @@ def get_account_model():
             raise ImproperlyConfigured('Cannot find the model defined in ``USERINA_CHILD_MODEL``.')
         return account_model
 
-    return Account
+    return BaseAccount
 
 # Return the model that's used for account functionality
 Account = get_account_model()
