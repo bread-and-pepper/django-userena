@@ -3,4 +3,7 @@
 
 {% block content %}
 <h1>{% trans 'Account of' %} {{ account.user.username }}</h1>
+{% if user.can_edit_account %}
+BLAAA
+{% endif %}
 {% endblock %}

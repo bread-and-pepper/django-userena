@@ -81,15 +81,7 @@ def signup(request, template_name='userena/signup_form.html'):
 
 @secure_required
 @login_required
-def me(request, template_name='userena/me.html'):
-    """ View your own account. Enabling the user to change their settings. """
-    return direct_to_template(request,
-                              template_name,
-                              extra_context={'account': request.user.account})
-
-@secure_required
-@login_required
-def email_change(request, template_name='userena/me_email_form.html'):
+def email_change(request, username, template_name='userena/email_form.html'):
     """ Change your e-mail address. Doing this requires a new verification. """
     form = ChangeEmailForm(request.user)
     if request.method == 'POST':

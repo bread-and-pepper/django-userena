@@ -115,3 +115,6 @@ class ChangeEmailForm(forms.Form):
         if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
+
+class AccountForm(forms.ModelForm):
+    pass

@@ -23,7 +23,8 @@
                 <ul id="nav">
                     <li><a href="{% url promo %}">{% trans 'Home' %}</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url userena_me %}">{% trans 'My account' %} ({{ user.username }})</a></li>
+                    <li><a href="{% url userena_list %}">{% trans 'Accounts' %}</a></li>
+                    <li><a href="{% url userena_detail user.username %}">{% trans 'Your account' %} ({{ user.username }})</a></li>
                     <li><a href="{% url userena_signout %}">{% trans 'Signout' %}</a></li>
                     {% else %}
                     <li><a href="{% url userena_signin %}">{% trans 'Signin' %}</a></li>
