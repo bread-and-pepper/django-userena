@@ -1,5 +1,11 @@
 from setuptools import setup, find_packages
 
+# PIL doesn't work well with easy_install. So you have to install it yourself.
+try:
+    import PIL
+except ImportError:
+    raise ImportError('Django-userina requires PIL to be installed.')
+
 readme_file = 'README.mkd'
 try:
     long_description = open(readme_file).read()
@@ -21,7 +27,6 @@ setup(name='django-userena',
       install_requires = [
         'Django>=1.2.1',
         'python-dateutil>=1.5',
-        'pil>=1.1.6',
         'easy_thumbnails',
       ],
       test_suite='tests.main',

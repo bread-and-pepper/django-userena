@@ -1,10 +1,13 @@
 import os, sys
 
+abspath = lambda *p: os.path.abspath(os.path.join(*p))
+
+PROJECT_ROOT = abspath(os.path.dirname(__file__))
+USERENA_MODULE_PATH = abspath(PROJECT_ROOT, '..')
+sys.path.insert(0, USERENA_MODULE_PATH)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
-sys.path.append(os.path.dirname(SITE_ROOT))
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -33,8 +36,8 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
-MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
-DOCUMENT_ROOT = os.path.join(SITE_ROOT, 'docs')
+MEDIA_ROOT = abspath(PROJECT_ROOT, 'media')
+DOCUMENT_ROOT = abspath(PROJECT_ROOT, 'docs')
 
 MEDIA_URL = '/media/'
 
@@ -63,7 +66,7 @@ AUTHENTICATION_BACKENDS = (
 ROOT_URLCONF = 'demo_project.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_ROOT, 'templates'),
+    abspath(PROJECT_ROOT, 'templates')
 )
 
 INSTALLED_APPS = (
