@@ -6,7 +6,7 @@ try:
 except ImportError:
     raise ImportError('Django-userina requires PIL to be installed.')
 
-readme_file = 'README.mkd'
+readme_file = 'README.rst'
 try:
     long_description = open(readme_file).read()
 except IOError, err:
