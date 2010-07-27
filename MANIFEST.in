@@ -1,0 +1,10 @@
+include README.rst
+include MANIFEST.in
+include tests.py
+include run_tests
+include pip-requirements.txt
+recursive-include userina *.py
+recursive-include demo_project *.py
+recursive-include demo_project/templates *.html
+recursive-include userena/fixtures *.json
+recursive-include docs *
