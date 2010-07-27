@@ -62,20 +62,20 @@ class AccountViewsTests(TestCase):
         self.failUnless(isinstance(response.context['form'],
                                    forms.AuthenticationForm))
 
-    def test_signin_view_remember_on(self):
+    def test_signin_view_remember_me_on(self):
         """
         A ``POST`` to the signin with tells it to remember the user for
-        ``REMEMBER_ME_ DAYS``.
+        ``REMEMBER_ME_DAYS``.
 
         """
         response = self.client.post(reverse('userena_signin'),
                                     data={'identification': 'john@example.com',
                                           'password': 'blowfish',
-                                          'remember_me': 'on'})
+                                          'remember_me': True})
         self.assertEqual(self.client.session.get_expiry_age(),
                          userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
 
-    def test_signin_view_remember_on(self):
+    def test_signin_view_remember_off(self):
         """
         A ``POST`` to the signin view of which the user doesn't want to be
         remembered.
