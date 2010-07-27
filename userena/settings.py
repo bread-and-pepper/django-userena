@@ -3,26 +3,27 @@ from django.conf import settings
 gettext = lambda s: s
 
 # How long do people have to verify their account.
-USERENA_VERIFICATION_DAYS = getattr(settings,
-                                    'USERENA_VERIFICATION_DAYS',
-                                    7)
+USERENA_ACTIVATION_DAYS = getattr(settings,
+                                  'USERENA_ACTIVATION_DAYS',
+                                  7)
 
 # Should a notifification be send when there a only
-# ``USERENA_VERIFICATION_REMEMBER_DAYS`` left before account deletion.
-USERENA_VERIFICATION_NOTIFY = getattr(settings,
-                                      'USERENA_VERIFICATION_NOTIFY',
-                                      True)
-# Amount of days before ``USERENA_VERIFICATION_DAYS`` that a 'remember to
+# ``USERENA_ACTIVATION_REMEMBER_DAYS`` left before account deletion.
+USERENA_ACTIVATION_NOTIFY = getattr(settings,
+                                    'USERENA_ACTIVATION_NOTIFY',
+                                    True)
+
+# Amount of days before ``USERENA_ACTIVATION_DAYS`` that a 'remember to
 # verify' e-mail get's send out.
-USERENA_VERIFICATION_NOTIFY_DAYS = getattr(settings,
-                                           'USERENA_VERIFICATION_NOTIFY_DAYS',
-                                           2)
+USERENA_ACTIVATION_NOTIFY_DAYS = getattr(settings,
+                                         'USERENA_ACTIVATION_NOTIFY_DAYS',
+                                         2)
 
 # This value will be inserted into ``Account.verification_key`` if a key get's
 # used succesfully.
-USERENA_VERIFIED = getattr(settings,
-                           'USERENA_VERIFIED',
-                           'ALREADY_VERIFIED')
+USERENA_ACTIVATED = getattr(settings,
+                            'USERENA_ACTIVATED',
+                            'ALREADY_ACTIVATED')
 
 # The amount of weeks a user can choose te be remembered.
 USERENA_REMEMBER_ME_DAYS = getattr(settings,

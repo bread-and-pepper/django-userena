@@ -14,13 +14,13 @@ urlpatterns = patterns('',
                            name='userena_disabled'),
 
                        # Activate
-                       url(r'^verify/complete/$',
+                       url(r'^activation/complete/$',
                            direct_to_template,
-                           {'template': 'userena/verification_complete.html'},
-                           name='userena_verification_complete'),
-                       url(r'^verify/(?P<verification_key>\w+)/$',
-                           userena_views.verify,
-                           name='userena_verify'),
+                           {'template': 'userena/activation_complete.html'},
+                           name='userena_activation_complete'),
+                       url(r'^verify/(?P<activation_key>\w+)/$',
+                           userena_views.activate,
+                           name='userena_activate'),
 
                        # Signin, signout and signup
                        url(r'^signin/$',
@@ -36,7 +36,7 @@ urlpatterns = patterns('',
                        url(r'^signup/complete/$',
                            direct_to_template,
                            {'template': 'userena/signup_complete.html',
-                            'extra_context': {'userena_verification_days': userena_settings.USERENA_VERIFICATION_DAYS}},
+                            'extra_context': {'userena_verification_days': userena_settings.USERENA_ACTIVATION_DAYS}},
                            name='userena_signup_complete'),
 
                        # Reset password

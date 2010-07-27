@@ -34,23 +34,27 @@ def upload_to_mugshot(instance, filename):
 
 class AccountManager(models.Manager):
     """ Extra functionality for the account manager. """
-    def create_user(self, username, email, password):
+
+    def create_inactive_user(self, username, email, password):
         """
         A simple wrapper that creates a new ``User`` and a new ``Account``.
 
         """
         new_user = User.objects.create_user(username, email, password)
+        new_user.is_active = False
         new_user.save()
 
+        # Create account also
         account = self.create_account(new_user)
+
         return new_user
 
     def create_account(self, user):
         """
         Create an ``Account`` for a given ``User``.
 
-        Also creates a ``verification_key`` for this account. After the account
-        is created an e-mail is send with ``send_verification_email`` to the
+        Also creates a ``activation_key`` for this account. After the account
+        is created an e-mail is send with ``send_activation_email`` to the
         user with this key.
 
         """
@@ -58,68 +62,51 @@ class AccountManager(models.Manager):
         username = user.username
         if isinstance(username, unicode):
             username = username.encode('utf-8')
-        verification_key = sha_constructor(salt+username).hexdigest()
+        activation_key = sha_constructor(salt+username).hexdigest()
         account = self.create(user=user,
-                              verification_key=verification_key,
-                              verification_key_created=datetime.datetime.now())
-        account.send_verification_email()
+                              activation_key=activation_key,
+                              activation_key_created=datetime.datetime.now())
+        account.send_activation_email()
         return account
 
-    def verify_account(self, verification_key):
+    def activate_user(self, activation_key):
         """
-        Verify an ``Account`` by supplying a valid ``verification_key``.
+        Activate an ``Account`` by supplying a valid ``activation_key``.
 
-        If the key is valid and an account is found, verify the account and
-        return the verified account. But not before checking if the
-        verification is for a _new_ account or a _updated_ account.
-
-        A new account is when a user signed up and tries to verify the account.
-        Only ``is_verified`` should be set to ``True``.
-
-        If a user wants to change their e-mail address they also need to verify
-        it. You could say that ``verify_account`` is then a verify_email. When
-        this is the case, after successfull verification, the users e-mail
-        address should be set to the ``temporary_email``.
+        If the key is valid and an account is found, activate the user and
+        return the activied account.
 
         """
-        if SHA1_RE.search(verification_key):
+        if SHA1_RE.search(activation_key):
             try:
-                account = self.get(verification_key=verification_key)
+                account = self.get(activation_key=activation_key)
             except self.Model.DoesNotExist:
                 return False
-            if not account.verification_key_expired():
-                account.verification_key = userena_settings.USERENA_VERIFIED
-
-                # Check to see if the account is new, or that it only need a
-                # e-mail change.
-                if account.temporary_email:
-                    account.user.email = account.temporary_email
-                    account.user.save()
-                    account.temporary_email = ''
-                else:
-                    account.is_verified = True
+            if not account.activation_key_expired():
+                account.activation_key = userena_settings.USERENA_ACTIVATED
+                account.user.is_active=True
                 account.save()
                 return account
         return False
 
     def notify_almost_expired(self):
         """
-        Check for accounts that are ``USERENA_VERIFICATION_NOTIFY`` days before
-        expiration. For each account that's found ``send_expiry_notification``
-        is called.
+        Check for accounts that are ``USERENA_ACTIVATED_NOTIFY_DAYS`` days
+        before expiration. For each account that's found
+        ``send_expiry_notification`` is called.
 
         Returns a list of all the accounts that have received a notification.
 
         """
-        if userena_settings.USERENA_VERIFICATION_NOTIFY:
-            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS))
+        if userena_settings.USERENA_ACTIVATION_NOTIFY:
+            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS))
 
-            accounts = self.filter(is_verified=False,
+            accounts = self.filter(user__is_active=False,
                                    user__is_staff=False,
-                                   verification_notification_send=False)
+                                   activation_notification_send=False)
             notified_accounts = []
             for account in accounts:
-                if account.verification_key_almost_expired():
+                if account.activation_key_almost_expired():
                     account.send_expiry_notification()
                     notified_accounts.append(account)
             return notified_accounts
@@ -132,11 +119,9 @@ class AccountManager(models.Manager):
         Returns a list of the deleted accounts.
 
         """
-        accounts = self.filter(is_verified=False,
-                               user__is_staff=False)
         deleted_users = []
-        for account in accounts:
-            if account.verification_key_expired():
+        for account in self.filter(user__is_staff=False):
+            if account.activation_key_expired():
                 deleted_users.append(account.user)
                 account.user.delete()
         return deleted_users
@@ -172,18 +157,17 @@ class BaseAccount(models.Model):
 
     # Fields used for managing accounts
     last_active = models.DateTimeField(null=True, blank=True)
-    is_verified = models.BooleanField(_('verified'),
-                                      default=False,
-                                      help_text=_('Designates whether this user has verified his e-mail address.'))
-    verification_key = models.CharField(_('verification key'), max_length=40,
+
+    activation_key = models.CharField(_('activation key'), max_length=40,
                                         blank=True)
-    verification_key_created = models.DateTimeField(_('creation date of \
-                                                      verification key'),
-                                                    blank=True,
-                                                    null=True)
-    verification_notification_send = models.BooleanField(_('notification send'),
-                                                         default=False,
-                                                         help_text=_('Designates whether this user has already got a notification about verifying their account.'))
+    activation_key_created = models.DateTimeField(_('creation date of activation key'),
+                                                  blank=True,
+                                                  null=True)
+    activation_notification_send = models.BooleanField(_('notification send'),
+                                                       default=False,
+                                                       help_text=_('Designates whether this user has already got a notification about activating their account.'))
+
+    # To change their e-mail address, they first have to verify it.
     temporary_email = models.EmailField(_('temporary_email'),
                                         blank=True,
                                         help_text=_('Temporary email address when the user requests an email change.'))
@@ -224,114 +208,106 @@ class BaseAccount(models.Model):
         A user needs to verify this new e-mail address before it becomes
         active. By storing there new e-mail address in a temporary field --
         ``temporary_email`` -- we are able to set this e-mail address after the
-        user has verified it by clicking on the verification URI in the
-        verification e-mail. This e-mail get's send by
-        ``send_verification_email``.
+        user has verified it by clicking on the activation URI in the
+        activation e-mail. This e-mail get's send by
+        ``send_activation_email``.
 
         """
         # Email is temporary until verified
         self.temporary_email = email
 
-        # New verification key
+        # New activation key
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
-        self.verification_key = sha_constructor(salt+self.user.username).hexdigest()
-        self.verification_key_created = datetime.datetime.now()
+        self.activation_key = sha_constructor(salt+self.user.username).hexdigest()
+        self.activation_key_created = datetime.datetime.now()
 
-        # Send email for verification
-        self.send_verification_email(new_email=True)
+        # Send email for activation
+        self.send_activation_email(new_email=True)
         self.save()
 
     @property
-    def get_verification_url(self):
-        """ Simplify it to get the verification URI """
+    def get_activation_url(self):
+        """ Simplify it to get the activation URI """
         site = Site.objects.get_current()
-        path = reverse('userena_verify',
-                       kwargs={'verification_key': self.verification_key})
+        path = reverse('userena_activate',
+                       kwargs={'activation_key': self.activation_key})
         return 'http://%(domain)s%(path)s' % {'domain': site.domain,
                                               'path': path}
 
-    def verification_key_expired(self):
+    def activation_key_expired(self):
         """
-        Returns ``True`` when the ``verification_key`` of the account is
+        Returns ``True`` when the ``activation_key`` of the account is
         expired and ``False`` if the key is still valid.
 
         The key is either expired when the key is set to the value defined in
-        ``USERENA_VERIFIED`` or ``verification_key_created`` is beyond the
-        amount of days defined in ``USERENA_VERIFICATION_DAYS``.
+        ``USERENA_ACTIVATED`` or ``activation_key_created`` is beyond the
+        amount of days defined in ``USERENA_ACTIVATION_DAYS``.
 
         """
-        expiration_days = datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS)
-        if self.verification_key == userena_settings.USERENA_VERIFIED:
+        expiration_days = datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS)
+        if self.activation_key == userena_settings.USERENA_ACTIVATED:
             return True
-        if datetime.datetime.now() >= self.verification_key_created + expiration_days:
+        if datetime.datetime.now() >= self.activation_key_created + expiration_days:
             return True
         return False
 
-    def verification_key_almost_expired(self):
+    def activation_key_almost_expired(self):
         """
-        Returns ``True`` when the ``verification_key`` is almost expired.
+        Returns ``True`` when the ``activation_key`` is almost expired.
 
         A key is almost expired when the there are less than
-        ``USERENA_VERIFICATION_NOTIFY_DAYS`` days left before expiration.
+        ``USERENA_ACTIVATION_NOTIFY_DAYS`` days left before expiration.
 
         """
-        notification_days = datetime.timedelta(days=(userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS))
-        if datetime.datetime.now() >= self.verification_key_created + notification_days:
+        notification_days = datetime.timedelta(days=(userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS))
+        if datetime.datetime.now() >= self.activation_key_created + notification_days:
             return True
         return False
 
-    def send_verification_email(self, new_email=False):
+    def send_activation_email(self):
         """
-        Sends a verification e-mail to the user.
+        Sends a activation e-mail to the user.
 
-        This e-mail is either when the user wants to verify his newly created
-        account or when the user changed their e-mail address.
-
-        If ``new_email`` is set to ``True`` than the user will get an
-        verification email address to his ``temporary_email`` address. This way
-        they can verify their new e-mail address.
+        This e-mail is send when the user wants to activate their newly created
+        account.
 
         """
         # Which templates to use, either for a new account, or for a e-mail
         # address change.
-        new_account_templates = ['userena/emails/verification_email_subject.txt',
-                                 'userena/emails/verification_email_message.txt']
-        new_email_templates = ['userena/emails/verification_new_email_subject.txt',
-                               'userena/emails/verification_new_email_message.txt']
-        templates = new_email_templates if new_email else new_account_templates
-
         context= {'account': self,
-                  'verification_days': userena_settings.USERENA_VERIFICATION_DAYS,
+                  'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string(templates[0], context)
+        subject = render_to_string('userena/emails/activation_email_subject.txt', context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string(templates[1], context)
+        message = render_to_string('userena/emails/activation_email_subject.txt', context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.temporary_email if new_email else self.user.email,])
+                  [self.user.email,])
 
     def send_expiry_notification(self):
         """
         Notify the user that his account is about to expire.
 
         Sends an e-mail to the user telling them that their account is
-        ``USERENA_VERIFICATION_NOTIFY_DAYS`` away before expiring.
+        ``USERENA_ACTIVATION_NOTIFY_DAYS`` away before expiring.
 
         """
         context = {'account': self,
-                   'days_left': userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS,
+                   'days_left': userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS,
                    'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/verification_notify_subject.txt',
+        subject = render_to_string('userena/emails/activation_notify_subject.txt',
                                    context)
         subject = ''.join(subject.splitlines())
-        message = render_to_string('userena/emails/verification_notify_message.txt',
+
+        message = render_to_string('userena/emails/activation_notify_message.txt',
                                    context)
+
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
-        self.verification_notification_send = True
+        self.activation_notification_send = True
         self.save()
 
     def get_mugshot_url(self):

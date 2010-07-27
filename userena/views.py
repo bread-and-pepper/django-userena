@@ -14,11 +14,11 @@ from userena import settings as userena_settings
 from userena import UserenaAuthenticationBackend
 
 @secure_required
-def verify(request, verification_key, template_name='userena/verification.html'):
-    """ Verify an account through an verification key """
-    account = Account.objects.verify_account(verification_key)
+def activate(request, activation_key, template_name='userena/activation.html'):
+    """ Activate a user through an activation key """
+    account = Account.objects.activate_user(activation_key)
     if account:
-        return redirect(reverse('userena_verification_complete'))
+        return redirect(reverse('userena_activation_complete'))
     else:
         return direct_to_template(request,
                                   template_name)
@@ -68,7 +68,7 @@ def signup(request, template_name='userena/signup_form.html'):
                                          form.cleaned_data['email'],
                                          form.cleaned_data['password1'])
             # Create new user
-            new_account = Account.objects.create_user(username, email, password)
+            new_account = Account.objects.create_inactive_user(username, email, password)
 
             # Login the user
             new_user = authenticate(username=username,

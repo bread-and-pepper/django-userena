@@ -43,28 +43,28 @@ class AccountModelTests(TestCase):
         # Account should be created when a user has no account
         self.assertEqual(type(user_without_account.account), Account)
 
-    def test_create_user(self):
+    def test_create_inactive_user(self):
         """
         Test the creation of a new user.
 
-        ``Account.create_user`` should create a new user that is set to active.
+        ``Account.create_inactive_user`` should create a new user that is set to active.
         It should also create a new account for this user.
 
         """
-        new_user = Account.objects.create_user(**self.user_info)
+        new_user = Account.objects.create_inactive_user(**self.user_info)
         self.assertEqual(new_user.username, self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
-        self.failUnless(new_user.is_active)
+        self.failIf(new_user.is_active)
         self.failUnlessEqual(Account.objects.filter(user__email=self.user_info['email']).count(), 1)
 
-    def test_verification_email(self):
+    def test_activation_email(self):
         """
-        When a new account is created, a verification e-mail should be send out
-        by ``Account.send_verification_email``.
+        When a new account is created, a activation e-mail should be send out
+        by ``Account.send_activation_email``.
 
         """
-        new_user = Account.objects.create_user(**self.user_info)
+        new_user = Account.objects.create_inactive_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
@@ -73,111 +73,113 @@ class AccountModelTests(TestCase):
         Test the creation of a new account.
 
         ``Account.objects.create_account`` should create a new account for this user.
-        The user is not verified yet therefore should get an e-mail which
-        contains the ``verification_key``.
+        The user is not activied yet therefore should get an e-mail which
+        contains the ``activation_key``.
 
         """
-        new_user = User.objects.create_user(**self.user_info)
-        new_account = Account.objects.create_account(new_user)
+        new_user = Account.objects.create_inactive_user(**self.user_info)
 
-        self.assertEqual(Account.objects.filter(user__email=self.user_info['email']).count(), 1)
-        self.assertEqual(new_account.user.id, new_user.id)
-        self.failUnless(re.match('^[a-f0-9]{40}$', new_account.verification_key))
+        account = Account.objects.get(user__email=self.user_info['email'])
+
+        self.assertEqual(account.user.email, self.user_info['email'])
+        self.assertEqual(new_user.account.user.id, new_user.id)
+        self.failUnless(re.match('^[a-f0-9]{40}$', account.activation_key))
 
     def test_expired_account(self):
         """
-        ``Account.verification_key_expired()`` is ``True`` when the
-        ``verification_key_created`` is more days ago than defined in
-        ``USERENA_VERIFICATION_DAYS``.
+        ``Account.activation_key_expired()`` is ``True`` when the
+        ``activation_key_created`` is more days ago than defined in
+        ``USERENA_ACTIVATION_DAYS``.
 
         """
-        account = Account.objects.create_user(**self.user_info).account
-        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
+        account = Account.objects.create_inactive_user(**self.user_info).account
+        account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         account.save()
 
         account = Account.objects.get(user__username='alice')
-        self.failUnless(account.verification_key_expired())
+        self.failUnless(account.activation_key_expired())
 
     def test_unexpired_account(self):
         """
-        ``Account.verification_key_expired()`` is ``False`` when the
-        ``verification_key_created`` is within the defined timeframe.``
+        ``Account.activation_key_expired()`` is ``False`` when the
+        ``activation_key_created`` is within the defined timeframe.``
 
         """
-        account = Account.objects.create_user(**self.user_info).account
-        self.failIf(account.verification_key_expired())
+        account = Account.objects.create_inactive_user(**self.user_info).account
+        self.failIf(account.activation_key_expired())
 
-    def test_get_verification_url(self):
+    def test_get_activation_url(self):
         """
         Test the verification URL that is created by
-        ``Account.get_verification_url``.
+        ``Account.get_activation_url``.
 
         """
-        account = Account.objects.create_user(**self.user_info).account
+        account = Account.objects.create_inactive_user(**self.user_info).account
         site = Site.objects.get_current()
 
-        verification_url = 'http://%(domain)s%(path)s' % {'domain': site.domain,
-                                                          'path': reverse('userena_verify',
-                                                                           kwargs={'verification_key': account.verification_key})}
-        self.failUnlessEqual(account.get_verification_url, verification_url)
+        activation_url = 'http://%(domain)s%(path)s' % {'domain': site.domain,
+                                                        'path': reverse('userena_activate',
+                                                                        kwargs={'activation_key': account.activation_key})}
+        self.failUnlessEqual(account.get_activation_url, activation_url)
 
-    def test_verification_valid(self):
+    def test_activation_valid(self):
         """
-        Verification of the account with a valid ``verification_key`` should
-        verify the account and set a new invalid ``verification_key`` that is
-        defined in the setting ``USERENA_VERIFIED``.
+
+        Activation of the user with a valid ``activation_key`` should
+        activate the user and set a new invalid ``activation_key`` that is
+        defined in the setting ``USERENA_ACTIVIED``.
 
         """
-        account = Account.objects.create_user(**self.user_info).account
-        verified_account = Account.objects.verify_account(account.verification_key)
+        account = Account.objects.create_inactive_user(**self.user_info).account
+        active_account = Account.objects.activate_user(account.activation_key)
 
         # The returned account should be the same as the one just created.
-        self.failUnlessEqual(account, verified_account)
+        self.failUnlessEqual(account, active_account)
 
-        # The account should now be verified.
-        self.failUnless(verified_account.is_verified)
+        # The user should now be active.
+        self.failUnless(active_account.user.is_active)
 
-        # The verification key should be the same as in the settings
-        self.assertEqual(verified_account.verification_key, userena_settings.USERENA_VERIFIED)
+        # The activation key should be the same as in the settings
+        self.assertEqual(active_account.activation_key, userena_settings.USERENA_ACTIVATED)
 
-    def test_verification_invalid(self):
+    def test_activatation_invalid(self):
         """
-        Verification with a key that's invalid should make
-        ``Account.objects.verify_account`` return ``False``.
-
-        """
-        self.failIf(Account.objects.verify_account('wrong_key'))
-
-    def test_verification_expired(self):
-        """
-        Verification with a key that's expired should also make
-        ``Account.objects.verify_account`` return ``False``.
+        Activation with a key that's invalid should make
+        ``Account.objects.activate_user`` return ``False``.
 
         """
-        account = Account.objects.create_user(**self.user_info).account
+        self.failIf(Account.objects.activate_user('wrong_key'))
+
+    def test_activation_expired(self):
+        """
+        Activation with a key that's expired should also make
+        ``Account.objects.activation_account`` return ``False``.
+
+        """
+        account = Account.objects.create_inactive_user(**self.user_info).account
 
         # Set the date that the key is created a day further away than allowed
-        account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
+        account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         account.save()
 
         # Try to verify the account
-        Account.objects.verify_account(account.verification_key)
+        Account.objects.activate_user(account.activation_key)
 
-        verified_account = Account.objects.get(user__username='alice')
+        active_account = Account.objects.get(user__username='alice')
 
-        # Account verification should have failed
-        self.failIf(verified_account.is_verified)
+        # Account activation should have failed
+        self.failIf(active_account.user.is_active)
 
-        # The verification key should still be a hash
-        self.assertEqual(account.verification_key, verified_account.verification_key)
+        # The activation key should still be a hash
+        self.assertEqual(account.activation_key, active_account.activation_key)
 
     def test_delete_expired_users(self):
         """
         Test if expired users are deleted from the database.
 
         """
-        expired_account = Account.objects.create_user(**self.user_info).account
-        expired_account.verification_key_created -= datetime.timedelta(days=userena_settings.USERENA_VERIFICATION_DAYS + 1)
+        expired_account = Account.objects.create_inactive_user(**self.user_info).account
+        expired_account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         expired_account.save()
 
         deleted_users = Account.objects.delete_expired_users()
@@ -187,24 +189,23 @@ class AccountModelTests(TestCase):
     def test_notification_expired_users(self):
         """
         Test if the notification is send out to people if there account is
-        ``USERENA_VERIFICATION_NOTIFY_DAYS`` away from being deactivated.
+        ``USERENA_ACTIVATION_NOTIFY_DAYS`` away from being deactivated.
 
         """
-        account = Account.objects.create_user(**self.user_info).account
-        window = userena_settings.USERENA_VERIFICATION_DAYS - userena_settings.USERENA_VERIFICATION_NOTIFY_DAYS
-        account.verification_key_created -= datetime.timedelta(days=window)
+        account = Account.objects.create_inactive_user(**self.user_info).account
+        window = userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS
+        account.activation_key_created -= datetime.timedelta(days=window)
         account.save()
 
+        # Send out notifications
         notifications = Account.objects.notify_almost_expired()
 
-        # Check if verification e-mail get's registered as send out.
         account = Account.objects.get(user__username=self.user_info['username'])
-        self.failUnless(account.verification_notification_send)
-        # Two e-mails have been send out, 1 registration, 1 notification
+        # Two e-mails have been send out, 1 activation, 1 notification
         self.failUnlessEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
         # Account should now be set as notified
-        self.failUnless(account.verification_notification_send)
+        self.failUnless(account.activation_notification_send)
 
         # There should be no more notifications
         self.failUnlessEqual(len(Account.objects.notify_almost_expired()), 0)
@@ -215,35 +216,11 @@ class AccountModelTests(TestCase):
         still needs to be verified.
 
         """
-        account = Account.objects.get(user__email__iexact='john@example.com')
-
-        # Let's change john's e-mail address.
-        account.change_email('john@newexample.com')
-
-        # ``Account.temporary_email`` should be set to the new e-mail address.
-        self.failUnlessEqual(account.temporary_email, 'john@newexample.com')
-
-        # There shoulde be a new verification key
-        self.failIfEqual(account.verification_key,
-                         userena_settings.USERENA_VERIFIED)
-        # Check that the e-mail is send out
-        self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, ['john@newexample.com'])
-
+        pass
 
     def test_valid_change_email(self):
         """ Test a valid verification of a new e-mail """
-        account = Account.objects.get(user__email__iexact='john@example.com')
-        account.change_email('john@newexample.com')
-
-        # Verify the email change
-        verified_account = Account.objects.verify_account(account.verification_key)
-        self.failUnlessEqual(account, verified_account)
-
-        self.failUnlessEqual(verified_account.user.email, 'john@newexample.com')
-        self.failUnlessEqual(verified_account.temporary_email, '')
-        self.failUnlessEqual(verified_account.verification_key, userena_settings.USERENA_VERIFIED)
-
+        pass
 
     def test_get_mugshot_url_without_gravatar(self):
         """
