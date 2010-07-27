@@ -2,7 +2,8 @@
 *.egg
 
 # Documentation
-docs/_build/
+_build
+build
 
 # Virtual environment
 bin/
