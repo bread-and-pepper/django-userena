@@ -10,8 +10,8 @@ from django.http import Http404
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
 from userena.models import Account
 from userena.decorators import secure_required
+from userena.backends import UserenaAuthenticationBackend
 from userena import settings as userena_settings
-from userena import UserenaAuthenticationBackend
 
 @secure_required
 def activate(request, activation_key, template_name='userena/activation.html'):

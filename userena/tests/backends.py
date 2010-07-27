@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
-from userena import UserenaAuthenticationBackend
+from userena.backends import UserenaAuthenticationBackend
 
 class UserenaAuthenticationBackendTests(TestCase):
     """
