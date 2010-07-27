@@ -50,6 +50,13 @@ Contents
    faq
    todo
 
+**API**
+
+.. toctree::
+   :maxdepth: 2
+
+   api/index
+
 Indices and tables
 ==================
 
