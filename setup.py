@@ -24,6 +24,7 @@ setup(name='django-userena',
       url='http://github.com/wunki/django-userena',
       download_url='http://github.com/wunki/django-userenity/downloads',
       packages = find_packages(),
+      include_package_data=True,
       install_requires = [
         'Django>=1.2.1',
         'python-dateutil>=1.5',
