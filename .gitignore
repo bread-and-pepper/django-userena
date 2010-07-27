@@ -15,6 +15,9 @@ certs/
 logs/
 pip-log.txt
 
+# Testing
+.coverage
+
 # Demo project
 demo_project/demo_project.db
 demo_project/settings_production.py

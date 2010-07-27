@@ -16,10 +16,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'demo_project.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'TEST_NAME': ':memory:',
     }
 }
 
@@ -84,3 +81,6 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = '/accounts/me/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+
+# Test settings
+TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'

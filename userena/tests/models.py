@@ -21,7 +21,9 @@ class AccountModelTests(TestCase):
     def test_get_absolute_url(self):
         """ Test if the ``get_absolute_url`` function returns the proper URI """
         account = Account.objects.get(pk=1)
-        self.failUnlessEqual(account.get_absolute_url(), reverse('userena_me'))
+        self.failUnlessEqual(account.get_absolute_url(),
+                             reverse('userena_detail',
+                                     kwargs={'username': account.user.username}))
 
     def test_age_property(self):
         """ Test if the ``user.age`` returns the correct age. """

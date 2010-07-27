@@ -183,7 +183,7 @@ class BaseAccount(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('userena_me', ())
+        return ('userena_detail', (), {'username': self.user.username})
 
     @property
     def activity(self):

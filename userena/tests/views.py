@@ -101,14 +101,14 @@ class AccountViewsTests(TestCase):
                              reverse('userena_disabled'))
 
     def test_signin_view_succes(self):
-        """ A ``POST`` to the signin view should redirect the user. """
+        """
+        A valid ``POST`` to the signin view should redirect the user to it's
+        own account page
+
+        """
         response = self.client.post(reverse('userena_signin'),
                                     data={'identification': 'john@example.com',
                                           'password': 'blowfish'})
-
-        # Check for redirect
-        self.assertRedirects(response,
-                             settings.LOGIN_REDIRECT_URL)
 
     def test_signout_view(self):
         """ A ``GET`` to the signout view """
@@ -146,33 +146,20 @@ class AccountViewsTests(TestCase):
         self.assertTemplateUsed(response,
                                 'userena/activation.html')
 
-    def test_profile_view(self):
-        """ A ``GET`` to a profile page. """
-        response = self.client.get(reverse('userena_me'))
-
-        # Anonymous user should not be able to view the profile page
-        self.assertRedirects(response,
-                             reverse('userena_signin') + '?next=' + reverse('userena_me'))
-
-        # John should
-        self.client.login(username='john', password='blowfish')
-        response = self.client.get(reverse('userena_me'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                                'userena/me.html')
-
     def test_change_email_view(self):
         """ A ``GET`` to the change e-mail view. """
-        response = self.client.get(reverse('userena_email_change'))
+        response = self.client.get(reverse('userena_email_change',
+                                           kwargs={'username': 'john'}))
 
         # Anonymous user should not be able to view the profile page
         self.assertRedirects(response,
-                             reverse('userena_signin') + '?next=' + reverse('userena_email_change'))
+                             reverse('userena_signin') + '?next=' + reverse('userena_email_change',
+                                                                            kwargs={'username': 'john'}))
 
         # Login
         self.client.login(username='john', password='blowfish')
-        response = self.client.get(reverse('userena_email_change'))
+        response = self.client.get(reverse('userena_email_change',
+                                           kwargs={'username': 'john'}))
 
         self.assertEqual(response.status_code, 200)
 
@@ -181,11 +168,12 @@ class AccountViewsTests(TestCase):
                                    forms.ChangeEmailForm))
 
         self.assertTemplateUsed(response,
-                                'userena/me_email_form.html')
+                                'userena/email_form.html')
 
     def test_change_valid_email_view(self):
         """ A ``POST`` with a valid e-mail address """
-        response = self.client.post(reverse('userena_email_change'),
+        response = self.client.post(reverse('userena_email_change',
+                                            kwargs={'username': 'john'}),
                                     data={'email': 'jane@example.com'})
 
     def test_detail_view(self):
