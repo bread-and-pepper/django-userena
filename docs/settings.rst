@@ -10,24 +10,24 @@ Userena.
 Userena settings
 ----------------
 
-USERENA_VERIFICATION_DAYS
+USERENA_ACTIVATION_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``7`` (integer)
 
-A integer which stands for the amount of days a user has to verify their
-account. The user will be deleted when they still haven't verified their
+A integer which stands for the amount of days a user has to activate their
+account. The user will be deleted when they still haven't activated their
 account after these amount of days by running the ``cleanexpired``
 :ref:`command <commands>`.
 
-USERENA_VERIFICATION_NOTIFY
+USERENA_ACTIVATION_NOTIFY
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
 A boolean that turns on/of the sending of a notification when
-``USERENA_VERIFICATION_NOTIFY_DAYS`` away the verification of the user will
+``USERENA_ACTIVATION_NOTIFY_DAYS`` away the activation of the user will
 expire and the user will be deleted.
 
-USERENA_VERIFICATION_NOTIFY_DAYS
+USERENA_ACTIVATION_NOTIFY_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``2`` (integer)
 
@@ -38,7 +38,7 @@ USERENA_VERIFIED
 ~~~~~~~~~~~~~~~~
 Default: ``ALREADY_VERIFIED`` (string)
 
-This value will be inserted into ``Account.verification_key`` if a key gets
+This value will be inserted into ``Account.activation_key`` if a key gets
 used successfully.
 
 USERENA_REMEMBER_ME_DAYS
@@ -52,7 +52,7 @@ amount of days that this string represents.
 
 USERENA_FORBIDDEN_USERNAMES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Default: ``('signup', 'signout', 'signin', 'verify', 'me', 'password')`` (tuple)
+Default: ``('signup', 'signout', 'signin', 'activate', 'me', 'password')`` (tuple)
 
 A tuple containing the names which cannot be used as username in the signup
 form.

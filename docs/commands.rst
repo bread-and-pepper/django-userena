@@ -10,7 +10,7 @@ Clean expired
 --------------
 
 Search for users that still haven't verified their e-mail address after
-``USERENA_VERIFICATION_DAYS`` and delete them. Run by ::
+``USERENA_ACTIVATION_DAYS`` and delete them. Run by ::
 
     ./manage.py cleanexpired
 
