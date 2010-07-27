@@ -20,6 +20,13 @@ class SignupFormTests(TestCase):
                       'password2': 'foo',
                       'tos': 'on'},
              'error': ('username', [u'Username must contain only letters, numbers and underscores.'])},
+            # Password is not the same
+            {'data': {'username': 'katy',
+                      'email': 'katy@newexample.com',
+                      'password1': 'foo',
+                      'password2': 'foo2',
+                      'tos': 'on'},
+             'error': ('__all__', [u'The two password fields didn\'t match.'])},
 
             # Already taken username
             {'data': {'username': 'john',
@@ -119,3 +126,7 @@ class ChangeEmailFormTests(TestCase):
         form = forms.ChangeEmailForm(user,
                                      data={'email': 'john@newexample.com'})
         self.failUnless(form.is_valid())
+
+    def test_form_init(self):
+        """ The form must be initialized with a ``User`` instance. """
+        self.assertRaises(TypeError, forms.ChangeEmailForm, None)
