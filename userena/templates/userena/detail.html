@@ -2,8 +2,35 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans 'Account of' %} {{ account.user.username }}</h1>
-{% if user.can_edit_account %}
-BLAAA
-{% endif %}
+
+<div class="white-box">
+    <h2>{{ account.user.username }} {% if account.user.get_full_name %}({{ account.user.get_full_name }}){% endif %}</h2>
+    {{ account.filled_in_fields }}
+    <div id="details">
+    <img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+    {% if account.user.get_full_name %}
+    <p><b>{% trans "Name" %}:</b> {{ account.user.get_full_name }}</p>
+    {% endif %}
+    {% if account.user.email %}
+    <p><b>{% trans "Email" %}:</b> {{ account.user.email }}</p>
+    {% endif %}
+    {% if account.age != 0 %}
+    <p><b>{% trans "Age" %}:</b> {{ account.age }}</p>
+    {% endif %}
+    {% if account.website %}
+    <p><b>{% trans "Website" %}:</b> {{ account.website }}</p>
+    {% endif %}
+    {% if account.location %}
+    <p><b>{% trans "Location" %}:</b> {{ account.location }}</p>
+    {% endif %}
+    {% if account.about_me %}
+    <p><b>{% trans "About me" %}:</b> {{ account.about_me }}</p>
+    {% endif %}
+    </div>
+    <ul>
+        <li><a href="{% url userena_email_change account.user.username %}">{% trans "Edit details" %} &raquo;</a></li>
+        <li><a href="{% url userena_password_change account.user.username %}">{% trans "Change password" %} &raquo;</a></li>
+        <li><a href="{% url userena_email_change account.user.username %}">{% trans "Change email" %} &raquo;</a></li>
+    </ul>
+</div>
 {% endblock %}
