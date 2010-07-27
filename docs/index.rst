@@ -11,10 +11,10 @@ Django application that takes care off all your account needs. These were
 selected by looking at web applications and picking those that every modern web
 application needs. A few examples of these are the following: 
 
-* After signup a user get's a verification email. A user can make use of the
-  application ``USERENA_VERIFICATION_DAYS`` days before having to verify their
+* After signup a user get's a activation email. A user can make use of the
+  application ``USERENA_ACTIVATION_DAYS`` days before having to activate their
   account.  The user also get's a notification if their account is still not
-  verified ``USERENA_VERIFICATION_NOTIFY_DAYS`` days before the verification
+  activated ``USERENA_ACTIVATION_NOTIFY_DAYS`` days before the activation
   key get's invalid.
 
 * A user can signin with their e-mail address or username (as seen at Github).
