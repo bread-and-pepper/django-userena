@@ -15,4 +15,10 @@ def secure_required(view_func):
                 secure_url = request_url.replace('http://', 'https://')
                 return HttpResponsePermanentRedirect(secure_url)
         return view_func(request, *args, **kwargs)
+
+    # If we still want documentation for Sphinx
+    _wrapped_view_func.__name__ = view_func.__name__
+    _wrapped_view_func.__dict__ = view_func.__dict__
+    _wrapped_view_func.__doc__ = view_func.__doc__
+
     return _wrapped_view_func

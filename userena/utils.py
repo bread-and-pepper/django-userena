@@ -56,7 +56,7 @@ def signin_redirect(redirect=None, user=None):
     Django ``LOGIN_REDIRECT_URL`` setting. Returns a string defining the URI to
     go next.
 
-    ** Keyword Arguments **
+    **Keyword Arguments**
 
     ``redirect``
         A value normally supplied by ``next`` form field. Get's preference

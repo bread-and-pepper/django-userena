@@ -7,12 +7,6 @@ Models
 
 Return to :ref:`api`.
 
-AccountManager
---------------
-
-.. autoclass:: userena.models.AccountManager
-   :members:
-
 BaseAccount
 -----------
 
