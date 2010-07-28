@@ -83,8 +83,11 @@ class AccountManager(models.Manager):
             except self.Model.DoesNotExist:
                 return False
             if not account.activation_key_expired():
+                user = account.user
+                user.is_active = True
+                user.save()
+
                 account.activation_key = userena_settings.USERENA_ACTIVATED
-                account.user.is_active=True
                 account.save()
                 return account
         return False
@@ -281,7 +284,7 @@ class BaseAccount(models.Model):
         subject = render_to_string('userena/emails/activation_email_subject.txt', context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/activation_email_subject.txt', context)
+        message = render_to_string('userena/emails/activation_email_message.txt', context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,

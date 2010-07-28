@@ -1,6 +1,7 @@
 {% extends 'userena/base_userena.html' %}
+{% load i18n %}
 
 {% block content %}
-<h1>Success!</h1>
-<p>Your e-mail address has been verified.</p>
+<h1>{% trans 'Success!' %}</h1>
+<p>{% trans 'Your account has been activated.' %}</p>
 {% endblock %}

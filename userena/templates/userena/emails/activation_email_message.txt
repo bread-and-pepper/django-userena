@@ -1,10 +1,10 @@
 Dear {{ account.user.username }},
 
-thank you for signing up at {{ site.name }}.
+Thank you for signing up at {{ site.name }}.
 
 To verify your account you should click on the link below:
 
-{{ account.get_verification_url }}
+{{ account.get_activation_url }}
 
 Sincerely,
 {{ site.name }}

@@ -32,8 +32,6 @@ def signin(request, template_name='userena/signin_form.html',
 
     """
     form = AuthenticationForm()
-    redirect_to = request.REQUEST.get(redirect_field_name,
-                                      settings.LOGIN_REDIRECT_URL)
 
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -48,6 +46,10 @@ def signin(request, template_name='userena/signin_form.html',
                 if remember_me:
                     request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
                 else: request.session.set_expiry(0)
+
+                # Redirect to requested page
+                redirect_to = request.REQUEST.get(redirect_field_name,
+                                                  userena_settings.USERENA_SIGNIN_REDIRECT_URL % {'username': user.username})
                 return redirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled'))

@@ -27,10 +27,13 @@
     <p><b>{% trans "About me" %}:</b> {{ account.about_me }}</p>
     {% endif %}
     </div>
+    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+    {% if user.username == account.user.username %}
     <ul>
         <li><a href="{% url userena_email_change account.user.username %}">{% trans "Edit details" %} &raquo;</a></li>
         <li><a href="{% url userena_password_change account.user.username %}">{% trans "Change password" %} &raquo;</a></li>
         <li><a href="{% url userena_email_change account.user.username %}">{% trans "Change email" %} &raquo;</a></li>
     </ul>
+    {% endif %}
 </div>
 {% endblock %}

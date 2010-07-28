@@ -81,7 +81,7 @@ INSTALLED_APPS = (
 )
 
 # Settings required for userena
-LOGIN_REDIRECT_URL = '/accounts/me/'
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 

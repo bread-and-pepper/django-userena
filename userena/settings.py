@@ -2,6 +2,11 @@ from django.conf import settings
 
 gettext = lambda s: s
 
+# Signin redirect URL to Userena
+USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
+                                      'USERENA_SIGNIN_REDIRECT_URL',
+                                      '/accounts/%(username)s')
+
 # How long do people have to verify their account.
 USERENA_ACTIVATION_DAYS = getattr(settings,
                                   'USERENA_ACTIVATION_DAYS',
