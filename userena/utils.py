@@ -45,3 +45,11 @@ def get_gravatar(email, size=80, default='identicon'):
     gravatar_url += urllib.urlencode({'s': str(size),
                                       'd': default})
     return gravatar_url
+
+def signin_redirect(requested_redirect, user):
+    """ Redirect a user to a page of your liking. """
+    if requested_redirect:
+        return requested_redirect
+    else:
+        return userena_settings.USERENA_SIGNIN_REDIRECT_URL % \
+                {'username': user.username}
