@@ -29,7 +29,7 @@ if DEBUG:
     EMAIL_PORT = 1025
 
 TIME_ZONE = 'America/Chicago'
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'nl-nl'
 
 SITE_ID = 1
 

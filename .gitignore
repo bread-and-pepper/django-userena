@@ -1,6 +1,6 @@
 # Setup.py
 *.egg
-
+*egg-info
 # Documentation
 _build
 build

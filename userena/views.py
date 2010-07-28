@@ -123,7 +123,7 @@ def email_change(request, username, template_name='userena/email_form.html'):
                               template_name,
                               extra_context={'form': form})
 
-def detail(request, username, template_name='userena/detail.html'):
+def detail(request, username, template_name='userena/detail.html', edit=False):
     """ View the account of others. """
     account = get_object_or_404(Account,
                                 user__username__iexact=username)
