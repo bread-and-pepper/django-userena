@@ -1,12 +1,16 @@
 from django.test import TestCase
-from userena.utils import get_gravatar
+from django.contrib.auth.models import User
+from django.conf import settings
 
+from userena.utils import get_gravatar, signin_redirect
 from userena import settings as userena_settings
+
 
 import hashlib
 
 class UtilsTests(TestCase):
     """ Test the extra utils methods """
+    fixtures = ['users']
 
     def test_get_gravatar(self):
         template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
@@ -48,3 +52,22 @@ class UtilsTests(TestCase):
 
         # And set back to default
         userena_settings.USERENA_USE_HTTPS = False
+
+    def test_signin_redirect(self):
+        """
+        Test redirect function which should redirect the user after a
+        succesfull signin.
+
+        """
+        # Test with a requested redirect
+        self.failUnlessEqual(signin_redirect(redirect='/accounts/'), '/accounts/')
+
+        # Test with only the user specified
+        settings.REDIRECT_URL = '/acounts/%(username)s/'
+        user = User.objects.get(pk=1)
+        self.failUnlessEqual(signin_redirect(user=user),
+                             settings.LOGIN_REDIRECT_URL \
+                             % {'username': user.username})
+
+        # The ultimate fallback, probably never used
+        self.failUnlessEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)

@@ -1,6 +1,7 @@
-import urllib, hashlib
-
+from django.conf import settings
 from userena import settings as userena_settings
+
+import urllib, hashlib
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a gravatar for a e-mail address.
@@ -46,10 +47,28 @@ def get_gravatar(email, size=80, default='identicon'):
                                       'd': default})
     return gravatar_url
 
-def signin_redirect(requested_redirect, user):
-    """ Redirect a user to a page of your liking. """
-    if requested_redirect:
-        return requested_redirect
-    else:
-        return userena_settings.USERENA_SIGNIN_REDIRECT_URL % \
+def signin_redirect(redirect=None, user=None):
+    """
+    Redirect user after successfull signin.
+
+    First looks for a ``requested_redirect``. If not supplied will fallback to
+    the user specific account page. If all fails, will fallback to the standard
+    Django ``LOGIN_REDIRECT_URL`` setting. Returns a string defining the URI to
+    go next.
+
+    ** Keyword Arguments **
+
+    ``redirect``
+        A value normally supplied by ``next`` form field. Get's preference
+        before the default view which requires the user.
+
+    ``user``
+        A ``User`` object specifying the user who has just signed in.
+
+    """
+    if redirect: return redirect
+    elif user:
+        return settings.LOGIN_REDIRECT_URL % \
                 {'username': user.username}
+    else:
+        return settings.LOGIN_REDIRECT_URL

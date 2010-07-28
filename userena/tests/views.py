@@ -133,7 +133,7 @@ class AccountViewsTests(TestCase):
                              reverse('userena_activation_complete'))
 
         account = Account.objects.get(user__email='alice@example.com')
-        self.failIf(account.user.is_active)
+        self.failUnless(account.user.is_active)
 
     def test_invalid_verification(self):
         """

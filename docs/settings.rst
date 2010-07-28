@@ -10,14 +10,6 @@ Userena.
 Userena settings
 ----------------
 
-USERENA_SIGNIN_REDIRECT_URL
-~~~~~~~~~~~~~~~~~~
-Default: ``/accounts/%(username)s/`` (string)
-
-The URL where requests are redirected after login when the contrib.auth.login
-view gets no next parameter. The redirected URL handles string formatting with
-the dictionary key ``username``. This will get filled in with the ``username``
-of the logged in ``User``.
 
 USERENA_ACTIVATION_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,6 +100,17 @@ Integer defining the size (in pixels) of the sides of the mugshot image.
 
 Django settings
 ---------------
+
+LOGIN_REDIRECT_URL
+~~~~~~~~~~~~~~~~~~
+Default: ``/accounts/profile/`` (string)
+
+The URL where requests are redirected after login when the contrib.auth.login
+view gets no next parameter. The redirected URL handles string formatting with
+the dictionary key ``username``. This will get filled in with the ``username``
+of the logged in ``User``.
+
+In userena this URL normally would be ``/accounts/%(username)s/``.
 
 LOGIN_URL
 ~~~~~~~~~
