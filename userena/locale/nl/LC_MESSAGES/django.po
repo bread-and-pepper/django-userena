@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# django-userena translation file.
+# Copyright (C) 2010
+# This file is distributed under the same license as the django-userena package.
+# Petar Radosevic <petar@breadandpepper.com>, 2010.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-28 16:41+0200\n"
+"POT-Creation-Date: 2010-07-29 12:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,13 +24,14 @@ msgstr "Gebruikersnaam"
 
 #: forms.py:22
 msgid "Username must contain only letters, numbers and underscores."
-msgstr "Gebruikersnaam mag alleen bestaan uit letters, cijfers en liggende streepjes"
+msgstr ""
+"Gebruikersnaam mag alleen bestaan uit letters, cijfers en liggende streepjes"
 
-#: forms.py:25 forms.py:98
+#: forms.py:25 forms.py:97
 msgid "Email address"
 msgstr "E-mailadres"
 
-#: forms.py:27 forms.py:80
+#: forms.py:27 forms.py:79
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -54,107 +55,110 @@ msgstr "Deze gebruikersnaam is al bezet."
 msgid "This username is not allowed."
 msgstr "Deze gebruikersnaam is niet toegestaan."
 
-#: forms.py:55 forms.py:116
+#: forms.py:55 forms.py:115
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
-msgstr "Dit e-mailadres is al in gebruik. Gebruik alsjeblieft een ander "
-"e-mailadres"
+msgstr ""
+"Dit e-mailadres is al in gebruik. Gebruik alsjeblieft een ander e-mailadres"
 
-#: forms.py:68
+#: forms.py:67
 msgid "The two password fields didn't match."
 msgstr "De twee wachtwoorden kwamen niet met elkaar overeen."
 
-#: forms.py:77
+#: forms.py:76
 msgid "Email or username"
 msgstr "E-mail of gebruikersnaam"
 
-#: forms.py:79
+#: forms.py:78
 msgid "Either supply us with your e-mail address or username."
 msgstr "Vul alsjeblieft je e-mailadres of gebruikersnaam in."
 
-#: forms.py:83
+#: forms.py:82
 #, python-format
 msgid "Remember me for %(days)s"
 msgstr "Onthoud wie ik ben voor %(days)s"
 
-#: forms.py:92
+#: forms.py:91
 msgid ""
 "Please enter a correct username or email and password. Note that both fields "
 "are case-sensitive."
-msgstr "Vul een correcte gebruikersnaam of e-mail and wachtwoord in. Beide velden "
+msgstr ""
+"Vul een correcte gebruikersnaam of e-mail and wachtwoord in. Beide velden "
 "zijn hoofdlettergevoelig."
 
-#: forms.py:114
+#: forms.py:113
 msgid "Your already known under this email address."
 msgstr "Je bent reeds bekend onder dit e-mailadres."
 
-#: models.py:142
+#: models.py:44
 msgid "Male"
 msgstr "Man"
 
-#: models.py:143
+#: models.py:45
 msgid "Female"
 msgstr "Vrouw"
 
-#: models.py:146
+#: models.py:48
 msgid "user"
 msgstr "gebruiker"
 
-#: models.py:147
+#: models.py:49
 msgid "mugshot"
 msgstr "foto"
 
-#: models.py:151
+#: models.py:53
 msgid "A personal image displayed in your profile."
 msgstr "Een persoonlijk plaatje wat wordt weergegeven in je profiel."
 
-#: models.py:152
+#: models.py:54
 msgid "gender"
 msgstr "geslacht"
 
-#: models.py:156
+#: models.py:58
 msgid "website"
 msgstr "website"
 
-#: models.py:157
+#: models.py:59
 msgid "location"
 msgstr "lokatie"
 
-#: models.py:158
+#: models.py:60
 msgid "birth date"
 msgstr "geboortedatum"
 
-#: models.py:159
+#: models.py:61
 msgid "about me"
 msgstr "over mij"
 
-#: models.py:164
+#: models.py:66
 msgid "activation key"
 msgstr "activatie sleutel"
 
-#: models.py:166
+#: models.py:68
 msgid "creation date of activation key"
 msgstr "datum van activatie sleutel"
 
-#: models.py:169
+#: models.py:71
 msgid "notification send"
 msgstr "notificatie verzonden"
 
-#: models.py:171
+#: models.py:73
 msgid ""
 "Designates whether this user has already got a notification about activating "
 "their account."
-msgstr "Laat zien of deze gebruiker al een notificatie heeft gekregen over het "
+msgstr ""
+"Laat zien of deze gebruiker al een notificatie heeft gekregen over het "
 "activeren van hun account."
 
-#: models.py:174
+#: models.py:76
 msgid "temporary_email"
 msgstr "tijdelijke email"
 
-#: models.py:176
+#: models.py:78
 msgid "Temporary email address when the user requests an email change."
-msgstr "Tijdelijk e-mailadres wanneer de gebruiker zijn e-mailadres wil wijzigen."
+msgstr ""
+"Tijdelijk e-mailadres wanneer de gebruiker zijn e-mailadres wil wijzigen."
 
 #: settings.py:36
 msgid "a month"
@@ -168,70 +172,102 @@ msgstr "Succes!"
 msgid "Your account has been activated."
 msgstr "Je account is geactiveerd."
 
-#: templates/userena/detail.html:10 templates/userena/me.html:10
-msgid "Your mugshot"
-msgstr "Jouw hoofdfoto"
+#: templates/userena/activation_fail.html:4
+msgid "Account activation failed."
+msgstr "Account activeren mislukt."
 
-#: templates/userena/detail.html:12 templates/userena/me.html:12
+#: templates/userena/activation_fail.html:5
+msgid "Your account could not be activated.."
+msgstr "Je account is geactiveerd."
+
+#: templates/userena/activation_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr ""
+"Je account kon niet geactiveerd worden. Dit kan gebeurd zijn omdat de "
+"activatie link niet meer geldig is."
+
+#: templates/userena/activation_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr ""
+"Probeer nogmaals te registreren, of neem contact met ons op als je denkt dat "
+"er iets verkeerd is gegaan."
+
+#: templates/userena/detail.html:10
+msgid "Your mugshot"
+msgstr "Jouw foto"
+
+#: templates/userena/detail.html:12
 msgid "Name"
 msgstr "Naam"
 
-#: templates/userena/detail.html:15 templates/userena/me.html:15
+#: templates/userena/detail.html:15
 msgid "Email"
 msgstr "E-mail"
 
-#: templates/userena/detail.html:18 templates/userena/me.html:18
+#: templates/userena/detail.html:18
 msgid "Age"
 msgstr "Leeftijd"
 
-#: templates/userena/detail.html:21 templates/userena/me.html:21
+#: templates/userena/detail.html:21
 msgid "Website"
 msgstr "Webpagina"
 
-#: templates/userena/detail.html:24 templates/userena/me.html:24
+#: templates/userena/detail.html:24
 msgid "Location"
 msgstr "Lokatie"
 
-#: templates/userena/detail.html:27 templates/userena/me.html:27
+#: templates/userena/detail.html:27
 msgid "About me"
 msgstr "Over mij"
 
-#: templates/userena/detail.html:33 templates/userena/me.html:31
+#: templates/userena/detail.html:33
 msgid "Edit details"
 msgstr "Wijzig details"
 
-#: templates/userena/detail.html:34 templates/userena/me.html:32
+#: templates/userena/detail.html:34
 msgid "Change password"
 msgstr "Wijzig wachtwoord"
 
-#: templates/userena/detail.html:35 templates/userena/me.html:33
+#: templates/userena/detail.html:35
 msgid "Change email"
 msgstr "Wijzig e-mail"
 
-#: templates/userena/signin_form.html:24
+#: templates/userena/signin_form.html:8 templates/userena/signin_form.html:24
 msgid "Signin"
 msgstr "Inloggen"
 
-#: templates/userena/signup_complete.html:5
-msgid "Signup complete"
-msgstr "Registreren compleet"
+#: templates/userena/signout.html:4
+msgid "You have been signed out"
+msgstr "Je bent uitgelogd"
 
-#: templates/userena/signup_complete.html:6
-msgid "Thank you for signing up with us!"
-msgstr "Bedankt voor het registreren bij ons!"
+#: templates/userena/signout.html:7
+msgid "You have been signed out from userena. Till we meet again."
+msgstr "Je bent uitgelogd bij userena. Tot de volgende keer."
 
-#: templates/userena/signup_complete.html:7
-msgid "You have been send an e-mail with an activation link."
-msgstr "Je hebt een e-mail gekregen die een activate link bevat."
-
-#: templates/userena/signup_complete.html:8
-#, python-format
-msgid ""
-"Just don't forget to activate your account within "
-"%(userena_verification_days)s days."
-msgstr "Vergeet niet je account te activeren binnen "
-"%(userena_verification_days)s dagen."
-
+#: templates/userena/signup_complete.html:4
 #: templates/userena/signup_form.html:23
 msgid "Signup"
 msgstr "Registreren"
+
+#: templates/userena/signup_complete.html:7
+msgid "Thank you for signing up with us!"
+msgstr "Bedankt voor het registreren bij ons!"
+
+#: templates/userena/signup_complete.html:8
+msgid "You have been send an e-mail with an activation link."
+msgstr "Je hebt een e-mail gekregen die een activate link bevat."
+
+#: templates/userena/signup_complete.html:9
+#, fuzzy, python-format
+msgid ""
+"We will delete all your information if you don't active within "
+"%(userena_activation_days)s days."
+msgstr ""
+"Vergeet niet je account te activeren binnen %(userena_activation_days)s "
+"dagen."
+
+#~ msgid "Signup complete"
+#~ msgstr "Registreren compleet"

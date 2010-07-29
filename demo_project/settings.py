@@ -29,7 +29,14 @@ if DEBUG:
     EMAIL_PORT = 1025
 
 TIME_ZONE = 'America/Chicago'
+
 LANGUAGE_CODE = 'en-en'
+
+ugettext = lambda s: s
+LANGUAGES = (
+    ('en', ugettext('English')),
+    ('nl', ugettext('Dutch')),
+)
 
 SITE_ID = 1
 
@@ -53,9 +60,18 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+)
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
 )
 
 AUTHENTICATION_BACKENDS = (

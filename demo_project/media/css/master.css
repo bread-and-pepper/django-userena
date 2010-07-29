@@ -261,8 +261,6 @@ form p.checkbox label {
 	padding: 0 0 0 165px;
 }
 
-
-
 span.label {
 	color: #111;
 	font-weight: bold;
@@ -492,14 +490,54 @@ a#crew:hover{
 #footer p{
 	text-align: right;
 	font-size: 0.8em;
-}    
-    
-    
-    
-    
-    
-    
-    
-    
-       
-    
+}   
+
+/* Ugly hacks by petar */
+div#lang_form {
+    position: absolute;
+    left: 200px;
+    top: 30px;
+}
+
+div#lang_form p {
+    margin: 0;
+    padding: 0 0 0 3px;
+    font-size: small;
+}
+
+div#lang_form form {
+	margin: 0;
+	padding: 0;
+	-moz-border-radius: none;
+	-webkit-border-radius: none;
+	border-radius: none;
+	background-color: transparent;
+	width: auto;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+div#lang_form input[type=submit] {
+    float: right;
+	height: 21px;
+	line-height: 34px;
+	padding: 0 10px;
+	margin: 5px 0 0 10px;
+	min-width: 80px;
+	background-color: none;
+	display: block;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px outset #ce3024;
+	color: #f9f9f9;
+	font-size: 13px;
+	letter-spacing: 1px;
+	font-weight: bold;
+	text-shadow: #5e98bd 0 -1px 0;
+	text-align: center;
+	cursor: pointer;
+	font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif;
+}

@@ -12,7 +12,8 @@ urlpatterns = patterns('',
     url(r'^$',
         direct_to_template,
         {'template': 'static/promo.html'},
-        name='promo')
+        name='promo'),
+    (r'^i18n/', include('django.conf.urls.i18n')),
 )
 
 if settings.DEBUG:
