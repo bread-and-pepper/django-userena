@@ -7,6 +7,7 @@ from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.hashcompat import sha_constructor
 
 from userena.utils import get_gravatar
 from userena.managers import AccountManager
@@ -15,7 +16,7 @@ from userena import settings as userena_settings
 from dateutil.relativedelta import relativedelta
 from easy_thumbnails.fields import ThumbnailerImageField
 
-import datetime
+import datetime, random
 
 def upload_to_mugshot(instance, filename):
     """
@@ -24,7 +25,7 @@ def upload_to_mugshot(instance, filename):
     browse through the mugshot directory.
 
     """
-    extension = filename.split('.')[-1]
+    extension = filename.split('.')[-1].lower()
     salt = sha_constructor(str(random.random())).hexdigest()[:5]
     hash = sha_constructor(salt+str(instance.user.id)).hexdigest()[:10]
     return '%(path)s%(hash)s.%(extension)s' % {'path': userena_settings.USERENA_MUGSHOT_PATH,
@@ -73,7 +74,7 @@ class BaseAccount(models.Model):
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
     # To change their e-mail address, they first have to verify it.
-    temporary_email = models.EmailField(_('temporary_email'),
+    temporary_email = models.EmailField(_('temporary email'),
                                         blank=True,
                                         help_text=_('Temporary email address when the user requests an email change.'))
 

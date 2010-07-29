@@ -169,39 +169,67 @@ def signup(request, signup_form=SignupForm,
 
 @secure_required
 @login_required
-def email_change(request, username, template_name='userena/email_form.html'):
+def email_change(request, username, form=ChangeEmailForm,
+                 template_name='userena/email_form.html', success_url=None,
+                 extra_context={}):
     """
-    Change your e-mail address
+    Change e-mail address
 
     **Arguments**
 
     ``username``
-        The username which selects the current account.
+        The username which specifies the current account.
 
     **Keyword arguments**
 
-    ``template_name``
+    ``form``
+        The form that will be used to change the email address. Defaults to
+        ``ChangeEmailForm`` supplied by userena.
 
+    ``template_name``
+        Template to be used to display the email form. Defaults to
+        ``userena/email_form.html``.
 
     ``success_url``
+        If the form is valid the user will get redirected to ``success_url``.
+        When not suplied will redirect to ``userena_email_complete`` view.
 
+    ``extra_context``
+        Dictionary containing extra variables that can be used to render the
+        template. The ``form`` key is always the form supplied by the keyword
+        argument ``form``.
+
+    **Context**
+
+    ``form``
+        The email change form supplied by ``form``.
+
+    **Todo**
+
+    Need to have per-object permissions, which enables users with the correct
+    permissions to alter the e-mail address of others.
 
     """
+    user = get_object_or_404(User, username__iexact=username)
+    form = ChangeEmailForm(user)
 
-    form = ChangeEmailForm(request.user)
     if request.method == 'POST':
-        form = ChangeEmailForm(request.user,
+        form = ChangeEmailForm(user,
                                data=request.POST)
 
         if form.is_valid():
             new_email = form.cleaned_data['email']
             # Change the e-mail address
-            request.user.account.change_email(new_email)
-            return redirect(reverse('userena_email_complete'))
+            user.account.change_email(new_email)
 
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_email_complete')
+            return redirect(redirect_to)
+
+    extra_context['form'] = form
     return direct_to_template(request,
                               template_name,
-                              extra_context={'form': form})
+                              extra_context=extra_context)
 
 def detail(request, username, template_name='userena/detail.html', edit=False):
     """ View the account of others. """

@@ -1,5 +1,5 @@
 {% load i18n %}{% autoescape off %}
-{% trans "Dear" %}{{ account.user.username }},
+{% trans "Dear" %} {{ account.user.username }},
 
 {% trans "Thank you for signing up at" %} {{ site.name }}.
 
