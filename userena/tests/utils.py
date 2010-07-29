@@ -63,11 +63,9 @@ class UtilsTests(TestCase):
         self.failUnlessEqual(signin_redirect(redirect='/accounts/'), '/accounts/')
 
         # Test with only the user specified
-        settings.REDIRECT_URL = '/acounts/%(username)s/'
         user = User.objects.get(pk=1)
         self.failUnlessEqual(signin_redirect(user=user),
-                             settings.LOGIN_REDIRECT_URL \
-                             % {'username': user.username})
+                             user.get_absolute_url())
 
         # The ultimate fallback, probably never used
         self.failUnlessEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)

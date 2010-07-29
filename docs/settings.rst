@@ -101,17 +101,6 @@ Integer defining the size (in pixels) of the sides of the mugshot image.
 Django settings
 ---------------
 
-LOGIN_REDIRECT_URL
-~~~~~~~~~~~~~~~~~~
-Default: ``/accounts/profile/`` (string)
-
-The URL where requests are redirected after login when the contrib.auth.login
-view gets no next parameter. The redirected URL handles string formatting with
-the dictionary key ``username``. This will get filled in with the ``username``
-of the logged in ``User``.
-
-In userena this URL normally would be ``/accounts/%(username)s/``.
-
 LOGIN_URL
 ~~~~~~~~~
 Default: ``/accounts/login/`` (string)
@@ -119,11 +108,11 @@ Default: ``/accounts/login/`` (string)
 The URL where requests are redirected for login, especially when using the
 login_required() decorator.
 
-In userena this URL normally would be ``/accounts/signin/``.
+In userena this URI normally would be ``/accounts/signin/``.
 
 LOGOUT_URL
 ~~~~~~~~~~
 Default: ``/accounts/logout/`` (string)
 LOGIN_URL counterpart.
 
-In userena this URL normally would be ``/accounts/signout/``.
+In userena this URI normally would be ``/accounts/signout/``.

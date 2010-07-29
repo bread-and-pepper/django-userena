@@ -67,8 +67,5 @@ def signin_redirect(redirect=None, user=None):
 
     """
     if redirect: return redirect
-    elif user:
-        return settings.LOGIN_REDIRECT_URL % \
-                {'username': user.username}
-    else:
-        return settings.LOGIN_REDIRECT_URL
+    elif user: return user.get_absolute_url()
+    else: return settings.LOGIN_REDIRECT_URL
