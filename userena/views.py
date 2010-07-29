@@ -53,6 +53,10 @@ def activate(request, activation_key,
                                     extra_context=extra_context)
 
 @secure_required
+def verify(request, verification_key):
+    pass
+
+@secure_required
 def signin(request, auth_form=AuthenticationForm,
            template_name='userena/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME,
@@ -165,8 +169,6 @@ def signup(request, signup_form=SignupForm,
                               template_name,
                               extra_context=extra_context)
 
-#--------------------TODO BELOW--------------------#
-
 @secure_required
 @login_required
 def email_change(request, username, form=ChangeEmailForm,
@@ -223,7 +225,8 @@ def email_change(request, username, form=ChangeEmailForm,
             user.account.change_email(new_email)
 
             if success_url: redirect_to = success_url
-            else: redirect_to = reverse('userena_email_complete')
+            else: redirect_to = reverse('userena_email_complete',
+                                        kwargs={'username': user.username})
             return redirect(redirect_to)
 
     extra_context['form'] = form

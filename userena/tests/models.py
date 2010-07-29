@@ -49,20 +49,6 @@ class AccountModelTests(TestCase):
         account = Account.objects.get(pk=1)
         self.assertEqual(account.age, 27)
 
-    def test_get_activation_url_property(self):
-        """
-        Test the activation URL that is created by
-        ``Account.get_activation_url``.
-
-        """
-        account = Account.objects.create_inactive_user(**self.user_info).account
-        site = Site.objects.get_current()
-
-        activation_url = 'http://%(domain)s%(path)s' % {'domain': site.domain,
-                                                        'path': reverse('userena_activate',
-                                                                        kwargs={'activation_key': account.activation_key})}
-        self.failUnlessEqual(account.get_activation_url, activation_url)
-
     def test_change_email(self):
         """ TODO """
         pass

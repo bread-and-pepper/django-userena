@@ -1,0 +1,12 @@
+{% load i18n %}{% autoescape off %}
+{% trans "Dear" %} {{ account.user.username }},
+
+{% trans "You requested a change of your email address at" %} {{ site.name }}.
+
+{% trans "Please verify this email address by clicking on the link below:" %}
+
+{{ protocol }}://{{ site.domain }}{% url userena_verify verification_key %}
+
+{% trans "Sincerely" %},
+{{ site.name }}
+{% endautoescape %}

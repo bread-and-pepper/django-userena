@@ -7,9 +7,8 @@ from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.hashcompat import sha_constructor
 
-from userena.utils import get_gravatar
+from userena.utils import get_gravatar, generate_sha1
 from userena.managers import AccountManager
 from userena import settings as userena_settings
 
@@ -20,16 +19,18 @@ import datetime, random
 
 def upload_to_mugshot(instance, filename):
     """
-    Uploads a mugshot for a user to the ``USERENA_MUGSHOT_PATH`` and creating a
-    unique hash for the image. This is for privacy reasons so others can't just
-    browse through the mugshot directory.
+    Uploads a mugshot for a user to the ``USERENA_MUGSHOT_PATH`` and saving it
+    under unique hash for the image. This is for privacy reasons so others
+    can't just browse through the mugshot directory.
+
+    **TODO**
+    Delete old mugshot after uploading a new one.
 
     """
     extension = filename.split('.')[-1].lower()
-    salt = sha_constructor(str(random.random())).hexdigest()[:5]
-    hash = sha_constructor(salt+str(instance.user.id)).hexdigest()[:10]
+    salt, hash = generate_sha1(instance.id)
     return '%(path)s%(hash)s.%(extension)s' % {'path': userena_settings.USERENA_MUGSHOT_PATH,
-                                               'hash': hash,
+                                               'hash': hash[:10],
                                                'extension': extension}
 
 class BaseAccount(models.Model):
@@ -73,10 +74,13 @@ class BaseAccount(models.Model):
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
-    # To change their e-mail address, they first have to verify it.
-    temporary_email = models.EmailField(_('temporary email'),
-                                        blank=True,
-                                        help_text=_('Temporary email address when the user requests an email change.'))
+    # Email verification
+    email_new = models.EmailField(_('new wanted e-mail'),
+                                  blank=True,
+                                  help_text=_('Temporary email address when the user requests an email change.'))
+    email_verification_key = models.CharField(_('new email verification key'),
+                                              max_length=40,
+                                              blank=True)
 
     objects = AccountManager()
 
@@ -107,15 +111,6 @@ class BaseAccount(models.Model):
         today = datetime.date.today()
         return relativedelta(today, self.birth_date).years
 
-    @property
-    def get_activation_url(self):
-        """ Simplify it to get the activation URI """
-        site = Site.objects.get_current()
-        path = reverse('userena_activate',
-                       kwargs={'activation_key': self.activation_key})
-        return 'http://%(domain)s%(path)s' % {'domain': site.domain,
-                                              'path': path}
-
     def change_email(self, email):
         """
         Changes the e-mail address for a user.
@@ -123,22 +118,47 @@ class BaseAccount(models.Model):
         A user needs to verify this new e-mail address before it becomes
         active. By storing there new e-mail address in a temporary field --
         ``temporary_email`` -- we are able to set this e-mail address after the
-        user has verified it by clicking on the activation URI in the
-        activation e-mail. This e-mail get's send by
-        ``send_activation_email``.
+        user has verified it by clicking on the verfication URI in the email
+        send by ``send_activation_email``.
+
+        **Arguments**
+
+        ``email``
+            The new email address that the user wants to use.
 
         """
-        # Email is temporary until verified
-        self.temporary_email = email
+        self.email_new = email
 
-        # New activation key
-        salt = sha_constructor(str(random.random())).hexdigest()[:5]
-        self.activation_key = sha_constructor(salt+self.user.username).hexdigest()
-        self.activation_key_created = datetime.datetime.now()
+        salt, hash = generate_sha1(self.user.username)
+        self.email_verification_key = hash
+        self.save()
 
         # Send email for activation
-        self.send_activation_email(new_email=True)
-        self.save()
+        self.send_verification_email()
+
+    def send_verification_email(self):
+        """
+        Send email verification email. Strange, but correct sentence.
+
+        Sends an email to verify a supplied email. This email contains the
+        ``email_verification_key`` which is used to verify this new email
+        address.
+
+        """
+        protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
+        context= {'account': self,
+                  'protocol': protocol,
+                  'verification_key': self.email_verification_key,
+                  'site': Site.objects.get_current()}
+
+        subject = render_to_string('userena/emails/verification_email_subject.txt', context)
+        subject = ''.join(subject.splitlines())
+
+        message = render_to_string('userena/emails/verification_email_message.txt', context)
+        send_mail(subject,
+                  message,
+                  settings.DEFAULT_FROM_EMAIL,
+                  [self.email_new,])
 
     def activation_key_expired(self):
         """
@@ -178,8 +198,11 @@ class BaseAccount(models.Model):
         account.
 
         """
+        protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
         context= {'account': self,
+                  'protocol': protocol,
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
+                  'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
 
         subject = render_to_string('userena/emails/activation_email_subject.txt', context)

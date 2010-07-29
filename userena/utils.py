@@ -1,7 +1,8 @@
 from django.conf import settings
 from userena import settings as userena_settings
+from django.utils.hashcompat import sha_constructor
 
-import urllib, hashlib
+import urllib, hashlib, random
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a gravatar for a e-mail address.
@@ -69,3 +70,28 @@ def signin_redirect(redirect=None, user=None):
     if redirect: return redirect
     elif user: return user.get_absolute_url()
     else: return settings.LOGIN_REDIRECT_URL
+
+def generate_sha1(string, salt=None):
+    """
+    Generates a sha1 hash for a string. Doesn't need to be very secure because
+    it's not used for password checking. We got Django for that.
+
+    Returns a tuple containing the salt and hash.
+
+    **Arguments**
+
+    ``string``
+        The string that needs to be encrypted.
+
+    **Keyword arguments**
+
+    ``salt``
+        Optionally define your own salt. If none is supplied, will use a random
+        string of 5 characters.
+
+    """
+    if not salt:
+        salt = sha_constructor(str(random.random())).hexdigest()[:5]
+    hash = sha_constructor(salt+str(string)).hexdigest()
+
+    return (salt, hash)

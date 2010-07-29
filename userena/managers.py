@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.hashcompat import sha_constructor
 
 from userena import settings as userena_settings
+from userena.utils import generate_sha1
 
-import re, datetime, random
+import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
@@ -34,11 +34,10 @@ class AccountManager(models.Manager):
         user with this key.
 
         """
-        salt = sha_constructor(str(random.random())).hexdigest()[:5]
         username = user.username
         if isinstance(username, unicode):
             username = username.encode('utf-8')
-        activation_key = sha_constructor(salt+username).hexdigest()
+        salt, activation_key = generate_sha1(username)
         account = self.create(user=user,
                               activation_key=activation_key,
                               activation_key_created=datetime.datetime.now())
