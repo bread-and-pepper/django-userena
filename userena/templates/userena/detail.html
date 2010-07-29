@@ -1,10 +1,10 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block content %}
+{% block content_title %}<h2>{{ account.user.username }}</h2>{% endblock %}
 
+{% block content %}
 <div class="white-box">
-    <h2>{{ account.user.username }} {% if account.user.get_full_name %}({{ account.user.get_full_name }}){% endif %}</h2>
     {{ account.filled_in_fields }}
     <div id="details">
     <img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
@@ -12,7 +12,7 @@
     <p><b>{% trans "Name" %}:</b> {{ account.user.get_full_name }}</p>
     {% endif %}
     {% if account.user.email %}
-    <p><b>{% trans "Email" %}:</b> {{ account.user.email }}</p>
+    <p><b>{% trans "Email" %}:</b>{{ account.user.email }}</p>
     {% endif %}
     {% if account.age != 0 %}
     <p><b>{% trans "Age" %}:</b> {{ account.age }}</p>

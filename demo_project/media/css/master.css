@@ -25,6 +25,11 @@ html, body{
 	border-bottom: 1px solid #fff;
 }
 
+#content_title {
+    margin: 2em 0 1em 10px;
+	color: #ab292a;
+}
+
 #content-container{
 	overflow: auto;
 	padding: 12px;
