@@ -1,1 +1,2 @@
-Your signup at {{ site.name }}.
+{% load i18n %}
+{% trans "Your signup at" %} {{ site.name }}.

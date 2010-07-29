@@ -1,10 +1,11 @@
-Dear {{ account.user.username }},
+{% load i18n %}{% autoescape off %}
+{% trans "Dear" %}{{ account.user.username }},
 
-Your account on {{ site.name }} is about to expire in {{ days_left }} days.
-
-To verify your account you should click on the link below:
+{% with site.name as site_name %}{% blocktrans %}Your account on {{ site_name }} is about to expire in {{ days_left }} days.{% endblocktrans %}{% endwith %}
+{% trans "To verify your account you should click on the link below" %}:
 
 {{ account.get_verification_url }}
 
-Sincerely,
+{% trans "Sincerely" %},
 {{ site.name }}
+{% endautoescape %}

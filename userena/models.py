@@ -177,8 +177,6 @@ class BaseAccount(models.Model):
         account.
 
         """
-        # Which templates to use, either for a new account, or for a e-mail
-        # address change.
         context= {'account': self,
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'site': Site.objects.get_current()}

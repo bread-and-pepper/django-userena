@@ -1,10 +1,12 @@
-Dear {{ account.user.username }},
+{% load i18n %}{% autoescape off %}
+{% trans "Dear" %}{{ account.user.username }},
 
-Thank you for signing up at {{ site.name }}.
+{% trans "Thank you for signing up at" %} {{ site.name }}.
 
-To verify your account you should click on the link below:
+{% trans "To activate your account you should click on the link below:" %}
 
 {{ account.get_activation_url }}
 
-Sincerely,
+{% trans "Sincerely" %},
 {{ site.name }}
+{% endautoescape %}
