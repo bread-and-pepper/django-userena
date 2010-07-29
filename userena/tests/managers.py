@@ -70,7 +70,13 @@ class AccountManagerTests(TestCase):
         ``Account.objects.activate_user`` return ``False``.
 
         """
+
+        # Completely wrong key
         self.failIf(Account.objects.activate_user('wrong_key'))
+
+        # At least the right length
+        invalid_key = 10 * 'a1b2'
+        self.failIf(Account.objects.activate_user(invalid_key))
 
     def test_activation_expired(self):
         """

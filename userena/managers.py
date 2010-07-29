@@ -56,7 +56,7 @@ class AccountManager(models.Manager):
         if SHA1_RE.search(activation_key):
             try:
                 account = self.get(activation_key=activation_key)
-            except self.Model.DoesNotExist:
+            except self.model.DoesNotExist:
                 return False
             if not account.activation_key_expired():
                 user = account.user
