@@ -170,7 +170,24 @@ def signup(request, signup_form=SignupForm,
 @secure_required
 @login_required
 def email_change(request, username, template_name='userena/email_form.html'):
-    """ Change your e-mail address. Doing this requires a new verification. """
+    """
+    Change your e-mail address
+
+    **Arguments**
+
+    ``username``
+        The username which selects the current account.
+
+    **Keyword arguments**
+
+    ``template_name``
+
+
+    ``success_url``
+
+
+    """
+
     form = ChangeEmailForm(request.user)
     if request.method == 'POST':
         form = ChangeEmailForm(request.user,
