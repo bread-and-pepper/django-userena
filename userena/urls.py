@@ -18,7 +18,7 @@ urlpatterns = patterns('',
                            direct_to_template,
                            {'template': 'userena/activation_complete.html'},
                            name='userena_activation_complete'),
-                       url(r'^verify/(?P<activation_key>\w+)/$',
+                       url(r'^activate/(?P<activation_key>\w+)/$',
                            userena_views.activate,
                            name='userena_activate'),
 
@@ -36,7 +36,7 @@ urlpatterns = patterns('',
                        url(r'^signup/complete/$',
                            direct_to_template,
                            {'template': 'userena/signup_complete.html',
-                            'extra_context': {'userena_verification_days': userena_settings.USERENA_ACTIVATION_DAYS}},
+                            'extra_context': {'userena_activation_days': userena_settings.USERENA_ACTIVATION_DAYS}},
                            name='userena_signup_complete'),
 
                        # Reset password

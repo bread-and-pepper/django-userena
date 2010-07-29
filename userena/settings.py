@@ -7,7 +7,7 @@ USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
                                       'USERENA_SIGNIN_REDIRECT_URL',
                                       '/accounts/%(username)s')
 
-# How long do people have to verify their account.
+# How long do people have to activate their account.
 USERENA_ACTIVATION_DAYS = getattr(settings,
                                   'USERENA_ACTIVATION_DAYS',
                                   7)
@@ -24,7 +24,7 @@ USERENA_ACTIVATION_NOTIFY_DAYS = getattr(settings,
                                          'USERENA_ACTIVATION_NOTIFY_DAYS',
                                          2)
 
-# This value will be inserted into ``Account.verification_key`` if a key get's
+# This value will be inserted into ``Account.activation_key`` if a key get's
 # used succesfully.
 USERENA_ACTIVATED = getattr(settings,
                             'USERENA_ACTIVATED',
@@ -38,7 +38,7 @@ USERENA_REMEMBER_ME_DAYS = getattr(settings,
 # Forbidden usernames.
 USERENA_FORBIDDEN_USERNAMES = getattr(settings,
                                       'USERENA_FORBIDDEN_USERNAMES',
-                                      ('signup', 'signout', 'signin', 'verify', 'me', 'password'))
+                                      ('signup', 'signout', 'signin', 'activate', 'me', 'password'))
 
 # Should Gravatar be used as a backup for mugshots?
 USERENA_MUGSHOT_GRAVATAR = getattr(settings,

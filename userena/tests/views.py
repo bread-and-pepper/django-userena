@@ -117,7 +117,7 @@ class AccountViewsTests(TestCase):
         self.assertTemplateUsed(response,
                                 'userena/signout.html')
 
-    def test_valid_verification(self):
+    def test_valid_activation(self):
         """ A ``GET`` to the activation view """
         # First, register an account.
         self.client.post(reverse('userena_signup'),
@@ -135,7 +135,7 @@ class AccountViewsTests(TestCase):
         account = Account.objects.get(user__email='alice@example.com')
         self.failUnless(account.user.is_active)
 
-    def test_invalid_verification(self):
+    def test_invalid_activation(self):
         """
         A ``GET`` to the activation view with a wrong ``activation_key``.
 

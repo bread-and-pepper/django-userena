@@ -57,10 +57,9 @@ class SignupForm(forms.Form):
 
     def clean(self):
         """
-        Verifiy that the values entered into the two password fields
-        match. Note that an error here will end up in
-        ``non_field_errors()`` because it doesn't apply to a single
-        field.
+        Verify that the values entered into the two password fields match. Note
+        that an error here will end up in ``non_field_errors()`` because it
+        doesn't apply to a single field.
 
         """
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:

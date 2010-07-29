@@ -51,7 +51,7 @@ class AccountModelTests(TestCase):
 
     def test_get_activation_url_property(self):
         """
-        Test the verification URL that is created by
+        Test the activation URL that is created by
         ``Account.get_activation_url``.
 
         """

@@ -90,7 +90,7 @@ class AccountManagerTests(TestCase):
         account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         account.save()
 
-        # Try to verify the account
+        # Try to activate the account
         Account.objects.activate_user(account.activation_key)
 
         active_account = Account.objects.get(user__username='alice')

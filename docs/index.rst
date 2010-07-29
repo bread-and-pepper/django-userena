@@ -44,10 +44,6 @@ Contents
    installation
    settings
    commands
-   forms
-   views
-   templates
-   faq
    todo
 
 **API**
