@@ -144,7 +144,7 @@ class AccountViewsTests(TestCase):
                                            kwargs={'activation_key': 'fake'}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
-                                'userena/activation.html')
+                                'userena/activation_fail.html')
 
     def test_change_email_view(self):
         """ A ``GET`` to the change e-mail view. """

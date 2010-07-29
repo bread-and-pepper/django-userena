@@ -15,18 +15,48 @@ from userena.utils import signin_redirect
 from userena import settings as userena_settings
 
 @secure_required
-def activate(request, activation_key, template_name='userena/activation.html'):
-    """ Activate a user through an activation key """
+def activate(request, activation_key,
+             template_name='userena/activation_fail.html',
+             success_url=None, extra_context={}):
+    """
+    Activate a user with an activation key.
+
+    **Arguments**
+
+    ``activation_key``
+        A SHA1 string of 40 characters long. A SHA1 is always 160bit long, with
+        4 bits per character this makes it --160/4-- 40 characters long.
+
+    **Keyword arguments**
+
+    ``template_name``
+        The template that is used when the ``activation_key`` is invalid and
+        the activation failes. Defaults to ``userena/activation_fail.html``.
+
+    ``success_url``
+        A string with the URI which the user should be redirected to after a
+        succesfull activation. If not specified, will direct to
+        ``userena_activation_complete`` view.
+
+    ``extra_context``
+        Dictionary containing variables which could be added to the template
+        context. Default to an empty dictionary.
+
+    """
     account = Account.objects.activate_user(activation_key)
     if account:
-        return redirect(reverse('userena_activation_complete'))
-    else:
-        return direct_to_template(request,
-                                  template_name)
+        if success_url: redirect_to = success_url
+        else: redirect_to = reverse('userena_activation_complete')
+        return redirect(redirect_to)
+    else: return direct_to_template(request,
+                                    template_name,
+                                    extra_context=extra_context)
 
 @secure_required
-def signin(request, auth_form=AuthenticationForm, template_name='userena/signin_form.html',
-           redirect_field_name=REDIRECT_FIELD_NAME, redirect_signin_function=signin_redirect):
+def signin(request, auth_form=AuthenticationForm,
+           template_name='userena/signin_form.html',
+           redirect_field_name=REDIRECT_FIELD_NAME,
+           redirect_signin_function=signin_redirect):
     """
     Signin using your e-mail or username and password. You can also select to
     be remembered for ``USERENA_REMEMBER_DAYS``.
@@ -82,27 +112,60 @@ def signin(request, auth_form=AuthenticationForm, template_name='userena/signin_
                               extra_context={'form': form})
 
 @secure_required
-def signup(request, template_name='userena/signup_form.html'):
-    """ Signup a user """
-    form = SignupForm()
+def signup(request, signup_form=SignupForm,
+           template_name='userena/signup_form.html', success_url=None,
+           extra_context={}):
+    """
+    Signup a user requiring them to supply a username, email and password.
+
+    **Keyword arguments**
+
+    ``signup_form``
+        The form that will be used to sign a user. Defaults to userena's
+        ``forms.SignupForm``.
+
+    ``template_name``
+        The template that will be used to display the signup form. Defaults to
+        ``userena/signup_form.html``.
+
+    ``success_url``
+        String containing the URI which should be redirected to after a
+        successfull signup. If not supplied will redirect to
+        ``userena_signup_complete`` view.
+
+    ``extra_context``
+        Dictionary containing variables which are added to the template
+        context. Defaults to a dictionary with a ``form`` key containing the
+        ``signup_form``.
+
+    **Context**
+
+    ``form``
+        The signup form supplied by ``signup_form``.
+
+    """
+    form = signup_form()
 
     if request.method == 'POST':
-        form = SignupForm(data=request.POST)
+        form = signup_form(data=request.POST)
         if form.is_valid():
             username, email, password = (form.cleaned_data['username'],
                                          form.cleaned_data['email'],
                                          form.cleaned_data['password1'])
+
             # Create new user
             new_account = Account.objects.create_inactive_user(username, email, password)
 
-            # Login the user
-            new_user = authenticate(username=username,
-                                    password=password)
-            return redirect(reverse('userena_signup_complete'))
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_signup_complete')
+            return redirect(redirect_to)
 
+    extra_context['form'] = form
     return direct_to_template(request,
                               template_name,
-                              extra_context={'form': form})
+                              extra_context=extra_context)
+
+#--------------------TODO BELOW--------------------#
 
 @secure_required
 @login_required

@@ -230,6 +230,7 @@ form p {
 	margin: 0;
 	position: relative;
 	border-bottom: 1px solid #f1edeb;
+    overflow: auto;
 }
 
 form p label {
