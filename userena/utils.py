@@ -68,7 +68,7 @@ def signin_redirect(redirect=None, user=None):
 
     """
     if redirect: return redirect
-    elif user: return user.get_absolute_url()
+    elif user: return user.account.get_absolute_url()
     else: return settings.LOGIN_REDIRECT_URL
 
 def generate_sha1(string, salt=None):
