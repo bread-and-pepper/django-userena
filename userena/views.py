@@ -105,8 +105,6 @@ def signin(request, auth_form=AuthenticationForm,
                 requested_redirect = request.REQUEST.get(redirect_field_name, None)
                 redirect_to = redirect_signin_function(requested_redirect,
                                                        user)
-                redirect_to = request.REQUEST.get(redirect_field_name,
-                                                  userena_settings.USERENA_SIGNIN_REDIRECT_URL % {'username': user.username})
                 return redirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled'))
