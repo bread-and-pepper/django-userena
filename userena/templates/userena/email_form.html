@@ -1,11 +1,12 @@
 {% extends 'userena/base_userena.html' %}
+{% load i18n %}
 
 {% block content %}
 <form action="" method="post">
     <fieldset>
-        <legend>Change email address</legend>
+        <legend>{% trans "Change email address" %}</legend>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Change email" />
+    <input type="submit" value="{% trans "Change email" %}" />
 </form>
 {% endblock %}

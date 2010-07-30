@@ -67,6 +67,27 @@ class AccountManager(models.Manager):
                 return account
         return False
 
+    def verify_email(self, verification_key):
+        """
+        Verify an email address of a user supplying a ``verification_key``.
+
+        """
+        if SHA1_RE.search(verification_key):
+            try:
+                account = self.get(email_verification_key=verification_key,
+                                   email_new__isnull=False)
+            except self.model.DoesNotExist:
+                return False
+            else:
+                user = account.user
+                user.email = account.email_new
+                user.save()
+
+                account.email_new, account.email_verification_key = '',''
+                account.save()
+                return account
+        return False
+
     def notify_almost_expired(self):
         """
         Check for accounts that are ``USERENA_ACTIVATED_NOTIFY_DAYS`` days

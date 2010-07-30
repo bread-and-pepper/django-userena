@@ -12,6 +12,8 @@ class AccountManagerTests(TestCase):
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
 
+    fixtures = ['accounts', 'users']
+
     def test_create_inactive_user(self):
         """
         Test the creation of a new user.
@@ -101,6 +103,41 @@ class AccountManagerTests(TestCase):
         # The activation key should still be a hash
         self.assertEqual(account.activation_key, active_account.activation_key)
 
+    def test_verification_valid(self):
+        """
+        Verification of a new e-mail address with turns out to be valid.
+
+        """
+        new_email = 'john@newexample.com'
+        account = Account.objects.get(pk=1)
+        account.change_email(new_email)
+
+        # Verify email
+        verified_account = Account.objects.verify_email(account.email_verification_key)
+        self.failUnlessEqual(account, verified_account)
+
+        # Check the new email is set.
+        self.failUnlessEqual(verified_account.user.email, new_email)
+
+        # ``email_new`` and ``email_verification_key`` should be empty
+        self.failIf(verified_account.email_new)
+        self.failIf(verified_account.email_verification_key)
+
+    def test_verification_invalid(self):
+        """
+        Trying to verify a new e-mail address when the ``verification_key``
+        is invalid.
+
+        """
+        new_email = 'john@newexample.com'
+        account = Account.objects.get(pk=1)
+        account.change_email(new_email)
+
+        # Verify email with wrong SHA1
+        self.failIf(Account.objects.verify_email('sha1'))
+
+        # Correct SHA1, but non-existend in db.
+        self.failIf(Account.objects.verify_email(10 * 'a1b2'))
 
     def test_delete_expired_users(self):
         """

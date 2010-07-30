@@ -53,8 +53,34 @@ def activate(request, activation_key,
                                     extra_context=extra_context)
 
 @secure_required
-def verify(request, verification_key):
-    pass
+def verify(request, verification_key,
+           template_name='userena/verification_fail.html', success_url=None,
+           extra_context={}):
+    """
+    Verify your email address with a verification key.
+
+    **Arguments**
+
+    ``verification_key``
+
+    **Keyword arguments**
+
+    ``template_name``
+
+    ``success_url``
+
+    ``extra_context``
+
+    """
+    account = Account.objects.verify_email(verification_key)
+    if account:
+        if success_url: redirect_to = success_url
+        else: redirect_to = reverse('userena_verification_complete')
+        return redirect(redirect_to)
+    else: return direct_to_template(request,
+                                    template_name,
+                                    extra_context=extra_context)
+
 
 @secure_required
 def signin(request, auth_form=AuthenticationForm,
@@ -197,12 +223,16 @@ def email_change(request, username, form=ChangeEmailForm,
     ``extra_context``
         Dictionary containing extra variables that can be used to render the
         template. The ``form`` key is always the form supplied by the keyword
-        argument ``form``.
+        argument ``form`` and the ``user`` key by the user whose email address
+        is to be changed.
 
     **Context**
 
     ``form``
         The email change form supplied by ``form``.
+
+    ``user``
+        The user whose email address is about to be changed.
 
     **Todo**
 
@@ -228,6 +258,7 @@ def email_change(request, username, form=ChangeEmailForm,
             return redirect(redirect_to)
 
     extra_context['form'] = form
+    extra_context['user'] = user
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -240,6 +271,7 @@ def detail(request, username, template_name='userena/detail.html', edit=False):
                               template_name,
                               extra_context={'account': account})
 
-def list(request):
+def list(request, template_name='userena/list.html'):
     """ Returns a list of all the users """
-    pass
+    return direct_to_template(request,
+                              template_name)

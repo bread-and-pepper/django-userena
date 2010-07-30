@@ -236,6 +236,8 @@ form p {
 	position: relative;
 	border-bottom: 1px solid #f1edeb;
     overflow: auto;
+    font-size: 0.7em;
+    color: #999;
 }
 
 form p label {
@@ -245,7 +247,7 @@ form p label {
 	display: block;
 	font-weight: bold;
 	line-height: 4.0em;
-	font-size: 0.60em;
+	font-size: 0.9em;
 	color: #444;
 	text-align: right;
 }

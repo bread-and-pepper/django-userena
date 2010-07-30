@@ -94,7 +94,7 @@ class AuthenticationForm(forms.Form):
 class ChangeEmailForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
-                             label=_("Email address"))
+                             label=_("New email address"))
 
     def __init__(self, user, *args, **kwargs):
         """
@@ -106,6 +106,9 @@ class ChangeEmailForm(forms.Form):
         if not isinstance(user, User):
             raise TypeError, "user must be an instance of User"
         else: self.user = user
+
+        self.fields['email'].help_text = _('Your current email is %(email)s' % \
+                                           {'email': user.email})
 
     def clean_email(self):
         """ Validate that the e-mail address is not already registered with another user """

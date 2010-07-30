@@ -12,6 +12,57 @@ class AccountViewsTests(TestCase):
     """ Test the account views """
     fixtures = ['users', 'accounts']
 
+    def test_valid_activation(self):
+        """ A ``GET`` to the activation view """
+        # First, register an account.
+        self.client.post(reverse('userena_signup'),
+                         data={'username': 'alice',
+                               'email': 'alice@example.com',
+                               'password1': 'swordfish',
+                               'password2': 'swordfish',
+                               'tos': 'on'})
+        account = Account.objects.get(user__email='alice@example.com')
+        response = self.client.get(reverse('userena_activate',
+                                           kwargs={'activation_key': account.activation_key}))
+        self.assertRedirects(response,
+                             reverse('userena_activation_complete'))
+
+        account = Account.objects.get(user__email='alice@example.com')
+        self.failUnless(account.user.is_active)
+
+    def test_invalid_activation(self):
+        """
+        A ``GET`` to the activation view with a wrong ``activation_key``.
+
+        """
+        response = self.client.get(reverse('userena_activate',
+                                           kwargs={'activation_key': 'fake'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'userena/activation_fail.html')
+
+    def test_valid_verification(self):
+        """ A ``GET`` to the verification view """
+        # First, try to change an email.
+        account = Account.objects.get(pk=1)
+        account.change_email('johnie@example.com')
+
+        response = self.client.get(reverse('userena_verify',
+                                           kwargs={'verification_key': account.email_verification_key}))
+
+        self.assertRedirects(response,
+                             reverse('userena_verification_complete'))
+
+    def test_invalid_verification(self):
+        """
+        A ``GET`` to the verification view with an invalid verification key.
+
+        """
+        response = self.client.get(reverse('userena_verify',
+                                           kwargs={'verification_key': 'WRONG'}))
+        self.assertTemplateUsed(response,
+                                'userena/verification_fail.html')
+
     def test_disabled_view(self):
         """ A ``GET`` to the ``disabled`` view """
         response = self.client.get(reverse('userena_disabled'))
@@ -117,35 +168,6 @@ class AccountViewsTests(TestCase):
         self.assertTemplateUsed(response,
                                 'userena/signout.html')
 
-    def test_valid_activation(self):
-        """ A ``GET`` to the activation view """
-        # First, register an account.
-        self.client.post(reverse('userena_signup'),
-                         data={'username': 'alice',
-                               'email': 'alice@example.com',
-                               'password1': 'swordfish',
-                               'password2': 'swordfish',
-                               'tos': 'on'})
-        account = Account.objects.get(user__email='alice@example.com')
-        response = self.client.get(reverse('userena_activate',
-                                           kwargs={'activation_key': account.activation_key}))
-        self.assertRedirects(response,
-                             reverse('userena_activation_complete'))
-
-        account = Account.objects.get(user__email='alice@example.com')
-        self.failUnless(account.user.is_active)
-
-    def test_invalid_activation(self):
-        """
-        A ``GET`` to the activation view with a wrong ``activation_key``.
-
-        """
-        response = self.client.get(reverse('userena_activate',
-                                           kwargs={'activation_key': 'fake'}))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                                'userena/activation_fail.html')
-
     def test_change_email_view(self):
         """ A ``GET`` to the change e-mail view. """
         response = self.client.get(reverse('userena_email_change',
@@ -172,9 +194,14 @@ class AccountViewsTests(TestCase):
 
     def test_change_valid_email_view(self):
         """ A ``POST`` with a valid e-mail address """
+        self.client.login(username='john', password='blowfish')
         response = self.client.post(reverse('userena_email_change',
                                             kwargs={'username': 'john'}),
-                                    data={'email': 'jane@example.com'})
+                                    data={'email': 'john_new@example.com'})
+
+        self.assertRedirects(response,
+                             reverse('userena_email_complete',
+                                     kwargs={'username': 'john'}))
 
     def test_detail_view(self):
         """ A ``GET`` to the detailed view of a user """
@@ -183,3 +210,10 @@ class AccountViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'userena/detail.html')
+
+    def test_list_view(self):
+        """ A ``GET`` to the list view of a user """
+        response = self.client.get(reverse('userena_list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/list.html')
