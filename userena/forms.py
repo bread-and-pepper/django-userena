@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
+from userena.models import Account
 
 attrs_dict = {'class': 'required'}
 
@@ -74,9 +75,11 @@ class AuthenticationForm(forms.Form):
 
     """
     identification = forms.CharField(label=_("Email or username"),
+                                     widget=forms.TextInput(attrs=attrs_dict),
                                      max_length=75,
                                      error_messages={'required': _('Either supply us with your e-mail address or username.')})
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password = forms.CharField(label=_("Password"),
+                               widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
                                      required=False,
                                      label=_(u'Remember me for %(days)s' % {'days': userena_settings.USERENA_REMEMBER_ME_DAYS[0]}))
@@ -118,5 +121,7 @@ class ChangeEmailForm(forms.Form):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
 
-class AccountForm(forms.ModelForm):
-    pass
+class AccountEditForm(forms.ModelForm):
+    """ Edit your account form. """
+    class Meta:
+        model = Account

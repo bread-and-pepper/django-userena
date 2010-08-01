@@ -211,6 +211,11 @@ class AccountViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'userena/detail.html')
 
+    def test_edit_view(self):
+        """ A ``GET`` to the edit view of a users account """
+        response = self.client.get(reverse('userena_edit',
+                                           kwargs={'username': 'john'}))
+
     def test_list_view(self):
         """ A ``GET`` to the list view of a user """
         response = self.client.get(reverse('userena_list'))

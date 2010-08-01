@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import Http404
 
-from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
+from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, AccountEditForm
 from userena.models import Account
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
@@ -17,7 +17,7 @@ from userena import settings as userena_settings
 @secure_required
 def activate(request, activation_key,
              template_name='userena/activation_fail.html',
-             success_url=None, extra_context={}):
+             success_url=None, extra_context=None):
     """
     Activate a user with an activation key.
 
@@ -48,28 +48,39 @@ def activate(request, activation_key,
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_activation_complete')
         return redirect(redirect_to)
-    else: return direct_to_template(request,
-                                    template_name,
-                                    extra_context=extra_context)
+    else:
+        if not extra_context: extra_context = dict()
+        return direct_to_template(request,
+                                  template_name,
+                                  extra_context=extra_context)
 
 @secure_required
 def verify(request, verification_key,
            template_name='userena/verification_fail.html', success_url=None,
-           extra_context={}):
+           extra_context=None):
     """
     Verify your email address with a verification key.
 
     **Arguments**
 
     ``verification_key``
+        A SHA1 representing the verification key used to verify a new email
+        address.
 
     **Keyword arguments**
 
     ``template_name``
+        Template which should be rendered when verification fails. When
+        verification is succesfull, no template is needed because the user will
+        be redirected.
 
     ``success_url``
+        The URL which is redirected to after a succesfull verification.
+        Supplied argument must be able to be rendered by ``reverse`` function.
 
     ``extra_context``
+        Dictionary of variables that are passed on to the template supplied by
+        ``template_name``.
 
     """
     account = Account.objects.verify_email(verification_key)
@@ -77,7 +88,9 @@ def verify(request, verification_key,
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_verification_complete')
         return redirect(redirect_to)
-    else: return direct_to_template(request,
+    else:
+        if not extra_context: extra_context = dict()
+        return direct_to_template(request,
                                     template_name,
                                     extra_context=extra_context)
 
@@ -86,7 +99,7 @@ def verify(request, verification_key,
 def signin(request, auth_form=AuthenticationForm,
            template_name='userena/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME,
-           redirect_signin_function=signin_redirect):
+           redirect_signin_function=signin_redirect, extra_context=None):
     """
     Signin using your e-mail or username and password. You can also select to
     be remembered for ``USERENA_REMEMBER_DAYS``.
@@ -109,6 +122,15 @@ def signin(request, auth_form=AuthenticationForm,
         A function which handles the redirect. This functions gets the value of
         ``REDIRECT_FIELD_NAME`` and the ``User`` who has logged in. It must
         return a string which specifies the URI to redirect to.
+
+    ``extra_context``
+        A dictionary containing extra variables that should be passed to the
+        rendered template. The ``form`` key is always the ``auth_form``.
+
+    **Context**
+
+    ``form``
+        Variable containing the form used for authentication.
 
     """
     form = auth_form
@@ -135,6 +157,8 @@ def signin(request, auth_form=AuthenticationForm,
             else:
                 return redirect(reverse('userena_disabled'))
 
+    if not extra_context: extra_context = dict()
+    extra_context['form'] = form
     return direct_to_template(request,
                               template_name,
                               extra_context={'form': form})
@@ -142,7 +166,7 @@ def signin(request, auth_form=AuthenticationForm,
 @secure_required
 def signup(request, signup_form=SignupForm,
            template_name='userena/signup_form.html', success_url=None,
-           extra_context={}):
+           extra_context=None):
     """
     Signup a user requiring them to supply a username, email and password.
 
@@ -188,6 +212,7 @@ def signup(request, signup_form=SignupForm,
             else: redirect_to = reverse('userena_signup_complete')
             return redirect(redirect_to)
 
+    if not extra_context: extra_context = dict()
     extra_context['form'] = form
     return direct_to_template(request,
                               template_name,
@@ -197,7 +222,7 @@ def signup(request, signup_form=SignupForm,
 @login_required
 def email_change(request, username, form=ChangeEmailForm,
                  template_name='userena/email_form.html', success_url=None,
-                 extra_context={}):
+                 extra_context=None):
     """
     Change e-mail address
 
@@ -257,14 +282,48 @@ def email_change(request, username, form=ChangeEmailForm,
                                         kwargs={'username': user.username})
             return redirect(redirect_to)
 
+    if not extra_context: extra_context = dict()
     extra_context['form'] = form
     extra_context['user'] = user
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
 
-def detail(request, username, template_name='userena/detail.html', edit=False):
-    """ View the account of others. """
+def detail(request, username, template_name='userena/detail.html', extra_context=None):
+    """
+    Detailed view of an account.
+
+    **Arguments**
+
+    ``username``
+        The username of the user which accounts should be viewed.
+
+    **Keyword arguments**
+
+    ``template_name``
+        Name of the template that should be used to display the account.
+
+    ``extra_context``
+        Dictionary of variables which should be supplied to the template. The
+        ``account`` key is always the current account.
+
+    **Context**
+
+    ``account``
+        The currently viewed account.
+
+    """
+    account = get_object_or_404(Account,
+                                user__username__iexact=username)
+
+    if not extra_context: extra_context = dict()
+    extra_context['account'] = account
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+
+def edit(request, username, edit_form=AccountEditForm, template_name='userena/edit_form.html'):
+    """ Edit an account """
     account = get_object_or_404(Account,
                                 user__username__iexact=username)
     return direct_to_template(request,
