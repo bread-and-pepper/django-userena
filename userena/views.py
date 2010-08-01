@@ -43,8 +43,8 @@ def activate(request, activation_key,
         context. Default to an empty dictionary.
 
     """
-    account = Account.objects.activate_user(activation_key)
-    if account:
+    user = Account.objects.activate_user(activation_key)
+    if user:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_activation_complete')
         return redirect(redirect_to)

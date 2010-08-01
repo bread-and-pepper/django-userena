@@ -18,11 +18,11 @@ USERENA_ACTIVATION_NOTIFY = getattr(settings,
                                     'USERENA_ACTIVATION_NOTIFY',
                                     True)
 
-# Amount of days before ``USERENA_ACTIVATION_DAYS`` that a 'remember to
-# verify' e-mail get's send out.
+# Amount of ``USERENA_ACTIVATION_DAYS`` days after signup that a 'remember to
+# activate' e-mail get's send out if the account is still not activated.
 USERENA_ACTIVATION_NOTIFY_DAYS = getattr(settings,
                                          'USERENA_ACTIVATION_NOTIFY_DAYS',
-                                         2)
+                                         5)
 
 # This value will be inserted into ``Account.activation_key`` if a key get's
 # used succesfully.

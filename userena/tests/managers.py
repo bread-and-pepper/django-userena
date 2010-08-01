@@ -48,23 +48,23 @@ class AccountManagerTests(TestCase):
 
     def test_activation_valid(self):
         """
-
         Activation of the user with a valid ``activation_key`` should
         activate the user and set a new invalid ``activation_key`` that is
         defined in the setting ``USERENA_ACTIVIED``.
 
         """
         account = Account.objects.create_inactive_user(**self.user_info).account
-        active_account = Account.objects.activate_user(account.activation_key)
+        active_user = Account.objects.activate_user(account.activation_key)
 
         # The returned account should be the same as the one just created.
-        self.failUnlessEqual(account, active_account)
+        self.failUnlessEqual(account, active_user.account)
 
         # The user should now be active.
-        self.failUnless(active_account.user.is_active)
+        self.failUnless(active_user.is_active)
 
         # The activation key should be the same as in the settings
-        self.assertEqual(active_account.activation_key, userena_settings.USERENA_ACTIVATED)
+        self.assertEqual(active_user.account.activation_key,
+                         userena_settings.USERENA_ACTIVATED)
 
     def test_activation_invalid(self):
         """

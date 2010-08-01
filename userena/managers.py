@@ -46,7 +46,7 @@ class AccountManager(models.Manager):
 
     def activate_user(self, activation_key):
         """
-        Activate an ``Account`` by supplying a valid ``activation_key``.
+        Activate an ``User`` by supplying a valid ``activation_key``.
 
         If the key is valid and an account is found, activate the user and
         return the activied account.
@@ -64,7 +64,7 @@ class AccountManager(models.Manager):
 
                 account.activation_key = userena_settings.USERENA_ACTIVATED
                 account.save()
-                return account
+                return user
         return False
 
     def verify_email(self, verification_key):
@@ -87,28 +87,6 @@ class AccountManager(models.Manager):
                 account.save()
                 return account
         return False
-
-    def notify_almost_expired(self):
-        """
-        Check for accounts that are ``USERENA_ACTIVATED_NOTIFY_DAYS`` days
-        before expiration. For each account that's found
-        ``send_expiry_notification`` is called.
-
-        Returns a list of all the accounts that have received a notification.
-
-        """
-        if userena_settings.USERENA_ACTIVATION_NOTIFY:
-            expiration_date = datetime.datetime.now() - datetime.timedelta(days=(userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS))
-
-            accounts = self.filter(user__is_active=False,
-                                   user__is_staff=False,
-                                   activation_notification_send=False)
-            notified_accounts = []
-            for account in accounts:
-                if account.activation_key_almost_expired():
-                    account.send_expiry_notification()
-                    notified_accounts.append(account)
-            return notified_accounts
 
     def delete_expired_users(self):
         """

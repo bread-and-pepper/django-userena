@@ -89,16 +89,6 @@ class Account(models.Model):
         return ('userena_detail', (), {'username': self.user.username})
 
     @property
-    def activity(self):
-        """
-        Returning the activity of the user.
-
-        http://www.arnebrodowski.de/blog/482-Tracking-user-activity-with-Django.html
-
-        """
-        pass
-
-    @property
     def age(self):
         """ Returns integer telling the age in years for the user """
         today = datetime.date.today()
@@ -173,23 +163,6 @@ class Account(models.Model):
             return True
         return False
 
-    def activation_key_almost_expired(self):
-        """
-        Returns ``True`` when the ``activation_key`` is almost expired.
-
-        A key is almost expired when the there are less than
-        ``USERENA_ACTIVATION_NOTIFY_DAYS`` days left before expiration.
-
-        """
-        days = userena_settings.USERENA_ACTIVATION_DAYS - \
-               userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS
-        notification_days = datetime.timedelta(days=days)
-
-        notification_date = self.activation_key_created + notification_days
-        if datetime.datetime.now() >= notification_date:
-            return True
-        return False
-
     def send_activation_email(self):
         """
         Sends a activation e-mail to the user.
@@ -215,29 +188,6 @@ class Account(models.Model):
                   message,
                   settings.DEFAULT_FROM_EMAIL,
                   [self.user.email,])
-
-    def send_expiry_notification(self):
-        """
-        Notify the user that his account is about to expire.
-
-        Sends an e-mail to the user telling them that their account is
-        ``USERENA_ACTIVATION_NOTIFY_DAYS`` away before expiring.
-
-        """
-        context = {'account': self,
-                   'days_left': userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS,
-                   'site': Site.objects.get_current()}
-
-        subject = render_to_string('userena/emails/activation_notify_subject.txt',
-                                   context)
-        subject = ''.join(subject.splitlines())
-
-        message = render_to_string('userena/emails/activation_notify_message.txt',
-                                   context)
-
-        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
-        self.activation_notification_send = True
-        self.save()
 
     def get_mugshot_url(self):
         """

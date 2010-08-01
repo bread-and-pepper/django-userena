@@ -85,7 +85,7 @@ class AccountModelTests(TestCase):
         """ TODO """
         pass
 
-    def test_expired_account(self):
+    def test_activation_expired_account(self):
         """
         ``Account.activation_key_expired()`` is ``True`` when the
         ``activation_key_created`` is more days ago than defined in
@@ -99,7 +99,17 @@ class AccountModelTests(TestCase):
         account = Account.objects.get(user__username='alice')
         self.failUnless(account.activation_key_expired())
 
-    def test_unexpired_account(self):
+    def test_activation_used_account(self):
+        """
+        An account cannot be activated anymore once the activation key is
+        already used.
+
+        """
+        account = Account.objects.create_inactive_user(**self.user_info).account
+        activated_user = Account.objects.activate_user(account.activation_key)
+        self.failUnless(activated_user.account.activation_key_expired())
+
+    def test_activation_unexpired_account(self):
         """
         ``Account.activation_key_expired()`` is ``False`` when the
         ``activation_key_created`` is within the defined timeframe.``
@@ -107,10 +117,6 @@ class AccountModelTests(TestCase):
         """
         account = Account.objects.create_inactive_user(**self.user_info).account
         self.failIf(account.activation_key_expired())
-
-    def test_activation_key_almost_expired(self):
-        """ TODO """
-        pass
 
     def test_activation_email(self):
         """
@@ -122,29 +128,15 @@ class AccountModelTests(TestCase):
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
-    def test_notification_expired_email(self):
-        """
-        Test if the notification is send out to people if there account is
-        ``USERENA_ACTIVATION_NOTIFY_DAYS`` away from being deactivated.
-
-        """
-        account = Account.objects.create_inactive_user(**self.user_info).account
-        window = userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS
-        account.activation_key_created -= datetime.timedelta(days=window)
+    def test_mugshot_url(self):
+        """ The user has uploaded it's own mugshot. This should be returned. """
+        account = Account.objects.get(pk=1)
+        account.mugshot = 'fake_image.png'
         account.save()
 
-        # Send out notifications
-        notifications = Account.objects.notify_almost_expired()
-
-        account = Account.objects.get(user__username=self.user_info['username'])
-        # Two e-mails have been send out, 1 activation, 1 notification
-        self.failUnlessEqual(len(mail.outbox), 2)
-        self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
-        # Account should now be set as notified
-        self.failUnless(account.activation_notification_send)
-
-        # There should be no more notifications
-        self.failUnlessEqual(len(Account.objects.notify_almost_expired()), 0)
+        account = Account.objects.get(pk=1)
+        self.failUnlessEqual(account.get_mugshot_url(),
+                             settings.MEDIA_URL + 'fake_image.png')
 
     def test_get_mugshot_url_without_gravatar(self):
         """
