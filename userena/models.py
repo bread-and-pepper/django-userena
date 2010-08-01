@@ -23,9 +23,6 @@ def upload_to_mugshot(instance, filename):
     under unique hash for the image. This is for privacy reasons so others
     can't just browse through the mugshot directory.
 
-    **TODO**
-    Delete old mugshot after uploading a new one.
-
     """
     extension = filename.split('.')[-1].lower()
     salt, hash = generate_sha1(instance.id)
@@ -33,7 +30,7 @@ def upload_to_mugshot(instance, filename):
                                                'hash': hash[:10],
                                                'extension': extension}
 
-class BaseAccount(models.Model):
+class Account(models.Model):
     """
     A user account which stores all the nescessary information to have a full
     functional user implementation on your Django website.
@@ -62,7 +59,7 @@ class BaseAccount(models.Model):
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
 
-    # Fields used for managing accounts
+    # Fields used for managment purposes.
     last_active = models.DateTimeField(null=True, blank=True)
 
     activation_key = models.CharField(_('activation key'), max_length=40,
@@ -84,12 +81,8 @@ class BaseAccount(models.Model):
 
     objects = AccountManager()
 
-    class Meta:
-        if userena_settings.USERENA_CHILD_MODEL:
-            abstract = True
-
     def __unicode__(self):
-        return '%s' % self.user
+        return '%s' % self.user.username
 
     @models.permalink
     def get_absolute_url(self):
@@ -151,10 +144,12 @@ class BaseAccount(models.Model):
                   'verification_key': self.email_verification_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/verification_email_subject.txt', context)
+        subject = render_to_string('userena/emails/verification_email_subject.txt',
+                                   context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/verification_email_message.txt', context)
+        message = render_to_string('userena/emails/verification_email_message.txt',
+                                   context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
@@ -171,9 +166,10 @@ class BaseAccount(models.Model):
 
         """
         expiration_days = datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS)
+        expiration_date = self.activation_key_created + expiration_days
         if self.activation_key == userena_settings.USERENA_ACTIVATED:
             return True
-        if datetime.datetime.now() >= self.activation_key_created + expiration_days:
+        if datetime.datetime.now() >= expiration_date:
             return True
         return False
 
@@ -185,8 +181,12 @@ class BaseAccount(models.Model):
         ``USERENA_ACTIVATION_NOTIFY_DAYS`` days left before expiration.
 
         """
-        notification_days = datetime.timedelta(days=(userena_settings.USERENA_ACTIVATION_DAYS - userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS))
-        if datetime.datetime.now() >= self.activation_key_created + notification_days:
+        days = userena_settings.USERENA_ACTIVATION_DAYS - \
+               userena_settings.USERENA_ACTIVATION_NOTIFY_DAYS
+        notification_days = datetime.timedelta(days=days)
+
+        notification_date = self.activation_key_created + notification_days
+        if datetime.datetime.now() >= notification_date:
             return True
         return False
 
@@ -205,10 +205,12 @@ class BaseAccount(models.Model):
                   'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/activation_email_subject.txt', context)
+        subject = render_to_string('userena/emails/activation_email_subject.txt',
+                                   context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/activation_email_message.txt', context)
+        message = render_to_string('userena/emails/activation_email_message.txt',
+                                   context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
@@ -259,29 +261,14 @@ class BaseAccount(models.Model):
                                 userena_settings.USERENA_MUGSHOT_SIZE,
                                 userena_settings.USERENA_MUGSHOT_DEFAULT)
 
-        # Gravatar not used, check for a default image. Don't use the gravatar defaults
+        # Gravatar not used, check for a default image.
         else:
-            if userena_settings.USERENA_MUGSHOT_DEFAULT not in ['404', 'mm', 'identicon', 'monsterid', 'wavatar']:
+            if userena_settings.USERENA_MUGSHOT_DEFAULT not in ['404', 'mm',
+                                                                'identicon',
+                                                                'monsterid',
+                                                                'wavatar']:
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
-
-def get_account_model():
-    """
-    Returns the right account model so your user application can be easily
-    extended without adding extra relationships.
-
-    """
-    from django.db.models import get_model
-    if userena_settings.USERENA_CHILD_MODEL:
-        account_model = get_model(*userena_settings.USERENA_CHILD_MODEL.split('.', 2))
-        if not account_model:
-            raise ImproperlyConfigured('Cannot find the model defined in ``USERINA_CHILD_MODEL``.')
-        return account_model
-
-    return BaseAccount
-
-# Return the model that's used for account functionality
-Account = get_account_model()
 
 # Always return an account when asked through a user
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])

@@ -38,7 +38,8 @@ USERENA_REMEMBER_ME_DAYS = getattr(settings,
 # Forbidden usernames.
 USERENA_FORBIDDEN_USERNAMES = getattr(settings,
                                       'USERENA_FORBIDDEN_USERNAMES',
-                                      ('signup', 'signout', 'signin', 'activate', 'me', 'password'))
+                                      ('signup', 'signout', 'signin',
+                                       'activate', 'me', 'password'))
 
 # Should Gravatar be used as a backup for mugshots?
 USERENA_MUGSHOT_GRAVATAR = getattr(settings,
@@ -64,8 +65,3 @@ USERENA_MUGSHOT_PATH = getattr(settings,
 USERENA_USE_HTTPS = getattr(settings,
                             'USERENA_USE_HTTPS',
                             False)
-
-# Child model. Use it if more fields are needed.
-USERENA_CHILD_MODEL= getattr(settings,
-                             'USERENA_CHILD_MODEL',
-                             None)

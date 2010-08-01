@@ -1,14 +1,16 @@
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import Account
+from userena.models import Account, upload_to_mugshot
 from userena import settings as userena_settings
 
-import datetime, hashlib
+import datetime, hashlib, re
+
+MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
 
 class AccountModelTests(TestCase):
     """ Test the model of Account """
@@ -17,6 +19,26 @@ class AccountModelTests(TestCase):
                  'email': 'alice@example.com'}
 
     fixtures = ['users.json', 'accounts.json']
+
+    def test_upload_mugshot(self):
+        """
+        Test the uploaded path of mugshots
+
+        TODO: What if a image get's uploaded with no extension?
+
+        """
+        account = Account.objects.get(pk=1)
+        filename = 'my_avatar.png'
+        path = upload_to_mugshot(account, filename)
+
+        # Path should be changed from the original
+        self.failIfEqual(filename, path)
+
+        # Check if the correct path is returned
+        MUGSHOT_RE = re.compile('^%(mugshot_path)s[a-f0-9]{10}.png$' %
+                                {'mugshot_path': userena_settings.USERENA_MUGSHOT_PATH})
+
+        self.failUnless(MUGSHOT_RE.search(path))
 
     def test_get_account(self):
         """
@@ -32,6 +54,16 @@ class AccountModelTests(TestCase):
 
         # Account should be created when a user has no account
         self.assertEqual(type(user_without_account.account), Account)
+
+    def test_stringification(self):
+        """
+        Test the stringification of a ``Account`` object. A "human-readable"
+        representation of an ``Account`` object.
+
+        """
+        account = Account.objects.get(pk=1)
+        self.failUnlessEqual(account.__unicode__(),
+                             account.user.username)
 
     def test_get_absolute_url(self):
         """ Test if the ``get_absolute_url`` function returns the proper URI """
