@@ -1,4 +1,5 @@
 from userena.tests.backends import *
+from userena.tests.commands import *
 from userena.tests.decorators import *
 from userena.tests.forms import *
 from userena.tests.managers import *
