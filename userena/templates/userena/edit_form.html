@@ -1,0 +1,13 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block content %}
+<form action="" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>{% trans "Edit Account" %}</legend>
+    {{ form.as_p }}
+    </fieldset>
+    <input type="submit" value="{% trans "Save changes" %}" />
+</form>
+{% endblock %}

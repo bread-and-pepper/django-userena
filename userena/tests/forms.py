@@ -130,3 +130,6 @@ class ChangeEmailFormTests(TestCase):
     def test_form_init(self):
         """ The form must be initialized with a ``User`` instance. """
         self.assertRaises(TypeError, forms.ChangeEmailForm, None)
+
+class EditAccountFormTest(TestCase):
+    """ Test the ``EditAccountForm`` """

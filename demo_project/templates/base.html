@@ -18,6 +18,13 @@
         <div id="top">&nbsp;</div>
         <div id="container">	
             <div id="header">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <h1><a href="{% url promo %}">django-userena</a></h1>
                 <div id="lang_form">
                     <p>{% trans "Change language" %}</p>
@@ -64,6 +71,6 @@
              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
              })();
-</script>
-    </body>
-</html>
+         </script>
+     </body>
+ </html>

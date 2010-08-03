@@ -125,3 +125,6 @@ class AccountEditForm(forms.ModelForm):
     """ Edit your account form. """
     class Meta:
         model = Account
+        # Exclude the fields used for managing the accounts.
+        exclude = ('user', 'last_active', 'activation_key', 'activation_key_created',
+                   'activation_notification_send', 'email_new', 'email_verification_key')

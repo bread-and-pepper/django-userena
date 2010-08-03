@@ -154,12 +154,23 @@ class AccountViewsTests(TestCase):
     def test_signin_view_succes(self):
         """
         A valid ``POST`` to the signin view should redirect the user to it's
-        own account page
+        own account page if no ``next`` value is supplied. Else it should
+        redirect to ``next``.
 
         """
         response = self.client.post(reverse('userena_signin'),
                                     data={'identification': 'john@example.com',
                                           'password': 'blowfish'})
+
+        self.assertRedirects(response, reverse('userena_detail',
+                                               kwargs={'username': 'john'}))
+
+        # Redirect to supplied ``next`` value.
+        response = self.client.post(reverse('userena_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish',
+                                          'next': '/accounts/'})
+        self.assertRedirects(response, '/accounts/')
 
     def test_signout_view(self):
         """ A ``GET`` to the signout view """
@@ -215,6 +226,26 @@ class AccountViewsTests(TestCase):
         """ A ``GET`` to the edit view of a users account """
         response = self.client.get(reverse('userena_edit',
                                            kwargs={'username': 'john'}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/edit_form.html')
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.AccountEditForm))
+
+    def test_edit_view_succes(self):
+        """ A ``POST`` to the edit view """
+        new_about_me = 'I hate it when people use my name for testing.'
+        response = self.client.post(reverse('userena_edit',
+                                            kwargs={'username': 'john'}),
+                                    data={'about_me': new_about_me})
+
+        # A valid post should redirect to the detail page.
+        self.assertRedirects(response, reverse('userena_detail',
+                                               kwargs={'username': 'john'}))
+
+        # Account should be changed now.
+        account = Account.objects.get(user__username='john')
+        self.assertEqual(account.about_me, new_about_me)
 
     def test_list_view(self):
         """ A ``GET`` to the list view of a user """

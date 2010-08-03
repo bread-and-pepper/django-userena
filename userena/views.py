@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import Http404
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, AccountEditForm
 from userena.models import Account
@@ -136,7 +138,7 @@ def signin(request, auth_form=AuthenticationForm,
     form = auth_form
 
     if request.method == 'POST':
-        form = auth_form(data=request.POST)
+        form = auth_form(request.POST, request.FILES)
         if form.is_valid():
             identification, password, remember_me = (form.cleaned_data['identification'],
                                                      form.cleaned_data['password'],
@@ -199,7 +201,7 @@ def signup(request, signup_form=SignupForm,
     form = signup_form()
 
     if request.method == 'POST':
-        form = signup_form(data=request.POST)
+        form = signup_form(request.POST, request.FILES)
         if form.is_valid():
             username, email, password = (form.cleaned_data['username'],
                                          form.cleaned_data['email'],
@@ -270,7 +272,8 @@ def email_change(request, username, form=ChangeEmailForm,
 
     if request.method == 'POST':
         form = ChangeEmailForm(user,
-                               data=request.POST)
+                               request.POST,
+                               request.FILES)
 
         if form.is_valid():
             new_email = form.cleaned_data['email']
@@ -322,13 +325,69 @@ def detail(request, username, template_name='userena/detail.html', extra_context
                               template_name,
                               extra_context=extra_context)
 
-def edit(request, username, edit_form=AccountEditForm, template_name='userena/edit_form.html'):
-    """ Edit an account """
+def edit(request, username, edit_form=AccountEditForm,
+         template_name='userena/edit_form.html', success_url=None,
+         extra_context=None):
+    """
+    Edit an account. Get's called by ``userena_edit`` url.
+
+    **Arguments**
+
+    ``username``
+        The username of the user which account should be edited.
+
+    **Keyword arguments**
+
+    ``edit_form``
+        The form that is used to edit the account. The ``save`` method of this
+        form will be called when the form ``is_valid``. Defaults to
+        ``AccountEditForm`` from userena.
+
+    ``template_name``
+        Name of the template that is used to render the ``edit_form``. Defaults
+        to ``userena/edit_form.html``.
+
+    ``success_url``
+        This value will be passed on to a django ``reverse`` function after the
+        form is successfully saved.
+
+    ``extra_context``
+        Extra variables that are passed on to the ``template_name`` template.
+        ``form`` key will always be the form used to edit the account, and the
+        ``account`` key is always the edited account.
+
+    **Context**
+
+    ``form``
+        The form that is used to alter the account.
+
+    ``account``
+        The account that is edited.
+
+    """
     account = get_object_or_404(Account,
                                 user__username__iexact=username)
+    form = edit_form(instance=account)
+
+    if request.method == 'POST':
+        form = edit_form(request.POST, request.FILES, instance=account)
+
+        if form.is_valid():
+            account = form.save()
+
+            messages.success(request, _('Your account has been updated.'),
+                             fail_silently=True)
+
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_detail', kwargs={'username': username})
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
+    extra_context['form'] = form
+    extra_context['account'] = account
     return direct_to_template(request,
                               template_name,
-                              extra_context={'account': account})
+                              extra_context=extra_context)
 
 def list(request, template_name='userena/list.html'):
     """ Returns a list of all the users """
