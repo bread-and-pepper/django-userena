@@ -8,8 +8,10 @@ from django.conf import settings
 from django.http import Http404
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django.views.generic import list_detail
 
-from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, AccountEditForm
+from userena.forms import (SignupForm, AuthenticationForm, ChangeEmailForm,
+                           AccountEditForm)
 from userena.models import Account
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
@@ -23,21 +25,29 @@ def activate(request, activation_key,
     """
     Activate a user with an activation key.
 
+    The key is a SHA1 string. When the SHA1 is found with an ``Account``, the
+    ``User`` of that account will be activated. After a successfull activation
+    the view will redirect to ``success_url``.  If the SHA1 is not found, the
+    user will be shown the ``template_name`` template displaying a fail
+    message.
+
     **Arguments**
 
     ``activation_key``
-        A SHA1 string of 40 characters long. A SHA1 is always 160bit long, with
-        4 bits per character this makes it --160/4-- 40 characters long.
+        String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
+        long, with 4 bits per character this makes it --160/4-- 40 characters
+        long.
 
     **Keyword arguments**
 
     ``template_name``
-        The template that is used when the ``activation_key`` is invalid and
-        the activation failes. Defaults to ``userena/activation_fail.html``.
+        String containing the template name that is used when the
+        ``activation_key`` is invalid and the activation failes. Defaults to
+        ``userena/activation_fail.html``.
 
     ``success_url``
-        A string with the URI which the user should be redirected to after a
-        succesfull activation. If not specified, will direct to
+        Named URL where the user should be redirected to after a succesfull
+        activation. If not specified, will direct to
         ``userena_activation_complete`` view.
 
     ``extra_context``
@@ -63,21 +73,27 @@ def verify(request, verification_key,
     """
     Verify your email address with a verification key.
 
+    Verifies a new email address by running ``Account.objects.verify_email``
+    method. If the method returns an ``Account`` the user will have his new
+    e-mail address set and redirected to ``success_url``. If no ``Account`` is
+    returned the user will be represented with a fail message from
+    ``template_name``.
+
     **Arguments**
 
     ``verification_key``
-        A SHA1 representing the verification key used to verify a new email
-        address.
+        String with a SHA1 representing the verification key used to verify a
+        new email address.
 
     **Keyword arguments**
 
     ``template_name``
-        Template which should be rendered when verification fails. When
-        verification is succesfull, no template is needed because the user will
-        be redirected.
+        String containing the template name which should be rendered when
+        verification fails. When verification is succesfull, no template is
+        needed because the user will be redirected to ``success_url``.
 
     ``success_url``
-        The URL which is redirected to after a succesfull verification.
+        Named URL which is redirected to after a succesfull verification.
         Supplied argument must be able to be rendered by ``reverse`` function.
 
     ``extra_context``
@@ -96,32 +112,40 @@ def verify(request, verification_key,
                                     template_name,
                                     extra_context=extra_context)
 
-
 @secure_required
 def signin(request, auth_form=AuthenticationForm,
            template_name='userena/signin_form.html',
            redirect_field_name=REDIRECT_FIELD_NAME,
            redirect_signin_function=signin_redirect, extra_context=None):
     """
-    Signin using your e-mail or username and password. You can also select to
-    be remembered for ``USERENA_REMEMBER_DAYS``.
+    Signin using your email or username and password.
+
+    Signs a user in by combining email/username with password. If the
+    combination is correct and the user ``is_active`` the
+    ``redirect_signin_function`` is called with the arguments
+    ``REDIRECT_FIELD_NAME`` and an instance of the ``User`` whois is trying the
+    login. The returned value of the function will be the URL that is
+    redirected to.
+
+    A user can also select to be remembered for ``USERENA_REMEMBER_DAYS``.
 
     **Keyword arguments**
 
     ``auth_form``
-        The form to use for signing the user in. Defaults to the
+        Form to use for signing the user in. Defaults to the
         ``AuthenticationForm`` supplied by userena.
 
     ``template_name``
-        A custom template to use. Defaults to ``userena/signin_form.html``.
+        String defining the name of the template to use. Defaults to
+        ``userena/signin_form.html``.
 
     ``redirect_field_name``
-        The field name which contains the value for a redirect to the
+        Form field name which contains the value for a redirect to the
         successing page. Defaults to ``next`` and is set in
-        ``REDIRECT_FIELD_NAME``.
+        ``REDIRECT_FIELD_NAME`` setting.
 
     ``redirect_signin_function``
-        A function which handles the redirect. This functions gets the value of
+        Function which handles the redirect. This functions gets the value of
         ``REDIRECT_FIELD_NAME`` and the ``User`` who has logged in. It must
         return a string which specifies the URI to redirect to.
 
@@ -132,7 +156,7 @@ def signin(request, auth_form=AuthenticationForm,
     **Context**
 
     ``form``
-        Variable containing the form used for authentication.
+        Form used for authentication supplied by ``auth_form``.
 
     """
     form = auth_form
@@ -175,12 +199,12 @@ def signup(request, signup_form=SignupForm,
     **Keyword arguments**
 
     ``signup_form``
-        The form that will be used to sign a user. Defaults to userena's
+        Form that will be used to sign a user. Defaults to userena's
         ``forms.SignupForm``.
 
     ``template_name``
-        The template that will be used to display the signup form. Defaults to
-        ``userena/signup_form.html``.
+        String containing the template name that will be used to display the
+        signup form. Defaults to ``userena/signup_form.html``.
 
     ``success_url``
         String containing the URI which should be redirected to after a
@@ -195,7 +219,7 @@ def signup(request, signup_form=SignupForm,
     **Context**
 
     ``form``
-        The signup form supplied by ``signup_form``.
+        Form supplied by ``signup_form``.
 
     """
     form = signup_form()
@@ -226,45 +250,46 @@ def email_change(request, username, form=ChangeEmailForm,
                  template_name='userena/email_form.html', success_url=None,
                  extra_context=None):
     """
-    Change e-mail address
+    Change email address
 
     **Arguments**
 
     ``username``
-        The username which specifies the current account.
+        String of the username which specifies the current account.
 
     **Keyword arguments**
 
     ``form``
-        The form that will be used to change the email address. Defaults to
+        Form that will be used to change the email address. Defaults to
         ``ChangeEmailForm`` supplied by userena.
 
     ``template_name``
-        Template to be used to display the email form. Defaults to
-        ``userena/email_form.html``.
+        String containing the template to be used to display the email form.
+        Defaults to ``userena/email_form.html``.
 
     ``success_url``
-        If the form is valid the user will get redirected to ``success_url``.
-        When not suplied will redirect to ``userena_email_complete`` view.
+        Named URL where the user will get redirected to when succesfully
+        changing their email address.  When not suplied will redirect to
+        ``userena_email_complete`` URL.
 
     ``extra_context``
         Dictionary containing extra variables that can be used to render the
         template. The ``form`` key is always the form supplied by the keyword
         argument ``form`` and the ``user`` key by the user whose email address
-        is to be changed.
+        is being changed.
 
     **Context**
 
     ``form``
-        The email change form supplied by ``form``.
+        Form that is used to change the email address supplied by ``form``.
 
     ``user``
-        The user whose email address is about to be changed.
+        Instance of the ``User`` whose email address is about to be changed.
 
     **Todo**
 
     Need to have per-object permissions, which enables users with the correct
-    permissions to alter the e-mail address of others.
+    permissions to alter the email address of others.
 
     """
     user = get_object_or_404(User, username__iexact=username)
@@ -277,7 +302,7 @@ def email_change(request, username, form=ChangeEmailForm,
 
         if form.is_valid():
             new_email = form.cleaned_data['email']
-            # Change the e-mail address
+            # Change the email address
             user.account.change_email(new_email)
 
             if success_url: redirect_to = success_url
@@ -299,12 +324,13 @@ def detail(request, username, template_name='userena/detail.html', extra_context
     **Arguments**
 
     ``username``
-        The username of the user which accounts should be viewed.
+        String of the username of which the account should be viewed.
 
     **Keyword arguments**
 
     ``template_name``
-        Name of the template that should be used to display the account.
+        String representing the template name that should be used to display
+        the account.
 
     ``extra_context``
         Dictionary of variables which should be supplied to the template. The
@@ -313,7 +339,7 @@ def detail(request, username, template_name='userena/detail.html', extra_context
     **Context**
 
     ``account``
-        The currently viewed account.
+        Instance of the currently edited ``Account``.
 
     """
     account = get_object_or_404(Account,
@@ -334,35 +360,36 @@ def edit(request, username, edit_form=AccountEditForm,
     **Arguments**
 
     ``username``
-        The username of the user which account should be edited.
+        Username of the user which account should be edited.
 
     **Keyword arguments**
 
     ``edit_form``
-        The form that is used to edit the account. The ``save`` method of this
-        form will be called when the form ``is_valid``. Defaults to
+        Form that is used to edit the account. The ``save`` method of this form
+        will be called when the form ``is_valid``. Defaults to
         ``AccountEditForm`` from userena.
 
     ``template_name``
-        Name of the template that is used to render the ``edit_form``. Defaults
-        to ``userena/edit_form.html``.
+        String of the template that is used to render the ``edit_form``.
+        Defaults to ``userena/edit_form.html``.
 
     ``success_url``
-        This value will be passed on to a django ``reverse`` function after the
-        form is successfully saved.
+        Named URL which be passed on to a django ``reverse`` function after the
+        form is successfully saved. Defaults to the ``userena_detail`` url.
 
     ``extra_context``
-        Extra variables that are passed on to the ``template_name`` template.
-        ``form`` key will always be the form used to edit the account, and the
-        ``account`` key is always the edited account.
+        Dictionary containing variables that are passed on to the
+        ``template_name`` template.  ``form`` key will always be the form used
+        to edit the account, and the ``account`` key is always the edited
+        account.
 
     **Context**
 
     ``form``
-        The form that is used to alter the account.
+        Form that is used to alter the account.
 
     ``account``
-        The account that is edited.
+        Instance of the ``Account`` that is edited.
 
     """
     account = get_object_or_404(Account,
@@ -389,7 +416,56 @@ def edit(request, username, edit_form=AccountEditForm,
                               template_name,
                               extra_context=extra_context)
 
-def list(request, template_name='userena/list.html'):
-    """ Returns a list of all the users """
-    return direct_to_template(request,
-                              template_name)
+def list(request, page=1, template_name='userena/list.html', paginate_by=1,
+         extra_context=None):
+    """
+    Returns a list of all the users.
+
+    **Keyword arguments**
+
+    ``page``
+        Integer of the active page used for pagination. Defaults to the first
+        page.
+
+    ``template_name``
+        String defining the name of the template that is used to render the
+        list of all users. Defaults to ``userena/list.html``.
+
+    ``paginate_by``
+        Integer defining the amount of displayed accounts per page. Defaults to
+        50 accounts per page.
+
+    ``extra_context``
+        Dictionary of variables that are passed on to the ``template_name``
+        template.
+
+    **Context**
+
+    ``account_list``
+        A list of accounts.
+
+    ``is_paginated``
+        A boolean representing whether the results are paginated.
+
+    If the result is paginated. It will also contain the following variables:
+
+    ``paginator``
+        An instance of ``django.core.paginator.Paginator``.
+
+    ``page_obj``
+        An instance of ``django.core.paginator.Page``.
+
+    """
+    try:
+        page = int(request.GET.get('page', None))
+    except TypeError, ValueError:
+        page = page
+
+    if not extra_context: extra_context = dict()
+    return list_detail.object_list(request,
+                                   queryset=Account.objects.all(),
+                                   paginate_by=paginate_by,
+                                   page=page,
+                                   template_name=template_name,
+                                   extra_context=extra_context,
+                                   template_object_name='account')
