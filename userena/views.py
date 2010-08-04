@@ -416,7 +416,7 @@ def edit(request, username, edit_form=AccountEditForm,
                               template_name,
                               extra_context=extra_context)
 
-def list(request, page=1, template_name='userena/list.html', paginate_by=1,
+def list(request, page=1, template_name='userena/list.html', paginate_by=50,
          extra_context=None):
     """
     Returns a list of all the users.
