@@ -81,6 +81,11 @@ class Account(models.Model):
 
     objects = AccountManager()
 
+    class Meta:
+        permissions = (
+            ('view_account', 'Can view account'),
+        )
+
     def __unicode__(self):
         return '%s' % self.user.username
 

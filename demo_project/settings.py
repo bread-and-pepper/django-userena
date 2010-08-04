@@ -77,6 +77,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 ROOT_URLCONF = 'demo_project.urls'
@@ -93,6 +94,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'easy_thumbnails',
+    'guardian',
     'userena',
 )
 
@@ -103,3 +105,6 @@ LOGOUT_URL = '/accounts/signout/'
 
 # Test settings
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+
+# Guardian
+ANONYMOUS_USER_ID = -1

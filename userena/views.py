@@ -355,7 +355,10 @@ def edit(request, username, edit_form=AccountEditForm,
          template_name='userena/edit_form.html', success_url=None,
          extra_context=None):
     """
-    Edit an account. Get's called by ``userena_edit`` url.
+    Edit an account.
+
+    Edits an account selected by the supplied username. If the account is
+    succesfully edited will redirect to ``success_url``.
 
     **Arguments**
 
@@ -419,7 +422,7 @@ def edit(request, username, edit_form=AccountEditForm,
 def list(request, page=1, template_name='userena/list.html', paginate_by=50,
          extra_context=None):
     """
-    Returns a list of all the users.
+    Returns a list of all accounts that are public.
 
     **Keyword arguments**
 
@@ -439,7 +442,7 @@ def list(request, page=1, template_name='userena/list.html', paginate_by=50,
         Dictionary of variables that are passed on to the ``template_name``
         template.
 
-    **Context**
+    **Context**example.com
 
     ``account_list``
         A list of accounts.
