@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import Http404
@@ -351,6 +352,8 @@ def detail(request, username, template_name='userena/detail.html', extra_context
                               template_name,
                               extra_context=extra_context)
 
+@secure_required
+@login_required
 def edit(request, username, edit_form=AccountEditForm,
          template_name='userena/edit_form.html', success_url=None,
          extra_context=None):
@@ -419,6 +422,75 @@ def edit(request, username, edit_form=AccountEditForm,
                               template_name,
                               extra_context=extra_context)
 
+@secure_required
+@login_required
+def password_change(request, username, template_name='userena/password_form.html',
+                    pass_form=PasswordChangeForm, success_url=None, extra_context=None):
+    """ Change password of user.
+
+    This view is almost a mirror of the view supplied in
+    ``contrib.auth.views.password_change``, with the minor change that in this
+    view we also use the username to change the password. This was needed to
+    keep our URLs logical (and REST) accross the entire application. And that
+    in a later stadium administrators can also change the users password
+    through the web application itself.
+
+    **Arguments**
+
+    ``username``
+
+        String supplying the username of the user who's password is about to be
+        changed.
+
+    **Keyword arguments**
+
+    ``template_name``
+        String of the name of the template that is used to display the password
+        change form. Defaults to ``userena/password_form.html``.
+
+    ``pass_form``
+        Form used to change password. Default is the form supplied by Django
+        itself named ``PasswordChangeForm``.
+
+    ``success_url``
+        Named URL that is passed onto a ``reverse`` function with ``username``
+        of the active user. Defaults to the ``userena_password_complete`` URL.
+
+    ``extra_context``
+        Dictionary of extra variables that are passed on the the template. The
+        ``form`` key is always used by the form supplied by ``pass_form``.
+
+    **Context**
+
+    ``form``
+        Form used to change the password.
+
+    ``account``
+        The current active account.
+
+    """
+    account = get_object_or_404(Account,
+                                user__username__iexact=username)
+
+    form = pass_form(user=account.user)
+
+    if request.method == "POST":
+        form = pass_form(user=account.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_password_change_complete',
+                                        kwargs={'username': account.user.username})
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
+    extra_context['form'] = form
+    extra_context['account'] = account
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+
 def list(request, page=1, template_name='userena/list.html', paginate_by=50,
          extra_context=None):
     """
@@ -442,7 +514,7 @@ def list(request, page=1, template_name='userena/list.html', paginate_by=50,
         Dictionary of variables that are passed on to the ``template_name``
         template.
 
-    **Context**example.com
+    **Context**
 
     ``account_list``
         A list of accounts.

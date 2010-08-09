@@ -104,10 +104,10 @@ class Account(models.Model):
         Changes the e-mail address for a user.
 
         A user needs to verify this new e-mail address before it becomes
-        active. By storing there new e-mail address in a temporary field --
+        active. By storing the new e-mail address in a temporary field --
         ``temporary_email`` -- we are able to set this e-mail address after the
-        user has verified it by clicking on the verfication URI in the email
-        send by ``send_activation_email``.
+        user has verified it by clicking on the verfication URI in the email.
+        This email get's send out by ``send_verification_email``.
 
         **Arguments**
 
@@ -126,11 +126,10 @@ class Account(models.Model):
 
     def send_verification_email(self):
         """
-        Send email verification email. Strange, but correct sentence.
+        Sends an email to verify the new email address.
 
-        Sends an email to verify a supplied email. This email contains the
-        ``email_verification_key`` which is used to verify this new email
-        address.
+        This email contains the ``email_verification_key`` which is used to
+        verify this new email address in ``Account.objects.verify_email``.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
@@ -152,10 +151,12 @@ class Account(models.Model):
 
     def activation_key_expired(self):
         """
+        Checks if activation key is expired.
+
         Returns ``True`` when the ``activation_key`` of the account is
         expired and ``False`` if the key is still valid.
 
-        The key is either expired when the key is set to the value defined in
+        The key is expired when it's set to the value defined in
         ``USERENA_ACTIVATED`` or ``activation_key_created`` is beyond the
         amount of days defined in ``USERENA_ACTIVATION_DAYS``.
 
@@ -173,7 +174,8 @@ class Account(models.Model):
         Sends a activation e-mail to the user.
 
         This e-mail is send when the user wants to activate their newly created
-        account.
+        account. Also checks if the protocol is secured by looking at
+        ``USERENE_USE_HTTPS`` value.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
@@ -196,13 +198,14 @@ class Account(models.Model):
 
     def get_mugshot_url(self):
         """
-        Returns the image containing the mugshot for the user. This can either
-        an uploaded image or a Gravatar.
+        Returns the image containing the mugshot for the user.
+
+        The mugshot can be a uploaded image or a Gravatar.
 
         Gravatar functionality will only be used when
         ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
 
-        Return ``None`` when Gravatar is not used and no default image is
+        Returns ``None`` when Gravatar is not used and no default image is
         supplied by ``USERENA_MUGSHOT_DEFAULT``.
 
         """

@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
@@ -151,7 +152,7 @@ class AccountViewsTests(TestCase):
         self.assertRedirects(response,
                              reverse('userena_disabled'))
 
-    def test_signin_view_succes(self):
+    def test_signin_view_success(self):
         """
         A valid ``POST`` to the signin view should redirect the user to it's
         own account page if no ``next`` value is supplied. Else it should
@@ -224,6 +225,7 @@ class AccountViewsTests(TestCase):
 
     def test_edit_view(self):
         """ A ``GET`` to the edit view of a users account """
+        self.client.login(username='john', password='blowfish')
         response = self.client.get(reverse('userena_edit',
                                            kwargs={'username': 'john'}))
 
@@ -232,8 +234,9 @@ class AccountViewsTests(TestCase):
         self.failUnless(isinstance(response.context['form'],
                                    forms.AccountEditForm))
 
-    def test_edit_view_succes(self):
+    def test_edit_view_success(self):
         """ A ``POST`` to the edit view """
+        self.client.login(username='john', password='blowfish')
         new_about_me = 'I hate it when people use my name for testing.'
         response = self.client.post(reverse('userena_edit',
                                             kwargs={'username': 'john'}),
@@ -246,6 +249,35 @@ class AccountViewsTests(TestCase):
         # Account should be changed now.
         account = Account.objects.get(user__username='john')
         self.assertEqual(account.about_me, new_about_me)
+
+    def test_change_password_view(self):
+        """ A ``GET`` to the change password view """
+        self.client.login(username='john', password='blowfish')
+        response = self.client.get(reverse('userena_password_change',
+                                           kwargs={'username': 'john'}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/password_form.html')
+        self.failUnless(response.context['form'],
+                        PasswordChangeForm)
+
+    def test_change_password_view_success(self):
+        """ A valid ``POST`` to the password change view """
+        self.client.login(username='john', password='blowfish')
+
+        new_password = 'suckfish'
+        response = self.client.post(reverse('userena_password_change',
+                                            kwargs={'username': 'john'}),
+                                    data={'new_password1': new_password,
+                                          'new_password2': 'suckfish',
+                                          'old_password': 'blowfish'})
+
+        self.assertRedirects(response, reverse('userena_password_change_complete',
+                                               kwargs={'username': 'john'}))
+
+        # Check that the new password is set.
+        john = User.objects.get(username='john')
+        self.failUnless(john.check_password(new_password))
 
     def test_list_view(self):
         """ A ``GET`` to the list view of a user """
