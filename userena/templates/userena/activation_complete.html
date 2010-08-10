@@ -1,7 +1,8 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Account activated" %}{% endblock %}
+{% block content_title %}<h2>{% trans 'Your account is activated' %}</h2>{% endblock %}
 {% block content %}
-<h1>{% trans 'Success!' %}</h1>
-<p>{% trans 'Your account has been activated.' %}</p>
+<p>{% trans 'Your account has been activated. You can signin with your username and password.' %}</p>
 {% endblock %}

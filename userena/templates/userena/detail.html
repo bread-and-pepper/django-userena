@@ -1,6 +1,7 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Account of" %} {{ account.user.username }}{% endblock %}
 {% block content_title %}<h2>{{ account.user.username }}</h2>{% endblock %}
 
 {% block content %}
