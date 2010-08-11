@@ -12,7 +12,7 @@ class AccountInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': ('mugshot', 'gender', 'website', 'location',
-                       'birth_date', 'about_me')
+                       'birth_date', 'about_me', 'privacy')
         }),
         (_('Account management fields'), {
             'classes': ('collapse',),

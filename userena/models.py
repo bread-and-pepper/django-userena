@@ -12,6 +12,9 @@ from userena.utils import get_gravatar, generate_sha1
 from userena.managers import AccountManager
 from userena import settings as userena_settings
 
+from guardian.shortcuts import get_perms
+from guardian.shortcuts import assign
+
 from dateutil.relativedelta import relativedelta
 from easy_thumbnails.fields import ThumbnailerImageField
 
@@ -44,6 +47,12 @@ class Account(models.Model):
         (2, _('Female')),
     )
 
+    PRIVACY_CHOICES = (
+        (1, _('Everyone')),
+        (2, _('Registered')),
+        (3, _('Nobody')),
+    )
+
     user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
@@ -58,6 +67,10 @@ class Account(models.Model):
     location =  models.CharField(_('location'), max_length=255, blank=True)
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
+    privacy = models.PositiveSmallIntegerField(_('privacy'),
+                                               choices=PRIVACY_CHOICES,
+                                               default=2,
+                                               help_text = _('Designates who can view your account.'))
 
     # Fields used for managment purposes.
     last_active = models.DateTimeField(null=True, blank=True)
@@ -228,5 +241,63 @@ class Account(models.Model):
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
+    def can_view_account(self, user):
+        """ Returns a boolean if a user can view this account.
+
+        Users are divided into two categories:
+
+            - Everyone: The same as anonymous users, meaning everyone can view
+            this account information.
+            - Registered: Users that are registered on the website and signed
+            in.
+            - Nobody: Account information is hidden for everyone.
+
+        Through the ``privacy`` field a owner of an account can define what
+        they want to show to whom.
+
+        **Arguments**
+
+        ``user``
+
+            A django ``User`` instance.
+
+        """
+        # Simple cases first, costs less CPU and DB hits.
+
+        # Everyone.
+        if self.privacy == 1: return True
+        # Registered users.
+        elif self.privacy == 2 and isinstance(user, User): return True
+
+        # Checks done by guardian
+        elif 'view_account' in get_perms(user, self):
+            return True
+
+        return False
+
+    def can_edit_account(self, user):
+        """ Returns a boolean if a user can edit this account. """
+        if 'change_account' in get_perms(user, self):
+            return True
+        return False
+
+    def can_remove_user(self, user):
+        """ Returns a boolean if a user can remove the user and account """
+        pass
+
 # Always return an account when asked through a user
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])
+
+# Signals
+def permission_callback(sender, instance, created, **kwargs):
+    """
+    When a user creates an account they should be granted permission to view,
+    change or delete that account.
+
+    """
+    if created:
+        permissions = ['view_account', 'change_account', 'delete_account']
+        for perm in permissions:
+            assign(perm, instance.user, instance)
+
+models.signals.post_save.connect(permission_callback, sender=Account)

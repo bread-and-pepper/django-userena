@@ -19,6 +19,8 @@ from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect
 from userena import settings as userena_settings
 
+from guardian.shortcuts import get_perms
+
 @secure_required
 def activate(request, activation_key,
              template_name='userena/activation_fail.html',
@@ -345,7 +347,8 @@ def detail(request, username, template_name='userena/detail.html', extra_context
     """
     account = get_object_or_404(Account,
                                 user__username__iexact=username)
-
+    if not account.can_view_account(request.user):
+        raise Http404
     if not extra_context: extra_context = dict()
     extra_context['account'] = account
     return direct_to_template(request,
@@ -400,6 +403,10 @@ def edit(request, username, edit_form=AccountEditForm,
     """
     account = get_object_or_404(Account,
                                 user__username__iexact=username)
+    # Check permission
+    if not account.can_edit_account(request.user):
+        raise Http404
+
     form = edit_form(instance=account)
 
     if request.method == 'POST':
