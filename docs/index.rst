@@ -7,33 +7,48 @@ Userena Introduction
 ====================
 
 This documentation covers the first release of django-userena application. A
-Django application that takes care off all your account needs. These were
-selected by looking at web applications and picking those that every modern web
-application needs. A few examples of these are the following: 
+Django application that takes care off all your account needs.
 
-* After signup a user get's a activation email. A user can make use of the
-  application ``USERENA_ACTIVATION_DAYS`` days before having to activate their
-  account.  The user also get's a notification if their account is still not
-  activated ``USERENA_ACTIVATION_NOTIFY_DAYS`` days before the activation
-  key get's invalid.
+Want to experience it first? Go to django-userena.org and create an account for
+yourself.
 
-* A user can signin with their e-mail address or username (as seen at Github).
-  Django-userena will define which one is used and try to sign the user in with
-  supplied credentials.
+Why userena?
+================
 
-* At signin the user can choose to be remembered for
-  ``USERENA_REMEMBER_ME_DAYS`` of time.
+Because we have done the hard work for you. Userena supplies you with signup,
+signin, account editing, privacy settings for your users and more. Everything
+is tested with unit-tests, with a 100% code coverage as requirement. All you
+have to do is plug it into your project and you will have all of this for free.
 
-* Usernames defined in ``USERENA_FORBIDDEN_USERNAMES`` list are not allowed at
-  signup.
+The following things are build into userena:
 
-* Changing your e-mail address also needs verification. Only after the URI
-  inside the verification e-mail is clicked will the new e-mail address become
-  active.
+    - User has to **activate** their account by clicking on a activation link
+      in an email send to them.
 
-* Each account has their own detail page, for ex. ``/accounts/jane/`` and each
-  account also has it's own settings page accessible by the owner. For ex.
-  ``/accounts/me/``.
+    - **Permissions** for viewing, changing and deleting accounts is
+      implemented on an user and object basis with the help of django-guardian.
+
+    - Optionally **secure** userena by using https. If you change the settings
+      to use https, userena will switch to the secure protocol on it's views
+      and emails.
+
+    - All **templates** are already supplied for you. Only override those that
+      don't fit with your needs!
+
+    - Mugshots supplied by **Gravatar** or uploaded by the user. The default
+      mugshot can be set in the settings.
+
+    - *TODO*: Optional **Messaging** system between users and a notification
+      system for administrators.
+
+    - *TODO*: Optional **Friends** system which let's users become friends.
+      Special permissions can be granted to users that are friends.
+
+Please help us out!
+===================
+
+Found a bug in userena? File an issue at Github. Have an improvement? Fork it
+and add it, or if you can't code it, contact us to do it.
 
 Contents
 ========
