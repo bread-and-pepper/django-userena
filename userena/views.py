@@ -178,6 +178,9 @@ def signin(request, auth_form=AuthenticationForm,
                     request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
                 else: request.session.set_expiry(0)
 
+                messages.success(request, _('You have been signed in.'),
+                                 fail_silently=True)
+
                 # Whereto now?
                 requested_redirect = request.REQUEST.get(redirect_field_name, None)
                 redirect_to = redirect_signin_function(requested_redirect,
@@ -363,8 +366,10 @@ def edit(request, username, edit_form=AccountEditForm,
     """
     Edit an account.
 
-    Edits an account selected by the supplied username. If the account is
-    succesfully edited will redirect to ``success_url``.
+    Edits an account selected by the supplied username. First checks
+    permissions if the user is allowed to edit this account, if denied will
+    show a 404. When the account is succesfully edited will redirect to
+    ``success_url``.
 
     **Arguments**
 
