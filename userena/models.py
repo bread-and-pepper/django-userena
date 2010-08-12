@@ -289,17 +289,3 @@ class Account(models.Model):
 
 # Always return an account when asked through a user
 User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])
-
-# Signals
-def permission_callback(sender, instance, created, **kwargs):
-    """
-    When a user creates an account they should be granted permission to view,
-    change or delete that account.
-
-    """
-    if created:
-        permissions = ['view_account', 'change_account', 'delete_account']
-        for perm in permissions:
-            assign(perm, instance.user, instance)
-
-models.signals.post_save.connect(permission_callback, sender=Account)

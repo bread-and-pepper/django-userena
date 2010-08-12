@@ -73,8 +73,8 @@ def signin_redirect(redirect=None, user=None):
 
 def generate_sha1(string, salt=None):
     """
-    Generates a sha1 hash for a string. Doesn't need to be very secure because
-    it's not used for password checking. We got Django for that.
+    Generates a sha1 hash for supplied string. Doesn't need to be very secure
+    because it's not used for password checking. We got Django for that.
 
     Returns a tuple containing the salt and hash.
 

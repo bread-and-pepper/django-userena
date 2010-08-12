@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from userena import settings as userena_settings
 from userena.utils import generate_sha1
 
+from guardian.shortcuts import assign
+
 import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
@@ -20,7 +22,7 @@ class AccountManager(models.Manager):
         new_user.is_active = False
         new_user.save()
 
-        # Create account also
+        # Also create account.
         account = self.create_account(new_user)
 
         return new_user
@@ -28,6 +30,9 @@ class AccountManager(models.Manager):
     def create_account(self, user):
         """
         Create an ``Account`` for a given ``User``.
+
+        The permissions of viewing, changing and deleting the account are
+        granted to the user.
 
         Also creates a ``activation_key`` for this account. After the account
         is created an e-mail is send with ``send_activation_email`` to the
@@ -41,6 +46,11 @@ class AccountManager(models.Manager):
         account = self.create(user=user,
                               activation_key=activation_key,
                               activation_key_created=datetime.datetime.now())
+
+        permissions = ['view_account', 'change_account', 'delete_account']
+        for perm in permissions:
+            assign(perm, account.user, account)
+
         account.send_activation_email()
         return account
 
@@ -49,7 +59,7 @@ class AccountManager(models.Manager):
         Activate an ``User`` by supplying a valid ``activation_key``.
 
         If the key is valid and an account is found, activate the user and
-        return the activied account.
+        return the account.
 
         """
         if SHA1_RE.search(activation_key):
@@ -69,7 +79,11 @@ class AccountManager(models.Manager):
 
     def verify_email(self, verification_key):
         """
-        Verify an email address of a user supplying a ``verification_key``.
+        Verify an email address by checking a ``verification_key``.
+
+        A valid ``verification_key`` will set the newly wanted e-mail address
+        as the current e-mail address. Returns the account after succes or
+        ``False`` when the verification key is invalid.
 
         """
         if SHA1_RE.search(verification_key):
@@ -93,7 +107,7 @@ class AccountManager(models.Manager):
         Checks for expired accounts and delete's the ``User`` associated with
         it. Skips if the user ``is_staff``.
 
-        Returns a list of the deleted accounts.
+        Returns a list of the deleted users.
 
         """
         deleted_users = []

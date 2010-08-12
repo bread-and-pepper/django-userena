@@ -13,7 +13,8 @@ class SignupForm(forms.Form):
     Form for creating a new user account.
 
     Validates that the requested username and e-mail is not already in use.
-    Also requires the password to be entered twice. A TOS is also required to be seen.
+    Also requires the password to be entered twice and the Terms of Service to
+    be accepted.
 
     """
     username = forms.RegexField(regex=r'^\w+$',
@@ -51,7 +52,7 @@ class SignupForm(forms.Form):
         return self.cleaned_data['username']
 
     def clean_email(self):
-        """ Validate that the e-mail address is unique """
+        """ Validate that the e-mail address is unique. """
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
@@ -69,6 +70,7 @@ class SignupForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
+        """ Creates a new user and account. Returns the newly created user. """
         username, email, password = (self.cleaned_data['username'],
                                      self.cleaned_data['email'],
                                      self.cleaned_data['password1'])
@@ -93,6 +95,12 @@ class AuthenticationForm(forms.Form):
                                      label=_(u'Remember me for %(days)s' % {'days': userena_settings.USERENA_REMEMBER_ME_DAYS[0]}))
 
     def clean(self):
+        """
+        Checks for the identification and password.
+
+        If the combination can't be found will raise an invalid signin error.
+
+        """
         identification = self.cleaned_data.get('identification')
         password = self.cleaned_data.get('password')
 
@@ -109,8 +117,10 @@ class ChangeEmailForm(forms.Form):
 
     def __init__(self, account, *args, **kwargs):
         """
-        The current ``account`` needs to be supplied with this form so that we can
-        check if the e-mail address is still free.
+        The current ``account`` is needed for initialisation of this form so
+        that we can check if the e-mail address is still free and not always
+        returning ``True`` for this query because it's the users own e-mail
+        address.
 
         """
         super(ChangeEmailForm, self).__init__(*args, **kwargs)
@@ -132,12 +142,11 @@ class ChangeEmailForm(forms.Form):
     def save(self):
         """
         Save method calls ``account.change_email()`` method which sends out an
-        email with an verification key to verify and thus enable this new email
-        address.
+        email with an verification key to verify and with it enable this new
+        email address.
 
         """
-        email = self.cleaned_data['email']
-        return self.account.change_email(email)
+        return self.account.change_email(self.cleaned_data['email'])
 
 class AccountEditForm(forms.ModelForm):
     """ Edit your account form. """
