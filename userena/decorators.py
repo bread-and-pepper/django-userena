@@ -1,11 +1,25 @@
 from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
+from django.utils.decorators import available_attrs
 
 from userena import settings as userena_settings
 
+from functools import wraps
+
 def secure_required(view_func):
-    """ Decorator makes sure URL is accessed over https. """
-    def _wrapped_view_func(request, *args, **kwargs):
+    """
+    Decorator to switch an url from http to https.
+
+    If a view is accessed through http and this decorator is applied to that
+    view, than it will return a permanent redirect to the secure (https)
+    version of the same view.
+
+    The decorator also must check that ``USERENA_USE_HTTPS`` is enabled. If
+    disabled, it should not redirect to https because the project doesn't
+    support it.
+
+    """
+    def _wrapped_view(request, *args, **kwargs):
         if 'HTTP_X_FORWARDED_SSL' in request.META:
             request.is_secure = lambda: request.META['HTTP_X_FORWARDED_SSL'] == 'on'
 
@@ -15,10 +29,4 @@ def secure_required(view_func):
                 secure_url = request_url.replace('http://', 'https://')
                 return HttpResponsePermanentRedirect(secure_url)
         return view_func(request, *args, **kwargs)
-
-    # If we still want documentation for Sphinx
-    _wrapped_view_func.__name__ = view_func.__name__
-    _wrapped_view_func.__dict__ = view_func.__dict__
-    _wrapped_view_func.__doc__ = view_func.__doc__
-
-    return _wrapped_view_func
+    return wraps(view_func, assigned=available_attrs(view_func))(_wrapped_view)
