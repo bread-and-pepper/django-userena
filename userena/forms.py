@@ -68,6 +68,14 @@ class SignupForm(forms.Form):
                 raise forms.ValidationError(_('The two password fields didn\'t match.'))
         return self.cleaned_data
 
+    def save(self):
+        username, email, password = (self.cleaned_data['username'],
+                                     self.cleaned_data['email'],
+                                     self.cleaned_data['password1'])
+
+        new_user = Account.objects.create_inactive_user(username, email, password)
+        return new_user
+
 class AuthenticationForm(forms.Form):
     """
     A custom ``AuthenticationForm`` where the identification can be a e-mail
@@ -99,27 +107,37 @@ class ChangeEmailForm(forms.Form):
                                                                maxlength=75)),
                              label=_("New email address"))
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, account, *args, **kwargs):
         """
-        The current ``user`` needs to be supplied with this form so that we can
+        The current ``account`` needs to be supplied with this form so that we can
         check if the e-mail address is still free.
 
         """
         super(ChangeEmailForm, self).__init__(*args, **kwargs)
-        if not isinstance(user, User):
-            raise TypeError, "user must be an instance of User"
-        else: self.user = user
+        if not isinstance(account, Account):
+            raise TypeError, "user must be an instance of Account"
+        else: self.account = account
 
         self.fields['email'].help_text = _('Your current email is %(email)s' % \
-                                           {'email': user.email})
+                                           {'email': account.user.email})
 
     def clean_email(self):
         """ Validate that the e-mail address is not already registered with another user """
-        if self.cleaned_data['email'].lower() == self.user.email:
+        if self.cleaned_data['email'].lower() == self.account.user.email:
             raise forms.ValidationError(_('Your already known under this email address.'))
-        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
+        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.account.user.email):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
+
+    def save(self):
+        """
+        Save method calls ``account.change_email()`` method which sends out an
+        email with an verification key to verify and thus enable this new email
+        address.
+
+        """
+        email = self.cleaned_data['email']
+        return self.account.change_email(email)
 
 class AccountEditForm(forms.ModelForm):
     """ Edit your account form. """

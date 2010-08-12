@@ -244,13 +244,14 @@ class Account(models.Model):
     def can_view_account(self, user):
         """ Returns a boolean if a user can view this account.
 
-        Users are divided into two categories:
+        Users are divided into four groups:
 
-            - Everyone: The same as anonymous users, meaning everyone can view
-            this account information.
+            - Everyone: Registered (``User``) anonymous (``AnonymousUser``)
+            users, meaning everyone can view this account information.
             - Registered: Users that are registered on the website and signed
             in.
             - Nobody: Account information is hidden for everyone.
+            - Special cases like superadmin and the owner of the account.
 
         Through the ``privacy`` field a owner of an account can define what
         they want to show to whom.
@@ -269,10 +270,11 @@ class Account(models.Model):
         # Registered users.
         elif self.privacy == 2 and isinstance(user, User): return True
 
-        # Checks done by guardian
+        # Checks done by guardian for owner and admins
         elif 'view_account' in get_perms(user, self):
             return True
 
+        # Fallback to nobody
         return False
 
     def can_edit_account(self, user):

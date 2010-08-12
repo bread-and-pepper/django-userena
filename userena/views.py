@@ -74,7 +74,7 @@ def verify(request, verification_key,
            template_name='userena/verification_fail.html', success_url=None,
            extra_context=None):
     """
-    Verify your email address with a verification key.
+    Verifies an email address with a verification key.
 
     Verifies a new email address by running ``Account.objects.verify_email``
     method. If the method returns an ``Account`` the user will have his new
@@ -121,7 +121,7 @@ def signin(request, auth_form=AuthenticationForm,
            redirect_field_name=REDIRECT_FIELD_NAME,
            redirect_signin_function=signin_redirect, extra_context=None):
     """
-    Signin using your email or username and password.
+    Signin using email or username with password.
 
     Signs a user in by combining email/username with password. If the
     combination is correct and the user ``is_active`` the
@@ -200,7 +200,11 @@ def signup(request, signup_form=SignupForm,
            template_name='userena/signup_form.html', success_url=None,
            extra_context=None):
     """
-    Signup a user requiring them to supply a username, email and password.
+    Signup of an account.
+
+    Signup requiring a username, email and password. After signup a user gets
+    an email with an activation link used to activate their account. After
+    successful signup redirects to ``success_url``.
 
     **Keyword arguments**
 
@@ -233,12 +237,7 @@ def signup(request, signup_form=SignupForm,
     if request.method == 'POST':
         form = signup_form(request.POST, request.FILES)
         if form.is_valid():
-            username, email, password = (form.cleaned_data['username'],
-                                         form.cleaned_data['email'],
-                                         form.cleaned_data['password1'])
-
-            # Create new user
-            new_account = Account.objects.create_inactive_user(username, email, password)
+            user = form.save()
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_signup_complete')
@@ -289,8 +288,8 @@ def email_change(request, username, form=ChangeEmailForm,
     ``form``
         Form that is used to change the email address supplied by ``form``.
 
-    ``user``
-        Instance of the ``User`` whose email address is about to be changed.
+    ``account``
+        Instance of the ``Account`` whose email address is about to be changed.
 
     **Todo**
 
@@ -298,27 +297,25 @@ def email_change(request, username, form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    user = get_object_or_404(User, username__iexact=username)
-    form = ChangeEmailForm(user)
+    account = get_object_or_404(Account, user__username__iexact=username)
+    form = ChangeEmailForm(account)
 
     if request.method == 'POST':
-        form = ChangeEmailForm(user,
+        form = ChangeEmailForm(account,
                                request.POST,
                                request.FILES)
 
         if form.is_valid():
-            new_email = form.cleaned_data['email']
-            # Change the email address
-            user.account.change_email(new_email)
+            email_result = form.save()
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_email_complete',
-                                        kwargs={'username': user.username})
+                                        kwargs={'username': account.user.username})
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
-    extra_context['user'] = user
+    extra_context['account'] = account
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
