@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/master.css" />
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
         <link href='https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css' />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     </head>
     <body>
         <div id="top">&nbsp;</div>
@@ -27,16 +28,18 @@
                 {% endif %}
                 <h1><a href="{% url promo %}">django-userena</a></h1>
                 <div id="lang_form">
-                    <p>{% trans "Change language" %}</p>
-                    <form action="/i18n/setlang/" method="post">
+                    <p>Change language:</p>
+                    <form action="/i18n/setlang/" method="post" id="locale_switcher">
                         {% csrf_token %}
                         <input name="next" type="hidden" value="{{ request.path }}" />
-                        <select name="language">
+                        <select name="language" onchange="$('#locale_switcher').submit()">
                             {% for lang in LANGUAGES %}
                             <option value="{{ lang.0 }}" {% if request.LANGUAGE_CODE == lang.0 %}selected{% endif %}>{{ lang.1 }}</option>
                             {% endfor %}
                         </select>
-                        <input type="submit" value="Go" />
+                        <noscript>
+                            <input type="submit" value="{% trans "Change language" %}" />
+                        </noscript>
                     </form>
                 </div>
                 {% block nav %}
@@ -71,6 +74,6 @@
              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
              })();
-         </script>
+</script>
      </body>
  </html>
