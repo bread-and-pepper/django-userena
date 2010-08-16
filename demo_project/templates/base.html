@@ -28,7 +28,6 @@
                 {% endif %}
                 <h1><a href="{% url promo %}">django-userena</a></h1>
                 <div id="lang_form">
-                    <p>Change language:</p>
                     <form action="/i18n/setlang/" method="post" id="locale_switcher">
                         {% csrf_token %}
                         <input name="next" type="hidden" value="{{ request.path }}" />

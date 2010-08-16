@@ -1,11 +1,12 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 from userena import forms
+from userena.models import Account
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """
     fixtures = ['users', 'accounts']
+
     def test_signup_form(self):
         """
         Test that the ``SignupForm`` checks for unique usernames and unique
@@ -105,9 +106,9 @@ class AuthenticationFormTests(TestCase):
 
 class ChangeEmailFormTests(TestCase):
     """ Test the ``ChangeEmailForm`` """
-    fixtures = ['users']
+    fixtures = ['users', 'accounts']
     def test_change_email_form(self):
-        user = User.objects.get(email__iexact='john@example.com')
+        account = Account.objects.get(pk=1)
         invalid_data_dicts = [
             # No change in e-mail address
             {'data': {'email': 'john@example.com'},
@@ -117,13 +118,13 @@ class ChangeEmailFormTests(TestCase):
              'error': ('email', [u'This email address is already in use. Please supply a different email address.'])},
         ]
         for invalid_dict in invalid_data_dicts:
-            form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
+            form = forms.ChangeEmailForm(account, data=invalid_dict['data'])
             self.failIf(form.is_valid())
             self.assertEqual(form.errors[invalid_dict['error'][0]],
                              invalid_dict['error'][1])
 
         # Test a valid post
-        form = forms.ChangeEmailForm(user,
+        form = forms.ChangeEmailForm(account,
                                      data={'email': 'john@newexample.com'})
         self.failUnless(form.is_valid())
 

@@ -240,7 +240,8 @@ class AccountViewsTests(TestCase):
         new_about_me = 'I hate it when people use my name for testing.'
         response = self.client.post(reverse('userena_edit',
                                             kwargs={'username': 'john'}),
-                                    data={'about_me': new_about_me})
+                                    data={'about_me': new_about_me,
+                                          'privacy': 1})
 
         # A valid post should redirect to the detail page.
         self.assertRedirects(response, reverse('userena_detail',
