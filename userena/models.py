@@ -39,17 +39,9 @@ class UserenaUser(User):
     functional user implementation on your Django website.
 
     """
-    PRIVACY_CHOICES = (
-        ('open', _('Open')),
-        ('registered', _('Registered')),
-        ('closed', _('Closed')),
-    )
-
-    privacy = models.CharField(_('privacy'),
-                               max_length=15,
-                               choices=PRIVACY_CHOICES,
-                               default='registered',
-                               help_text = _('Designates who can view your profile.'))
+    user = models.OneToOneField(User,
+                                verbose_name=_('user'),
+                                parent_link=True)
 
     last_active = models.DateTimeField(null=True, blank=True)
 
@@ -71,20 +63,10 @@ class UserenaUser(User):
 
     objects = UserManager()
 
-    class Meta:
-        permissions = (
-            ('view_profile', 'Can view profile'),
-        )
-
     @models.permalink
     def get_absolute_url(self):
-        return ('userena_detail', (), {'username': self.username})
+        return ('userena_profile_detail', (), {'username': self.username})
 
-    @property
-    def age(self):
-        """ Returns integer telling the age in years for the user """
-        today = datetime.date.today()
-        return relativedelta(today, self.birth_date).years
 
     def change_email(self, email):
         """
@@ -183,6 +165,75 @@ class UserenaUser(User):
                   settings.DEFAULT_FROM_EMAIL,
                   [self.email,])
 
+class BaseProfile(models.Model):
+    """ Base model needed for extra profile functionality """
+    PRIVACY_CHOICES = (
+        ('open', _('Open')),
+        ('registered', _('Registered')),
+        ('closed', _('Closed')),
+    )
+
+    MUGSHOT_SETTINGS = {'size': (userena_settings.USERENA_MUGSHOT_SIZE,
+                                 userena_settings.USERENA_MUGSHOT_SIZE),
+                        'crop': 'smart'}
+
+    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
+
+    privacy = models.CharField(_('privacy'),
+                               max_length=15,
+                               choices=PRIVACY_CHOICES,
+                               default='registered',
+                               help_text = _('Designates who can view your profile.'))
+
+    mugshot = ThumbnailerImageField(_('mugshot'),
+                                    blank=True,
+                                    upload_to=upload_to_mugshot,
+                                    resize_source=MUGSHOT_SETTINGS,
+                                    help_text=_('A personal image displayed in your profile.'))
+
+    class Meta:
+        abstract = True
+        permissions = (
+            ('view_profile', 'Can view profile'),
+        )
+
+    @property
+    def age(self):
+        """ Returns integer telling the age in years for the user """
+        today = datetime.date.today()
+        return relativedelta(today, self.birth_date).years
+
+    def get_mugshot_url(self):
+        """
+        Returns the image containing the mugshot for the user.
+
+        The mugshot can be a uploaded image or a Gravatar.
+
+        Gravatar functionality will only be used when
+        ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
+
+        Returns ``None`` when Gravatar is not used and no default image is
+        supplied by ``USERENA_MUGSHOT_DEFAULT``.
+
+        """
+        # First check for a mugshot and if any return that.
+        if self.mugshot:
+            return self.mugshot.url
+
+        # Use Gravatar if the user wants to.
+        if userena_settings.USERENA_MUGSHOT_GRAVATAR:
+            return get_gravatar(self.user.email,
+                                userena_settings.USERENA_MUGSHOT_SIZE,
+                                userena_settings.USERENA_MUGSHOT_DEFAULT)
+
+        # Gravatar not used, check for a default image.
+        else:
+            if userena_settings.USERENA_MUGSHOT_DEFAULT not in ['404', 'mm',
+                                                                'identicon',
+                                                                'monsterid',
+                                                                'wavatar']:
+                return userena_settings.USERENA_MUGSHOT_DEFAULT
+            else: return None
 
     def can_view_profile(self, user):
         """
@@ -222,32 +273,13 @@ class UserenaUser(User):
         # Fallback to closed profile.
         return False
 
-    def can_edit_account(self, user):
-        """ Returns a boolean if a user can edit this account. """
-        if 'change_account' in get_perms(user, self):
-            return True
-        return False
 
-    def can_remove_user(self, user):
-        """ Returns a boolean if a user can remove the user and account """
-        pass
-
-class DefaultProfile(models.Model):
+class Profile(BaseProfile):
     """ Default profile """
-    MUGSHOT_SETTINGS = {'size': (userena_settings.USERENA_MUGSHOT_SIZE,
-                                 userena_settings.USERENA_MUGSHOT_SIZE),
-                        'crop': 'smart'}
     GENDER_CHOICES = (
         (1, _('Male')),
         (2, _('Female')),
     )
-
-    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
-    mugshot = ThumbnailerImageField(_('mugshot'),
-                                    blank=True,
-                                    upload_to=upload_to_mugshot,
-                                    resize_source=MUGSHOT_SETTINGS,
-                                    help_text=_('A personal image displayed in your profile.'))
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
@@ -257,34 +289,13 @@ class DefaultProfile(models.Model):
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
 
-    def get_mugshot_url(self):
-        """
-        Returns the image containing the mugshot for the user.
+def create_userena_user(sender, instance, created, **kwargs):
+    if created:
+       userena, created = UserenaUser.objects.get_or_create(user=instance)
 
-        The mugshot can be a uploaded image or a Gravatar.
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+       profile, created = Profile.objects.get_or_create(user=instance)
 
-        Gravatar functionality will only be used when
-        ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
-
-        Returns ``None`` when Gravatar is not used and no default image is
-        supplied by ``USERENA_MUGSHOT_DEFAULT``.
-
-        """
-        # First check for a mugshot and if any return that.
-        if self.mugshot:
-            return self.mugshot.url
-
-        # Use Gravatar if the user wants to.
-        if userena_settings.USERENA_MUGSHOT_GRAVATAR:
-            return get_gravatar(self.email,
-                                userena_settings.USERENA_MUGSHOT_SIZE,
-                                userena_settings.USERENA_MUGSHOT_DEFAULT)
-
-        # Gravatar not used, check for a default image.
-        else:
-            if userena_settings.USERENA_MUGSHOT_DEFAULT not in ['404', 'mm',
-                                                                'identicon',
-                                                                'monsterid',
-                                                                'wavatar']:
-                return userena_settings.USERENA_MUGSHOT_DEFAULT
-            else: return None
+models.signals.post_save.connect(create_user_profile, sender=User)
+models.signals.post_save.connect(create_userena_user, sender=User)

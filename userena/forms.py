@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
 from userena.models import UserenaUser as User
+from userena.models import Profile
 
 attrs_dict = {'class': 'required'}
 
@@ -146,3 +147,7 @@ class ChangeEmailForm(forms.Form):
 
         """
         return self.user.change_email(self.cleaned_data['email'])
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile

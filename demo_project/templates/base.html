@@ -50,8 +50,8 @@
                 <ul id="nav">
                     <li><a href="{% url promo %}"><span>{% trans 'Home' %}</span></a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url userena_list %}"><span>{% trans 'All accounts' %}</span></a></li>
-                    <li><a href="{% url userena_detail user.username %}"><span>{% trans 'Your account' %} ({{ user.username }})</span></a></li>
+                    <li><a href="{% url userena_profile_list %}"><span>{% trans 'Profiles' %}</span></a></li>
+                    <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account settings' %} ({{ user.username }})</span></a></li>
                     <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
                     {% else %}
                     <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>

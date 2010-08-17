@@ -6,7 +6,17 @@
 
 {% block content %}
 <div class="white-box">
-    {{ profile.filled_in_fields }}
+    
+    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+    {% if user.username == profile.user.username %}
+    <ul id="box-nav">
+        <li><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %} &raquo;</a></li>
+        <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %} &raquo;</a></li>
+        <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %} &raquo;</a></li>
+        <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %} &raquo;</a></li>
+    </ul>
+    {% endif %}
+
     <div id="details">
     <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
     {% if user.get_full_name %}
@@ -28,13 +38,5 @@
     <p><b>{% trans "About me" %}:</b> {{ profile.about_me }}</p>
     {% endif %}
     </div>
-    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
-    {% if user.username == profile.user.username %}
-    <ul>
-        <li><a href="{% url userena_edit user.username %}">{% trans "Edit details" %} &raquo;</a></li>
-        <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %} &raquo;</a></li>
-        <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %} &raquo;</a></li>
-    </ul>
-    {% endif %}
 </div>
 {% endblock %}

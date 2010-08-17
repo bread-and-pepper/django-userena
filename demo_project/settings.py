@@ -100,7 +100,7 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
-AUTH_PROFILE_MODULE = 'userena.DefaultProfile'
+AUTH_PROFILE_MODULE = 'userena.Profile'
 
 USERENA_MUGSHOT_SIZE = 140
 

@@ -5,12 +5,12 @@ from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django.http import Http404
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
+from django.http import HttpResponseForbidden
 
-from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
+from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
 from userena.models import UserenaUser as User
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
@@ -318,117 +318,6 @@ def email_change(request, username, form=ChangeEmailForm,
                               template_name,
                               extra_context=extra_context)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
-    """
-    Detailed view of an user.
-
-    **Arguments**
-
-    ``username``
-        String of the username of which the account should be viewed.
-
-    **Keyword arguments**
-
-    ``template_name``
-        String representing the template name that should be used to display
-        the account.
-
-    ``extra_context``
-        Dictionary of variables which should be supplied to the template. The
-        ``account`` key is always the current account.
-
-    **Context**
-
-    ``account``
-        Instance of the currently edited ``Account``.
-
-    """
-    user = get_object_or_404(User,
-                             username__iexact=username)
-    if not user.can_view_profile(request.user):
-        raise Http404
-    if not extra_context: extra_context = dict()
-    extra_context['user'] = user
-    extra_context['profile'] = user.get_profile()
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
-
-@secure_required
-@login_required
-def edit(request, username, edit_form=None,
-         template_name='userena/edit_form.html', success_url=None,
-         extra_context=None):
-    """
-    Edit an account.
-
-    Edits an account selected by the supplied username. First checks
-    permissions if the user is allowed to edit this account, if denied will
-    show a 404. When the account is succesfully edited will redirect to
-    ``success_url``.
-
-    **Arguments**
-
-    ``username``
-        Username of the user which account should be edited.
-
-    **Keyword arguments**
-
-    ``edit_form``
-        Form that is used to edit the account. The ``save`` method of this form
-        will be called when the form ``is_valid``. Defaults to
-        ``AccountEditForm`` from userena.
-
-    ``template_name``
-        String of the template that is used to render the ``edit_form``.
-        Defaults to ``userena/edit_form.html``.
-
-    ``success_url``
-        Named URL which be passed on to a django ``reverse`` function after the
-        form is successfully saved. Defaults to the ``userena_detail`` url.
-
-    ``extra_context``
-        Dictionary containing variables that are passed on to the
-        ``template_name`` template.  ``form`` key will always be the form used
-        to edit the account, and the ``account`` key is always the edited
-        account.
-
-    **Context**
-
-    ``form``
-        Form that is used to alter the account.
-
-    ``account``
-        Instance of the ``Account`` that is edited.
-
-    """
-    user = get_object_or_404(User,
-                             user__username__iexact=username)
-    # Check permission
-    if not user.can_edit_account(request.user):
-        raise Http404
-
-    form = edit_form(instance=user)
-
-    if request.method == 'POST':
-        form = edit_form(request.POST, request.FILES, instance=account)
-
-        if form.is_valid():
-            account = form.save()
-
-            messages.success(request, _('Your account has been updated.'),
-                             fail_silently=True)
-
-            if success_url: redirect_to = success_url
-            else: redirect_to = reverse('userena_detail', kwargs={'username': username})
-            return redirect(redirect_to)
-
-    if not extra_context: extra_context = dict()
-    extra_context['form'] = form
-    extra_context['account'] = account
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
 
 @secure_required
 @login_required
@@ -499,10 +388,10 @@ def password_change(request, username, template_name='userena/password_form.html
                               template_name,
                               extra_context=extra_context)
 
-def list(request, page=1, template_name='userena/list.html', paginate_by=50,
-         extra_context=None):
+def profile_list(request, page=1, template_name='userena/profile_list.html', paginate_by=50,
+                 extra_context=None):
     """
-    Returns a list of all accounts that are public.
+    Returns a list of all profiles that are public.
 
     **Keyword arguments**
 
@@ -546,9 +435,126 @@ def list(request, page=1, template_name='userena/list.html', paginate_by=50,
 
     if not extra_context: extra_context = dict()
     return list_detail.object_list(request,
-                                   queryset=User.objects.all(),
+                                   queryset=Profile.objects.all(),
                                    paginate_by=paginate_by,
                                    page=page,
                                    template_name=template_name,
                                    extra_context=extra_context,
                                    template_object_name='account')
+
+def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
+    """
+    Detailed view of an user.
+
+    **Arguments**
+
+    ``username``
+        String of the username of which the account should be viewed.
+
+    **Keyword arguments**
+
+    ``template_name``
+        String representing the template name that should be used to display
+        the account.
+
+    ``extra_context``
+        Dictionary of variables which should be supplied to the template. The
+        ``account`` key is always the current account.
+
+    **Context**
+
+    ``account``
+        Instance of the currently edited ``Account``.
+
+    """
+    user = get_object_or_404(User,
+                             username__iexact=username)
+    profile = user.get_profile()
+    if not profile.can_view_profile(request.user):
+        return HttpResponseForbidden(_('Permission denied.'))
+    if not extra_context: extra_context = dict()
+    extra_context['user'] = user
+    extra_context['profile'] = user.get_profile()
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+
+@secure_required
+@login_required
+def profile_edit(request, username, edit_profile_form=EditProfileForm,
+                 template_name='userena/profile_form.html', success_url=None,
+                 extra_context=None):
+    """
+    Edit profile.
+
+    Edits a profile selected by the supplied username. First checks
+    permissions if the user is allowed to edit this account, if denied will
+    show a 404. When the account is succesfully edited will redirect to
+    ``success_url``.
+
+    **Arguments**
+
+    ``username``
+        Username of the user which account should be edited.
+
+    **Keyword arguments**
+
+    ``edit_profile_form``
+        Form that is used to edit the account. The ``save`` method of this form
+        will be called when the form ``is_valid``. Defaults to
+        ``AccountEditForm`` from userena.
+
+    ``template_name``
+        String of the template that is used to render the ``edit_profile_form``.
+        Defaults to ``userena/edit_profile_form.html``.
+
+    ``success_url``
+        Named URL which be passed on to a django ``reverse`` function after the
+        form is successfully saved. Defaults to the ``userena_detail`` url.
+
+    ``extra_context``
+        Dictionary containing variables that are passed on to the
+        ``template_name`` template.  ``form`` key will always be the form used
+        to edit the account, and the ``account`` key is always the edited
+        account.
+
+    **Context**
+
+    ``form``
+        Form that is used to alter the account.
+
+    ``account``
+        Instance of the ``Account`` that is edited.
+
+    """
+    user = get_object_or_404(User,
+                             username__iexact=username)
+
+    profile = user.get_profile()
+
+    # Check permission
+    if not 'change_profile' in get_perms(user, profile):
+        return HttpResponseForbidden(_('Permission denied.'))
+
+    form = edit_profile_form(instance=user)
+
+    if request.method == 'POST':
+        form = edit_profile_form(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            account = form.save()
+
+            messages.success(request, _('Your account has been updated.'),
+                             fail_silently=True)
+
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_profile_detail', kwargs={'username': username})
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
+    extra_context['form'] = form
+    extra_context['user'] = user
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+
