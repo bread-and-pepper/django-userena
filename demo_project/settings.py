@@ -96,11 +96,13 @@ INSTALLED_APPS = (
     'userena',
 )
 
-# Settings required for userena
+# Userena settings
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 AUTH_PROFILE_MODULE = 'userena.DefaultProfile'
+
+USERENA_MUGSHOT_SIZE = 140
 
 # Test settings
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'

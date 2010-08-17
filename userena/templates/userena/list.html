@@ -1,16 +1,17 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block content_title %}<h2>{% trans 'Account list' %}</h2>{% endblock %}
+{% block content_title %}<h2>{% trans 'All accounts' %}</h2>{% endblock %}
 
 {% block content %}
 <ul id="account_list">
     {% for account in account_list %}
     <li>
-        <img src="{{ account.get_mugshot_url }}" /><br />
+        <a href="{% url userena_detail account.user.username %}"><img src="{{ account.get_mugshot_url }}" /></a>
         <a href="{% url userena_detail account.user.username %}">{{ account.user.username }}</a>
     </li>
     {% endfor %}
+
 </ul>
 
 {% if is_paginated %}
