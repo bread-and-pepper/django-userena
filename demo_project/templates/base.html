@@ -12,48 +12,57 @@
 
         <link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/master.css" />
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
-        <link href='https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css' />
+
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     </head>
     <body>
-        <div id="top">&nbsp;</div>
+        <div id="top">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+  
+            <div id="lang_form">
+                <form action="/i18n/setlang/" method="post" id="locale_switcher">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}" />
+                    <label>{% trans 'Choose language' %}:</label>
+                    <select name="language" onchange="$('#locale_switcher').submit()">
+                        {% for lang in LANGUAGES %}
+                        <option value="{{ lang.0 }}" {% if request.LANGUAGE_CODE == lang.0 %}selected{% endif %}>{{ lang.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    <noscript>
+                        <input type="submit" value="{% trans "Change language" %}" />
+                    </noscript>
+                </form>
+            </div>
+        </div>
         <div id="container">	
             <div id="header">
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                
                 <h1><a href="{% url promo %}">django-userena</a></h1>
-                <div id="lang_form">
-                    <form action="/i18n/setlang/" method="post" id="locale_switcher">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.path }}" />
-                        <select name="language" onchange="$('#locale_switcher').submit()">
-                            {% for lang in LANGUAGES %}
-                            <option value="{{ lang.0 }}" {% if request.LANGUAGE_CODE == lang.0 %}selected{% endif %}>{{ lang.1 }}</option>
-                            {% endfor %}
-                        </select>
-                        <noscript>
-                            <input type="submit" value="{% trans "Change language" %}" />
-                        </noscript>
-                    </form>
-                </div>
+                
                 {% block nav %}
                 <ul id="nav">
-                    <li><a href="{% url promo %}">{% trans 'Home' %}</a></li>
+                    <li><a href="{% url promo %}"><span>{% trans 'Home' %}</span></a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url userena_list %}">{% trans 'Accounts' %}</a></li>
-                    <li><a href="{% url userena_detail user.username %}">{% trans 'Your account' %} ({{ user.username }})</a></li>
-                    <li><a href="{% url userena_signout %}">{% trans 'Signout' %}</a></li>
+                    <li><a href="{% url userena_list %}"><span>{% trans 'All accounts' %}</span></a></li>
+                    <li><a href="{% url userena_detail user.username %}"><span>{% trans 'Your account' %} ({{ user.username }})</span></a></li>
+                    <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
                     {% else %}
-                    <li><a href="{% url userena_signin %}">{% trans 'Signin' %}</a></li>
-                    <li><a href="{% url userena_signup %}">{% trans 'Signup' %}</a></li>
+                    <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>
+                    <li><a href="{% url userena_signup %}"><span>{% trans 'Signup' %}</span></a></li>
                     {% endif %}
                 </ul>
                 {% endblock %}
+                {% if not user.is_authenticated %}
+                <div id="try"></div>
+                {% endif %}
+                
             </div><!-- /header-->
             <a href="http://github.com/bread-and-pepper/django-userena/fork" id="fork">{% trans 'Fork me hard' %}</a>
             <div id="content_title">
