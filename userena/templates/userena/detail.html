@@ -2,18 +2,26 @@
 {% load i18n %}
 
 {% block title %}{% trans "Account of" %} {{ account.user.username }}{% endblock %}
-{% block content_title %}<h2>{{ account.user.username }}</h2>{% endblock %}
+{% block content_title %}<h2>Account &raquo; {{ account.user.username }}</h2>{% endblock %}
 
 {% block content %}
 <div class="white-box">
-    {{ account.filled_in_fields }}
+    {% if user.username == account.user.username %}
+    <ul id="box-nav">
+        <li class="first selected"><a href="{% url userena_detail user.username %}"><span>{% trans 'View profile' %}</span></a></li>
+        <li><a href="{% url userena_edit account.user.username %}">{% trans "Edit profile" %}</a></li>
+        <li><a href="{% url userena_password_change account.user.username %}">{% trans "Change password" %}</a></li>
+        <li class="last"><a href="{% url userena_email_change account.user.username %}">{% trans "Change email" %}</a></li>
+    </ul>
+    {% endif %}
     <div id="details">
     <img src="{{ account.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+    <p><b>{% trans "Username" %}:</b> {{ account.user.username }}</p>
     {% if account.user.get_full_name %}
     <p><b>{% trans "Name" %}:</b> {{ account.user.get_full_name }}</p>
     {% endif %}
     {% if account.user.email %}
-    <p><b>{% trans "Email" %}:</b>{{ account.user.email }}</p>
+    <p><b>{% trans "Email" %}:</b> {{ account.user.email }}</p>
     {% endif %}
     {% if account.age != 0 %}
     <p><b>{% trans "Age" %}:</b> {{ account.age }}</p>
@@ -29,12 +37,6 @@
     {% endif %}
     </div>
     {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
-    {% if user.username == account.user.username %}
-    <ul>
-        <li><a href="{% url userena_edit account.user.username %}">{% trans "Edit details" %} &raquo;</a></li>
-        <li><a href="{% url userena_password_change account.user.username %}">{% trans "Change password" %} &raquo;</a></li>
-        <li><a href="{% url userena_email_change account.user.username %}">{% trans "Change email" %} &raquo;</a></li>
-    </ul>
-    {% endif %}
+    
 </div>
 {% endblock %}

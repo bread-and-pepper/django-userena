@@ -23,8 +23,8 @@
         </p>
         {% endif %}
         {% endfor %}
-        <p class="forgot-password"><a href="{% url userena_password_reset %}" title="Forgot your password?">Forgot your password?</a>
     </fieldset>
     <input type="submit" value="{% trans "Signin" %}" />
+    <p class="forgot-password"><a href="{% url userena_password_reset %}" title="Forgot your password?">Forgot your password?</a></p>
 </form>
 {% endblock %}
