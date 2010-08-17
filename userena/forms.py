@@ -3,8 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
-from userena.models import UserenaUser as User
-from userena.models import Profile
+from userena.models import UserenaUser, Profile
+from userena.utils import get_profile_model
 
 attrs_dict = {'class': 'required'}
 
@@ -42,8 +42,8 @@ class SignupForm(forms.Form):
 
         """
         try:
-            user = User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
+            user = UserenaUser.objects.get(username__iexact=self.cleaned_data['username'])
+        except UserenaUser.DoesNotExist:
             pass
         else:
             raise forms.ValidationError(_('This username is already taken.'))
@@ -53,7 +53,7 @@ class SignupForm(forms.Form):
 
     def clean_email(self):
         """ Validate that the e-mail address is unique. """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+        if UserenaUser.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
 
@@ -75,7 +75,7 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['email'],
                                      self.cleaned_data['password1'])
 
-        new_user = User.objects.create_inactive_user(username, email, password)
+        new_user = UserenaUser.objects.create_inactive_user(username, email, password)
         return new_user
 
 class AuthenticationForm(forms.Form):
@@ -135,7 +135,7 @@ class ChangeEmailForm(forms.Form):
         """ Validate that the e-mail address is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
             raise forms.ValidationError(_('You\'re already known under this email address.'))
-        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.account.user.email):
+        if UserenaUser.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
 
@@ -149,5 +149,32 @@ class ChangeEmailForm(forms.Form):
         return self.user.change_email(self.cleaned_data['email'])
 
 class EditProfileForm(forms.ModelForm):
+    """ Base form used for fields that are always required """
+    first_name = forms.CharField(label=_('First name'),
+                                 max_length=30,
+                                 required=False)
+    last_name = forms.CharField(label=_('Last name'),
+                                max_length=30,
+                                required=False)
+
+    def __init__(self, *args, **kw):
+        super(forms.ModelForm, self).__init__(*args, **kw)
+        # Put the first and last name at the top
+        new_order = self.fields.keyOrder[:-2]
+        new_order.insert(0, 'first_name')
+        new_order.insert(1, 'last_name')
+        self.fields.keyOrder = new_order
+
     class Meta:
-        model = Profile
+        model = get_profile_model()
+        exclude = ['user']
+
+    def save(self, force_insert=False, force_update=False, commit=True):
+        profile = super(EditProfileForm, self).save(commit=commit)
+        # Save first and last name
+        user = profile.user
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+        return profile

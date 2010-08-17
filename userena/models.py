@@ -67,7 +67,6 @@ class UserenaUser(User):
     def get_absolute_url(self):
         return ('userena_profile_detail', (), {'username': self.username})
 
-
     def change_email(self, email):
         """
         Changes the e-mail address for a user.
@@ -179,17 +178,18 @@ class BaseProfile(models.Model):
 
     user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
 
+    mugshot = ThumbnailerImageField(_('mugshot'),
+                                    blank=True,
+                                    upload_to=upload_to_mugshot,
+                                    resize_source=MUGSHOT_SETTINGS,
+                                    help_text=_('A personal image displayed in your profile.'))
+
     privacy = models.CharField(_('privacy'),
                                max_length=15,
                                choices=PRIVACY_CHOICES,
                                default='registered',
                                help_text = _('Designates who can view your profile.'))
 
-    mugshot = ThumbnailerImageField(_('mugshot'),
-                                    blank=True,
-                                    upload_to=upload_to_mugshot,
-                                    resize_source=MUGSHOT_SETTINGS,
-                                    help_text=_('A personal image displayed in your profile.'))
 
     class Meta:
         abstract = True

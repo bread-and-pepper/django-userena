@@ -20,3 +20,9 @@ class UserenaAuthenticationBackend(ModelBackend):
             try: user = UserenaUser.objects.get(username=identification)
             except UserenaUser.DoesNotExist: return None
         return user if user.check_password(password) else None
+
+    def get_user(self, user_id):
+        try:
+            return UserenaUser.objects.get(pk=user_id)
+        except UserenaUser.DoesNotExist:
+            return None

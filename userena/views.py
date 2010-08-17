@@ -11,10 +11,10 @@ from django.views.generic import list_detail
 from django.http import HttpResponseForbidden
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
-from userena.models import UserenaUser as User
+from userena.models import UserenaUser
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
-from userena.utils import signin_redirect
+from userena.utils import signin_redirect, get_profile_model
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
@@ -56,7 +56,7 @@ def activate(request, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = User.objects.activate_user(activation_key)
+    user = UserenaUser.objects.activate_user(activation_key)
     if user:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_activation_complete')
@@ -102,7 +102,7 @@ def verify(request, verification_key,
         ``template_name``.
 
     """
-    account = User.objects.verify_email(verification_key)
+    account = UserenaUser.objects.verify_email(verification_key)
     if account:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_verification_complete')
@@ -295,7 +295,7 @@ def email_change(request, username, form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    user = get_object_or_404(User, user__username__iexact=username)
+    user = get_object_or_404(UserenaUser, user__username__iexact=username)
     form = ChangeEmailForm(user)
 
     if request.method == 'POST':
@@ -308,12 +308,11 @@ def email_change(request, username, form=ChangeEmailForm,
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_email_complete',
-                                        kwargs={'username': account.user.username})
+                                        kwargs={'username': user.username})
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
-    extra_context['account'] = account
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -366,8 +365,8 @@ def password_change(request, username, template_name='userena/password_form.html
         The current active account.
 
     """
-    user = get_object_or_404(User,
-                             user__username__iexact=username)
+    user = get_object_or_404(UserenaUser,
+                             username__iexact=username)
 
     form = pass_form(user=user)
 
@@ -378,12 +377,11 @@ def password_change(request, username, template_name='userena/password_form.html
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_password_change_complete',
-                                        kwargs={'username': account.user.username})
+                                        kwargs={'username': user.username})
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
-    extra_context['account'] = account
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -433,14 +431,16 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
     except TypeError, ValueError:
         page = page
 
+    profile_model = get_profile_model()
+
     if not extra_context: extra_context = dict()
     return list_detail.object_list(request,
-                                   queryset=Profile.objects.all(),
+                                   queryset=profile_model.objects.all(),
                                    paginate_by=paginate_by,
                                    page=page,
                                    template_name=template_name,
                                    extra_context=extra_context,
-                                   template_object_name='account')
+                                   template_object_name='profile')
 
 def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
     """
@@ -467,13 +467,12 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
         Instance of the currently edited ``Account``.
 
     """
-    user = get_object_or_404(User,
+    user = get_object_or_404(UserenaUser,
                              username__iexact=username)
     profile = user.get_profile()
     if not profile.can_view_profile(request.user):
         return HttpResponseForbidden(_('Permission denied.'))
     if not extra_context: extra_context = dict()
-    extra_context['user'] = user
     extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
@@ -505,8 +504,8 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         ``AccountEditForm`` from userena.
 
     ``template_name``
-        String of the template that is used to render the ``edit_profile_form``.
-        Defaults to ``userena/edit_profile_form.html``.
+        String of the template that is used to render the
+        ``edit_profile_form``.  Defaults to ``userena/edit_profile_form.html``.
 
     ``success_url``
         Named URL which be passed on to a django ``reverse`` function after the
@@ -527,7 +526,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         Instance of the ``Account`` that is edited.
 
     """
-    user = get_object_or_404(User,
+    user = get_object_or_404(UserenaUser,
                              username__iexact=username)
 
     profile = user.get_profile()
@@ -536,15 +535,19 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     if not 'change_profile' in get_perms(user, profile):
         return HttpResponseForbidden(_('Permission denied.'))
 
-    form = edit_profile_form(instance=user)
+    user_initial = {'first_name': user.first_name,
+                    'last_name': user.last_name}
+
+    form = edit_profile_form(instance=profile, initial=user_initial)
 
     if request.method == 'POST':
-        form = edit_profile_form(request.POST, request.FILES, instance=user)
+        form = edit_profile_form(request.POST, request.FILES, instance=profile,
+                                 initial=user_initial)
 
         if form.is_valid():
-            account = form.save()
+            profile = form.save()
 
-            messages.success(request, _('Your account has been updated.'),
+            messages.success(request, _('Your profile has been updated.'),
                              fail_silently=True)
 
             if success_url: redirect_to = success_url

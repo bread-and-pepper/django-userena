@@ -1,12 +1,12 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block title %}{{ user.username }}'s {% trans "profile" %}.{% endblock %}
-{% block content_title %}<h2>{{ profile.user.username }}</h2>{% endblock %}
+{% block title %}{{ profile.user.username }}'s {% trans "profile" %}.{% endblock %}
+{% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
 
 {% block content %}
 <div class="white-box">
-    
+
     {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
     {% if user.username == profile.user.username %}
     <ul id="box-nav">
@@ -20,22 +20,22 @@
     <div id="details">
     <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
     {% if user.get_full_name %}
-    <p><b>{% trans "Name" %}:</b> {{ user.get_full_name }}</p>
+    <p><strong>{% trans "Name" %}</strong><br /> {{ user.get_full_name }}</p>
     {% endif %}
     {% if user.email %}
-    <p><b>{% trans "Email" %}:</b>{{ profile.user.email }}</p>
+    <p><strong>{% trans "Email" %}</strong><br />{{ profile.user.email }}</p>
     {% endif %}
     {% if profile.age != 0 %}
-    <p><b>{% trans "Age" %}:</b> {{ profile.age }}</p>
+    <p><strong>{% trans "Age" %}</strong><br /> {{ profile.age }}</p>
     {% endif %}
     {% if profile.website %}
-    <p><b>{% trans "Website" %}:</b> {{ profile.website }}</p>
+    <p><strong>{% trans "Website" %}</strong><br /> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
     {% endif %}
     {% if profile.location %}
-    <p><b>{% trans "Location" %}:</b> {{ profile.location }}</p>
+    <p><strong>{% trans "Location" %}</strong><br />{{ profile.location }}</p>
     {% endif %}
     {% if profile.about_me %}
-    <p><b>{% trans "About me" %}:</b> {{ profile.about_me }}</p>
+    <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me }}</p>
     {% endif %}
     </div>
 </div>

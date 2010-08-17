@@ -1,6 +1,9 @@
 from django.conf import settings
-from userena import settings as userena_settings
 from django.utils.hashcompat import sha_constructor
+from django.contrib.auth.models import SiteProfileNotAvailable
+from django.db.models import get_model
+
+from userena import settings as userena_settings
 
 import urllib, hashlib, random
 
@@ -95,3 +98,19 @@ def generate_sha1(string, salt=None):
     hash = sha_constructor(salt+str(string)).hexdigest()
 
     return (salt, hash)
+
+def get_profile_model():
+    """
+    Return the model class for the currently-active user profile
+    model, as defined by the ``AUTH_PROFILE_MODULE`` setting. If that
+    setting is missing, raise
+    ``django.contrib.auth.models.SiteProfileNotAvailable``.
+
+    """
+    if (not hasattr(settings, 'AUTH_PROFILE_MODULE')) or \
+           (not settings.AUTH_PROFILE_MODULE):
+        raise SiteProfileNotAvailable
+    profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.split('.'))
+    if profile_mod is None:
+        raise SiteProfileNotAvailable
+    return profile_mod
