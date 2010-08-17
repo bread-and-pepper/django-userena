@@ -1,6 +1,7 @@
 from django.core.validators import email_re
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
+
+from userena.models import UserenaUser
 
 class UserenaAuthenticationBackend(ModelBackend):
     """
@@ -8,12 +9,14 @@ class UserenaAuthenticationBackend(ModelBackend):
     or ``username`` to the login form. We will find out ourself what they
     supplied.
 
+    Returns the extended user model ``UserenaUser``.
+
     """
     def authenticate(self, identification, password=None):
         if email_re.search(identification):
-            try: user = User.objects.get(email=identification)
-            except User.DoesNotExist: return None
+            try: user = UserenaUser.objects.get(email=identification)
+            except UserenaUser.DoesNotExist: return None
         else:
-            try: user = User.objects.get(username=identification)
-            except User.DoesNotExist: return None
+            try: user = UserenaUser.objects.get(username=identification)
+            except UserenaUser.DoesNotExist: return None
         return user if user.check_password(password) else None

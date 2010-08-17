@@ -1,10 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
-from userena.models import Account
+from userena.models import UserenaUser as User
 
 attrs_dict = {'class': 'required'}
 
@@ -75,7 +74,7 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['email'],
                                      self.cleaned_data['password1'])
 
-        new_user = Account.objects.create_inactive_user(username, email, password)
+        new_user = User.objects.create_inactive_user(username, email, password)
         return new_user
 
 class AuthenticationForm(forms.Form):
@@ -115,43 +114,35 @@ class ChangeEmailForm(forms.Form):
                                                                maxlength=75)),
                              label=_("New email address"))
 
-    def __init__(self, account, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         """
-        The current ``account`` is needed for initialisation of this form so
+        The current ``user`` is needed for initialisation of this form so
         that we can check if the e-mail address is still free and not always
         returning ``True`` for this query because it's the users own e-mail
         address.
 
         """
         super(ChangeEmailForm, self).__init__(*args, **kwargs)
-        if not isinstance(account, Account):
-            raise TypeError, "user must be an instance of Account"
-        else: self.account = account
+        if not isinstance(user, UserenaUser):
+            raise TypeError, "user must be an instance of UserenaUser"
+        else: self.user = user
 
         self.fields['email'].help_text = _('Your current email is %(email)s' % \
-                                           {'email': account.user.email})
+                                           {'email': user.email})
 
     def clean_email(self):
         """ Validate that the e-mail address is not already registered with another user """
-        if self.cleaned_data['email'].lower() == self.account.user.email:
-            raise forms.ValidationError(_('Your already known under this email address.'))
+        if self.cleaned_data['email'].lower() == self.user.email:
+            raise forms.ValidationError(_('You\'re already known under this email address.'))
         if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.account.user.email):
             raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
         return self.cleaned_data['email']
 
     def save(self):
         """
-        Save method calls ``account.change_email()`` method which sends out an
+        Save method calls ``user.change_email()`` method which sends out an
         email with an verification key to verify and with it enable this new
         email address.
 
         """
-        return self.account.change_email(self.cleaned_data['email'])
-
-class AccountEditForm(forms.ModelForm):
-    """ Edit your account form. """
-    class Meta:
-        model = Account
-        # Exclude the fields used for managing the accounts.
-        exclude = ('user', 'last_active', 'activation_key', 'activation_key_created',
-                   'activation_notification_send', 'email_new', 'email_verification_key')
+        return self.user.change_email(self.cleaned_data['email'])

@@ -2,7 +2,6 @@ from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -11,9 +10,8 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
 
-from userena.forms import (SignupForm, AuthenticationForm, ChangeEmailForm,
-                           AccountEditForm)
-from userena.models import Account
+from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm
+from userena.models import UserenaUser as User
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect
@@ -58,7 +56,7 @@ def activate(request, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = Account.objects.activate_user(activation_key)
+    user = User.objects.activate_user(activation_key)
     if user:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_activation_complete')
@@ -104,7 +102,7 @@ def verify(request, verification_key,
         ``template_name``.
 
     """
-    account = Account.objects.verify_email(verification_key)
+    account = User.objects.verify_email(verification_key)
     if account:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_verification_complete')
@@ -297,11 +295,11 @@ def email_change(request, username, form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    account = get_object_or_404(Account, user__username__iexact=username)
-    form = ChangeEmailForm(account)
+    user = get_object_or_404(User, user__username__iexact=username)
+    form = ChangeEmailForm(user)
 
     if request.method == 'POST':
-        form = ChangeEmailForm(account,
+        form = ChangeEmailForm(user,
                                request.POST,
                                request.FILES)
 
@@ -320,9 +318,9 @@ def email_change(request, username, form=ChangeEmailForm,
                               template_name,
                               extra_context=extra_context)
 
-def detail(request, username, template_name='userena/detail.html', extra_context=None):
+def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
     """
-    Detailed view of an account.
+    Detailed view of an user.
 
     **Arguments**
 
@@ -345,19 +343,20 @@ def detail(request, username, template_name='userena/detail.html', extra_context
         Instance of the currently edited ``Account``.
 
     """
-    account = get_object_or_404(Account,
-                                user__username__iexact=username)
-    if not account.can_view_account(request.user):
+    user = get_object_or_404(User,
+                             username__iexact=username)
+    if not user.can_view_profile(request.user):
         raise Http404
     if not extra_context: extra_context = dict()
-    extra_context['account'] = account
+    extra_context['user'] = user
+    extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
 
 @secure_required
 @login_required
-def edit(request, username, edit_form=AccountEditForm,
+def edit(request, username, edit_form=None,
          template_name='userena/edit_form.html', success_url=None,
          extra_context=None):
     """
@@ -403,13 +402,13 @@ def edit(request, username, edit_form=AccountEditForm,
         Instance of the ``Account`` that is edited.
 
     """
-    account = get_object_or_404(Account,
-                                user__username__iexact=username)
+    user = get_object_or_404(User,
+                             user__username__iexact=username)
     # Check permission
-    if not account.can_edit_account(request.user):
+    if not user.can_edit_account(request.user):
         raise Http404
 
-    form = edit_form(instance=account)
+    form = edit_form(instance=user)
 
     if request.method == 'POST':
         form = edit_form(request.POST, request.FILES, instance=account)
@@ -478,13 +477,13 @@ def password_change(request, username, template_name='userena/password_form.html
         The current active account.
 
     """
-    account = get_object_or_404(Account,
-                                user__username__iexact=username)
+    user = get_object_or_404(User,
+                             user__username__iexact=username)
 
-    form = pass_form(user=account.user)
+    form = pass_form(user=user)
 
     if request.method == "POST":
-        form = pass_form(user=account.user, data=request.POST)
+        form = pass_form(user=user, data=request.POST)
         if form.is_valid():
             form.save()
 
@@ -547,7 +546,7 @@ def list(request, page=1, template_name='userena/list.html', paginate_by=50,
 
     if not extra_context: extra_context = dict()
     return list_detail.object_list(request,
-                                   queryset=Account.objects.all(),
+                                   queryset=User.objects.all(),
                                    paginate_by=paginate_by,
                                    page=page,
                                    template_name=template_name,

@@ -10,7 +10,7 @@ import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
-class AccountManager(models.Manager):
+class UserManager(models.Manager):
     """ Extra functionality for the account manager. """
 
     def create_inactive_user(self, username, email, password):

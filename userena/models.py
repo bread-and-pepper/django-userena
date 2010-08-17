@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
 from userena.utils import get_gravatar, generate_sha1
-from userena.managers import AccountManager
+from userena.managers import UserManager
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
@@ -33,46 +33,24 @@ def upload_to_mugshot(instance, filename):
                                                'hash': hash[:10],
                                                'extension': extension}
 
-class Account(models.Model):
+class UserenaUser(User):
     """
     A user account which stores all the nescessary information to have a full
     functional user implementation on your Django website.
 
     """
-    MUGSHOT_SETTINGS = {'size': (userena_settings.USERENA_MUGSHOT_SIZE,
-                                 userena_settings.USERENA_MUGSHOT_SIZE),
-                        'crop': 'smart'}
-    GENDER_CHOICES = (
-        (1, _('Male')),
-        (2, _('Female')),
-    )
-
     PRIVACY_CHOICES = (
-        (1, _('Everyone')),
-        (2, _('Registered')),
-        (3, _('Nobody')),
+        ('open', _('Open')),
+        ('registered', _('Registered')),
+        ('closed', _('Closed')),
     )
 
-    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
-    mugshot = ThumbnailerImageField(_('mugshot'),
-                                    blank=True,
-                                    upload_to=upload_to_mugshot,
-                                    resize_source=MUGSHOT_SETTINGS,
-                                    help_text=_('A personal image displayed in your profile.'))
-    gender = models.PositiveSmallIntegerField(_('gender'),
-                                              choices=GENDER_CHOICES,
-                                              blank=True,
-                                              null=True)
-    website = models.URLField(_('website'), blank=True, verify_exists=True)
-    location =  models.CharField(_('location'), max_length=255, blank=True)
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
-    about_me = models.TextField(_('about me'), blank=True)
-    privacy = models.PositiveSmallIntegerField(_('privacy'),
-                                               choices=PRIVACY_CHOICES,
-                                               default=2,
-                                               help_text = _('Designates who can view your account.'))
+    privacy = models.CharField(_('privacy'),
+                               max_length=15,
+                               choices=PRIVACY_CHOICES,
+                               default='registered',
+                               help_text = _('Designates who can view your profile.'))
 
-    # Fields used for managment purposes.
     last_active = models.DateTimeField(null=True, blank=True)
 
     activation_key = models.CharField(_('activation key'), max_length=40,
@@ -84,7 +62,6 @@ class Account(models.Model):
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
-    # Email verification
     email_new = models.EmailField(_('new wanted e-mail'),
                                   blank=True,
                                   help_text=_('Temporary email address when the user requests an email change.'))
@@ -92,19 +69,16 @@ class Account(models.Model):
                                               max_length=40,
                                               blank=True)
 
-    objects = AccountManager()
+    objects = UserManager()
 
     class Meta:
         permissions = (
-            ('view_account', 'Can view account'),
+            ('view_profile', 'Can view profile'),
         )
-
-    def __unicode__(self):
-        return '%s' % self.user.username
 
     @models.permalink
     def get_absolute_url(self):
-        return ('userena_detail', (), {'username': self.user.username})
+        return ('userena_detail', (), {'username': self.username})
 
     @property
     def age(self):
@@ -130,7 +104,7 @@ class Account(models.Model):
         """
         self.email_new = email
 
-        salt, hash = generate_sha1(self.user.username)
+        salt, hash = generate_sha1(self.username)
         self.email_verification_key = hash
         self.save()
 
@@ -207,7 +181,81 @@ class Account(models.Model):
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.user.email,])
+                  [self.email,])
+
+
+    def can_view_profile(self, user):
+        """
+        Can the ``user`` view this profile?
+
+        Returns a boolean if a user has the rights to view the profile of this
+        user.
+
+        Users are divided into four groups:
+
+            - Open: Everyone can view your account.
+            - Closed: Nobody can view your account.
+            - Registered: Users that are registered on the website and signed
+            in only.
+            - Special cases like superadmin and the owner of the account.
+
+        Through the ``privacy`` field a owner of an account can define what
+        they want to show to whom.
+
+        **Arguments**
+
+        ``user``
+
+            A django ``User`` instance.
+
+        """
+        # Simple cases first, we don't want to waste CPU and DB hits.
+        # Everyone.
+        if self.privacy == 'open': return True
+        # Registered users.
+        elif self.privacy == 'registered' and isinstance(user, User): return True
+
+        # Checks done by guardian for owner and admins.
+        elif 'view_profile' in get_perms(user, self):
+            return True
+
+        # Fallback to closed profile.
+        return False
+
+    def can_edit_account(self, user):
+        """ Returns a boolean if a user can edit this account. """
+        if 'change_account' in get_perms(user, self):
+            return True
+        return False
+
+    def can_remove_user(self, user):
+        """ Returns a boolean if a user can remove the user and account """
+        pass
+
+class DefaultProfile(models.Model):
+    """ Default profile """
+    MUGSHOT_SETTINGS = {'size': (userena_settings.USERENA_MUGSHOT_SIZE,
+                                 userena_settings.USERENA_MUGSHOT_SIZE),
+                        'crop': 'smart'}
+    GENDER_CHOICES = (
+        (1, _('Male')),
+        (2, _('Female')),
+    )
+
+    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
+    mugshot = ThumbnailerImageField(_('mugshot'),
+                                    blank=True,
+                                    upload_to=upload_to_mugshot,
+                                    resize_source=MUGSHOT_SETTINGS,
+                                    help_text=_('A personal image displayed in your profile.'))
+    gender = models.PositiveSmallIntegerField(_('gender'),
+                                              choices=GENDER_CHOICES,
+                                              blank=True,
+                                              null=True)
+    website = models.URLField(_('website'), blank=True, verify_exists=True)
+    location =  models.CharField(_('location'), max_length=255, blank=True)
+    birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    about_me = models.TextField(_('about me'), blank=True)
 
     def get_mugshot_url(self):
         """
@@ -228,7 +276,7 @@ class Account(models.Model):
 
         # Use Gravatar if the user wants to.
         if userena_settings.USERENA_MUGSHOT_GRAVATAR:
-            return get_gravatar(self.user.email,
+            return get_gravatar(self.email,
                                 userena_settings.USERENA_MUGSHOT_SIZE,
                                 userena_settings.USERENA_MUGSHOT_DEFAULT)
 
@@ -240,52 +288,3 @@ class Account(models.Model):
                                                                 'wavatar']:
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
-
-    def can_view_account(self, user):
-        """ Returns a boolean if a user can view this account.
-
-        Users are divided into four groups:
-
-            - Everyone: Registered (``User``) anonymous (``AnonymousUser``)
-            users, meaning everyone can view this account information.
-            - Registered: Users that are registered on the website and signed
-            in.
-            - Nobody: Account information is hidden for everyone.
-            - Special cases like superadmin and the owner of the account.
-
-        Through the ``privacy`` field a owner of an account can define what
-        they want to show to whom.
-
-        **Arguments**
-
-        ``user``
-
-            A django ``User`` instance.
-
-        """
-        # Simple cases first, costs less CPU and DB hits.
-
-        # Everyone.
-        if self.privacy == 1: return True
-        # Registered users.
-        elif self.privacy == 2 and isinstance(user, User): return True
-
-        # Checks done by guardian for owner and admins
-        elif 'view_account' in get_perms(user, self):
-            return True
-
-        # Fallback to nobody
-        return False
-
-    def can_edit_account(self, user):
-        """ Returns a boolean if a user can edit this account. """
-        if 'change_account' in get_perms(user, self):
-            return True
-        return False
-
-    def can_remove_user(self, user):
-        """ Returns a boolean if a user can remove the user and account """
-        pass
-
-# Always return an account when asked through a user
-User.account = property(lambda u: Account.objects.get_or_create(user=u)[0])
