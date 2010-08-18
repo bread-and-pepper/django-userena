@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
 from userena.utils import get_gravatar, generate_sha1
-from userena.managers import UserManager
+from userena.managers import UserenaUserManager
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
@@ -61,7 +61,7 @@ class UserenaUser(User):
                                               max_length=40,
                                               blank=True)
 
-    objects = UserManager()
+    objects = UserenaUserManager()
 
     @models.permalink
     def get_absolute_url(self):
@@ -197,12 +197,6 @@ class BaseProfile(models.Model):
             ('view_profile', 'Can view profile'),
         )
 
-    @property
-    def age(self):
-        """ Returns integer telling the age in years for the user """
-        today = datetime.date.today()
-        return relativedelta(today, self.birth_date).years
-
     def get_mugshot_url(self):
         """
         Returns the image containing the mugshot for the user.
@@ -289,13 +283,15 @@ class Profile(BaseProfile):
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
 
+    @property
+    def age(self):
+        """ Returns integer telling the age in years for the user """
+        today = datetime.date.today()
+        return relativedelta(today, self.birth_date).years
+
+# Signals
 def create_userena_user(sender, instance, created, **kwargs):
     if created:
        userena, created = UserenaUser.objects.get_or_create(user=instance)
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-       profile, created = Profile.objects.get_or_create(user=instance)
-
-models.signals.post_save.connect(create_user_profile, sender=User)
 models.signals.post_save.connect(create_userena_user, sender=User)
