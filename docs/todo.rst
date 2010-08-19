@@ -6,13 +6,6 @@ Todo
 Things that still have to be build in. If you have any *must haves*, please
 e-mail me at petar[ed]wunki.org.
 
-SSL
----
-
-All account sensitive information should be done through SSL. Of course, taking
-into account that some people don't have a certificate, thus making this
-optional through a setting.
-
 API
 ---
 

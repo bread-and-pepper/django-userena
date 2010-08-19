@@ -25,12 +25,19 @@ email_change
 
 .. autofunction:: userena.views.email_change
 
-list
-----
+profile_edit
+------------
 
-.. autofunction:: userena.views.list
+.. autofunction:: userena.views.profile_edit
 
-detail
-------
+profile_detail
+--------------
 
-.. autofunction:: userena.views.detail
+.. autofunction:: userena.views.profile_detail
+
+profile_list
+------------
+
+.. autofunction:: userena.views.profile_list
+
+

@@ -10,10 +10,5 @@ Return to :ref:`api`.
 BaseAccount
 -----------
 
-.. autoclass:: userena.models.BaseAccount
+.. autoclass:: userena.models.UserenaUser
    :members:
-
-get_account_model
------------------
-
-.. autofunction:: userena.models.get_account_model

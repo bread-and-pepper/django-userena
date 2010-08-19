@@ -10,5 +10,5 @@ Return to :ref:`api`
 AccountManager
 --------------
 
-.. autoclass:: userena.managers.AccountManager
+.. autoclass:: userena.managers.UserenaUserManager
    :members:
