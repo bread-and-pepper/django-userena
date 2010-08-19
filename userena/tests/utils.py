@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.models import SiteProfileNotAvailable
 
-from userena.utils import get_gravatar, signin_redirect
+from userena.models import Profile
+from userena.utils import get_gravatar, signin_redirect, get_profile_model
 from userena import settings as userena_settings
 
 import hashlib
@@ -68,3 +70,22 @@ class UtilsTests(TestCase):
 
         # The ultimate fallback, probably never used
         self.failUnlessEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)
+
+    def test_get_profile_model(self):
+        """
+        Test if the correct profile model is returned when
+        ``get_profile_model()`` is called.
+
+        """
+        # Default profile model is ``Profile`` from userena.
+        self.failUnlessEqual(get_profile_model(), Profile)
+
+        # An empty ``AUTH_PROFILE_MODULE`` should raise
+        # ``SiteProfileNotAvailable``.
+        settings.AUTH_PROFILE_MODULE = None
+        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+
+        # A non existand model should also raise ``SiteProfileNotAvailable``
+        # error.
+        settings.AUTH_PROFILE_MODULE = 'userena.FakeProfile'
+        self.assertRaises(SiteProfileNotAvailable, get_profile_model)

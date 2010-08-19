@@ -182,21 +182,21 @@ class BaseProfileModelTest(TestCase):
 
         profile = Profile.objects.get(pk=1)
 
-        profile.privacy = 'open'
         # All users should be able to see a ``open`` profile.
+        profile.privacy = 'open'
         self.failUnless(profile.can_view_profile(anon_user))
         self.failUnless(profile.can_view_profile(super_user))
         self.failUnless(profile.can_view_profile(reg_user))
 
-        profile.privacy = 'registered'
         # Registered and super users should be able to see a ``registered``
         # profile.
+        profile.privacy = 'registered'
         self.failIf(profile.can_view_profile(anon_user))
         self.failUnless(profile.can_view_profile(super_user))
         self.failUnless(profile.can_view_profile(reg_user))
 
-        profile.privacy = 'closed'
         # Only superusers can see a closed profile.
+        profile.privacy = 'closed'
         self.failIf(profile.can_view_profile(anon_user))
         self.failUnless(profile.can_view_profile(super_user))
         self.failIf(profile.can_view_profile(reg_user))
