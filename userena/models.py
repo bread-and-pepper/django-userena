@@ -267,7 +267,6 @@ class BaseProfile(models.Model):
         # Fallback to closed profile.
         return False
 
-
 class Profile(BaseProfile):
     """ Default profile """
     GENDER_CHOICES = (

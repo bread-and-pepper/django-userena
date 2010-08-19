@@ -44,7 +44,7 @@ class UserenaUserManager(UserManager):
         # Give permissions to view and change profile
         permissions = ['view_profile', 'change_profile']
         for perm in permissions:
-            assign(perm, new_user, new_profile)
+            assign(perm, new_user.user, new_profile)
 
         new_user.send_activation_email()
 

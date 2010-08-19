@@ -4,6 +4,8 @@ from django.core import mail
 from userena.models import UserenaUser
 from userena import settings as userena_settings
 
+from guardian.shortcuts import get_perms
+
 import datetime, re
 
 class UserenaUserManagerTests(TestCase):
@@ -18,38 +20,39 @@ class UserenaUserManagerTests(TestCase):
         """
         Test the creation of a new user.
 
-        ``UserenaUser.create_inactive_user`` should create a new user that is set to active.
+        ``UserenaUser.create_inactive_user`` should create a new user that is
+        not active. The user should get an ``activation_key`` that is used to
+        set the user as active.
+
+        Every user also has a profile, so this method should create an empty
+        profile.
 
         """
+        # Check that the fields are set.
         new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
         self.assertEqual(new_user.username, self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
+
+        # User should be inactive
         self.failIf(new_user.is_active)
-        self.failUnlessEqual(UserenaUser.objects.filter(user__email=self.user_info['email']).count(), 1)
 
-    def test_create_user(self):
-        """
-        Test the creation of a new user.
+        # User has a valid SHA1 activation key
+        self.failUnless(re.match('^[a-f0-9]{40}$', new_user.activation_key))
 
-        ``UserenaUser.objects.create_user`` create a new user.
-        The user is not activated yet, therefore should get an e-mail which
-        contains the ``activation_key``.
+        # User now has an profile.
+        self.failUnless(new_user.get_profile())
 
-        """
-        new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
-
-        user = UserenaUser.objects.get(user__email=self.user_info['email'])
-
-        self.assertEqual(user.email, self.user_info['email'])
-        self.assertEqual(new_user.id, new_user.id)
-        self.failUnless(re.match('^[a-f0-9]{40}$', user.activation_key))
+        # User should be saved
+        self.failUnlessEqual(UserenaUser.objects.filter(email=self.user_info['email']).count(), 1)
 
     def test_activation_valid(self):
         """
-        Activation of the user with a valid ``activation_key`` should
-        activate the user and set a new invalid ``activation_key`` that is
-        defined in the setting ``USERENA_ACTIVIED``.
+        Valid activation of an user.
+
+        Activation of an user with a valid ``activation_key`` should activate
+        the user and set a new invalid ``activation_key`` that is defined in
+        the setting ``USERENA_ACTIVATED``.
 
         """
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
@@ -61,6 +64,10 @@ class UserenaUserManagerTests(TestCase):
         # The user should now be active.
         self.failUnless(active_user.is_active)
 
+        # The user should have permission to view and change its profile
+        self.failUnless('view_profile' in get_perms(active_user, active_user.get_profile()))
+        self.failUnless('change_profile' in get_perms(active_user, active_user.get_profile()))
+
         # The activation key should be the same as in the settings
         self.assertEqual(active_user.activation_key,
                          userena_settings.USERENA_ACTIVATED)
@@ -71,8 +78,7 @@ class UserenaUserManagerTests(TestCase):
         ``UserenaUser.objects.activate_user`` return ``False``.
 
         """
-
-        # Completely wrong key
+        # Wrong key
         self.failIf(UserenaUser.objects.activate_user('wrong_key'))
 
         # At least the right length
