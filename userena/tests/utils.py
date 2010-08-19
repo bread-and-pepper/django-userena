@@ -5,7 +5,6 @@ from django.conf import settings
 from userena.utils import get_gravatar, signin_redirect
 from userena import settings as userena_settings
 
-
 import hashlib
 
 class UtilsTests(TestCase):
@@ -65,7 +64,7 @@ class UtilsTests(TestCase):
         # Test with only the user specified
         user = User.objects.get(pk=1)
         self.failUnlessEqual(signin_redirect(user=user),
-                             user.account.get_absolute_url())
+                             user.get_absolute_url())
 
         # The ultimate fallback, probably never used
         self.failUnlessEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)

@@ -1,18 +1,18 @@
 from django.test import TestCase
 from django.core import mail
 
-from userena.models import Account
+from userena.models import UserenaUser
 from userena import settings as userena_settings
 
 import datetime, re
 
-class AccountManagerTests(TestCase):
+class UserenaUserManagerTests(TestCase):
     """ Test the manager of Account """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
 
-    fixtures = ['accounts', 'users']
+    fixtures = ['users']
 
     def test_create_inactive_user(self):
         """
@@ -22,12 +22,12 @@ class AccountManagerTests(TestCase):
         It should also create a new account for this user.
 
         """
-        new_user = Account.objects.create_inactive_user(**self.user_info)
+        new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
         self.assertEqual(new_user.username, self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
         self.failIf(new_user.is_active)
-        self.failUnlessEqual(Account.objects.filter(user__email=self.user_info['email']).count(), 1)
+        self.failUnlessEqual(UserenaUser.objects.filter(user__email=self.user_info['email']).count(), 1)
 
     def test_create_account(self):
         """
@@ -38,13 +38,13 @@ class AccountManagerTests(TestCase):
         contains the ``activation_key``.
 
         """
-        new_user = Account.objects.create_inactive_user(**self.user_info)
+        new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
 
-        account = Account.objects.get(user__email=self.user_info['email'])
+        user = UserenaUser.objects.get(user__email=self.user_info['email'])
 
-        self.assertEqual(account.user.email, self.user_info['email'])
-        self.assertEqual(new_user.account.user.id, new_user.id)
-        self.failUnless(re.match('^[a-f0-9]{40}$', account.activation_key))
+        self.assertEqual(user.email, self.user_info['email'])
+        self.assertEqual(new_user.id, new_user.id)
+        self.failUnless(re.match('^[a-f0-9]{40}$', user.activation_key))
 
     def test_activation_valid(self):
         """
@@ -53,17 +53,17 @@ class AccountManagerTests(TestCase):
         defined in the setting ``USERENA_ACTIVIED``.
 
         """
-        account = Account.objects.create_inactive_user(**self.user_info).account
-        active_user = Account.objects.activate_user(account.activation_key)
+        user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        active_user = UserenaUser.objects.activate_user(user.activation_key)
 
         # The returned account should be the same as the one just created.
-        self.failUnlessEqual(account, active_user.account)
+        self.failUnlessEqual(user, active_user)
 
         # The user should now be active.
         self.failUnless(active_user.is_active)
 
         # The activation key should be the same as in the settings
-        self.assertEqual(active_user.account.activation_key,
+        self.assertEqual(active_user.activation_key,
                          userena_settings.USERENA_ACTIVATED)
 
     def test_activation_invalid(self):
@@ -74,11 +74,11 @@ class AccountManagerTests(TestCase):
         """
 
         # Completely wrong key
-        self.failIf(Account.objects.activate_user('wrong_key'))
+        self.failIf(UserenaUser.objects.activate_user('wrong_key'))
 
         # At least the right length
         invalid_key = 10 * 'a1b2'
-        self.failIf(Account.objects.activate_user(invalid_key))
+        self.failIf(UserenaUser.objects.activate_user(invalid_key))
 
     def test_activation_expired(self):
         """
@@ -86,22 +86,22 @@ class AccountManagerTests(TestCase):
         ``Account.objects.activation_account`` return ``False``.
 
         """
-        account = Account.objects.create_inactive_user(**self.user_info).account
+        user = UserenaUser.objects.create_inactive_user(**self.user_info)
 
         # Set the date that the key is created a day further away than allowed
-        account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
-        account.save()
+        user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        user.save()
 
         # Try to activate the account
-        Account.objects.activate_user(account.activation_key)
+        UserenaUser.objects.activate_user(user.activation_key)
 
-        active_account = Account.objects.get(user__username='alice')
+        active_user = UserenaUser.objects.get(user__username='alice')
 
         # Account activation should have failed
-        self.failIf(active_account.user.is_active)
+        self.failIf(active_user.user.is_active)
 
         # The activation key should still be a hash
-        self.assertEqual(account.activation_key, active_account.activation_key)
+        self.assertEqual(user.activation_key, active_user.activation_key)
 
     def test_verification_valid(self):
         """
@@ -109,19 +109,19 @@ class AccountManagerTests(TestCase):
 
         """
         new_email = 'john@newexample.com'
-        account = Account.objects.get(pk=1)
-        account.change_email(new_email)
+        user = UserenaUser.objects.get(pk=1)
+        user.change_email(new_email)
 
         # Verify email
-        verified_account = Account.objects.verify_email(account.email_verification_key)
-        self.failUnlessEqual(account, verified_account)
+        verified_user = UserenaUser.objects.verify_email(user.email_verification_key)
+        self.failUnlessEqual(user, verified_user)
 
         # Check the new email is set.
-        self.failUnlessEqual(verified_account.user.email, new_email)
+        self.failUnlessEqual(verified_user.email, new_email)
 
         # ``email_new`` and ``email_verification_key`` should be empty
-        self.failIf(verified_account.email_new)
-        self.failIf(verified_account.email_verification_key)
+        self.failIf(verified_user.email_new)
+        self.failIf(verified_user.email_verification_key)
 
     def test_verification_invalid(self):
         """
@@ -130,24 +130,24 @@ class AccountManagerTests(TestCase):
 
         """
         new_email = 'john@newexample.com'
-        account = Account.objects.get(pk=1)
+        account = UserenaUser.objects.get(pk=1)
         account.change_email(new_email)
 
         # Verify email with wrong SHA1
-        self.failIf(Account.objects.verify_email('sha1'))
+        self.failIf(UserenaUser.objects.verify_email('sha1'))
 
         # Correct SHA1, but non-existend in db.
-        self.failIf(Account.objects.verify_email(10 * 'a1b2'))
+        self.failIf(UserenaUser.objects.verify_email(10 * 'a1b2'))
 
     def test_delete_expired_users(self):
         """
         Test if expired users are deleted from the database.
 
         """
-        expired_account = Account.objects.create_inactive_user(**self.user_info).account
+        expired_account = UserenaUser.objects.create_inactive_user(**self.user_info)
         expired_account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         expired_account.save()
 
-        deleted_users = Account.objects.delete_expired_users()
+        deleted_users = UserenaUser.objects.delete_expired_users()
 
-        self.failUnlessEqual(deleted_users[0].username, 'alice')
+        self.failUnlessEqual(deleted_users[1].username, 'alice')

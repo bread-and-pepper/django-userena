@@ -1,6 +1,6 @@
 from django.core.management.base import NoArgsCommand
 
-from userena.models import Account
+from userena.models import UserenaUser
 from optparse import make_option
 
 class Command(NoArgsCommand):
@@ -11,4 +11,4 @@ class Command(NoArgsCommand):
     """
     help = 'Deletes expired users.'
     def handle_noargs(self, **options):
-        users = Account.objects.delete_expired_users()
+        users = UserenaUser.objects.delete_expired_users()

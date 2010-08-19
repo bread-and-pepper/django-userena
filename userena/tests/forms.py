@@ -1,11 +1,11 @@
 from django.test import TestCase
 
 from userena import forms
-from userena.models import Account
+from userena.models import UserenaUser
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """
-    fixtures = ['users', 'accounts']
+    fixtures = ['users']
 
     def test_signup_form(self):
         """
@@ -106,25 +106,25 @@ class AuthenticationFormTests(TestCase):
 
 class ChangeEmailFormTests(TestCase):
     """ Test the ``ChangeEmailForm`` """
-    fixtures = ['users', 'accounts']
+    fixtures = ['users']
     def test_change_email_form(self):
-        account = Account.objects.get(pk=1)
+        user = UserenaUser.objects.get(pk=1)
         invalid_data_dicts = [
             # No change in e-mail address
             {'data': {'email': 'john@example.com'},
-             'error': ('email', [u'Your already known under this email address.'])},
+             'error': ('email', [u'You\'re already known under this email address.'])},
             # An e-mail address used by another
             {'data': {'email': 'jane@example.com'},
              'error': ('email', [u'This email address is already in use. Please supply a different email address.'])},
         ]
         for invalid_dict in invalid_data_dicts:
-            form = forms.ChangeEmailForm(account, data=invalid_dict['data'])
+            form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
             self.failIf(form.is_valid())
             self.assertEqual(form.errors[invalid_dict['error'][0]],
                              invalid_dict['error'][1])
 
         # Test a valid post
-        form = forms.ChangeEmailForm(account,
+        form = forms.ChangeEmailForm(user,
                                      data={'email': 'john@newexample.com'})
         self.failUnless(form.is_valid())
 

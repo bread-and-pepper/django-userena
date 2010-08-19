@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.management import call_command
 
-from userena.models import Account
+from userena.models import UserenaUser
 from userena import settings as userena_settings
 
 import datetime
@@ -18,14 +18,14 @@ class CleanExpiredTests(TestCase):
 
         """
         # Create an account which is expired.
-        account = Account.objects.create_inactive_user(**self.user_info).account
-        account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
-        account.save()
+        user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        user.save()
 
         # There should be one account now
-        Account.objects.get(user__username=self.user_info['username'])
+        UserenaUser.objects.get(username=self.user_info['username'])
 
         # Clean it.
         call_command('clean_expired')
 
-        self.failUnlessEqual(Account.objects.filter(user__username=self.user_info['username']).count(), 0)
+        self.failUnlessEqual(UserenaUser.objects.filter(user__username=self.user_info['username']).count(), 0)

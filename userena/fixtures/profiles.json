@@ -1,0 +1,23 @@
+[{"pk": 1,
+  "model": "userena.profile",
+  "fields": {"birth_date": "1982-09-14",
+             "gender": 1,
+             "website": "",
+             "user": 1,
+             "mugshot": "",
+             "location": "Amsterdam",
+             "privacy": "open"
+    }
+  },
+  {
+  "pk": 2,
+  "model": "userena.profile",
+  "fields": {"birth_date": "1989-03-18",
+             "gender": 2,
+             "website": "",
+             "user": 2,
+             "mugshot": "",
+             "location": "New York",
+             "privacy": "open"
+  }
+}]

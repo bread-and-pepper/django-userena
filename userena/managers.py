@@ -86,9 +86,9 @@ class UserenaUserManager(UserManager):
             except self.model.DoesNotExist:
                 return False
             else:
-                self.email = user.email_new
-                self.email_new, self.email_verification_key = '',''
-                self.save(using=self._db)
+                user.email = user.email_new
+                user.email_new, user.email_verification_key = '',''
+                user.save(using=self._db)
                 return user
         return False
 

@@ -288,10 +288,3 @@ class Profile(BaseProfile):
         """ Returns integer telling the age in years for the user """
         today = datetime.date.today()
         return relativedelta(today, self.birth_date).years
-
-# Signals
-def create_userena_user(sender, instance, created, **kwargs):
-    if created:
-       userena, created = UserenaUser.objects.get_or_create(user=instance)
-
-models.signals.post_save.connect(create_userena_user, sender=User)
