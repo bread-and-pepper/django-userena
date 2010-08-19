@@ -1,5 +1,5 @@
 from django.test import TestCase, TransactionTestCase
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.core import mail
@@ -106,8 +106,8 @@ class UserenaUserModelTests(TestCase):
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
 
-class ProfileModelTest(TestCase):
-    """ Test the ``Profile`` model """
+class BaseProfileModelTest(TestCase):
+    """ Test the ``BaseProfile`` model """
     fixtures = ['users.json', 'profiles.json']
 
     def test_age_property(self):
@@ -173,3 +173,30 @@ class ProfileModelTest(TestCase):
         # Settings back to default
         userena_settings.USERENA_MUGSHOT_SIZE = 80
         userena_settings.USERENA_MUGSHOT_DEFAULT = 'identicon'
+
+    def test_can_view_profile(self):
+        """ Test if the user can see the profile with three type of users. """
+        anon_user = AnonymousUser()
+        super_user = UserenaUser.objects.get(pk=1)
+        reg_user = UserenaUser.objects.get(pk=2)
+
+        profile = Profile.objects.get(pk=1)
+
+        profile.privacy = 'open'
+        # All users should be able to see a ``open`` profile.
+        self.failUnless(profile.can_view_profile(anon_user))
+        self.failUnless(profile.can_view_profile(super_user))
+        self.failUnless(profile.can_view_profile(reg_user))
+
+        profile.privacy = 'registered'
+        # Registered and super users should be able to see a ``registered``
+        # profile.
+        self.failIf(profile.can_view_profile(anon_user))
+        self.failUnless(profile.can_view_profile(super_user))
+        self.failUnless(profile.can_view_profile(reg_user))
+
+        profile.privacy = 'closed'
+        # Only superusers can see a closed profile.
+        self.failIf(profile.can_view_profile(anon_user))
+        self.failUnless(profile.can_view_profile(super_user))
+        self.failIf(profile.can_view_profile(reg_user))
