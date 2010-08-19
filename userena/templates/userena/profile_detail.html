@@ -20,7 +20,7 @@
     <div id="details">
     <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
     {% if profile.user.get_full_name %}
-    <p><strong>{% trans "Name" %}</strong><br /> {{ user.get_full_name }}</p>
+    <p><strong>{% trans "Name" %}</strong><br /> {{ profile.user.get_full_name }}</p>
     {% endif %}
     {% if profile.user.email %}
     <p><strong>{% trans "Email" %}</strong><br />{{ profile.user.email }}</p>
