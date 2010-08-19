@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 from userena.backends import UserenaAuthenticationBackend
+from userena.models import UserenaUser
 
 class UserenaAuthenticationBackendTests(TestCase):
     """
@@ -54,3 +55,16 @@ class UserenaAuthenticationBackendTests(TestCase):
         result = self.backend.authenticate(identification='john@example.com',
                                            password='blowfish')
         self.failUnless(isinstance(result, User))
+
+    def test_returns_userena_user(self):
+        """
+        Test that the ``UserenaAuthenticationBackend`` returns a
+        ``UserenaUser`` and not the ``User``.
+
+        """
+        # Get an user
+        user = self.backend.get_user(user_id=1)
+        self.failUnless(isinstance(user, UserenaUser))
+
+        # There is no user, like in the matrix, where there are no spoons.
+        self.failIf(self.backend.get_user(user_id=99))

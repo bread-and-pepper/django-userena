@@ -108,4 +108,4 @@ USERENA_MUGSHOT_SIZE = 140
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 
 # Guardian
-ANONYMOUS_USER_ID = 2
+ANONYMOUS_USER_ID = -1
