@@ -258,7 +258,8 @@ class BaseProfile(models.Model):
         # Everyone.
         if self.privacy == 'open': return True
         # Registered users.
-        elif self.privacy == 'registered' and isinstance(user, UserenaUser):
+        elif self.privacy == 'registered' and (isinstance(user, UserenaUser) or \
+                                               isinstance(user, User)):
             return True
 
         # Checks done by guardian for owner and admins.

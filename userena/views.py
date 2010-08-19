@@ -317,7 +317,6 @@ def email_change(request, username, form=ChangeEmailForm,
                               template_name,
                               extra_context=extra_context)
 
-
 @secure_required
 @login_required
 def password_change(request, username, template_name='userena/password_form.html',
@@ -385,62 +384,6 @@ def password_change(request, username, template_name='userena/password_form.html
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
-
-def profile_list(request, page=1, template_name='userena/profile_list.html', paginate_by=50,
-                 extra_context=None):
-    """
-    Returns a list of all profiles that are public.
-
-    **Keyword arguments**
-
-    ``page``
-        Integer of the active page used for pagination. Defaults to the first
-        page.
-
-    ``template_name``
-        String defining the name of the template that is used to render the
-        list of all users. Defaults to ``userena/list.html``.
-
-    ``paginate_by``
-        Integer defining the amount of displayed accounts per page. Defaults to
-        50 accounts per page.
-
-    ``extra_context``
-        Dictionary of variables that are passed on to the ``template_name``
-        template.
-
-    **Context**
-
-    ``account_list``
-        A list of accounts.
-
-    ``is_paginated``
-        A boolean representing whether the results are paginated.
-
-    If the result is paginated. It will also contain the following variables:
-
-    ``paginator``
-        An instance of ``django.core.paginator.Paginator``.
-
-    ``page_obj``
-        An instance of ``django.core.paginator.Page``.
-
-    """
-    try:
-        page = int(request.GET.get('page', None))
-    except TypeError, ValueError:
-        page = page
-
-    profile_model = get_profile_model()
-
-    if not extra_context: extra_context = dict()
-    return list_detail.object_list(request,
-                                   queryset=profile_model.objects.all(),
-                                   paginate_by=paginate_by,
-                                   page=page,
-                                   template_name=template_name,
-                                   extra_context=extra_context,
-                                   template_object_name='profile')
 
 def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
     """
@@ -532,7 +475,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     profile = user.get_profile()
 
     # Check permission
-    if not 'change_profile' in get_perms(user, profile):
+    if not 'change_profile' in get_perms(request.user, profile):
         return HttpResponseForbidden(_('Permission denied.'))
 
     user_initial = {'first_name': user.first_name,
@@ -560,4 +503,60 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
+
+def profile_list(request, page=1, template_name='userena/profile_list.html', paginate_by=50,
+                 extra_context=None):
+    """
+    Returns a list of all profiles that are public.
+
+    **Keyword arguments**
+
+    ``page``
+        Integer of the active page used for pagination. Defaults to the first
+        page.
+
+    ``template_name``
+        String defining the name of the template that is used to render the
+        list of all users. Defaults to ``userena/list.html``.
+
+    ``paginate_by``
+        Integer defining the amount of displayed accounts per page. Defaults to
+        50 accounts per page.
+
+    ``extra_context``
+        Dictionary of variables that are passed on to the ``template_name``
+        template.
+
+    **Context**
+
+    ``account_list``
+        A list of accounts.
+
+    ``is_paginated``
+        A boolean representing whether the results are paginated.
+
+    If the result is paginated. It will also contain the following variables:
+
+    ``paginator``
+        An instance of ``django.core.paginator.Paginator``.
+
+    ``page_obj``
+        An instance of ``django.core.paginator.Page``.
+
+    """
+    try:
+        page = int(request.GET.get('page', None))
+    except TypeError, ValueError:
+        page = page
+
+    profile_model = get_profile_model()
+
+    if not extra_context: extra_context = dict()
+    return list_detail.object_list(request,
+                                   queryset=profile_model.objects.all(),
+                                   paginate_by=paginate_by,
+                                   page=page,
+                                   template_name=template_name,
+                                   extra_context=extra_context,
+                                   template_object_name='profile')
 

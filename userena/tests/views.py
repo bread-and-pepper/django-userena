@@ -215,42 +215,6 @@ class UserenaViewsTests(TestCase):
                              reverse('userena_email_complete',
                                      kwargs={'username': 'john'}))
 
-    def test_profile_detail_view(self):
-        """ A ``GET`` to the detailed view of a user """
-        response = self.client.get(reverse('userena_profile_detail',
-                                           kwargs={'username': 'john'}))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userena/profile_detail.html')
-
-    def test_edit_view(self):
-        """ A ``GET`` to the edit view of a users account """
-        self.client.login(username='john', password='blowfish')
-        response = self.client.get(reverse('userena_profile_edit',
-                                           kwargs={'username': 'john'}))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userena/profile_form.html')
-        self.failUnless(isinstance(response.context['form'],
-                                   forms.EditProfileForm))
-
-    def test_edit_view_success(self):
-        """ A ``POST`` to the edit view """
-        self.client.login(username='john', password='blowfish')
-        new_about_me = 'I hate it when people use my name for testing.'
-        response = self.client.post(reverse('userena_profile_edit',
-                                            kwargs={'username': 'john'}),
-                                    data={'about_me': new_about_me,
-                                          'privacy': 'open'})
-
-        # A valid post should redirect to the detail page.
-        self.assertRedirects(response, reverse('userena_profile_detail',
-                                               kwargs={'username': 'john'}))
-
-        # Users hould be changed now.
-        profile = UserenaUser.objects.get(username='john').get_profile()
-        self.assertEqual(profile.about_me, new_about_me)
-
     def test_change_password_view(self):
         """ A ``GET`` to the change password view """
         self.client.login(username='john', password='blowfish')
@@ -280,7 +244,44 @@ class UserenaViewsTests(TestCase):
         john = User.objects.get(username='john')
         self.failUnless(john.check_password(new_password))
 
-    def test_list_view(self):
+    def test_profile_detail_view(self):
+        """ A ``GET`` to the detailed view of a user """
+        response = self.client.get(reverse('userena_profile_detail',
+                                           kwargs={'username': 'john'}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/profile_detail.html')
+
+    def test_profile_edit_view(self):
+        """ A ``GET`` to the edit view of a users account """
+        self.client.login(username='john', password='blowfish')
+        response = self.client.get(reverse('userena_profile_edit',
+                                           kwargs={'username': 'john'}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userena/profile_form.html')
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.EditProfileForm))
+
+    def test_profile_edit_view_success(self):
+        """ A ``POST`` to the edit view """
+        self.client.login(username='john', password='blowfish')
+        new_about_me = 'I hate it when people use my name for testing.'
+        response = self.client.post(reverse('userena_profile_edit',
+                                            kwargs={'username': 'john'}),
+                                    data={'about_me': new_about_me,
+                                          'privacy': 'open'})
+
+        # A valid post should redirect to the detail page.
+        self.assertRedirects(response, reverse('userena_profile_detail',
+                                               kwargs={'username': 'john'}))
+
+        # Users hould be changed now.
+        profile = UserenaUser.objects.get(username='john').get_profile()
+        self.assertEqual(profile.about_me, new_about_me)
+
+
+    def test_profile_list_view(self):
         """ A ``GET`` to the list view of a user """
         response = self.client.get(reverse('userena_profile_list'))
 
