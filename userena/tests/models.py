@@ -78,7 +78,7 @@ class UserenaUserModelTests(TestCase):
 
     def test_activation_used_account(self):
         """
-        An account cannot be activated anymore once the activation key is
+        An user cannot be activated anymore once the activation key is
         already used.
 
         """

@@ -72,7 +72,9 @@ class SignupFormTests(TestCase):
 
 class AuthenticationFormTests(TestCase):
     """ Test the ``AuthenticationForm`` """
+
     fixtures = ['users',]
+
     def test_signin_form(self):
         """
         Check that the ``SigninForm`` requires both identification and password
@@ -106,7 +108,9 @@ class AuthenticationFormTests(TestCase):
 
 class ChangeEmailFormTests(TestCase):
     """ Test the ``ChangeEmailForm`` """
+
     fixtures = ['users']
+
     def test_change_email_form(self):
         user = UserenaUser.objects.get(pk=1)
         invalid_data_dicts = [
@@ -134,3 +138,4 @@ class ChangeEmailFormTests(TestCase):
 
 class EditAccountFormTest(TestCase):
     """ Test the ``EditAccountForm`` """
+    pass

@@ -7,13 +7,13 @@ USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
                                       'USERENA_SIGNIN_REDIRECT_URL',
                                       '/accounts/%(username)s')
 
-# How long do people have to activate their account.
+# How long do people have to activate.
 USERENA_ACTIVATION_DAYS = getattr(settings,
                                   'USERENA_ACTIVATION_DAYS',
                                   7)
 
 # Should a notifification be send when there a only
-# ``USERENA_ACTIVATION_REMEMBER_DAYS`` left before account deletion.
+# ``USERENA_ACTIVATION_REMEMBER_DAYS`` left before deletion.
 USERENA_ACTIVATION_NOTIFY = getattr(settings,
                                     'USERENA_ACTIVATION_NOTIFY',
                                     True)

@@ -11,11 +11,11 @@ import re, datetime
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 class UserenaUserManager(UserManager):
-    """ Extra functionality for the account manager. """
+    """ Extra functionality for the UserenaUser model. """
 
     def create_inactive_user(self, username, email, password):
         """
-        A simple wrapper that creates a new ``User`` and a new ``Account``.
+        A simple wrapper that creates a new ``User``.
 
         """
         now = datetime.datetime.now()
@@ -54,8 +54,8 @@ class UserenaUserManager(UserManager):
         """
         Activate an ``User`` by supplying a valid ``activation_key``.
 
-        If the key is valid and an account is found, activate the user and
-        return the account.
+        If the key is valid and an user is found, activate the user and
+        return it.
 
         """
         if SHA1_RE.search(activation_key):
@@ -75,7 +75,7 @@ class UserenaUserManager(UserManager):
         Verify an email address by checking a ``verification_key``.
 
         A valid ``verification_key`` will set the newly wanted e-mail address
-        as the current e-mail address. Returns the account after succes or
+        as the current e-mail address. Returns the user after success or
         ``False`` when the verification key is invalid.
 
         """
@@ -94,7 +94,7 @@ class UserenaUserManager(UserManager):
 
     def delete_expired_users(self):
         """
-        Checks for expired accounts and delete's the ``User`` associated with
+        Checks for expired users and delete's the ``User`` associated with
         it. Skips if the user ``is_staff``.
 
         Returns a list of the deleted users.

@@ -35,7 +35,7 @@ def upload_to_mugshot(instance, filename):
 
 class UserenaUser(User):
     """
-    A user account which stores all the nescessary information to have a full
+    A user which stores all the nescessary information to have a full
     functional user implementation on your Django website.
 
     """
@@ -97,11 +97,11 @@ class UserenaUser(User):
         Sends an email to verify the new email address.
 
         This email contains the ``email_verification_key`` which is used to
-        verify this new email address in ``Account.objects.verify_email``.
+        verify this new email address in ``UserenaUser.objects.verify_email``.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
-        context= {'account': self,
+        context= {'user': self,
                   'protocol': protocol,
                   'verification_key': self.email_verification_key,
                   'site': Site.objects.get_current()}
@@ -121,8 +121,8 @@ class UserenaUser(User):
         """
         Checks if activation key is expired.
 
-        Returns ``True`` when the ``activation_key`` of the account is
-        expired and ``False`` if the key is still valid.
+        Returns ``True`` when the ``activation_key`` of the user is expired and
+        ``False`` if the key is still valid.
 
         The key is expired when it's set to the value defined in
         ``USERENA_ACTIVATED`` or ``activation_key_created`` is beyond the
@@ -142,12 +142,12 @@ class UserenaUser(User):
         Sends a activation e-mail to the user.
 
         This e-mail is send when the user wants to activate their newly created
-        account. Also checks if the protocol is secured by looking at
+        user. Also checks if the protocol is secured by looking at
         ``USERENE_USE_HTTPS`` value.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
-        context= {'account': self,
+        context= {'user': self,
                   'protocol': protocol,
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,
@@ -238,13 +238,13 @@ class BaseProfile(models.Model):
 
         Users are divided into four groups:
 
-            - Open: Everyone can view your account.
-            - Closed: Nobody can view your account.
+            - Open: Everyone can view your profile
+            - Closed: Nobody can view your profile.
             - Registered: Users that are registered on the website and signed
             in only.
-            - Special cases like superadmin and the owner of the account.
+            - Special cases like superadmin and the owner of the profile.
 
-        Through the ``privacy`` field a owner of an account can define what
+        Through the ``privacy`` field a owner of an profile can define what
         they want to show to whom.
 
         **Arguments**

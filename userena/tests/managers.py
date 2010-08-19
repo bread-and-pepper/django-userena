@@ -7,7 +7,7 @@ from userena import settings as userena_settings
 import datetime, re
 
 class UserenaUserManagerTests(TestCase):
-    """ Test the manager of Account """
+    """ Test the manager of UserenaUser """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
@@ -18,8 +18,7 @@ class UserenaUserManagerTests(TestCase):
         """
         Test the creation of a new user.
 
-        ``Account.create_inactive_user`` should create a new user that is set to active.
-        It should also create a new account for this user.
+        ``UserenaUser.create_inactive_user`` should create a new user that is set to active.
 
         """
         new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
@@ -29,12 +28,12 @@ class UserenaUserManagerTests(TestCase):
         self.failIf(new_user.is_active)
         self.failUnlessEqual(UserenaUser.objects.filter(user__email=self.user_info['email']).count(), 1)
 
-    def test_create_account(self):
+    def test_create_user(self):
         """
-        Test the creation of a new account.
+        Test the creation of a new user.
 
-        ``Account.objects.create_account`` should create a new account for this user.
-        The user is not activied yet therefore should get an e-mail which
+        ``UserenaUser.objects.create_user`` create a new user.
+        The user is not activated yet, therefore should get an e-mail which
         contains the ``activation_key``.
 
         """
@@ -56,7 +55,7 @@ class UserenaUserManagerTests(TestCase):
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
         active_user = UserenaUser.objects.activate_user(user.activation_key)
 
-        # The returned account should be the same as the one just created.
+        # The returned user should be the same as the one just created.
         self.failUnlessEqual(user, active_user)
 
         # The user should now be active.
@@ -69,7 +68,7 @@ class UserenaUserManagerTests(TestCase):
     def test_activation_invalid(self):
         """
         Activation with a key that's invalid should make
-        ``Account.objects.activate_user`` return ``False``.
+        ``UserenaUser.objects.activate_user`` return ``False``.
 
         """
 
@@ -83,7 +82,7 @@ class UserenaUserManagerTests(TestCase):
     def test_activation_expired(self):
         """
         Activation with a key that's expired should also make
-        ``Account.objects.activation_account`` return ``False``.
+        ``UserenaUser.objects.activation_user`` return ``False``.
 
         """
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
@@ -92,12 +91,12 @@ class UserenaUserManagerTests(TestCase):
         user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
-        # Try to activate the account
+        # Try to activate the user
         UserenaUser.objects.activate_user(user.activation_key)
 
         active_user = UserenaUser.objects.get(user__username='alice')
 
-        # Account activation should have failed
+        # UserenaUser activation should have failed
         self.failIf(active_user.user.is_active)
 
         # The activation key should still be a hash
@@ -130,8 +129,8 @@ class UserenaUserManagerTests(TestCase):
 
         """
         new_email = 'john@newexample.com'
-        account = UserenaUser.objects.get(pk=1)
-        account.change_email(new_email)
+        user = UserenaUser.objects.get(pk=1)
+        user.change_email(new_email)
 
         # Verify email with wrong SHA1
         self.failIf(UserenaUser.objects.verify_email('sha1'))
@@ -144,9 +143,9 @@ class UserenaUserManagerTests(TestCase):
         Test if expired users are deleted from the database.
 
         """
-        expired_account = UserenaUser.objects.create_inactive_user(**self.user_info)
-        expired_account.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
-        expired_account.save()
+        expired_user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        expired_user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        expired_user.save()
 
         deleted_users = UserenaUser.objects.delete_expired_users()
 

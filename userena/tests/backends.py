@@ -35,7 +35,7 @@ class UserenaAuthenticationBackendTests(TestCase):
         self.failUnless(isinstance(result, User))
 
     def test_with_email(self):
-        """ Test the backend when email address are supplied """
+        """ Test the backend when email address is supplied """
         # Invalid e-mail adressses or passwords
         invalid_data_dicts = [
             # Invalid password
@@ -54,4 +54,3 @@ class UserenaAuthenticationBackendTests(TestCase):
         result = self.backend.authenticate(identification='john@example.com',
                                            password='blowfish')
         self.failUnless(isinstance(result, User))
-        pass
