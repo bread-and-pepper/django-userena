@@ -4,6 +4,7 @@
 # Documentation
 _build
 build
+.Python
 
 # Virtual environment
 bin/

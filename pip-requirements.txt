@@ -1,11 +1,14 @@
 # Django
 http://www.djangoproject.com/download/1.2.1/tarball/
 
-# Python-dateutils
-http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz
-
 # Imaging library needed for easy_thumbnails
 http://effbot.org/downloads/Imaging-1.1.7.tar.gz
 
+# Python-dateutils
+http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz
+
 # Thumbails used for mugshots
 -e git+http://github.com/SmileyChris/easy-thumbnails.git#egg=easy_thumbnails
+
+# Django-guardian used for privacy settings
+-e git+http://github.com/lukaszb/django-guardian.git#egg=guardian
