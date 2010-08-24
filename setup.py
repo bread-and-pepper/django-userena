@@ -27,7 +27,6 @@ setup(name='django-userena',
       include_package_data=True,
       install_requires = [
         'Django>=1.2.1',
-        'python-dateutil>=1.5',
         'easy_thumbnails',
         'django-guardian>=0.1.0',
       ],

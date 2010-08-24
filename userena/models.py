@@ -15,7 +15,6 @@ from userena import settings as userena_settings
 from guardian.shortcuts import get_perms
 from guardian.shortcuts import assign
 
-from dateutil.relativedelta import relativedelta
 from easy_thumbnails.fields import ThumbnailerImageField
 
 import datetime, random
@@ -286,6 +285,14 @@ class Profile(BaseProfile):
 
     @property
     def age(self):
-        """ Returns integer telling the age in years for the user """
         today = datetime.date.today()
-        return relativedelta(today, self.birth_date).years
+        # Raised when birth date is February 29 and the current year is not a
+        # leap year
+        try:
+            birthday = self.birth_date.replace(year=today.year)
+        except ValueError:
+            birthday = self.birth_date.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            return today.year - self.birth_date.year - 1
+        else:
+            return today.year - self.birth_date.year
