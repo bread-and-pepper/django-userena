@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
-from userena.models import UserenaUser, Profile
+from userena.models import UserenaUser
 from userena.utils import get_profile_model
 
 attrs_dict = {'class': 'required'}

@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import UserenaUser, Profile, upload_to_mugshot
+from userena.models import UserenaUser, UserenaProfile, upload_to_mugshot
 from userena import settings as userena_settings
 
 import datetime, hashlib, re
@@ -106,22 +106,27 @@ class UserenaUserModelTests(TestCase):
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
 
-class BaseProfileModelTest(TestCase):
-    """ Test the ``BaseProfile`` model """
+class BaseUserenaProfileModelTest(TestCase):
+    """ Test the ``BaseUserenaProfile`` model """
     fixtures = ['users.json', 'profiles.json']
 
     def test_age_property(self):
         """ Test if the ``user.age`` returns the correct age. """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         self.assertEqual(profile.age, 27)
+
+        # Test leap year
+        profile.birth_date=datetime.date(2000, 2, 29)
+        profile.save()
+        self.assertEqual(profile.age, 10)
 
     def test_mugshot_url(self):
         """ The user has uploaded it's own mugshot. This should be returned. """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         profile.mugshot = 'fake_image.png'
         profile.save()
 
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(),
                              settings.MEDIA_URL + 'fake_image.png')
 
@@ -134,12 +139,12 @@ class BaseProfileModelTest(TestCase):
         # This user has no mugshot, and gravatar is disabled. And to make
         # matters worse, there isn't even a default image.
         userena_settings.USERENA_MUGSHOT_GRAVATAR = False
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(), None)
 
         # There _is_ a default image
         userena_settings.USERENA_MUGSHOT_DEFAULT = 'http://example.com'
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(), 'http://example.com')
 
         # Settings back to default
@@ -151,7 +156,7 @@ class BaseProfileModelTest(TestCase):
 
         """
         template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
 
         gravatar_hash = hashlib.md5(profile.user.email).hexdigest()
 
@@ -180,7 +185,7 @@ class BaseProfileModelTest(TestCase):
         super_user = UserenaUser.objects.get(pk=1)
         reg_user = UserenaUser.objects.get(pk=2)
 
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
 
         # All users should be able to see a ``open`` profile.
         profile.privacy = 'open'

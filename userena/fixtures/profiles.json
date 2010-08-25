@@ -1,5 +1,5 @@
 [{"pk": 1,
-  "model": "userena.profile",
+  "model": "userena.userenaprofile",
   "fields": {"birth_date": "1982-09-14",
              "gender": 1,
              "website": "",
@@ -11,7 +11,7 @@
   },
   {
   "pk": 2,
-  "model": "userena.profile",
+  "model": "userena.userenaprofile",
   "fields": {"birth_date": "1989-03-18",
              "gender": 2,
              "website": "",

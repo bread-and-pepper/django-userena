@@ -102,15 +102,16 @@ def generate_sha1(string, salt=None):
 def get_profile_model():
     """
     Return the model class for the currently-active user profile
-    model, as defined by the ``AUTH_PROFILE_MODULE`` setting. If that
-    setting is missing, raise
-    ``django.contrib.auth.models.SiteProfileNotAvailable``.
+    model, as defined by the ``AUTH_PROFILE_MODULE`` setting.
+
+    If that setting is missing, return the default profile created by Userena.
 
     """
     if (not hasattr(settings, 'AUTH_PROFILE_MODULE')) or \
            (not settings.AUTH_PROFILE_MODULE):
-        raise SiteProfileNotAvailable
-    profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.split('.'))
+        auth_profile_module = 'userena.UserenaProfile'
+    else: auth_profile_module = settings.AUTH_PROFILE_MODULE
+    profile_mod = get_model(*auth_profile_module.split('.'))
     if profile_mod is None:
         raise SiteProfileNotAvailable
     return profile_mod

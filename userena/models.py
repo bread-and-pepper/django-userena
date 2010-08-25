@@ -163,7 +163,7 @@ class UserenaUser(User):
                   settings.DEFAULT_FROM_EMAIL,
                   [self.email,])
 
-class BaseProfile(models.Model):
+class UserenaBaseProfile(models.Model):
     """ Base model needed for extra profile functionality """
     PRIVACY_CHOICES = (
         ('open', _('Open')),
@@ -175,7 +175,9 @@ class BaseProfile(models.Model):
                                  userena_settings.USERENA_MUGSHOT_SIZE),
                         'crop': 'smart'}
 
-    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
+    user = models.ForeignKey(User,
+                             unique=True,
+                             verbose_name=_('user'))
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
@@ -191,8 +193,26 @@ class BaseProfile(models.Model):
 
 
     class Meta:
+        """
+        Meta options making the model abstract and defining permissions.
+
+        The model is ``abstract`` because it only supplies basic functionality
+        to a more custom defined model that extends it. This way there is not
+        another join needed.
+
+        We also define custom permissions because we don't know how the model
+        that extends this one is going to be called. So we don't know what
+        permissions to check. For ex. if the user defines a profile model that
+        is called ``MyProfile``, than the permissions would be
+        ``add_myprofile`` etc. We want to be able to always check
+        ``add_profile``, ``change_profile`` etc.
+
+        """
         abstract = True
         permissions = (
+            ('add_profile', 'Can add profile'),
+            ('change_profile', 'Can change profile'),
+            ('delete_profile', 'Can delete profile'),
             ('view_profile', 'Can view profile'),
         )
 
@@ -268,7 +288,7 @@ class BaseProfile(models.Model):
         # Fallback to closed profile.
         return False
 
-class Profile(BaseProfile):
+class UserenaProfile(UserenaBaseProfile):
     """ Default profile """
     GENDER_CHOICES = (
         (1, _('Male')),
@@ -291,8 +311,6 @@ class Profile(BaseProfile):
         try:
             birthday = self.birth_date.replace(year=today.year)
         except ValueError:
-            birthday = self.birth_date.replace(year=today.year, day=born.day-1)
-        if birthday > today:
-            return today.year - self.birth_date.year - 1
-        else:
-            return today.year - self.birth_date.year
+            birthday = self.birth_date.replace(year=today.year, day=today.day-1)
+        if birthday > today: return today.year - self.birth_date.year - 1
+        else: return today.year - self.birth_date.year

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from userena.models import Profile
+from userena.models import UserenaProfile
 
 class PrivacyTests(TestCase):
     """
@@ -42,7 +42,7 @@ class PrivacyTests(TestCase):
 
     def test_detail_open_profile_view(self):
         """ Viewing an open profile should be visible to everyone """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         profile.privacy = 'open'
         profile.save()
 
@@ -55,7 +55,7 @@ class PrivacyTests(TestCase):
 
     def test_detail_registered_profile_view(self):
         """ Viewing a users who's privacy is registered """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         profile.privacy = 'registered'
         profile.save()
 
@@ -68,7 +68,7 @@ class PrivacyTests(TestCase):
 
     def test_detail_closed_profile_view(self):
         """ Viewing a closed profile should only by visible to the admin """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
         profile.privacy = 'closed'
         profile.save()
 
@@ -81,7 +81,7 @@ class PrivacyTests(TestCase):
 
     def test_edit_profile_view(self):
         """ Editing a profile should only be available to the owner and the admin """
-        profile = Profile.objects.get(pk=1)
+        profile = UserenaProfile.objects.get(pk=1)
 
         users_status = (
             (None, 302),

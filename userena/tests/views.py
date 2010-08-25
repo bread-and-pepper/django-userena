@@ -6,7 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import UserenaUser, Profile
+from userena.models import UserenaUser, UserenaProfile
 from userena import settings as userena_settings
 
 class UserenaViewsTests(TestCase):
