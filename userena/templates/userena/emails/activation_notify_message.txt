@@ -1,5 +1,5 @@
 {% load i18n %}{% autoescape off %}
-{% trans "Dear" %}{{ account.user.username }},
+{% trans "Dear" %}{{ user.username }},
 
 {% with site.name as site_name %}{% blocktrans %}Your account on {{ site_name }} is about to expire in {{ days_left }} days.{% endblocktrans %}{% endwith %}
 {% trans "To activate your account you should click on the link below" %}:

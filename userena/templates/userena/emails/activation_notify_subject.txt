@@ -1,2 +1,4 @@
 {% load i18n %}
-{% trans "Your account is about to expire." %}
+{% with site.name as site_name %}
+{% blocktrans %}Your account on {{ site_name }} is about to expire.{% endblocktrans %}
+{% endwith %}
