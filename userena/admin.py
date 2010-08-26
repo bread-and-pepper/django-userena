@@ -10,4 +10,4 @@ from userena.utils import get_profile_model
 # admin.site.unregister(User)
 
 admin.site.register(UserenaUser)
-#admin.site.register(get_profile_model())
+admin.site.register(get_profile_model())

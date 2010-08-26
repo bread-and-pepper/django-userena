@@ -30,10 +30,6 @@ class SignupForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password (again)"))
 
-    tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
-                             label=_(u'I have read and agree to the Terms of Service'),
-                             error_messages={'required': _('You must agree to the terms to register.')})
-
     def clean_username(self):
         """
         Validate that the username is alphanumeric and is not already in use.
@@ -77,6 +73,12 @@ class SignupForm(forms.Form):
 
         new_user = UserenaUser.objects.create_inactive_user(username, email, password)
         return new_user
+
+class SignupFormTos(SignupForm):
+    """ Add a Terms of Service button to the ``SignupForm``. """
+    tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
+                             label=_(u'I have read and agree to the Terms of Service'),
+                             error_messages={'required': _('You must agree to the terms to register.')})
 
 class AuthenticationForm(forms.Form):
     """
