@@ -505,7 +505,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
                               extra_context=extra_context)
 
 def profile_list(request, page=1, template_name='userena/profile_list.html', paginate_by=50,
-                 extra_context=None):
+                 extra_context=None, **kwargs):
     """
     Returns a list of all profiles that are public.
 
@@ -550,13 +550,14 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
         page = page
 
     profile_model = get_profile_model()
+    queryset = profile_model.objects.get_visible_profiles(request.user)
 
     if not extra_context: extra_context = dict()
     return list_detail.object_list(request,
-                                   queryset=profile_model.objects.all(),
+                                   queryset=queryset,
                                    paginate_by=paginate_by,
                                    page=page,
                                    template_name=template_name,
                                    extra_context=extra_context,
-                                   template_object_name='profile')
-
+                                   template_object_name='profile',
+                                   **kwargs)

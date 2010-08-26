@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import UserManager
+from django.contrib.auth.models import AnonymousUser
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
@@ -106,3 +108,29 @@ class UserenaUserManager(UserManager):
                 deleted_users.append(user)
                 user.delete()
         return deleted_users
+
+class UserenaBaseProfileManager(models.Manager):
+    """ Manager for UserenaProfile """
+    def get_visible_profiles(self, user=None):
+        """
+        Returns all the visible profiles available to this user.
+
+        For now keeps it simple by just applying the cases when a user is not
+        active, a user has it's profile closed to everyone or a user only
+        allows registered users to view their profile.
+
+        **Keyword Arguments**
+
+        ``user``
+            A django ``User`` instance.
+
+        """
+        profiles = self.all()
+
+        filter_kwargs = {'user__is_active': True}
+
+        profiles = profiles.filter(**filter_kwargs)
+        if user and isinstance(user, AnonymousUser):
+            profiles = profiles.exclude(Q(privacy='closed') | Q(privacy='registered'))
+        else: profiles = profiles.exclude(Q(privacy='closed'))
+        return profiles

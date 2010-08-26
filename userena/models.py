@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
 from userena.utils import get_gravatar, generate_sha1
-from userena.managers import UserenaUserManager
+from userena.managers import UserenaUserManager, UserenaBaseProfileManager
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
@@ -191,6 +191,8 @@ class UserenaBaseProfile(models.Model):
                                default='registered',
                                help_text = _('Designates who can view your profile.'))
 
+    objects = UserenaBaseProfileManager()
+
 
     class Meta:
         """
@@ -305,12 +307,14 @@ class UserenaProfile(UserenaBaseProfile):
 
     @property
     def age(self):
-        today = datetime.date.today()
-        # Raised when birth date is February 29 and the current year is not a
-        # leap year
-        try:
-            birthday = self.birth_date.replace(year=today.year)
-        except ValueError:
-            birthday = self.birth_date.replace(year=today.year, day=today.day-1)
-        if birthday > today: return today.year - self.birth_date.year - 1
-        else: return today.year - self.birth_date.year
+        if not self.birth_date: return None
+        else:
+            today = datetime.date.today()
+            # Raised when birth date is February 29 and the current year is not a
+            # leap year
+            try:
+                birthday = self.birth_date.replace(year=today.year)
+            except ValueError:
+                birthday = self.birth_date.replace(year=today.year, day=today.day-1)
+            if birthday > today: return today.year - self.birth_date.year - 1
+            else: return today.year - self.birth_date.year
