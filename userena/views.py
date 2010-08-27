@@ -110,8 +110,8 @@ def verify(request, verification_key,
     else:
         if not extra_context: extra_context = dict()
         return direct_to_template(request,
-                                    template_name,
-                                    extra_context=extra_context)
+                                  template_name,
+                                  extra_context=extra_context)
 
 @secure_required
 def signin(request, auth_form=AuthenticationForm,

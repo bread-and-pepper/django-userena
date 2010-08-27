@@ -177,7 +177,8 @@ class UserenaBaseProfile(models.Model):
 
     user = models.ForeignKey(User,
                              unique=True,
-                             verbose_name=_('user'))
+                             verbose_name=_('user'),
+                             related_name='profile')
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
