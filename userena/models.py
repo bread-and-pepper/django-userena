@@ -175,10 +175,10 @@ class UserenaBaseProfile(models.Model):
                                  userena_settings.USERENA_MUGSHOT_SIZE),
                         'crop': 'smart'}
 
-    user = models.ForeignKey(User,
-                             unique=True,
-                             verbose_name=_('user'),
-                             related_name='profile')
+    user = models.OneToOneField(User,
+                                unique=True,
+                                verbose_name=_('user'),
+                                related_name='profile')
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
