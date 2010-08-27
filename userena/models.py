@@ -308,7 +308,7 @@ class UserenaProfile(UserenaBaseProfile):
 
     @property
     def age(self):
-        if not self.birth_date: return None
+        if not self.birth_date: return False
         else:
             today = datetime.date.today()
             # Raised when birth date is February 29 and the current year is not a
