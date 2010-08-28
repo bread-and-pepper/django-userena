@@ -177,8 +177,7 @@ class UserenaBaseProfile(models.Model):
 
     user = models.OneToOneField(User,
                                 unique=True,
-                                verbose_name=_('user'),
-                                related_name='profile')
+                                verbose_name=_('user'))
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
