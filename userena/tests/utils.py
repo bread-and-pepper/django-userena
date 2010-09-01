@@ -5,7 +5,7 @@ from django.contrib.auth.models import SiteProfileNotAvailable
 
 from userena.utils import get_gravatar, signin_redirect, get_profile_model
 from userena import settings as userena_settings
-from userena.models import UserenaProfile
+from userena.models import UserenaBaseProfile
 
 import hashlib
 
@@ -77,15 +77,12 @@ class UtilsTests(TestCase):
         ``get_profile_model()`` is called.
 
         """
-        # Default profile model is ``UserenaProfile`` from userena.
-        self.failUnlessEqual(get_profile_model(), UserenaProfile)
-
-        # An empty ``AUTH_PROFILE_MODULE`` should fallback to the userena
-        # profile.
-        settings.AUTH_PROFILE_MODULE = None
-        self.failUnlessEqual(get_profile_model(), UserenaProfile)
-
-        # A non existand model should also raise ``SiteProfileNotAvailable``
+        # A non existent model should also raise ``SiteProfileNotAvailable``
         # error.
         settings.AUTH_PROFILE_MODULE = 'userena.FakeProfile'
+        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+
+        # An error should be raised when there is no ``AUTH_PROFILE_MODULE``
+        # supplied.
+        settings.AUTH_PROFILE_MODULE = None
         self.assertRaises(SiteProfileNotAvailable, get_profile_model)

@@ -1,4 +1,3 @@
-from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -6,10 +5,11 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import UserenaUser, UserenaProfile
+from userena.models import UserenaUser
 from userena import settings as userena_settings
+from userena.tests.profiles.test import ProfileTestCase
 
-class UserenaViewsTests(TestCase):
+class UserenaViewsTests(ProfileTestCase):
     """ Test the account views """
     fixtures = ['users', 'profiles']
 

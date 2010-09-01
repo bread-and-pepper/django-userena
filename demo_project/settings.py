@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'demo_project.profiles',
     'easy_thumbnails',
     'relationships',
     'guardian',
@@ -101,7 +102,7 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
-AUTH_PROFILE_MODULE = 'userena.UserenaProfile'
+AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 USERENA_MUGSHOT_SIZE = 140
 
