@@ -177,7 +177,8 @@ class UserenaBaseProfile(models.Model):
 
     user = models.OneToOneField(User,
                                 unique=True,
-                                verbose_name=_('user'))
+                                verbose_name=_('user'),
+                                related_name='profile')
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
@@ -311,10 +312,11 @@ class UserenaProfile(UserenaBaseProfile):
         else:
             today = datetime.date.today()
             # Raised when birth date is February 29 and the current year is not a
-            # leap year
+            # leap year.
             try:
                 birthday = self.birth_date.replace(year=today.year)
             except ValueError:
-                birthday = self.birth_date.replace(year=today.year, day=today.day-1)
+                day = today.day - 1 if today.day != 1 else today.day + 2
+                birthday = self.birth_date.replace(year=today.year, day=day)
             if birthday > today: return today.year - self.birth_date.year - 1
             else: return today.year - self.birth_date.year

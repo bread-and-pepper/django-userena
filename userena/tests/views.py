@@ -26,7 +26,7 @@ class UserenaViewsTests(TestCase):
         response = self.client.get(reverse('userena_activate',
                                            kwargs={'activation_key': user.activation_key}))
         self.assertRedirects(response,
-                             reverse('userena_activation_complete'))
+                             reverse('userena_activation_complete', kwargs={'username': user.username}))
 
         user = UserenaUser.objects.get(email='alice@example.com')
         self.failUnless(user.is_active)
@@ -52,7 +52,7 @@ class UserenaViewsTests(TestCase):
                                            kwargs={'verification_key': user.email_verification_key}))
 
         self.assertRedirects(response,
-                             reverse('userena_verification_complete'))
+                             reverse('userena_verification_complete', kwargs={'username': user.username}))
 
     def test_invalid_verification(self):
         """
@@ -97,7 +97,7 @@ class UserenaViewsTests(TestCase):
 
         # Check for redirect.
         self.assertRedirects(response,
-                             reverse('userena_signup_complete'))
+                             reverse('userena_signup_complete', kwargs={'username': 'alice'}))
 
         # Check for new user.
         self.assertEqual(UserenaUser.objects.filter(email__iexact='alice@example.com').count(), 1)

@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'easy_thumbnails',
+    'relationships',
     'guardian',
     'userena',
 )
