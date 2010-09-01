@@ -26,7 +26,7 @@ class UserenaViewsTests(ProfileTestCase):
         response = self.client.get(reverse('userena_activate',
                                            kwargs={'activation_key': user.activation_key}))
         self.assertRedirects(response,
-                             reverse('userena_activation_complete', kwargs={'username': user.username}))
+                             reverse('userena_profile_detail', kwargs={'username': user.username}))
 
         user = UserenaUser.objects.get(email='alice@example.com')
         self.failUnless(user.is_active)

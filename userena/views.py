@@ -82,7 +82,7 @@ def activate(request, activation_key,
 
     The key is a SHA1 string. When the SHA1 is found with an ``Account``, the
     ``User`` of that account will be activated. After a successfull activation
-    the view will redirect to ``success_url``.  If the SHA1 is not found, the
+    the view will redirect to ``succes_url``.  If the SHA1 is not found, the
     user will be shown the ``template_name`` template displaying a fail
     message.
 
@@ -103,7 +103,7 @@ def activate(request, activation_key,
     ``success_url``
         Named URL where the user should be redirected to after a succesfull
         activation. If not specified, will direct to
-        ``userena_activation_complete`` view.
+        ``userena_profile_detail`` view.
 
     ``extra_context``
         Dictionary containing variables which could be added to the template
@@ -112,8 +112,12 @@ def activate(request, activation_key,
     """
     user = UserenaUser.objects.activate_user(activation_key)
     if user:
+        auth_user = authenticate(identification=user.email,
+                                 check_password=False)
+        login(request, auth_user)
+
         if success_url: redirect_to = success_url
-        else: redirect_to = reverse('userena_activation_complete',
+        else: redirect_to = reverse('userena_profile_detail',
                                     kwargs={'username': user.username})
         return redirect(redirect_to)
     else:
