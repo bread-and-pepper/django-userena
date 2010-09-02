@@ -84,7 +84,8 @@ class UserenaUserModelTests(ProfileTestCase):
 
         """
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        activated_user = UserenaUser.objects.activate_user(user.activation_key)
+        activated_user = UserenaUser.objects.activate_user(user.username,
+                                                           user.activation_key)
         self.failUnless(activated_user.activation_key_expired())
 
     def test_activation_unexpired_account(self):

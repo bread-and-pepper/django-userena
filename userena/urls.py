@@ -7,23 +7,10 @@ from userena import views as userena_views
 from userena import settings as userena_settings
 
 urlpatterns = patterns('',
-                       # Inactive user
-                       url(r'^disabled/$',
-                           direct_to_template,
-                           {'template': 'userena/disabled.html'},
-                           name='userena_disabled'),
-
-                       # Activate
-                       url(r'^activate/(?P<activation_key>\w+)/$',
-                           userena_views.activate,
-                           name='userena_activate'),
-
-                       # Email verification
-                       url(r'^verify/(?P<verification_key>\w+)/$',
-                           userena_views.verify,
-                           name='userena_verify'),
-
-                       # Signin, signout and signup
+                       # Signup, signin and signout
+                       url(r'^signup/$',
+                           userena_views.signup,
+                           name='userena_signup'),
                        url(r'^signin/$',
                            userena_views.signin,
                            name='userena_signin'),
@@ -31,9 +18,6 @@ urlpatterns = patterns('',
                            auth_views.logout,
                            {'template_name': 'userena/signout.html'},
                            name='userena_signout'),
-                       url(r'^signup/$',
-                           userena_views.signup,
-                           name='userena_signup'),
 
                        # Reset password
                        url(r'^password/reset/$',
@@ -53,44 +37,66 @@ urlpatterns = patterns('',
                            auth_views.password_reset_complete,
                            {'template_name': 'userena/password_reset_complete.html'}),
 
-                       # Account specific changes
+                       # Signup
                        url(r'^(?P<username>\w+)/signup/complete/$',
-                           userena_views.complete,
+                           userena_views.direct_to_user_template,
                            {'template_name': 'userena/signup_complete.html',
                             'extra_context': {'userena_activation_days': userena_settings.USERENA_ACTIVATION_DAYS}},
                            name='userena_signup_complete'),
-                       url(r'^(?P<username>\w+)/activation/complete/$',
-                           userena_views.complete,
-                           {'template_name': 'userena/activation_complete.html'},
-                           name='userena_activation_complete'),
-                       url(r'^(?P<username>\w+)/verification/complete/$',
-                           userena_views.complete,
-                           {'template_name': 'userena/verification_complete.html'},
-                           name='userena_verification_complete'),
-                       url(r'^(?P<username>\w+)/password/$',
-                           userena_views.password_change,
-                           name='userena_password_change'),
-                       url(r'^(?P<username>\w+)/password/complete/$',
-                           userena_views.complete,
-                           {'template_name': 'userena/password_complete.html'},
-                           name='userena_password_change_complete'),
+
+                       # Activate
+                       url(r'^(?P<username>\w+)/activate/complete/$',
+                           userena_views.direct_to_user_template,
+                           {'template_name': 'userena/activate_complete.html'},
+                           name='userena_activate_complete'),
+                       url(r'^(?P<username>\w+)/activate/(?P<activation_key>\w+)/$',
+                           userena_views.activate,
+                           name='userena_activate'),
+
+                       # Change email and confirm it
                        url(r'^(?P<username>\w+)/email/$',
                            userena_views.email_change,
                            name='userena_email_change'),
                        url(r'^(?P<username>\w+)/email/complete/$',
-                           userena_views.complete,
-                           {'template_name': 'userena/email_complete.html'},
-                           name='userena_email_complete'),
+                           userena_views.direct_to_user_template,
+                           {'template_name': 'userena/email_change_complete.html'},
+                           name='userena_email_change_complete'),
+                       url(r'^(?P<username>\w+)/confirm-email/complete/$',
+                           userena_views.direct_to_user_template,
+                           {'template_name': 'userena/email_confirm_complete.html'},
+                           name='userena_email_confirm_complete'),
+                       url(r'^(?P<username>\w+)/confirm-email/(?P<confirmation_key>\w+)/$',
+                           userena_views.email_confirm,
+                           name='userena_email_confirm'),
+
+                       # Disabled account
+                       url(r'^(?P<username>\w+)/disabled/$',
+                           userena_views.direct_to_user_template,
+                           {'template_name': 'userena/disabled.html'},
+                           name='userena_disabled'),
+
+                       # Change password
+                       url(r'^(?P<username>\w+)/password/$',
+                           userena_views.password_change,
+                           name='userena_password_change'),
+                       url(r'^(?P<username>\w+)/password/complete/$',
+                           userena_views.direct_to_user_template,
+                           {'template_name': 'userena/password_complete.html'},
+                           name='userena_password_change_complete'),
+
+                       # Edit profile
                        url(r'^(?P<username>\w+)/edit/$',
                            userena_views.profile_edit,
                            name='userena_profile_edit'),
+
+                       # View profiles
                        url(r'^(?P<username>\w+)/$',
                            userena_views.profile_detail,
                            name='userena_profile_detail'),
-                        url(r'^page/(?P<page>[0-9]+)/$',
-                            userena_views.profile_list,
-                            name='userena_profile_list_paginated'),
-                        url(r'^$',
-                            userena_views.profile_list,
-                            name='userena_profile_list'),
- )
+                       url(r'^page/(?P<page>[0-9]+)/$',
+                           userena_views.profile_list,
+                           name='userena_profile_list_paginated'),
+                       url(r'^$',
+                           userena_views.profile_list,
+                           name='userena_profile_list'),
+)

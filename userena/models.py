@@ -53,12 +53,16 @@ class UserenaUser(User):
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
-    email_new = models.EmailField(_('new wanted e-mail'),
-                                  blank=True,
-                                  help_text=_('Temporary email address when the user requests an email change.'))
-    email_verification_key = models.CharField(_('new email verification key'),
+    email_unconfirmed = models.EmailField(_('unconfirmed e-mail address'),
+                                          blank=True,
+                                          help_text=_('Temporary email address when the user requests an email change.'))
+    email_confirmation_key = models.CharField(_('unconfirmed email verification key'),
                                               max_length=40,
                                               blank=True)
+    email_confirmation_key_created = models.DateTimeField(_('creation date of email confirmation key'),
+                                                          blank=True,
+                                                          null=True)
+
 
     objects = UserenaUserManager()
 
@@ -82,39 +86,40 @@ class UserenaUser(User):
             The new email address that the user wants to use.
 
         """
-        self.email_new = email
+        self.email_unconfirmed = email
 
         salt, hash = generate_sha1(self.username)
-        self.email_verification_key = hash
+        self.email_confirmation_key = hash
+        self.email_confirmation_key_created = datetime.datetime.now()
         self.save()
 
         # Send email for activation
-        self.send_verification_email()
+        self.send_confirmation_email()
 
-    def send_verification_email(self):
+    def send_confirmation_email(self):
         """
-        Sends an email to verify the new email address.
+        Sends an email to confirm the new email address.
 
-        This email contains the ``email_verification_key`` which is used to
-        verify this new email address in ``UserenaUser.objects.verify_email``.
+        This email contains the ``email_confirmation_key`` which is used to
+        verify this new email address in ``UserenaUser.objects.confirm_email``.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
         context= {'user': self,
                   'protocol': protocol,
-                  'verification_key': self.email_verification_key,
+                  'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/verification_email_subject.txt',
+        subject = render_to_string('userena/emails/confirmation_email_subject.txt',
                                    context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/verification_email_message.txt',
+        message = render_to_string('userena/emails/confirmation_email_message.txt',
                                    context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.email_new,])
+                  [self.email_unconfirmed,])
 
     def activation_key_expired(self):
         """

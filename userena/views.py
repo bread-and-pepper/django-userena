@@ -74,8 +74,8 @@ def signup(request, signup_form=SignupForm,
                               template_name,
                               extra_context=extra_context)
 @secure_required
-def activate(request, activation_key,
-             template_name='userena/activation_fail.html',
+def activate(request, username, activation_key,
+             template_name='userena/activate_fail.html',
              success_url=None, extra_context=None):
     """
     Activate a user with an activation key.
@@ -87,6 +87,9 @@ def activate(request, activation_key,
     message.
 
     **Arguments**
+
+    ``username``
+        String of the username that wants to be activated.
 
     ``activation_key``
         String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
@@ -110,11 +113,15 @@ def activate(request, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = UserenaUser.objects.activate_user(activation_key)
+    user = UserenaUser.objects.activate_user(username, activation_key)
     if user:
+        # Sign the user in.
         auth_user = authenticate(identification=user.email,
                                  check_password=False)
         login(request, auth_user)
+
+        messages.success(request, _('Your account has been activated and you have been signed in.'),
+                         fail_silently=True)
 
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_profile_detail',
@@ -127,33 +134,36 @@ def activate(request, activation_key,
                                   extra_context=extra_context)
 
 @secure_required
-def verify(request, verification_key,
-           template_name='userena/verification_fail.html', success_url=None,
-           extra_context=None):
+def email_confirm(request, username, confirmation_key,
+                  template_name='userena/email_confirm_fail.html',
+                  success_url=None, extra_context=None):
     """
-    Verifies an email address with a verification key.
+    Confirms an email address with a confirmation key.
 
-    Verifies a new email address by running ``Account.objects.verify_email``
-    method. If the method returns an ``Account`` the user will have his new
-    e-mail address set and redirected to ``success_url``. If no ``Account`` is
+    Confirms a new email address by running ``User.objects.confirm_email``
+    method. If the method returns an ``User`` the user will have his new
+    e-mail address set and redirected to ``success_url``. If no ``User`` is
     returned the user will be represented with a fail message from
     ``template_name``.
 
     **Arguments**
 
-    ``verification_key``
-        String with a SHA1 representing the verification key used to verify a
+    ``username``
+        String of the username whose email address needs to be confirmed.
+
+    ``confirmation_key``
+        String with a SHA1 representing the confirmation key used to verify a
         new email address.
 
     **Keyword arguments**
 
     ``template_name``
         String containing the template name which should be rendered when
-        verification fails. When verification is succesfull, no template is
+        confirmation fails. When confirmation is succesfull, no template is
         needed because the user will be redirected to ``success_url``.
 
     ``success_url``
-        Named URL which is redirected to after a succesfull verification.
+        Named URL which is redirected to after a succesfull confirmation.
         Supplied argument must be able to be rendered by ``reverse`` function.
 
     ``extra_context``
@@ -161,10 +171,10 @@ def verify(request, verification_key,
         ``template_name``.
 
     """
-    user = UserenaUser.objects.verify_email(verification_key)
+    user = UserenaUser.objects.confirm_email(username, confirmation_key)
     if user:
         if success_url: redirect_to = success_url
-        else: redirect_to = reverse('userena_verification_complete',
+        else: redirect_to = reverse('userena_email_confirm_complete',
                                     kwargs={'username': user.username})
         return redirect(redirect_to)
     else:
@@ -173,25 +183,26 @@ def verify(request, verification_key,
                                   template_name,
                                   extra_context=extra_context)
 
-def complete(request, username, template_name='userena/signup_complete.html', extra_context=None):
+def direct_to_user_template(request, username, template_name,
+                            extra_context=None):
     """
-    Completion views.
+    Simple wrapper for Django's ``direct_to_template`` view.
 
-    Views that are shown after a successfull action. A wrapper for
-    ``direct_to_template`` where the template also has access to the user that
-    succesfully completed the action. Used after signup, activation and
-    verification of a new e-mail.
+    This view is used when you want to show a template to a specific user. A
+    wrapper for ``direct_to_template`` where the template also has access to
+    the user that is found with ``username``. For ex. used after signup,
+    activation and confirmation of a new e-mail.
 
     **Arguments**
 
     ``username``
         String defining the username of the user that made the action.
 
-    **Keyword arguments**
-
     ``template_name``
         String defining the name of the template to use. Defaults to
         ``userena/signup_complete.html``.
+
+    **Keyword arguments**
 
     ``extra_context``
         A dictionary containing extra variables that should be passed to the
@@ -279,7 +290,8 @@ def signin(request, auth_form=AuthenticationForm,
                                                        user)
                 return redirect(redirect_to)
             else:
-                return redirect(reverse('userena_disabled'))
+                return redirect(reverse('userena_disabled',
+                                        kwargs={'username': user.username}))
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
@@ -349,7 +361,7 @@ def email_change(request, username, form=ChangeEmailForm,
             email_result = form.save()
 
             if success_url: redirect_to = success_url
-            else: redirect_to = reverse('userena_email_complete',
+            else: redirect_to = reverse('userena_email_change_complete',
                                         kwargs={'username': user.username})
             return redirect(redirect_to)
 

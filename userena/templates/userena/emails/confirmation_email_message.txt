@@ -3,9 +3,9 @@
 
 {% trans "You requested a change of your email address at" %} {{ site.name }}.
 
-{% trans "Please verify this email address by clicking on the link below:" %}
+{% trans "Please confirm this email address by clicking on the link below:" %}
 
-{{ protocol }}://{{ site.domain }}{% url userena_verify verification_key %}
+{{ protocol }}://{{ site.domain }}{% url userena_email_confirm user.username confirmation_key %}
 
 {% trans "Sincerely" %},
 {{ site.name }}
