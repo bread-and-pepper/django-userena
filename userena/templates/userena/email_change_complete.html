@@ -2,9 +2,9 @@
 {% load i18n %}
 
 {% block title %}{% trans "Email verification" %}{% endblock %}
-{% block content_title %}<h2>{% trans 'Verify new email' %}</h2>{% endblock %}
+{% block content_title %}<h2>{% trans 'Confirm your new email' %}</h2>{% endblock %}
 
 {% block content %}
-<p>{% trans 'You have received an email to the newly supplied address.' %}</p>
-<p>{% trans 'Click on the verification link to start using this email address.' %}</p>
+<p>{% blocktrans with account.email_unconfirmed as email %}You have received an email at {{ email }}.{% endblocktrans %}</p>
+<p>{% blocktrans with account.username as username %}To associate this email address with your account ({{ username }}) click on the link provided in this email.{% endblocktrans %}</p>
 {% endblock %}

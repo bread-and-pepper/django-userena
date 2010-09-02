@@ -206,14 +206,14 @@ def direct_to_user_template(request, username, template_name,
 
     ``extra_context``
         A dictionary containing extra variables that should be passed to the
-        rendered template. The ``completed_user`` key is always the ``User``
+        rendered template. The ``account`` key is always the ``User``
         that completed the action.
 
     """
     user = get_object_or_404(UserenaUser, username__iexact=username)
 
     if not extra_context: extra_context = dict()
-    extra_context['completed_user'] = user
+    extra_context['account'] = user
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
