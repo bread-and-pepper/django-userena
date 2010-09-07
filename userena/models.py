@@ -42,23 +42,34 @@ class UserenaUser(User):
                                 verbose_name=_('user'),
                                 parent_link=True)
 
-    last_active = models.DateTimeField(null=True, blank=True)
+    last_active = models.DateTimeField(_('last active'),
+                                       blank=True,
+                                       null=True,
+                                       help_text=_('The last date that the user was active.'))
 
-    activation_key = models.CharField(_('activation key'), max_length=40,
-                                        blank=True)
+    activation_key = models.CharField(_('activation key'),
+                                      max_length=40,
+                                      blank=True,
+                                      null=True)
+
     activation_key_created = models.DateTimeField(_('creation date of activation key'),
                                                   blank=True,
                                                   null=True)
+
     activation_notification_send = models.BooleanField(_('notification send'),
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
     email_unconfirmed = models.EmailField(_('unconfirmed e-mail address'),
                                           blank=True,
+                                          null=True,
                                           help_text=_('Temporary email address when the user requests an email change.'))
+
     email_confirmation_key = models.CharField(_('unconfirmed email verification key'),
                                               max_length=40,
-                                              blank=True)
+                                              blank=True,
+                                              null=True)
+
     email_confirmation_key_created = models.DateTimeField(_('creation date of email confirmation key'),
                                                           blank=True,
                                                           null=True)
