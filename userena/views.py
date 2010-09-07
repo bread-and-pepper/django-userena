@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
 from userena.models import UserenaUser
@@ -563,6 +563,9 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
     """
     Returns a list of all profiles that are public.
 
+    It's possible to disable this by changing ``USERENA_DISABLE_PROFILE_LIST``
+    to ``True`` in your settings.
+
     **Keyword arguments**
 
     ``page``
@@ -602,6 +605,10 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
         page = int(request.GET.get('page', None))
     except TypeError, ValueError:
         page = page
+
+    if userena_settings.USERENA_DISABLE_PROFILE_LIST \
+       and not request.user.is_staff:
+        raise Http404
 
     profile_model = get_profile_model()
     queryset = profile_model.objects.get_visible_profiles(request.user)
