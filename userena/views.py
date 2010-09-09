@@ -120,8 +120,9 @@ def activate(request, username, activation_key,
                                  check_password=False)
         login(request, auth_user)
 
-        messages.success(request, _('Your account has been activated and you have been signed in.'),
-                         fail_silently=True)
+        if userena_settings.USERENA_USE_MESSAGES:
+            messages.success(request, _('Your account has been activated and you have been signed in.'),
+                             fail_silently=True)
 
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_profile_detail',
@@ -281,8 +282,9 @@ def signin(request, auth_form=AuthenticationForm,
                     request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
                 else: request.session.set_expiry(0)
 
-                messages.success(request, _('You have been signed in.'),
-                                 fail_silently=True)
+                if userena_settings.USERENA_USE_MESSAGES:
+                    messages.success(request, _('You have been signed in.'),
+                                     fail_silently=True)
 
                 # Whereto now?
                 requested_redirect = request.REQUEST.get(redirect_field_name, None)
@@ -544,8 +546,9 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         if form.is_valid():
             profile = form.save()
 
-            messages.success(request, _('Your profile has been updated.'),
-                             fail_silently=True)
+            if userena_settings.USERENA_USE_MESSAGES:
+                messages.success(request, _('Your profile has been updated.'),
+                                 fail_silently=True)
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_profile_detail', kwargs={'username': username})
