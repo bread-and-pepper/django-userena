@@ -49,8 +49,7 @@ class UserenaUser(User):
 
     activation_key = models.CharField(_('activation key'),
                                       max_length=40,
-                                      blank=True,
-                                      null=True)
+                                      blank=True)
 
     activation_key_created = models.DateTimeField(_('creation date of activation key'),
                                                   blank=True,
@@ -62,13 +61,11 @@ class UserenaUser(User):
 
     email_unconfirmed = models.EmailField(_('unconfirmed e-mail address'),
                                           blank=True,
-                                          null=True,
                                           help_text=_('Temporary email address when the user requests an email change.'))
 
     email_confirmation_key = models.CharField(_('unconfirmed email verification key'),
                                               max_length=40,
-                                              blank=True,
-                                              null=True)
+                                              blank=True)
 
     email_confirmation_key_created = models.DateTimeField(_('creation date of email confirmation key'),
                                                           blank=True,
