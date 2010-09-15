@@ -1,7 +1,7 @@
 from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
+from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -271,6 +271,9 @@ def signin(request, auth_form=AuthenticationForm,
     """
     form = auth_form
 
+    # Sign a user out if he/she is at the signin page.
+    logout(request)
+
     if request.method == 'POST':
         form = auth_form(request.POST, request.FILES)
         if form.is_valid():
@@ -290,9 +293,12 @@ def signin(request, auth_form=AuthenticationForm,
                                      fail_silently=True)
 
                 # Whereto now?
-                requested_redirect = request.REQUEST.get(redirect_field_name, None)
-                redirect_to = redirect_signin_function(requested_redirect,
-                                                       user)
+                requested_redirect = request.REQUEST.get(redirect_field_name, False)
+                if requested_redirect:
+                    redirect_to = requested_redirect
+                else:
+                    redirect_to = redirect_signin_function(requested_redirect,
+                                                           user)
                 return redirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled',
@@ -355,6 +361,11 @@ def email_change(request, username, form=ChangeEmailForm,
 
     """
     user = get_object_or_404(UserenaUser, username__iexact=username)
+
+    # Check permissions
+    if user != request.user and not request.user.has_perm('change_user', user):
+        raise Http404
+
     form = ChangeEmailForm(user)
 
     if request.method == 'POST':
@@ -425,6 +436,10 @@ def password_change(request, username, template_name='userena/password_form.html
     """
     user = get_object_or_404(UserenaUser,
                              username__iexact=username)
+
+    # Check permissions
+    if user != request.user and not request.user.has_perm('change_user', user):
+        raise Http404
 
     form = pass_form(user=user)
 
