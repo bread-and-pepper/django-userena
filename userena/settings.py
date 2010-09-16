@@ -65,3 +65,7 @@ USERENA_MUGSHOT_PATH = getattr(settings,
 USERENA_USE_HTTPS = getattr(settings,
                             'USERENA_USE_HTTPS',
                             False)
+
+USERENA_DEFAULT_PRIVACY = getattr(settings,
+                                  'USERENA_DEFAULT_PRIVACY',
+                                  'registered')

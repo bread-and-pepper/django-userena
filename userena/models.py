@@ -189,7 +189,7 @@ class UserenaBaseProfile(models.Model):
     privacy = models.CharField(_('privacy'),
                                max_length=15,
                                choices=PRIVACY_CHOICES,
-                               default='registered',
+                               default=userena_settings.USERENA_DEFAULT_PRIVACY,
                                help_text = _('Designates who can view your profile.'))
 
     objects = UserenaBaseProfileManager()
