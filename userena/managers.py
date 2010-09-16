@@ -52,7 +52,7 @@ class UserenaUserManager(UserManager):
 
         return new_user
 
-    def activate_user(self, activation_key):
+    def activate_user(self, username, activation_key):
         """
         Activate an ``User`` by supplying a valid ``activation_key``.
 
@@ -62,7 +62,8 @@ class UserenaUserManager(UserManager):
         """
         if SHA1_RE.search(activation_key):
             try:
-                user = self.get(activation_key=activation_key)
+                user = self.get(username=username,
+                                activation_key=activation_key)
             except self.model.DoesNotExist:
                 return False
             if not user.activation_key_expired():
@@ -72,24 +73,25 @@ class UserenaUserManager(UserManager):
                 return user
         return False
 
-    def verify_email(self, verification_key):
+    def confirm_email(self, username, confirmation_key):
         """
-        Verify an email address by checking a ``verification_key``.
+        Confirm an email address by checking a ``confirmation_key``.
 
-        A valid ``verification_key`` will set the newly wanted e-mail address
+        A valid ``confirmation_key`` will set the newly wanted e-mail address
         as the current e-mail address. Returns the user after success or
-        ``False`` when the verification key is invalid.
+        ``False`` when the confirmation key is invalid.
 
         """
-        if SHA1_RE.search(verification_key):
+        if SHA1_RE.search(confirmation_key):
             try:
-                user = self.get(email_verification_key=verification_key,
-                                email_new__isnull=False)
+                user = self.get(username=username,
+                                email_confirmation_key=confirmation_key,
+                                email_unconfirmed__isnull=False)
             except self.model.DoesNotExist:
                 return False
             else:
-                user.email = user.email_new
-                user.email_new, user.email_verification_key = '',''
+                user.email = user.email_unconfirmed
+                user.email_unconfirmed, user.email_confirmation_key = '',''
                 user.save(using=self._db)
                 return user
         return False

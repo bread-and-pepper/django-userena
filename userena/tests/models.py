@@ -1,24 +1,25 @@
-from django.test import TestCase, TransactionTestCase
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import UserenaUser, UserenaProfile, upload_to_mugshot
+from userena.models import UserenaUser, upload_to_mugshot
 from userena import settings as userena_settings
+from userena.tests.profiles.test import ProfileTestCase
+from userena.tests.profiles.models import Profile
 
 import datetime, hashlib, re
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
 
-class UserenaUserModelTests(TestCase):
+class UserenaUserModelTests(ProfileTestCase):
     """ Test the model of UserenaUser """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
 
-    fixtures = ['users.json']
+    fixtures = ['users', 'profiles']
 
     def test_upload_mugshot(self):
         """
@@ -83,7 +84,8 @@ class UserenaUserModelTests(TestCase):
 
         """
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        activated_user = UserenaUser.objects.activate_user(user.activation_key)
+        activated_user = UserenaUser.objects.activate_user(user.username,
+                                                           user.activation_key)
         self.failUnless(activated_user.activation_key_expired())
 
     def test_activation_unexpired_account(self):
@@ -106,27 +108,17 @@ class UserenaUserModelTests(TestCase):
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
 
-class BaseUserenaProfileModelTest(TestCase):
-    """ Test the ``BaseUserenaProfile`` model """
-    fixtures = ['users.json', 'profiles.json']
-
-    def test_age_property(self):
-        """ Test if the ``user.age`` returns the correct age. """
-        profile = UserenaProfile.objects.get(pk=1)
-        self.assertEqual(profile.age, 27)
-
-        # Test leap year
-        profile.birth_date=datetime.date(2000, 2, 29)
-        profile.save()
-        self.assertEqual(profile.age, 10)
+class BaseProfileModelTest(ProfileTestCase):
+    """ Test the ``BaseProfile`` model """
+    fixtures = ['users', 'profiles']
 
     def test_mugshot_url(self):
         """ The user has uploaded it's own mugshot. This should be returned. """
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
         profile.mugshot = 'fake_image.png'
         profile.save()
 
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(),
                              settings.MEDIA_URL + 'fake_image.png')
 
@@ -139,12 +131,12 @@ class BaseUserenaProfileModelTest(TestCase):
         # This user has no mugshot, and gravatar is disabled. And to make
         # matters worse, there isn't even a default image.
         userena_settings.USERENA_MUGSHOT_GRAVATAR = False
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(), None)
 
         # There _is_ a default image
         userena_settings.USERENA_MUGSHOT_DEFAULT = 'http://example.com'
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(), 'http://example.com')
 
         # Settings back to default
@@ -156,7 +148,7 @@ class BaseUserenaProfileModelTest(TestCase):
 
         """
         template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
 
         gravatar_hash = hashlib.md5(profile.user.email).hexdigest()
 
@@ -185,7 +177,7 @@ class BaseUserenaProfileModelTest(TestCase):
         super_user = UserenaUser.objects.get(pk=1)
         reg_user = UserenaUser.objects.get(pk=2)
 
-        profile = UserenaProfile.objects.get(pk=1)
+        profile = Profile.objects.get(pk=1)
 
         # All users should be able to see a ``open`` profile.
         profile.privacy = 'open'

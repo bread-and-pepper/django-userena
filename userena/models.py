@@ -42,23 +42,35 @@ class UserenaUser(User):
                                 verbose_name=_('user'),
                                 parent_link=True)
 
-    last_active = models.DateTimeField(null=True, blank=True)
+    last_active = models.DateTimeField(_('last active'),
+                                       blank=True,
+                                       null=True,
+                                       help_text=_('The last date that the user was active.'))
 
-    activation_key = models.CharField(_('activation key'), max_length=40,
-                                        blank=True)
+    activation_key = models.CharField(_('activation key'),
+                                      max_length=40,
+                                      blank=True)
+
     activation_key_created = models.DateTimeField(_('creation date of activation key'),
                                                   blank=True,
                                                   null=True)
+
     activation_notification_send = models.BooleanField(_('notification send'),
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
-    email_new = models.EmailField(_('new wanted e-mail'),
-                                  blank=True,
-                                  help_text=_('Temporary email address when the user requests an email change.'))
-    email_verification_key = models.CharField(_('new email verification key'),
+    email_unconfirmed = models.EmailField(_('unconfirmed e-mail address'),
+                                          blank=True,
+                                          help_text=_('Temporary email address when the user requests an email change.'))
+
+    email_confirmation_key = models.CharField(_('unconfirmed email verification key'),
                                               max_length=40,
                                               blank=True)
+
+    email_confirmation_key_created = models.DateTimeField(_('creation date of email confirmation key'),
+                                                          blank=True,
+                                                          null=True)
+
 
     objects = UserenaUserManager()
 
@@ -82,39 +94,40 @@ class UserenaUser(User):
             The new email address that the user wants to use.
 
         """
-        self.email_new = email
+        self.email_unconfirmed = email
 
         salt, hash = generate_sha1(self.username)
-        self.email_verification_key = hash
+        self.email_confirmation_key = hash
+        self.email_confirmation_key_created = datetime.datetime.now()
         self.save()
 
         # Send email for activation
-        self.send_verification_email()
+        self.send_confirmation_email()
 
-    def send_verification_email(self):
+    def send_confirmation_email(self):
         """
-        Sends an email to verify the new email address.
+        Sends an email to confirm the new email address.
 
-        This email contains the ``email_verification_key`` which is used to
-        verify this new email address in ``UserenaUser.objects.verify_email``.
+        This email contains the ``email_confirmation_key`` which is used to
+        verify this new email address in ``UserenaUser.objects.confirm_email``.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
         context= {'user': self,
                   'protocol': protocol,
-                  'verification_key': self.email_verification_key,
+                  'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/verification_email_subject.txt',
+        subject = render_to_string('userena/emails/confirmation_email_subject.txt',
                                    context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/verification_email_message.txt',
+        message = render_to_string('userena/emails/confirmation_email_message.txt',
                                    context)
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.email_new,])
+                  [self.email_unconfirmed,])
 
     def activation_key_expired(self):
         """
@@ -175,10 +188,10 @@ class UserenaBaseProfile(models.Model):
                                  userena_settings.USERENA_MUGSHOT_SIZE),
                         'crop': 'smart'}
 
-    user = models.ForeignKey(User,
-                             unique=True,
-                             verbose_name=_('user'),
-                             related_name='profile')
+    user = models.OneToOneField(User,
+                                unique=True,
+                                verbose_name=_('user'),
+                                related_name='profile')
 
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
@@ -290,32 +303,3 @@ class UserenaBaseProfile(models.Model):
 
         # Fallback to closed profile.
         return False
-
-class UserenaProfile(UserenaBaseProfile):
-    """ Default profile """
-    GENDER_CHOICES = (
-        (1, _('Male')),
-        (2, _('Female')),
-    )
-    gender = models.PositiveSmallIntegerField(_('gender'),
-                                              choices=GENDER_CHOICES,
-                                              blank=True,
-                                              null=True)
-    website = models.URLField(_('website'), blank=True, verify_exists=True)
-    location =  models.CharField(_('location'), max_length=255, blank=True)
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
-    about_me = models.TextField(_('about me'), blank=True)
-
-    @property
-    def age(self):
-        if not self.birth_date: return None
-        else:
-            today = datetime.date.today()
-            # Raised when birth date is February 29 and the current year is not a
-            # leap year
-            try:
-                birthday = self.birth_date.replace(year=today.year)
-            except ValueError:
-                birthday = self.birth_date.replace(year=today.year, day=today.day-1)
-            if birthday > today: return today.year - self.birth_date.year - 1
-            else: return today.year - self.birth_date.year

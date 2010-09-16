@@ -30,21 +30,13 @@
   "model": "userena.userenauser",
   "fields": {"activation_key": "ALREADY_ACTIVATED",
              "last_active": "2010-08-17 21:32:03",
-             "email_verification_key": "",
              "activation_notification_send": false,
-             "email_new": "",
-             "activation_key_created": null,
-             "groups": [],
-             "user_permissions": []
+             "activation_key_created": null
  }},
  {"pk": 2,
   "model": "userena.userenauser",
   "fields": {"activation_key": "ALREADY_ACTIVATED",
              "last_active": null,
-             "email_verification_key": "",
              "activation_notification_send": false,
-             "email_new": "",
-             "activation_key_created": "2010-08-18 03:13:57",
-             "groups": [],
-             "user_permissions": []
+             "activation_key_created": "2010-08-18 03:13:57"
 }}]

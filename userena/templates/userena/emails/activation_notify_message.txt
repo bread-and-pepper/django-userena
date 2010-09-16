@@ -4,7 +4,7 @@
 {% with site.name as site_name %}{% blocktrans %}Your account on {{ site_name }} is about to expire in {{ days_left }} days.{% endblocktrans %}{% endwith %}
 {% trans "To activate your account you should click on the link below" %}:
 
-{{ account.get_verification_url }}
+{{ protocol }}://{{ site.domain }}{% url userena_activate user.username activation_key %}
 
 {% trans "Sincerely" %},
 {{ site.name }}

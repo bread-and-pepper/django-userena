@@ -1,4 +1,3 @@
-from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -6,10 +5,11 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import UserenaUser, UserenaProfile
+from userena.models import UserenaUser
 from userena import settings as userena_settings
+from userena.tests.profiles.test import ProfileTestCase
 
-class UserenaViewsTests(TestCase):
+class UserenaViewsTests(ProfileTestCase):
     """ Test the account views """
     fixtures = ['users', 'profiles']
 
@@ -24,9 +24,10 @@ class UserenaViewsTests(TestCase):
                                'tos': 'on'})
         user = UserenaUser.objects.get(user__email='alice@example.com')
         response = self.client.get(reverse('userena_activate',
-                                           kwargs={'activation_key': user.activation_key}))
+                                           kwargs={'username': user.username,
+                                                   'activation_key': user.activation_key}))
         self.assertRedirects(response,
-                             reverse('userena_activation_complete'))
+                             reverse('userena_profile_detail', kwargs={'username': user.username}))
 
         user = UserenaUser.objects.get(email='alice@example.com')
         self.failUnless(user.is_active)
@@ -37,36 +38,40 @@ class UserenaViewsTests(TestCase):
 
         """
         response = self.client.get(reverse('userena_activate',
-                                           kwargs={'activation_key': 'fake'}))
+                                           kwargs={'username': 'john',
+                                                   'activation_key': 'fake'}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
-                                'userena/activation_fail.html')
+                                'userena/activate_fail.html')
 
-    def test_valid_verification(self):
+    def test_valid_confirmation(self):
         """ A ``GET`` to the verification view """
         # First, try to change an email.
         user = UserenaUser.objects.get(pk=1)
         user.change_email('johnie@example.com')
 
-        response = self.client.get(reverse('userena_verify',
-                                           kwargs={'verification_key': user.email_verification_key}))
+        response = self.client.get(reverse('userena_email_confirm',
+                                           kwargs={'username': user.username,
+                                                   'confirmation_key': user.email_confirmation_key}))
 
         self.assertRedirects(response,
-                             reverse('userena_verification_complete'))
+                             reverse('userena_email_confirm_complete', kwargs={'username': user.username}))
 
-    def test_invalid_verification(self):
+    def test_invalid_confirmation(self):
         """
         A ``GET`` to the verification view with an invalid verification key.
 
         """
-        response = self.client.get(reverse('userena_verify',
-                                           kwargs={'verification_key': 'WRONG'}))
+        response = self.client.get(reverse('userena_email_confirm',
+                                           kwargs={'username': 'john',
+                                                   'confirmation_key': 'WRONG'}))
         self.assertTemplateUsed(response,
-                                'userena/verification_fail.html')
+                                'userena/email_confirm_fail.html')
 
     def test_disabled_view(self):
         """ A ``GET`` to the ``disabled`` view """
-        response = self.client.get(reverse('userena_disabled'))
+        response = self.client.get(reverse('userena_disabled',
+                                           kwargs={'username': 'john'}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'userena/disabled.html')
@@ -97,7 +102,7 @@ class UserenaViewsTests(TestCase):
 
         # Check for redirect.
         self.assertRedirects(response,
-                             reverse('userena_signup_complete'))
+                             reverse('userena_signup_complete', kwargs={'username': 'alice'}))
 
         # Check for new user.
         self.assertEqual(UserenaUser.objects.filter(email__iexact='alice@example.com').count(), 1)
@@ -150,7 +155,8 @@ class UserenaViewsTests(TestCase):
                                           'password': 'blowfish'})
 
         self.assertRedirects(response,
-                             reverse('userena_disabled'))
+                             reverse('userena_disabled',
+                                     kwargs={'username': user.username}))
 
     def test_signin_view_success(self):
         """
@@ -212,7 +218,7 @@ class UserenaViewsTests(TestCase):
                                     data={'email': 'john_new@example.com'})
 
         self.assertRedirects(response,
-                             reverse('userena_email_complete',
+                             reverse('userena_email_change_complete',
                                      kwargs={'username': 'john'}))
 
     def test_change_password_view(self):

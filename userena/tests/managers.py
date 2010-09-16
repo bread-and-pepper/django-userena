@@ -56,7 +56,7 @@ class UserenaUserManagerTests(TestCase):
 
         """
         user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        active_user = UserenaUser.objects.activate_user(user.activation_key)
+        active_user = UserenaUser.objects.activate_user(user.username, user.activation_key)
 
         # The returned user should be the same as the one just created.
         self.failUnlessEqual(user, active_user)
@@ -79,11 +79,11 @@ class UserenaUserManagerTests(TestCase):
 
         """
         # Wrong key
-        self.failIf(UserenaUser.objects.activate_user('wrong_key'))
+        self.failIf(UserenaUser.objects.activate_user('john', 'wrong_key'))
 
         # At least the right length
         invalid_key = 10 * 'a1b2'
-        self.failIf(UserenaUser.objects.activate_user(invalid_key))
+        self.failIf(UserenaUser.objects.activate_user('john', invalid_key))
 
     def test_activation_expired(self):
         """
@@ -98,7 +98,7 @@ class UserenaUserManagerTests(TestCase):
         user.save()
 
         # Try to activate the user
-        UserenaUser.objects.activate_user(user.activation_key)
+        UserenaUser.objects.activate_user(user.username, user.activation_key)
 
         active_user = UserenaUser.objects.get(user__username='alice')
 
@@ -108,29 +108,30 @@ class UserenaUserManagerTests(TestCase):
         # The activation key should still be a hash
         self.assertEqual(user.activation_key, active_user.activation_key)
 
-    def test_verification_valid(self):
+    def test_confirmation_valid(self):
         """
-        Verification of a new e-mail address with turns out to be valid.
+        Confirmation of a new e-mail address with turns out to be valid.
 
         """
         new_email = 'john@newexample.com'
         user = UserenaUser.objects.get(pk=1)
         user.change_email(new_email)
 
-        # Verify email
-        verified_user = UserenaUser.objects.verify_email(user.email_verification_key)
-        self.failUnlessEqual(user, verified_user)
+        # Confirm email
+        confirmed_user = UserenaUser.objects.confirm_email(user.username,
+                                                           user.email_confirmation_key)
+        self.failUnlessEqual(user, confirmed_user)
 
         # Check the new email is set.
-        self.failUnlessEqual(verified_user.email, new_email)
+        self.failUnlessEqual(confirmed_user.email, new_email)
 
         # ``email_new`` and ``email_verification_key`` should be empty
-        self.failIf(verified_user.email_new)
-        self.failIf(verified_user.email_verification_key)
+        self.failIf(confirmed_user.email_unconfirmed)
+        self.failIf(confirmed_user.email_confirmation_key)
 
-    def test_verification_invalid(self):
+    def test_confirmation_invalid(self):
         """
-        Trying to verify a new e-mail address when the ``verification_key``
+        Trying to confirm a new e-mail address when the ``confirmation_key``
         is invalid.
 
         """
@@ -139,10 +140,10 @@ class UserenaUserManagerTests(TestCase):
         user.change_email(new_email)
 
         # Verify email with wrong SHA1
-        self.failIf(UserenaUser.objects.verify_email('sha1'))
+        self.failIf(UserenaUser.objects.confirm_email('john', 'sha1'))
 
         # Correct SHA1, but non-existend in db.
-        self.failIf(UserenaUser.objects.verify_email(10 * 'a1b2'))
+        self.failIf(UserenaUser.objects.confirm_email('john', 10 * 'a1b2'))
 
     def test_delete_expired_users(self):
         """

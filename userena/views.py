@@ -1,14 +1,14 @@
 from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
+from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
 from userena.models import UserenaUser
@@ -20,19 +20,79 @@ from userena import settings as userena_settings
 from guardian.shortcuts import get_perms
 
 @secure_required
-def activate(request, activation_key,
-             template_name='userena/activation_fail.html',
+def signup(request, signup_form=SignupForm,
+           template_name='userena/signup_form.html', success_url=None,
+           extra_context=None):
+    """
+    Signup of an account.
+
+    Signup requiring a username, email and password. After signup a user gets
+    an email with an activation link used to activate their account. After
+    successful signup redirects to ``success_url``.
+
+    **Keyword arguments**
+
+    ``signup_form``
+        Form that will be used to sign a user. Defaults to userena's
+        ``forms.SignupForm``.
+
+    ``template_name``
+        String containing the template name that will be used to display the
+        signup form. Defaults to ``userena/signup_form.html``.
+
+    ``success_url``
+        String containing the URI which should be redirected to after a
+        successfull signup. If not supplied will redirect to
+        ``userena_signup_complete`` view.
+
+    ``extra_context``
+        Dictionary containing variables which are added to the template
+        context. Defaults to a dictionary with a ``form`` key containing the
+        ``signup_form``.
+
+    **Context**
+
+    ``form``
+        Form supplied by ``signup_form``.
+
+    """
+    form = signup_form()
+
+    if request.method == 'POST':
+        form = signup_form(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+
+            if success_url: redirect_to = success_url
+            else: redirect_to = reverse('userena_signup_complete',
+                                        kwargs={'username': user.username})
+
+            # A new signed user should logout the old one.
+            logout(request)
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
+    extra_context['form'] = form
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+@secure_required
+def activate(request, username, activation_key,
+             template_name='userena/activate_fail.html',
              success_url=None, extra_context=None):
     """
     Activate a user with an activation key.
 
     The key is a SHA1 string. When the SHA1 is found with an ``Account``, the
     ``User`` of that account will be activated. After a successfull activation
-    the view will redirect to ``success_url``.  If the SHA1 is not found, the
+    the view will redirect to ``succes_url``.  If the SHA1 is not found, the
     user will be shown the ``template_name`` template displaying a fail
     message.
 
     **Arguments**
+
+    ``username``
+        String of the username that wants to be activated.
 
     ``activation_key``
         String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
@@ -49,17 +109,27 @@ def activate(request, activation_key,
     ``success_url``
         Named URL where the user should be redirected to after a succesfull
         activation. If not specified, will direct to
-        ``userena_activation_complete`` view.
+        ``userena_profile_detail`` view.
 
     ``extra_context``
         Dictionary containing variables which could be added to the template
         context. Default to an empty dictionary.
 
     """
-    user = UserenaUser.objects.activate_user(activation_key)
+    user = UserenaUser.objects.activate_user(username, activation_key)
     if user:
+        # Sign the user in.
+        auth_user = authenticate(identification=user.email,
+                                 check_password=False)
+        login(request, auth_user)
+
+        if userena_settings.USERENA_USE_MESSAGES:
+            messages.success(request, _('Your account has been activated and you have been signed in.'),
+                             fail_silently=True)
+
         if success_url: redirect_to = success_url
-        else: redirect_to = reverse('userena_activation_complete')
+        else: redirect_to = reverse('userena_profile_detail',
+                                    kwargs={'username': user.username})
         return redirect(redirect_to)
     else:
         if not extra_context: extra_context = dict()
@@ -68,33 +138,36 @@ def activate(request, activation_key,
                                   extra_context=extra_context)
 
 @secure_required
-def verify(request, verification_key,
-           template_name='userena/verification_fail.html', success_url=None,
-           extra_context=None):
+def email_confirm(request, username, confirmation_key,
+                  template_name='userena/email_confirm_fail.html',
+                  success_url=None, extra_context=None):
     """
-    Verifies an email address with a verification key.
+    Confirms an email address with a confirmation key.
 
-    Verifies a new email address by running ``Account.objects.verify_email``
-    method. If the method returns an ``Account`` the user will have his new
-    e-mail address set and redirected to ``success_url``. If no ``Account`` is
+    Confirms a new email address by running ``User.objects.confirm_email``
+    method. If the method returns an ``User`` the user will have his new
+    e-mail address set and redirected to ``success_url``. If no ``User`` is
     returned the user will be represented with a fail message from
     ``template_name``.
 
     **Arguments**
 
-    ``verification_key``
-        String with a SHA1 representing the verification key used to verify a
+    ``username``
+        String of the username whose email address needs to be confirmed.
+
+    ``confirmation_key``
+        String with a SHA1 representing the confirmation key used to verify a
         new email address.
 
     **Keyword arguments**
 
     ``template_name``
         String containing the template name which should be rendered when
-        verification fails. When verification is succesfull, no template is
+        confirmation fails. When confirmation is succesfull, no template is
         needed because the user will be redirected to ``success_url``.
 
     ``success_url``
-        Named URL which is redirected to after a succesfull verification.
+        Named URL which is redirected to after a succesfull confirmation.
         Supplied argument must be able to be rendered by ``reverse`` function.
 
     ``extra_context``
@@ -102,16 +175,52 @@ def verify(request, verification_key,
         ``template_name``.
 
     """
-    account = UserenaUser.objects.verify_email(verification_key)
-    if account:
+    user = UserenaUser.objects.confirm_email(username, confirmation_key)
+    if user:
         if success_url: redirect_to = success_url
-        else: redirect_to = reverse('userena_verification_complete')
+        else: redirect_to = reverse('userena_email_confirm_complete',
+                                    kwargs={'username': user.username})
         return redirect(redirect_to)
     else:
         if not extra_context: extra_context = dict()
         return direct_to_template(request,
                                   template_name,
                                   extra_context=extra_context)
+
+def direct_to_user_template(request, username, template_name,
+                            extra_context=None):
+    """
+    Simple wrapper for Django's ``direct_to_template`` view.
+
+    This view is used when you want to show a template to a specific user. A
+    wrapper for ``direct_to_template`` where the template also has access to
+    the user that is found with ``username``. For ex. used after signup,
+    activation and confirmation of a new e-mail.
+
+    **Arguments**
+
+    ``username``
+        String defining the username of the user that made the action.
+
+    ``template_name``
+        String defining the name of the template to use. Defaults to
+        ``userena/signup_complete.html``.
+
+    **Keyword arguments**
+
+    ``extra_context``
+        A dictionary containing extra variables that should be passed to the
+        rendered template. The ``account`` key is always the ``User``
+        that completed the action.
+
+    """
+    user = get_object_or_404(UserenaUser, username__iexact=username)
+
+    if not extra_context: extra_context = dict()
+    extra_context['account'] = user
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
 
 @secure_required
 def signin(request, auth_form=AuthenticationForm,
@@ -162,6 +271,9 @@ def signin(request, auth_form=AuthenticationForm,
     """
     form = auth_form
 
+    # Sign a user out if he/she is at the signin page.
+    logout(request)
+
     if request.method == 'POST':
         form = auth_form(request.POST, request.FILES)
         if form.is_valid():
@@ -176,16 +288,21 @@ def signin(request, auth_form=AuthenticationForm,
                     request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
                 else: request.session.set_expiry(0)
 
-                messages.success(request, _('You have been signed in.'),
-                                 fail_silently=True)
+                if userena_settings.USERENA_USE_MESSAGES:
+                    messages.success(request, _('You have been signed in.'),
+                                     fail_silently=True)
 
                 # Whereto now?
-                requested_redirect = request.REQUEST.get(redirect_field_name, None)
-                redirect_to = redirect_signin_function(requested_redirect,
-                                                       user)
+                requested_redirect = request.REQUEST.get(redirect_field_name, False)
+                if requested_redirect:
+                    redirect_to = requested_redirect
+                else:
+                    redirect_to = redirect_signin_function(requested_redirect,
+                                                           user)
                 return redirect(redirect_to)
             else:
-                return redirect(reverse('userena_disabled'))
+                return redirect(reverse('userena_disabled',
+                                        kwargs={'username': user.username}))
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
@@ -193,59 +310,7 @@ def signin(request, auth_form=AuthenticationForm,
                               template_name,
                               extra_context={'form': form})
 
-@secure_required
-def signup(request, signup_form=SignupForm,
-           template_name='userena/signup_form.html', success_url=None,
-           extra_context=None):
-    """
-    Signup of an account.
 
-    Signup requiring a username, email and password. After signup a user gets
-    an email with an activation link used to activate their account. After
-    successful signup redirects to ``success_url``.
-
-    **Keyword arguments**
-
-    ``signup_form``
-        Form that will be used to sign a user. Defaults to userena's
-        ``forms.SignupForm``.
-
-    ``template_name``
-        String containing the template name that will be used to display the
-        signup form. Defaults to ``userena/signup_form.html``.
-
-    ``success_url``
-        String containing the URI which should be redirected to after a
-        successfull signup. If not supplied will redirect to
-        ``userena_signup_complete`` view.
-
-    ``extra_context``
-        Dictionary containing variables which are added to the template
-        context. Defaults to a dictionary with a ``form`` key containing the
-        ``signup_form``.
-
-    **Context**
-
-    ``form``
-        Form supplied by ``signup_form``.
-
-    """
-    form = signup_form()
-
-    if request.method == 'POST':
-        form = signup_form(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save()
-
-            if success_url: redirect_to = success_url
-            else: redirect_to = reverse('userena_signup_complete')
-            return redirect(redirect_to)
-
-    if not extra_context: extra_context = dict()
-    extra_context['form'] = form
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
 
 @secure_required
 @login_required
@@ -295,7 +360,12 @@ def email_change(request, username, form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    user = get_object_or_404(UserenaUser, user__username__iexact=username)
+    user = get_object_or_404(UserenaUser, username__iexact=username)
+
+    # Check permissions
+    if user != request.user and not request.user.has_perm('change_user', user):
+        raise Http404
+
     form = ChangeEmailForm(user)
 
     if request.method == 'POST':
@@ -307,7 +377,7 @@ def email_change(request, username, form=ChangeEmailForm,
             email_result = form.save()
 
             if success_url: redirect_to = success_url
-            else: redirect_to = reverse('userena_email_complete',
+            else: redirect_to = reverse('userena_email_change_complete',
                                         kwargs={'username': user.username})
             return redirect(redirect_to)
 
@@ -366,6 +436,10 @@ def password_change(request, username, template_name='userena/password_form.html
     """
     user = get_object_or_404(UserenaUser,
                              username__iexact=username)
+
+    # Check permissions
+    if user != request.user and not request.user.has_perm('change_user', user):
+        raise Http404
 
     form = pass_form(user=user)
 
@@ -490,8 +564,9 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         if form.is_valid():
             profile = form.save()
 
-            messages.success(request, _('Your profile has been updated.'),
-                             fail_silently=True)
+            if userena_settings.USERENA_USE_MESSAGES:
+                messages.success(request, _('Your profile has been updated.'),
+                                 fail_silently=True)
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_profile_detail', kwargs={'username': username})
@@ -508,6 +583,9 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
                  extra_context=None, **kwargs):
     """
     Returns a list of all profiles that are public.
+
+    It's possible to disable this by changing ``USERENA_DISABLE_PROFILE_LIST``
+    to ``True`` in your settings.
 
     **Keyword arguments**
 
@@ -548,6 +626,10 @@ def profile_list(request, page=1, template_name='userena/profile_list.html', pag
         page = int(request.GET.get('page', None))
     except TypeError, ValueError:
         page = page
+
+    if userena_settings.USERENA_DISABLE_PROFILE_LIST \
+       and not request.user.is_staff:
+        raise Http404
 
     profile_model = get_profile_model()
     queryset = profile_model.objects.get_visible_profiles(request.user)
