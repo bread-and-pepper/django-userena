@@ -66,6 +66,10 @@ USERENA_USE_HTTPS = getattr(settings,
                             'USERENA_USE_HTTPS',
                             False)
 
+USERENA_DEFAULT_PRIVACY = getattr(settings,
+                                  'USERENA_DEFAULT_PRIVACY',
+                                  'registered')
+
 # Disable the listing of profiles
 USERENA_DISABLE_PROFILE_LIST = getattr(settings,
                                        'USERENA_DISABLE_PROFILE_LIST',
