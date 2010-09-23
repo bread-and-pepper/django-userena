@@ -363,7 +363,7 @@ def email_change(request, username, form=ChangeEmailForm,
     user = get_object_or_404(UserenaUser, username__iexact=username)
 
     # Check permissions
-    if user != request.user and not request.user.has_perm('change_user', user):
+    if user.username != request.user.username and not request.user.has_perm('change_user', user):
         raise Http404
 
     form = ChangeEmailForm(user)
@@ -438,7 +438,7 @@ def password_change(request, username, template_name='userena/password_form.html
                              username__iexact=username)
 
     # Check permissions
-    if user != request.user and not request.user.has_perm('change_user', user):
+    if user.username != request.user.username and not request.user.has_perm('change_user', user):
         raise Http404
 
     form = pass_form(user=user)
