@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import UserenaUser, upload_to_mugshot
+from userena.models import UserenaProfile, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile

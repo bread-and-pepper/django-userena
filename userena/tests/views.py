@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import UserenaUser
+from userena.models import UserenaProfile
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 
@@ -161,7 +161,7 @@ class UserenaViewsTests(ProfileTestCase):
     def test_signin_view_success(self):
         """
         A valid ``POST`` to the signin view should redirect the user to it's
-        own account page if no ``next`` value is supplied. Else it should
+        own profile page if no ``next`` value is supplied. Else it should
         redirect to ``next``.
 
         """
@@ -289,7 +289,14 @@ class UserenaViewsTests(ProfileTestCase):
 
     def test_profile_list_view(self):
         """ A ``GET`` to the list view of a user """
-        response = self.client.get(reverse('userena_profile_list'))
 
+        # A profile list should be shown.
+        userena_settings.USERENA_DISABLE_PROFILE_LIST = False
+        response = self.client.get(reverse('userena_profile_list'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'userena/profile_list.html')
+
+        # Profile list is disabled.
+        userena_settings.USERENA_DISABLE_PROFILE_LIST = True
+        response = self.client.get(reverse('userena_profile_list'))
+        self.assertEqual(response.status_code, 404)

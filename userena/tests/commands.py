@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.management import call_command
 
-from userena.models import UserenaUser
+from userena.models import UserenaProfile
 from userena import settings as userena_settings
 
 import datetime

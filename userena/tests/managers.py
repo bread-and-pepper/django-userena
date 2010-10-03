@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core import mail
 
-from userena.models import UserenaUser
+from userena.models import UserenaProfile
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms

@@ -11,7 +11,7 @@ from django.views.generic import list_detail
 from django.http import HttpResponseForbidden, Http404
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
-from userena.models import UserenaUser
+from userena.models import UserenaProfile
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect, get_profile_model
@@ -116,7 +116,7 @@ def activate(request, username, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = UserenaUser.objects.activate_user(username, activation_key)
+    user = UserenaProfile.objects.activate_user(username, activation_key)
     if user:
         # Sign the user in.
         auth_user = authenticate(identification=user.email,
@@ -175,7 +175,7 @@ def email_confirm(request, username, confirmation_key,
         ``template_name``.
 
     """
-    user = UserenaUser.objects.confirm_email(username, confirmation_key)
+    user = UserenaProfile.objects.confirm_email(username, confirmation_key)
     if user:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_email_confirm_complete',
@@ -214,7 +214,7 @@ def direct_to_user_template(request, username, template_name,
         that completed the action.
 
     """
-    user = get_object_or_404(UserenaUser, username__iexact=username)
+    user = get_object_or_404(User, username__iexact=username)
 
     if not extra_context: extra_context = dict()
     extra_context['account'] = user
@@ -360,7 +360,7 @@ def email_change(request, username, form=ChangeEmailForm,
     permissions to alter the email address of others.
 
     """
-    user = get_object_or_404(UserenaUser, username__iexact=username)
+    user = get_object_or_404(User, username__iexact=username)
 
     # Check permissions
     if user.username != request.user.username and not request.user.has_perm('change_user', user):
@@ -434,7 +434,7 @@ def password_change(request, username, template_name='userena/password_form.html
         The current active account.
 
     """
-    user = get_object_or_404(UserenaUser,
+    user = get_object_or_404(User,
                              username__iexact=username)
 
     # Check permissions
@@ -484,11 +484,12 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
         Instance of the currently edited ``Account``.
 
     """
-    user = get_object_or_404(UserenaUser,
+    user = get_object_or_404(User,
                              username__iexact=username)
     profile = user.get_profile()
     if not profile.can_view_profile(request.user):
-        return HttpResponseForbidden(_('Permission denied.'))
+        return HttpResponseForbidden(_("You don't have permission to view this \
+                                       profile."))
     if not extra_context: extra_context = dict()
     extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
@@ -543,7 +544,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         Instance of the ``Account`` that is edited.
 
     """
-    user = get_object_or_404(UserenaUser,
+    user = get_object_or_404(User,
                              username__iexact=username)
 
     profile = user.get_profile()

@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from userena import forms
-from userena.models import UserenaUser
+from userena.models import UserenaProfile
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """

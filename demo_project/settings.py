@@ -75,6 +75,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -93,7 +94,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'demo_project.profiles',
     'easy_thumbnails',
-    'relationships',
     'guardian',
     'userena',
 )

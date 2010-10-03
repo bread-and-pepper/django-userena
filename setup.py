@@ -1,11 +1,5 @@
 from setuptools import setup, find_packages
 
-# PIL doesn't work well with easy_install. So you have to install it yourself.
-try:
-    import PIL
-except ImportError:
-    raise ImportError('Django-userina requires PIL to be installed.')
-
 readme_file = 'README.rst'
 try:
     long_description = open(readme_file).read()

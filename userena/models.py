@@ -32,15 +32,16 @@ def upload_to_mugshot(instance, filename):
                                                'hash': hash[:10],
                                                'extension': extension}
 
-class UserenaUser(User):
+class UserenaProfile(models.Model):
     """
-    A user which stores all the nescessary information to have a full
+    Profile which stores all the nescessary information to have a full
     functional user implementation on your Django website.
 
     """
     user = models.OneToOneField(User,
                                 verbose_name=_('user'),
-                                parent_link=True)
+                                related_name=_('userena'))
+
 
     last_active = models.DateTimeField(_('last active'),
                                        blank=True,

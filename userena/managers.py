@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import UserManager
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import User, AnonymousUser
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
@@ -22,21 +22,8 @@ class UserenaUserManager(UserManager):
         """
         now = datetime.datetime.now()
 
-        new_user = self.model(username=username, email=email, is_staff=False,
-                              is_active=False, is_superuser=False, last_login=now,
-                              date_joined=now)
-
-        new_user.set_password(password)
-
-        # Create activation key
-        if isinstance(username, unicode):
-            username = username.encode('utf-8')
-        salt, activation_key = generate_sha1(username)
-
-        new_user.activation_key = activation_key
-        new_user.activation_key_created = datetime.datetime.now()
-
-        new_user.save(using=self._db)
+        new_user = User.objects.create(username, email, password)
+        userena_profile = self.create_userena_profile(new_user)
 
         # All users have an empty profile
         profile_model = get_profile_model()
@@ -48,9 +35,18 @@ class UserenaUserManager(UserManager):
         for perm in permissions:
             assign(perm, new_user.user, new_profile)
 
-        new_user.send_activation_email()
+        userena_profile.send_activation_email()
 
         return new_user
+
+    def create_userena_profile(self, user):
+        """ Creates an userena profile """
+        if isinstance(username, unicode):
+            username = username.encode('utf-8')
+        salt, activation_key = generate_sha1(username)
+
+        return self.create(user=user,
+                           activation_key=activation_key)
 
     def activate_user(self, username, activation_key):
         """
