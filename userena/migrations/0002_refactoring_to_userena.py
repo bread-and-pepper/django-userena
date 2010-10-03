@@ -44,8 +44,9 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         db.rename_table('userena_userenauser', 'userena_userena')
-        db.add_column('userena_userena', 'id', models.IntegerField(default=-1), keep_default=False)
         db.delete_primary_key('userena_userena')
+
+        db.add_column('userena_userena', 'id', models.AutoField(primary_key=True, default=-1), keep_default=False)
         db.create_primary_key('userena_userena', ['id',])
         db.delete_column('userena_userena', 'activation_key_created')
 
