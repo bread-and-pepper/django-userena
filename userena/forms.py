@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 from userena import settings as userena_settings
-from userena.models import UserenaProfile
+from userena.models import Userena
 from userena.utils import get_profile_model
 
 attrs_dict = {'class': 'required'}
@@ -72,7 +72,7 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['email'],
                                      self.cleaned_data['password1'])
 
-        new_user = UserenaProfile.objects.create_inactive_user(username, email, password)
+        new_user = Userena.objects.create_inactive_user(username, email, password)
         return new_user
 
 class SignupFormTos(SignupForm):
@@ -149,7 +149,7 @@ class ChangeEmailForm(forms.Form):
         email address.
 
         """
-        return self.user.change_email(self.cleaned_data['email'])
+        return self.user.userena.change_email(self.cleaned_data['email'])
 
 class EditProfileForm(forms.ModelForm):
     """ Base form used for fields that are always required """

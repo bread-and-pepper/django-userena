@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
 from userena.utils import get_gravatar, generate_sha1
-from userena.managers import UserenaUserManager, UserenaBaseProfileManager
+from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
@@ -32,9 +32,9 @@ def upload_to_mugshot(instance, filename):
                                                'hash': hash[:10],
                                                'extension': extension}
 
-class UserenaProfile(models.Model):
+class Userena(models.Model):
     """
-    Profile which stores all the nescessary information to have a full
+    Userena model which stores all the nescessary information to have a full
     functional user implementation on your Django website.
 
     """
@@ -51,10 +51,6 @@ class UserenaProfile(models.Model):
     activation_key = models.CharField(_('activation key'),
                                       max_length=40,
                                       blank=True)
-
-    activation_key_created = models.DateTimeField(_('creation date of activation key'),
-                                                  blank=True,
-                                                  null=True)
 
     activation_notification_send = models.BooleanField(_('notification send'),
                                                        default=False,
@@ -73,11 +69,10 @@ class UserenaProfile(models.Model):
                                                           null=True)
 
 
-    objects = UserenaUserManager()
+    objects = UserenaManager()
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('userena_profile_detail', (), {'username': self.username})
+    def __unicode__(self):
+        return '%s' % self.user.username
 
     def change_email(self, email):
         """
@@ -97,7 +92,7 @@ class UserenaProfile(models.Model):
         """
         self.email_unconfirmed = email
 
-        salt, hash = generate_sha1(self.username)
+        salt, hash = generate_sha1(self.user.username)
         self.email_confirmation_key = hash
         self.email_confirmation_key_created = datetime.datetime.now()
         self.save()
@@ -114,7 +109,7 @@ class UserenaProfile(models.Model):
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
-        context= {'user': self,
+        context= {'user': self.user,
                   'protocol': protocol,
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
@@ -143,7 +138,7 @@ class UserenaProfile(models.Model):
 
         """
         expiration_days = datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS)
-        expiration_date = self.activation_key_created + expiration_days
+        expiration_date = self.user.date_joined + expiration_days
         if self.activation_key == userena_settings.USERENA_ACTIVATED:
             return True
         if datetime.datetime.now() >= expiration_date:
@@ -156,11 +151,11 @@ class UserenaProfile(models.Model):
 
         This e-mail is send when the user wants to activate their newly created
         user. Also checks if the protocol is secured by looking at
-        ``USERENE_USE_HTTPS`` value.
+        ``USERENA_USE_HTTPS`` value.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
-        context= {'user': self,
+        context= {'user': self.user,
                   'protocol': protocol,
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,
@@ -175,7 +170,7 @@ class UserenaProfile(models.Model):
         send_mail(subject,
                   message,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.email,])
+                  [self.user.email,])
 
 class UserenaBaseProfile(models.Model):
     """ Base model needed for extra profile functionality """
@@ -294,8 +289,7 @@ class UserenaBaseProfile(models.Model):
         # Everyone.
         if self.privacy == 'open': return True
         # Registered users.
-        elif self.privacy == 'registered' and (isinstance(user, UserenaUser) or \
-                                               isinstance(user, User)):
+        elif self.privacy == 'registered' and isinstance(user, User):
             return True
 
         # Checks done by guardian for owner and admins.

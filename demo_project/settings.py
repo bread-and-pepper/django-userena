@@ -95,7 +95,7 @@ INSTALLED_APPS = (
     'demo_project.profiles',
     'easy_thumbnails',
     'guardian',
-    'south',
+    #'south',
     'userena',
 )
 
@@ -110,6 +110,7 @@ USERENA_MUGSHOT_SIZE = 140
 
 # Test settings
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+SOUTH_TESTS_MIGRATE = False
 
 # Guardian
 ANONYMOUS_USER_ID = -1

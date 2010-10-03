@@ -1,15 +1,16 @@
 from django.test import TestCase
 from django.core import mail
+from django.contrib.auth.models import User
 
-from userena.models import UserenaProfile
+from userena.models import Userena
 from userena import settings as userena_settings
 
 from guardian.shortcuts import get_perms
 
 import datetime, re
 
-class UserenaUserManagerTests(TestCase):
-    """ Test the manager of UserenaUser """
+class UserenaManagerTests(TestCase):
+    """ Test the manager of Userena """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
@@ -29,7 +30,7 @@ class UserenaUserManagerTests(TestCase):
 
         """
         # Check that the fields are set.
-        new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        new_user = Userena.objects.create_inactive_user(**self.user_info)
         self.assertEqual(new_user.username, self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
@@ -38,13 +39,13 @@ class UserenaUserManagerTests(TestCase):
         self.failIf(new_user.is_active)
 
         # User has a valid SHA1 activation key
-        self.failUnless(re.match('^[a-f0-9]{40}$', new_user.activation_key))
+        self.failUnless(re.match('^[a-f0-9]{40}$', new_user.userena.activation_key))
 
         # User now has an profile.
         self.failUnless(new_user.get_profile())
 
         # User should be saved
-        self.failUnlessEqual(UserenaUser.objects.filter(email=self.user_info['email']).count(), 1)
+        self.failUnlessEqual(User.objects.filter(email=self.user_info['email']).count(), 1)
 
     def test_activation_valid(self):
         """
@@ -55,8 +56,9 @@ class UserenaUserManagerTests(TestCase):
         the setting ``USERENA_ACTIVATED``.
 
         """
-        user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        active_user = UserenaUser.objects.activate_user(user.username, user.activation_key)
+        user = Userena.objects.create_inactive_user(**self.user_info)
+        active_user = Userena.objects.activate_user(user.username,
+                                                    user.userena.activation_key)
 
         # The returned user should be the same as the one just created.
         self.failUnlessEqual(user, active_user)
@@ -69,44 +71,45 @@ class UserenaUserManagerTests(TestCase):
         self.failUnless('change_profile' in get_perms(active_user, active_user.get_profile()))
 
         # The activation key should be the same as in the settings
-        self.assertEqual(active_user.activation_key,
+        self.assertEqual(active_user.userena.activation_key,
                          userena_settings.USERENA_ACTIVATED)
 
     def test_activation_invalid(self):
         """
         Activation with a key that's invalid should make
-        ``UserenaUser.objects.activate_user`` return ``False``.
+        ``Userena.objects.activate_user`` return ``False``.
 
         """
         # Wrong key
-        self.failIf(UserenaUser.objects.activate_user('john', 'wrong_key'))
+        self.failIf(Userena.objects.activate_user('john', 'wrong_key'))
 
         # At least the right length
         invalid_key = 10 * 'a1b2'
-        self.failIf(UserenaUser.objects.activate_user('john', invalid_key))
+        self.failIf(Userena.objects.activate_user('john', invalid_key))
 
     def test_activation_expired(self):
         """
         Activation with a key that's expired should also make
-        ``UserenaUser.objects.activation_user`` return ``False``.
+        ``Userena.objects.activation_user`` return ``False``.
 
         """
-        user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        user = Userena.objects.create_inactive_user(**self.user_info)
 
         # Set the date that the key is created a day further away than allowed
-        user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
         # Try to activate the user
-        UserenaUser.objects.activate_user(user.username, user.activation_key)
+        Userena.objects.activate_user(user.username, user.userena.activation_key)
 
-        active_user = UserenaUser.objects.get(user__username='alice')
+        active_user = User.objects.get(username='alice')
 
         # UserenaUser activation should have failed
-        self.failIf(active_user.user.is_active)
+        self.failIf(active_user.is_active)
 
         # The activation key should still be a hash
-        self.assertEqual(user.activation_key, active_user.activation_key)
+        self.assertEqual(user.userena.activation_key,
+                         active_user.userena.activation_key)
 
     def test_confirmation_valid(self):
         """
@@ -114,20 +117,20 @@ class UserenaUserManagerTests(TestCase):
 
         """
         new_email = 'john@newexample.com'
-        user = UserenaUser.objects.get(pk=1)
-        user.change_email(new_email)
+        user = User.objects.get(pk=1)
+        user.userena.change_email(new_email)
 
         # Confirm email
-        confirmed_user = UserenaUser.objects.confirm_email(user.username,
-                                                           user.email_confirmation_key)
+        confirmed_user = Userena.objects.confirm_email(user.username,
+                                                       user.userena.email_confirmation_key)
         self.failUnlessEqual(user, confirmed_user)
 
         # Check the new email is set.
         self.failUnlessEqual(confirmed_user.email, new_email)
 
         # ``email_new`` and ``email_verification_key`` should be empty
-        self.failIf(confirmed_user.email_unconfirmed)
-        self.failIf(confirmed_user.email_confirmation_key)
+        self.failIf(confirmed_user.userena.email_unconfirmed)
+        self.failIf(confirmed_user.userena.email_confirmation_key)
 
     def test_confirmation_invalid(self):
         """
@@ -136,24 +139,24 @@ class UserenaUserManagerTests(TestCase):
 
         """
         new_email = 'john@newexample.com'
-        user = UserenaUser.objects.get(pk=1)
-        user.change_email(new_email)
+        user = User.objects.get(pk=1)
+        user.userena.change_email(new_email)
 
         # Verify email with wrong SHA1
-        self.failIf(UserenaUser.objects.confirm_email('john', 'sha1'))
+        self.failIf(Userena.objects.confirm_email('john', 'sha1'))
 
         # Correct SHA1, but non-existend in db.
-        self.failIf(UserenaUser.objects.confirm_email('john', 10 * 'a1b2'))
+        self.failIf(Userena.objects.confirm_email('john', 10 * 'a1b2'))
 
     def test_delete_expired_users(self):
         """
         Test if expired users are deleted from the database.
 
         """
-        expired_user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        expired_user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        expired_user = Userena.objects.create_inactive_user(**self.user_info)
+        expired_user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         expired_user.save()
 
-        deleted_users = UserenaUser.objects.delete_expired_users()
+        deleted_users = Userena.objects.delete_expired_users()
 
-        self.failUnlessEqual(deleted_users[1].username, 'alice')
+        self.failUnlessEqual(deleted_users[0].username, 'alice')

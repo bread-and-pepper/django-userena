@@ -12,8 +12,8 @@ import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
-class UserenaUserManager(UserManager):
-    """ Extra functionality for the UserenaUser model. """
+class UserenaManager(UserManager):
+    """ Extra functionality for the Userena model. """
 
     def create_inactive_user(self, username, email, password):
         """
@@ -22,7 +22,10 @@ class UserenaUserManager(UserManager):
         """
         now = datetime.datetime.now()
 
-        new_user = User.objects.create(username, email, password)
+        new_user = User.objects.create_user(username, email, password)
+        new_user.is_active = False
+        new_user.save()
+
         userena_profile = self.create_userena_profile(new_user)
 
         # All users have an empty profile
@@ -33,7 +36,7 @@ class UserenaUserManager(UserManager):
         # Give permissions to view and change profile
         permissions = ['view_profile', 'change_profile']
         for perm in permissions:
-            assign(perm, new_user.user, new_profile)
+            assign(perm, new_user, new_profile)
 
         userena_profile.send_activation_email()
 
@@ -41,9 +44,9 @@ class UserenaUserManager(UserManager):
 
     def create_userena_profile(self, user):
         """ Creates an userena profile """
-        if isinstance(username, unicode):
-            username = username.encode('utf-8')
-        salt, activation_key = generate_sha1(username)
+        if isinstance(user.username, unicode):
+            user.username = user.username.encode('utf-8')
+        salt, activation_key = generate_sha1(user.username)
 
         return self.create(user=user,
                            activation_key=activation_key)
@@ -58,13 +61,15 @@ class UserenaUserManager(UserManager):
         """
         if SHA1_RE.search(activation_key):
             try:
-                user = self.get(username=username,
-                                activation_key=activation_key)
+                userena = self.get(user__username=username,
+                                   activation_key=activation_key)
             except self.model.DoesNotExist:
                 return False
-            if not user.activation_key_expired():
+            if not userena.activation_key_expired():
+                userena.activation_key = userena_settings.USERENA_ACTIVATED
+                user = userena.user
                 user.is_active = True
-                user.activation_key = userena_settings.USERENA_ACTIVATED
+                userena.save(using=self._db)
                 user.save(using=self._db)
                 return user
         return False
@@ -80,14 +85,16 @@ class UserenaUserManager(UserManager):
         """
         if SHA1_RE.search(confirmation_key):
             try:
-                user = self.get(username=username,
-                                email_confirmation_key=confirmation_key,
-                                email_unconfirmed__isnull=False)
+                userena = self.get(user__username=username,
+                                   email_confirmation_key=confirmation_key,
+                                   email_unconfirmed__isnull=False)
             except self.model.DoesNotExist:
                 return False
             else:
-                user.email = user.email_unconfirmed
-                user.email_unconfirmed, user.email_confirmation_key = '',''
+                user = userena.user
+                user.email = userena.email_unconfirmed
+                userena.email_unconfirmed, userena.email_confirmation_key = '',''
+                userena.save(using=self._db)
                 user.save(using=self._db)
                 return user
         return False
@@ -101,8 +108,9 @@ class UserenaUserManager(UserManager):
 
         """
         deleted_users = []
-        for user in self.filter(is_staff=False):
-            if user.activation_key_expired():
+        for user in User.objects.filter(is_staff=False,
+                                        is_active=False):
+            if user.userena.activation_key_expired():
                 deleted_users.append(user)
                 user.delete()
         return deleted_users

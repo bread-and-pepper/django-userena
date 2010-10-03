@@ -5,7 +5,7 @@ gettext = lambda s: s
 # Signin redirect URL to Userena
 USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
                                       'USERENA_SIGNIN_REDIRECT_URL',
-                                      '/accounts/%(username)s')
+                                      '/accounts/%(username)s/')
 
 # How long do people have to activate.
 USERENA_ACTIVATION_DAYS = getattr(settings,

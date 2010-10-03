@@ -27,16 +27,16 @@
              "email": "jane@example.com",
              "date_joined": "2010-08-18 03:13:57"}}, 
  {"pk": 1,
-  "model": "userena.userenauser",
-  "fields": {"activation_key": "ALREADY_ACTIVATED",
+  "model": "userena.userena",
+  "fields": {"user": 1,
+             "activation_key": "ALREADY_ACTIVATED",
              "last_active": "2010-08-17 21:32:03",
-             "activation_notification_send": false,
-             "activation_key_created": null
+             "activation_notification_send": false
  }},
  {"pk": 2,
-  "model": "userena.userenauser",
-  "fields": {"activation_key": "ALREADY_ACTIVATED",
+  "model": "userena.userena",
+  "fields": {"user": 2,
+             "activation_key": "ALREADY_ACTIVATED",
              "last_active": null,
-             "activation_notification_send": false,
-             "activation_key_created": "2010-08-18 03:13:57"
+             "activation_notification_send": false
 }}]

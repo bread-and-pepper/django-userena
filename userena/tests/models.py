@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import UserenaProfile, upload_to_mugshot
+from userena.models import Userena, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile
@@ -13,8 +13,8 @@ import datetime, hashlib, re
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
 
-class UserenaUserModelTests(ProfileTestCase):
-    """ Test the model of UserenaUser """
+class UserenaModelTests(ProfileTestCase):
+    """ Test the model of Userena """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
@@ -28,7 +28,7 @@ class UserenaUserModelTests(ProfileTestCase):
         TODO: What if a image get's uploaded with no extension?
 
         """
-        user = UserenaUser.objects.get(pk=1)
+        user = User.objects.get(pk=1)
         filename = 'my_avatar.png'
         path = upload_to_mugshot(user, filename)
 
@@ -43,21 +43,13 @@ class UserenaUserModelTests(ProfileTestCase):
 
     def test_stringification(self):
         """
-        Test the stringification of a ``UserenaUser`` object. A "human-readable"
-        representation of an ``UserenaUser`` object.
+        Test the stringification of a ``Userena`` object. A
+        "human-readable" representation of an ``Userena`` object.
 
         """
-        account = UserenaUser.objects.get(pk=1)
-        self.failUnlessEqual(account.__unicode__(),
-                             account.user.username)
-
-    def test_get_absolute_url(self):
-        """ Test if the ``get_absolute_url`` function returns the proper URI """
-        account = UserenaUser.objects.get(pk=1)
-        self.failUnlessEqual(account.get_absolute_url(),
-                             reverse('userena_profile_detail',
-                                     kwargs={'username': account.user.username}))
-
+        profile = Userena.objects.get(pk=1)
+        self.failUnlessEqual(profile.__unicode__(),
+                             profile.user.username)
 
     def test_change_email(self):
         """ TODO """
@@ -65,17 +57,17 @@ class UserenaUserModelTests(ProfileTestCase):
 
     def test_activation_expired_account(self):
         """
-        ``UserenaUser.activation_key_expired()`` is ``True`` when the
+        ``Userena.activation_key_expired()`` is ``True`` when the
         ``activation_key_created`` is more days ago than defined in
         ``USERENA_ACTIVATION_DAYS``.
 
         """
-        user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        user.activation_key_created -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
+        user = Userena.objects.create_inactive_user(**self.user_info)
+        user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
-        user = UserenaUser.objects.get(username='alice')
-        self.failUnless(user.activation_key_expired())
+        user = User.objects.get(username='alice')
+        self.failUnless(user.userena.activation_key_expired())
 
     def test_activation_used_account(self):
         """
@@ -83,27 +75,27 @@ class UserenaUserModelTests(ProfileTestCase):
         already used.
 
         """
-        user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        activated_user = UserenaUser.objects.activate_user(user.username,
-                                                           user.activation_key)
-        self.failUnless(activated_user.activation_key_expired())
+        user = Userena.objects.create_inactive_user(**self.user_info)
+        activated_user = Userena.objects.activate_user(user.username,
+                                                       user.userena.activation_key)
+        self.failUnless(activated_user.userena.activation_key_expired())
 
     def test_activation_unexpired_account(self):
         """
-        ``UserenaUser.activation_key_expired()`` is ``False`` when the
+        ``Userena.activation_key_expired()`` is ``False`` when the
         ``activation_key_created`` is within the defined timeframe.``
 
         """
-        user = UserenaUser.objects.create_inactive_user(**self.user_info)
-        self.failIf(user.activation_key_expired())
+        user = Userena.objects.create_inactive_user(**self.user_info)
+        self.failIf(user.userena.activation_key_expired())
 
     def test_activation_email(self):
         """
         When a new account is created, a activation e-mail should be send out
-        by ``UserenaUser.send_activation_email``.
+        by ``Userena.send_activation_email``.
 
         """
-        new_user = UserenaUser.objects.create_inactive_user(**self.user_info)
+        new_user = Userena.objects.create_inactive_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
@@ -174,8 +166,8 @@ class BaseProfileModelTest(ProfileTestCase):
     def test_can_view_profile(self):
         """ Test if the user can see the profile with three type of users. """
         anon_user = AnonymousUser()
-        super_user = UserenaUser.objects.get(pk=1)
-        reg_user = UserenaUser.objects.get(pk=2)
+        super_user = User.objects.get(pk=1)
+        reg_user = User.objects.get(pk=2)
 
         profile = Profile.objects.get(pk=1)
 

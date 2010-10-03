@@ -4,6 +4,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -11,7 +12,7 @@ from django.views.generic import list_detail
 from django.http import HttpResponseForbidden, Http404
 
 from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
-from userena.models import UserenaProfile
+from userena.models import Userena
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect, get_profile_model
@@ -116,7 +117,7 @@ def activate(request, username, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = UserenaProfile.objects.activate_user(username, activation_key)
+    user = Userena.objects.activate_user(username, activation_key)
     if user:
         # Sign the user in.
         auth_user = authenticate(identification=user.email,
@@ -175,7 +176,7 @@ def email_confirm(request, username, confirmation_key,
         ``template_name``.
 
     """
-    user = UserenaProfile.objects.confirm_email(username, confirmation_key)
+    user = Userena.objects.confirm_email(username, confirmation_key)
     if user:
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_email_confirm_complete',

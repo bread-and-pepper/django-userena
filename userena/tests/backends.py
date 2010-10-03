@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 from userena.backends import UserenaAuthenticationBackend
-from userena.models import UserenaProfile
 
 class UserenaAuthenticationBackendTests(TestCase):
     """

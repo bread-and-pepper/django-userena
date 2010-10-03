@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import UserenaProfile
+from userena.models import Userena
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 
@@ -22,14 +22,14 @@ class UserenaViewsTests(ProfileTestCase):
                                'password1': 'swordfish',
                                'password2': 'swordfish',
                                'tos': 'on'})
-        user = UserenaUser.objects.get(user__email='alice@example.com')
+        user = User.objects.get(email='alice@example.com')
         response = self.client.get(reverse('userena_activate',
                                            kwargs={'username': user.username,
-                                                   'activation_key': user.activation_key}))
+                                                   'activation_key': user.userena.activation_key}))
         self.assertRedirects(response,
                              reverse('userena_profile_detail', kwargs={'username': user.username}))
 
-        user = UserenaUser.objects.get(email='alice@example.com')
+        user = User.objects.get(email='alice@example.com')
         self.failUnless(user.is_active)
 
     def test_invalid_activation(self):
@@ -47,12 +47,12 @@ class UserenaViewsTests(ProfileTestCase):
     def test_valid_confirmation(self):
         """ A ``GET`` to the verification view """
         # First, try to change an email.
-        user = UserenaUser.objects.get(pk=1)
-        user.change_email('johnie@example.com')
+        user = User.objects.get(pk=1)
+        user.userena.change_email('johnie@example.com')
 
         response = self.client.get(reverse('userena_email_confirm',
                                            kwargs={'username': user.username,
-                                                   'confirmation_key': user.email_confirmation_key}))
+                                                   'confirmation_key': user.userena.email_confirmation_key}))
 
         self.assertRedirects(response,
                              reverse('userena_email_confirm_complete', kwargs={'username': user.username}))
@@ -105,8 +105,7 @@ class UserenaViewsTests(ProfileTestCase):
                              reverse('userena_signup_complete', kwargs={'username': 'alice'}))
 
         # Check for new user.
-        self.assertEqual(UserenaUser.objects.filter(email__iexact='alice@example.com').count(), 1)
-
+        self.assertEqual(User.objects.filter(email__iexact='alice@example.com').count(), 1)
 
     def test_signin_view(self):
         """ A ``GET`` to the signin view should render the correct form """
@@ -283,7 +282,7 @@ class UserenaViewsTests(ProfileTestCase):
                                                kwargs={'username': 'john'}))
 
         # Users hould be changed now.
-        profile = UserenaUser.objects.get(username='john').get_profile()
+        profile = User.objects.get(username='john').get_profile()
         self.assertEqual(profile.about_me, new_about_me)
 
 
