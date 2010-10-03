@@ -11,7 +11,7 @@ except IOError, err:
     sys.exit(1)
 
 setup(name='django-userena',
-      version=userena.get_version()
+      version=userena.get_version(),
       description='Complete user management application for Django',
       long_description=long_description,
       zip_safe=False,

@@ -71,6 +71,10 @@ class Userena(models.Model):
 
     objects = UserenaManager()
 
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
     def __unicode__(self):
         return '%s' % self.user.username
 
