@@ -95,6 +95,7 @@ INSTALLED_APPS = (
     'demo_project.profiles',
     'easy_thumbnails',
     'guardian',
+    'south',
     'userena',
 )
 
