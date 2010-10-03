@@ -4,42 +4,6 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
-""" I need to go from:
-
-BEGIN;
-CREATE TABLE "userena_userenauser" (
-    "user_id" integer NOT NULL PRIMARY KEY REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
-    "last_active" timestamp with time zone,
-    "activation_key" varchar(40) NOT NULL,
-    "activation_key_created" timestamp with time zone,
-    "activation_notification_send" boolean NOT NULL,
-    "email_unconfirmed" varchar(75) NOT NULL,
-    "email_confirmation_key" varchar(40) NOT NULL,
-    "email_confirmation_key_created" timestamp with time zone
-)
-;
-COMMIT;
-
-"""
-
-""" To:
-
-BEGIN;
-CREATE TABLE "userena_userena" (
-    "id" serial NOT NULL PRIMARY KEY,
-    "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
-    "last_active" timestamp with time zone,
-    "activation_key" varchar(40) NOT NULL,
-    "activation_notification_send" boolean NOT NULL,
-    "email_unconfirmed" varchar(75) NOT NULL,
-    "email_confirmation_key" varchar(40) NOT NULL,
-    "email_confirmation_key_created" timestamp with time zone
-)
-;
-COMMIT;
-
-"""
-
 class Migration(SchemaMigration):
 
     def forwards(self, orm):

@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+userena = __import__('userena')
+
 readme_file = 'README.rst'
 try:
     long_description = open(readme_file).read()
@@ -9,7 +11,7 @@ except IOError, err:
     sys.exit(1)
 
 setup(name='django-userena',
-      version='0.1.0',
+      version=userena.get_version()
       description='Complete user management application for Django',
       long_description=long_description,
       zip_safe=False,
