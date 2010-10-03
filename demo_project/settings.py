@@ -93,8 +93,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'demo_project.profiles',
     'easy_thumbnails',
-    'relationships',
     'guardian',
+    'south',
     'userena',
 )
 

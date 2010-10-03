@@ -8,7 +8,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^accounts/relationships/', include('relationships.urls')),
     (r'^accounts/', include('userena.urls')),
     url(r'^$',
         direct_to_template,

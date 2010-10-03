@@ -9,3 +9,6 @@ http://effbot.org/downloads/Imaging-1.1.7.tar.gz
 
 # Django-guardian used for privacy settings
 -e git+http://github.com/lukaszb/django-guardian.git#egg=guardian
+
+# Django-south for migrations
+South
