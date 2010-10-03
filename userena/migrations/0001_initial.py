@@ -7,23 +7,25 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'UserenaUser'
-        db.create_table('userena_userenauser', (
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
+        
+        # Adding model 'Userena'
+        db.create_table('userena_userena', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'userena', unique=True, to=orm['auth.User'])),
             ('last_active', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
-            ('activation_key_created', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('activation_notification_send', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('email_unconfirmed', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
             ('email_confirmation_key', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
             ('email_confirmation_key_created', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
-        db.send_create_signal('userena', ['UserenaUser'])
+        db.send_create_signal('userena', ['Userena'])
 
 
     def backwards(self, orm):
-        # Deleting model 'UserenaUser'
-        db.delete_table('userena_userenauser')
+        
+        # Deleting model 'Userena'
+        db.delete_table('userena_userena')
 
 
     models = {
@@ -63,16 +65,16 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'userena.userenauser': {
-            'Meta': {'object_name': 'UserenaUser', '_ormbases': ['auth.User']},
+        'userena.userena': {
+            'Meta': {'object_name': 'Userena'},
             'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
-            'activation_key_created': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'activation_notification_send': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'email_confirmation_key': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
             'email_confirmation_key_created': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'email_unconfirmed': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_active': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "u'userena'", 'unique': 'True', 'to': "orm['auth.User']"})
         }
     }
 
