@@ -51,6 +51,10 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         db.rename_table('userena.userena', 'userena.userenauser')
+        db.delete_column('userena_userenauser', 'id')
+        db.delete_primary_key('userena_userenauser')
+        db.create_primary_key('userena_userenauser', ['user_id'])
+        db.add_column('userena_userenauser', 'activation_key_created', models.DateTimeField(null=True))
 
     models = {
         'auth.group': {
