@@ -43,11 +43,11 @@ COMMIT;
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        db.rename_table('userena.userenauser', 'userena.userena')
-        db.add_column('userena.userenauser', 'id', models.IntegerField())
-        db.delete_primary_key('userena.userenauser')
-        db.create_primary_key('userena.userenauser', 'id')
-        db.delete_column('userena.userenauser', 'activation_key_created')
+        db.rename_table('userena_userenauser', 'userena_userena')
+        db.add_column('userena_userena', 'id', models.IntegerField(default=-1), keep_default=False)
+        db.delete_primary_key('userena_userena')
+        db.create_primary_key('userena_userena', ['id',])
+        db.delete_column('userena_userena', 'activation_key_created')
 
     def backwards(self, orm):
         db.rename_table('userena.userena', 'userena.userenauser')
