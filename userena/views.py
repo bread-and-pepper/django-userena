@@ -18,7 +18,7 @@ from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect, get_profile_model
 from userena import settings as userena_settings
 
-from guardian.shortcuts import get_perms
+from guardian.decorators import permission_required_or_403
 
 @secure_required
 def signup(request, signup_form=SignupForm,
@@ -314,7 +314,7 @@ def signin(request, auth_form=AuthenticationForm,
 
 
 @secure_required
-@login_required
+@permission_required_or_403('change_user', (User, 'username', 'username'))
 def email_change(request, username, form=ChangeEmailForm,
                  template_name='userena/email_form.html', success_url=None,
                  extra_context=None):
@@ -363,10 +363,6 @@ def email_change(request, username, form=ChangeEmailForm,
     """
     user = get_object_or_404(User, username__iexact=username)
 
-    # Check permissions
-    if user.username != request.user.username and not request.user.has_perm('change_user', user):
-        raise Http404
-
     form = ChangeEmailForm(user)
 
     if request.method == 'POST':
@@ -389,7 +385,7 @@ def email_change(request, username, form=ChangeEmailForm,
                               extra_context=extra_context)
 
 @secure_required
-@login_required
+@permission_required_or_403('change_user', (User, 'username', 'username'))
 def password_change(request, username, template_name='userena/password_form.html',
                     pass_form=PasswordChangeForm, success_url=None, extra_context=None):
     """ Change password of user.
@@ -438,10 +434,6 @@ def password_change(request, username, template_name='userena/password_form.html
     user = get_object_or_404(User,
                              username__iexact=username)
 
-    # Check permissions
-    if user.username != request.user.username and not request.user.has_perm('change_user', user):
-        raise Http404
-
     form = pass_form(user=user)
 
     if request.method == "POST":
@@ -460,45 +452,8 @@ def password_change(request, username, template_name='userena/password_form.html
                               template_name,
                               extra_context=extra_context)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
-    """
-    Detailed view of an user.
-
-    **Arguments**
-
-    ``username``
-        String of the username of which the account should be viewed.
-
-    **Keyword arguments**
-
-    ``template_name``
-        String representing the template name that should be used to display
-        the account.
-
-    ``extra_context``
-        Dictionary of variables which should be supplied to the template. The
-        ``account`` key is always the current account.
-
-    **Context**
-
-    ``account``
-        Instance of the currently edited ``Account``.
-
-    """
-    user = get_object_or_404(User,
-                             username__iexact=username)
-    profile = user.get_profile()
-    if not profile.can_view_profile(request.user):
-        return HttpResponseForbidden(_("You don't have permission to view this \
-                                       profile."))
-    if not extra_context: extra_context = dict()
-    extra_context['profile'] = user.get_profile()
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
-
 @secure_required
-@login_required
+@permission_required_or_403('change_profile', (User, 'username', 'username'))
 def profile_edit(request, username, edit_profile_form=EditProfileForm,
                  template_name='userena/profile_form.html', success_url=None,
                  extra_context=None):
@@ -550,10 +505,6 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
 
     profile = user.get_profile()
 
-    # Check permission
-    if not 'change_profile' in get_perms(request.user, profile):
-        return HttpResponseForbidden(_('Permission denied.'))
-
     user_initial = {'first_name': user.first_name,
                     'last_name': user.last_name}
 
@@ -577,6 +528,43 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
     extra_context['user'] = user
+    return direct_to_template(request,
+                              template_name,
+                              extra_context=extra_context)
+
+def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
+    """
+    Detailed view of an user.
+
+    **Arguments**
+
+    ``username``
+        String of the username of which the account should be viewed.
+
+    **Keyword arguments**
+
+    ``template_name``
+        String representing the template name that should be used to display
+        the account.
+
+    ``extra_context``
+        Dictionary of variables which should be supplied to the template. The
+        ``account`` key is always the current account.
+
+    **Context**
+
+    ``account``
+        Instance of the currently edited ``Account``.
+
+    """
+    user = get_object_or_404(User,
+                             username__iexact=username)
+    profile = user.get_profile()
+    if not profile.can_view_profile(request.user):
+        return HttpResponseForbidden(_("You don't have permission to view this \
+                                       profile."))
+    if not extra_context: extra_context = dict()
+    extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)

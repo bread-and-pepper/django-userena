@@ -54,3 +54,12 @@ class UserenaAuthenticationBackendTests(TestCase):
         result = self.backend.authenticate(identification='john@example.com',
                                            password='blowfish')
         self.failUnless(isinstance(result, User))
+
+    def test_get_user(self):
+        """ Test that the user is returned """
+        user = self.backend.get_user(1)
+        self.failUnlessEqual(user.username, 'john')
+
+        # None should be returned when false id.
+        user = self.backend.get_user(99)
+        self.failIf(user)

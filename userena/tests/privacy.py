@@ -84,7 +84,7 @@ class PrivacyTests(ProfileTestCase):
         profile = Profile.objects.get(pk=1)
 
         users_status = (
-            (None, 302),
+            (None, 403),
             (self.reg_user, 403),
             (self.super_user, 200)
         )

@@ -190,9 +190,7 @@ class UserenaViewsTests(ProfileTestCase):
                                            kwargs={'username': 'john'}))
 
         # Anonymous user should not be able to view the profile page
-        self.assertRedirects(response,
-                             reverse('userena_signin') + '?next=' + reverse('userena_email_change',
-                                                                            kwargs={'username': 'john'}))
+        self.assertEqual(response.status_code, 403)
 
         # Login
         client = self.client.login(username='john', password='blowfish')

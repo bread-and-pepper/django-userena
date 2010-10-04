@@ -15,8 +15,8 @@ settings.INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sites',
     'demo_project.profiles',
+    'guardian',
     'userena',
-    'userena.tests',
 )
 
 def main():

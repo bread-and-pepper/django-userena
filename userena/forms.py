@@ -26,9 +26,11 @@ class SignupForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
                              label=_("Email address"))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
+                                                           render_value=False),
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
+                                                           render_value=False),
                                 label=_("Password (again)"))
 
     def clean_username(self):
