@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from userena.models import UserenaBaseProfile
+from userena.models import UserenaLanguageBaseProfile
 
 import datetime
 
-class Profile(UserenaBaseProfile):
+class Profile(UserenaLanguageBaseProfile):
     """ Default profile """
     GENDER_CHOICES = (
         (1, _('Male')),

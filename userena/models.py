@@ -302,3 +302,19 @@ class UserenaBaseProfile(models.Model):
 
         # Fallback to closed profile.
         return False
+
+class UserenaLanguageBaseProfile(UserenaBaseProfile):
+    """
+    Extends the ``UserenaBaseProfile`` with a language choice.
+
+    Use this model in combination with ``UserenaLocaleMiddleware`` automaticly
+    set the language of users when they are signed in.
+
+    """
+    language = models.CharField(_('language'),
+                                max_length=4,
+                                choices=settings.LANGUAGES,
+                                default=settings.LANGUAGE_CODE[:2])
+
+    class Meta:
+        abstract = True
