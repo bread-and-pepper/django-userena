@@ -78,3 +78,7 @@ USERENA_DISABLE_PROFILE_LIST = getattr(settings,
 USERENA_USE_MESSAGES = getattr(settings,
                                'USERENA_USE_MESSAGES',
                                True)
+
+USERENA_LANGUAGE_FIELD = getattr(settings,
+                                 'USERENA_LANGUAGE_FIELD',
+                                 'language')

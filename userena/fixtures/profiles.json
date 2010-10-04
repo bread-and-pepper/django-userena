@@ -5,7 +5,8 @@
              "user": 1,
              "mugshot": "",
              "location": "Amsterdam",
-             "privacy": "open"
+             "privacy": "open",
+             "language": "nl"
     }
   },
   {
@@ -16,6 +17,7 @@
              "user": 2,
              "mugshot": "",
              "location": "New York",
-             "privacy": "open"
+             "privacy": "open",
+             "language": "en"
   }
 }]

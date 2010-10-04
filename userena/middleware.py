@@ -2,6 +2,8 @@ from django.utils import translation
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
+from userena import settings as userena_settings
+
 class UserenaLocaleMiddleware(object):
     """
     Set the language by looking at the language setting in the profile.
@@ -21,6 +23,7 @@ class UserenaLocaleMiddleware(object):
 
                 if profile:
                     try:
-                        translation.activate(profile.language)
+                        lang = getattr(profile, userena_settings.USERENA_LANGUAGE_FIELD)
+                        translation.activate(lang)
                         request.LANGUAGE_CODE = translation.get_language()
                     except AttributeError: pass

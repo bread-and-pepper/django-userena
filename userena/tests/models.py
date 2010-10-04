@@ -47,9 +47,9 @@ class UserenaSignupModelTests(ProfileTestCase):
         "human-readable" representation of an ``UserenaSignup`` object.
 
         """
-        profile = UserenaSignup.objects.get(pk=1)
-        self.failUnlessEqual(profile.__unicode__(),
-                             profile.user.username)
+        signup = UserenaSignup.objects.get(pk=1)
+        self.failUnlessEqual(signup.__unicode__(),
+                             signup.user.username)
 
     def test_change_email(self):
         """ TODO """
@@ -113,6 +113,12 @@ class BaseProfileModelTest(ProfileTestCase):
         profile = Profile.objects.get(pk=1)
         self.failUnlessEqual(profile.get_mugshot_url(),
                              settings.MEDIA_URL + 'fake_image.png')
+
+    def test_stringification(self):
+        """ Profile should return a human-readable name as an object """
+        profile = Profile.objects.get(pk=1)
+        self.failUnlessEqual(profile.__unicode__(),
+                             'Profile of %s' % profile.user.username)
 
     def test_get_mugshot_url_without_gravatar(self):
         """

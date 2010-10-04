@@ -11,6 +11,7 @@ class ProfileTestCase(test.TestCase):
         settings.INSTALLED_APPS.append('userena.tests.profiles')
         loading.cache.loaded = False
         call_command('syncdb', interactive=False, verbosity=0)
+
         # Call the original method that does the fixtures etc.
         super(ProfileTestCase, self)._pre_setup()
 

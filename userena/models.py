@@ -19,6 +19,13 @@ from easy_thumbnails.fields import ThumbnailerImageField
 
 import datetime, random
 
+PROFILE_PERMISSIONS = (
+            ('add_profile', 'Can add profile'),
+            ('change_profile', 'Can change profile'),
+            ('delete_profile', 'Can delete profile'),
+            ('view_profile', 'Can view profile'),
+)
+
 def upload_to_mugshot(instance, filename):
     """
     Uploads a mugshot for a user to the ``USERENA_MUGSHOT_PATH`` and saving it
@@ -225,12 +232,10 @@ class UserenaBaseProfile(models.Model):
 
         """
         abstract = True
-        permissions = (
-            ('add_profile', 'Can add profile'),
-            ('change_profile', 'Can change profile'),
-            ('delete_profile', 'Can delete profile'),
-            ('view_profile', 'Can view profile'),
-        )
+        permissions = PROFILE_PERMISSIONS
+
+    def __unicode__(self):
+        return 'Profile of %(username)s' % {'username': self.user.username}
 
     def get_mugshot_url(self):
         """
@@ -318,3 +323,4 @@ class UserenaLanguageBaseProfile(UserenaBaseProfile):
 
     class Meta:
         abstract = True
+        permissions = PROFILE_PERMISSIONS
