@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
 
+from guardian.shortcuts import remove_perm
+from guardian.models import UserObjectPermission
+
 import datetime
 
 class CleanExpiredTests(TestCase):
@@ -30,3 +33,33 @@ class CleanExpiredTests(TestCase):
         call_command('clean_expired')
 
         self.failUnlessEqual(User.objects.filter(username=self.user_info['username']).count(), 0)
+
+class CheckPermissionTests(TestCase):
+    user_info = {'username': 'alice',
+                 'password': 'swordfish',
+                 'email': 'alice@example.com'}
+
+    def test_check_permissions(self):
+        # Create a new account.
+        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user.save()
+
+        # Remove all permissions
+        UserObjectPermission.objects.filter(user=user).delete()
+        self.failUnlessEqual(UserObjectPermission.objects.filter(user=user).count(),
+                             0)
+
+        # Check it
+        call_command('check_permissions')
+
+        # User should have all permissions again
+        user_permissions = UserObjectPermission.objects.filter(user=user).values_list('permission__codename', flat=True)
+
+        required_permissions = [u'change_user', u'delete_user', u'change_profile', u'view_profile']
+        for perm in required_permissions:
+            if perm not in user_permissions:
+                self.fail()
+
+        # Check it again should do nothing
+        call_command('check_permissions')
+

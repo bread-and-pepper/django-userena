@@ -1,7 +1,6 @@
 from django.core.management.base import NoArgsCommand
 
 from userena.models import UserenaSignup
-from optparse import make_option
 
 class Command(NoArgsCommand):
     """

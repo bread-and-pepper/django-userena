@@ -6,11 +6,16 @@ from django.contrib.auth.models import User, AnonymousUser
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
 
-from guardian.shortcuts import assign
+from guardian.shortcuts import assign, get_perms
 
 import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
+
+PERMISSIONS = {
+    'profile': ('view_profile', 'change_profile'),
+    'user': ('change_user', 'delete_user')
+}
 
 class UserenaManager(UserManager):
     """ Extra functionality for the Userena model. """
@@ -34,13 +39,11 @@ class UserenaManager(UserManager):
         new_profile.save(using=self._db)
 
         # Give permissions to view and change profile
-        profile_permissions = ['view_profile', 'change_profile']
-        for perm in profile_permissions:
+        for perm in PERMISSIONS['profile']:
             assign(perm, new_user, new_profile)
 
         # Give permissinos to view and change itself
-        user_permissions = ['change_user', 'delete_user']
-        for perm in user_permissions:
+        for perm in PERMISSIONS['user']:
             assign(perm, new_user, new_user)
 
         userena_profile.send_activation_email()
@@ -119,6 +122,30 @@ class UserenaManager(UserManager):
                 deleted_users.append(user)
                 user.delete()
         return deleted_users
+
+    def check_permissions(self):
+        """
+        Checks that all permissions are set correctly for the users.
+
+        Returns a set of users whose permissions was wrong.
+
+        """
+        changed_users = set()
+        for user in User.objects.all():
+            if not user.username == 'AnonymousUser':
+                all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
+
+                for model, perms in PERMISSIONS.items():
+                    if model == 'profile':
+                        perm_object = user.get_profile()
+                    else: perm_object = user
+
+                    for perm in perms:
+                        if perm not in all_permissions:
+                            assign(perm, user, perm_object)
+                            changed_users.add(user)
+
+        return changed_users
 
 class UserenaBaseProfileManager(models.Manager):
     """ Manager for UserenaProfile """
