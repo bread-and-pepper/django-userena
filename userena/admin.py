@@ -3,11 +3,16 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-from userena.models import Userena
+from userena.models import UserenaSignup
 from userena.utils import get_profile_model
 
-# TODO: Unregister the current User admin. We can do better.
-# admin.site.unregister(User)
+class UserenaSignupInline(admin.TabularInline):
+    model = UserenaSignup
+    max_num = 1
 
-admin.site.register(Userena)
+class UserenaAdmin(UserAdmin):
+    inlines = [UserenaSignupInline, ]
+
+admin.site.unregister(User)
+admin.site.register(User, UserenaAdmin)
 admin.site.register(get_profile_model())

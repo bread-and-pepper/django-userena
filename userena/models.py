@@ -32,7 +32,7 @@ def upload_to_mugshot(instance, filename):
                                                'hash': hash[:10],
                                                'extension': extension}
 
-class Userena(models.Model):
+class UserenaSignup(models.Model):
     """
     Userena model which stores all the nescessary information to have a full
     functional user implementation on your Django website.
@@ -40,7 +40,7 @@ class Userena(models.Model):
     """
     user = models.OneToOneField(User,
                                 verbose_name=_('user'),
-                                related_name=_('userena'))
+                                related_name=_('userena_signup'))
 
 
     last_active = models.DateTimeField(_('last active'),
@@ -72,8 +72,8 @@ class Userena(models.Model):
     objects = UserenaManager()
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = _('userena registration')
+        verbose_name_plural = _('userena registrations')
 
     def __unicode__(self):
         return '%s' % self.user.username

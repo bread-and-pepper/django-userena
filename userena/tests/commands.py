@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.management import call_command
 from django.contrib.auth.models import User
 
-from userena.models import Userena
+from userena.models import UserenaSignup
 from userena import settings as userena_settings
 
 import datetime
@@ -19,7 +19,7 @@ class CleanExpiredTests(TestCase):
 
         """
         # Create an account which is expired.
-        user = Userena.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
         user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 

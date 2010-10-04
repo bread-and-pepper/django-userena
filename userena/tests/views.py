@@ -5,7 +5,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
-from userena.models import Userena
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 
@@ -25,7 +24,7 @@ class UserenaViewsTests(ProfileTestCase):
         user = User.objects.get(email='alice@example.com')
         response = self.client.get(reverse('userena_activate',
                                            kwargs={'username': user.username,
-                                                   'activation_key': user.userena.activation_key}))
+                                                   'activation_key': user.userena_signup.activation_key}))
         self.assertRedirects(response,
                              reverse('userena_profile_detail', kwargs={'username': user.username}))
 
@@ -48,11 +47,11 @@ class UserenaViewsTests(ProfileTestCase):
         """ A ``GET`` to the verification view """
         # First, try to change an email.
         user = User.objects.get(pk=1)
-        user.userena.change_email('johnie@example.com')
+        user.userena_signup.change_email('johnie@example.com')
 
         response = self.client.get(reverse('userena_email_confirm',
                                            kwargs={'username': user.username,
-                                                   'confirmation_key': user.userena.email_confirmation_key}))
+                                                   'confirmation_key': user.userena_signup.email_confirmation_key}))
 
         self.assertRedirects(response,
                              reverse('userena_email_confirm_complete', kwargs={'username': user.username}))

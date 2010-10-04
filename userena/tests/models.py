@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 
-from userena.models import Userena, upload_to_mugshot
+from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile
@@ -13,8 +13,8 @@ import datetime, hashlib, re
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
 
-class UserenaModelTests(ProfileTestCase):
-    """ Test the model of Userena """
+class UserenaSignupModelTests(ProfileTestCase):
+    """ Test the model of UserenaSignup """
     user_info = {'username': 'alice',
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
@@ -43,11 +43,11 @@ class UserenaModelTests(ProfileTestCase):
 
     def test_stringification(self):
         """
-        Test the stringification of a ``Userena`` object. A
-        "human-readable" representation of an ``Userena`` object.
+        Test the stringification of a ``UserenaSignup`` object. A
+        "human-readable" representation of an ``UserenaSignup`` object.
 
         """
-        profile = Userena.objects.get(pk=1)
+        profile = UserenaSignup.objects.get(pk=1)
         self.failUnlessEqual(profile.__unicode__(),
                              profile.user.username)
 
@@ -57,17 +57,17 @@ class UserenaModelTests(ProfileTestCase):
 
     def test_activation_expired_account(self):
         """
-        ``Userena.activation_key_expired()`` is ``True`` when the
+        ``UserenaSignup.activation_key_expired()`` is ``True`` when the
         ``activation_key_created`` is more days ago than defined in
         ``USERENA_ACTIVATION_DAYS``.
 
         """
-        user = Userena.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
         user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
         user = User.objects.get(username='alice')
-        self.failUnless(user.userena.activation_key_expired())
+        self.failUnless(user.userena_signup.activation_key_expired())
 
     def test_activation_used_account(self):
         """
@@ -75,27 +75,27 @@ class UserenaModelTests(ProfileTestCase):
         already used.
 
         """
-        user = Userena.objects.create_inactive_user(**self.user_info)
-        activated_user = Userena.objects.activate_user(user.username,
-                                                       user.userena.activation_key)
-        self.failUnless(activated_user.userena.activation_key_expired())
+        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        activated_user = UserenaSignup.objects.activate_user(user.username,
+                                                             user.userena_signup.activation_key)
+        self.failUnless(activated_user.userena_signup.activation_key_expired())
 
     def test_activation_unexpired_account(self):
         """
-        ``Userena.activation_key_expired()`` is ``False`` when the
+        ``UserenaSignup.activation_key_expired()`` is ``False`` when the
         ``activation_key_created`` is within the defined timeframe.``
 
         """
-        user = Userena.objects.create_inactive_user(**self.user_info)
-        self.failIf(user.userena.activation_key_expired())
+        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        self.failIf(user.userena_signup.activation_key_expired())
 
     def test_activation_email(self):
         """
         When a new account is created, a activation e-mail should be send out
-        by ``Userena.send_activation_email``.
+        by ``UserenaSignup.send_activation_email``.
 
         """
-        new_user = Userena.objects.create_inactive_user(**self.user_info)
+        new_user = UserenaSignup.objects.create_inactive_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 

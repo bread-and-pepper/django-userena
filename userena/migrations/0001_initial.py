@@ -7,11 +7,11 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'Userena'
-        db.create_table('userena_userena', (
+        db.create_table('userena_userenasignup', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'userena', unique=True, to=orm['auth.User'])),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'signup', unique=True, to=orm['auth.User'])),
             ('last_active', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
             ('activation_notification_send', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -23,9 +23,9 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        
+
         # Deleting model 'Userena'
-        db.delete_table('userena_userena')
+        db.delete_table('userena_userenasignup')
 
 
     models = {

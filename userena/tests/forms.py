@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from userena import forms
-from userena.models import Userena
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """

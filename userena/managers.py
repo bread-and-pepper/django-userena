@@ -110,7 +110,7 @@ class UserenaManager(UserManager):
         deleted_users = []
         for user in User.objects.filter(is_staff=False,
                                         is_active=False):
-            if user.userena.activation_key_expired():
+            if user.userena_signup.activation_key_expired():
                 deleted_users.append(user)
                 user.delete()
         return deleted_users
