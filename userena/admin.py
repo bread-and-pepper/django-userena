@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model
 
-class UserenaSignupInline(admin.TabularInline):
+class UserenaSignupInline(admin.StackedInline):
     model = UserenaSignup
     max_num = 1
 

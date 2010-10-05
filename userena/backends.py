@@ -30,10 +30,10 @@ class UserenaAuthenticationBackend(ModelBackend):
     """
     def authenticate(self, identification, password=None, check_password=True):
         if email_re.search(identification):
-            try: user = User.objects.get(email=identification)
+            try: user = User.objects.get(email__iexact=identification)
             except User.DoesNotExist: return None
         else:
-            try: user = User.objects.get(username=identification)
+            try: user = User.objects.get(username__iexact=identification)
             except User.DoesNotExist: return None
         if check_password:
             return user if user.check_password(password) else None
