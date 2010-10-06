@@ -453,7 +453,7 @@ def password_change(request, username, template_name='userena/password_form.html
                               extra_context=extra_context)
 
 @secure_required
-@permission_required_or_403('change_profile', (User, 'username', 'username'))
+@permission_required_or_403('change_profile', (get_profile_model(), 'user__username', 'username'))
 def profile_edit(request, username, edit_profile_form=EditProfileForm,
                  template_name='userena/profile_form.html', success_url=None,
                  extra_context=None):
