@@ -1,0 +1,11 @@
+{% load i18n %}{% autoescape off %}
+{% trans "Dear" %} {{ user.username }},
+
+{% trans "There was a request to change your email address at" %} {{ site.name }}.
+
+{% blocktrans %}An email has been send to {{ new_email }} which contains a verification link. Click on the link in this email to activate it.{% endblocktrans %}
+
+
+{% trans "Sincerely" %},
+{{ site.name }}
+{% endautoescape %}

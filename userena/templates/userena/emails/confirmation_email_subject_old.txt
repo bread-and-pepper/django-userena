@@ -1,0 +1,2 @@
+{% load i18n %}
+{% trans "A request to change your email address is made at" %} {{ site.name }}.

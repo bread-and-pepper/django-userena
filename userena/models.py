@@ -115,24 +115,45 @@ class UserenaSignup(models.Model):
         """
         Sends an email to confirm the new email address.
 
-        This email contains the ``email_confirmation_key`` which is used to
-        verify this new email address in ``UserenaUser.objects.confirm_email``.
+        This method sends out two emails. One to the new email address that
+        contains the ``email_confirmation_key`` which is used to verify this
+        this email address with ``UserenaUser.objects.confirm_email``.
+
+        The other email is to the old email address to let the user know that
+        a request is made to change this email address.
 
         """
         protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
         context= {'user': self.user,
+                  'new_email': self.email_unconfirmed,
                   'protocol': protocol,
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/confirmation_email_subject.txt',
-                                   context)
-        subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/confirmation_email_message.txt',
-                                   context)
-        send_mail(subject,
-                  message,
+        # Email to the old address
+        subject_old = render_to_string('userena/emails/confirmation_email_subject_old.txt',
+                                       context)
+        subject_old = ''.join(subject_old.splitlines())
+
+        message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
+                                       context)
+
+        send_mail(subject_old,
+                  message_old,
+                  settings.DEFAULT_FROM_EMAIL,
+                  [self.user.email])
+
+        # Email to the new address
+        subject_new = render_to_string('userena/emails/confirmation_email_subject_new.txt',
+                                       context)
+        subject_new = ''.join(subject_new.splitlines())
+
+        message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
+                                       context)
+
+        send_mail(subject_new,
+                  message_new,
                   settings.DEFAULT_FROM_EMAIL,
                   [self.email_unconfirmed,])
 
