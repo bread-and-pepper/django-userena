@@ -63,7 +63,7 @@ class UserenaSignup(models.Model):
                                                        default=False,
                                                        help_text=_('Designates whether this user has already got a notification about activating their account.'))
 
-    email_unconfirmed = models.EmailField(_('unconfirmed e-mail address'),
+    email_unconfirmed = models.EmailField(_('unconfirmed email address'),
                                           blank=True,
                                           help_text=_('Temporary email address when the user requests an email change.'))
 
@@ -87,11 +87,11 @@ class UserenaSignup(models.Model):
 
     def change_email(self, email):
         """
-        Changes the e-mail address for a user.
+        Changes the email address for a user.
 
-        A user needs to verify this new e-mail address before it becomes
-        active. By storing the new e-mail address in a temporary field --
-        ``temporary_email`` -- we are able to set this e-mail address after the
+        A user needs to verify this new email address before it becomes
+        active. By storing the new email address in a temporary field --
+        ``temporary_email`` -- we are able to set this email address after the
         user has verified it by clicking on the verfication URI in the email.
         This email get's send out by ``send_verification_email``.
 
@@ -179,9 +179,9 @@ class UserenaSignup(models.Model):
 
     def send_activation_email(self):
         """
-        Sends a activation e-mail to the user.
+        Sends a activation email to the user.
 
-        This e-mail is send when the user wants to activate their newly created
+        This email is send when the user wants to activate their newly created
         user. Also checks if the protocol is secured by looking at
         ``USERENA_USE_HTTPS`` value.
 

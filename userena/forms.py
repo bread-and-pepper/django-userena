@@ -25,7 +25,7 @@ class SignupForm(forms.Form):
                                 error_messages={'invalid': _('Username must contain only letters, numbers and underscores.')})
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
-                             label=_("Email address"))
+                             label=_("Email"))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
                                 label=_("Password"))
@@ -53,7 +53,7 @@ class SignupForm(forms.Form):
     def clean_email(self):
         """ Validate that the e-mail address is unique. """
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
+            raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 
     def clean(self):
@@ -92,7 +92,7 @@ class AuthenticationForm(forms.Form):
     identification = forms.CharField(label=_("Email or username"),
                                      widget=forms.TextInput(attrs=attrs_dict),
                                      max_length=75,
-                                     error_messages={'required': _('Either supply us with your e-mail address or username.')})
+                                     error_messages={'required': _('Either supply us with your email or username.')})
     password = forms.CharField(label=_("Password"),
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
@@ -118,12 +118,12 @@ class AuthenticationForm(forms.Form):
 class ChangeEmailForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
-                             label=_("New email address"))
+                             label=_("New email"))
 
     def __init__(self, user, *args, **kwargs):
         """
         The current ``user`` is needed for initialisation of this form so
-        that we can check if the e-mail address is still free and not always
+        that we can check if the email address is still free and not always
         returning ``True`` for this query because it's the users own e-mail
         address.
 
@@ -137,11 +137,11 @@ class ChangeEmailForm(forms.Form):
                                            {'email': user.email})
 
     def clean_email(self):
-        """ Validate that the e-mail address is not already registered with another user """
+        """ Validate that the email is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
-            raise forms.ValidationError(_('You\'re already known under this email address.'))
+            raise forms.ValidationError(_('You\'re already known under this email.'))
         if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
-            raise forms.ValidationError(_('This email address is already in use. Please supply a different email address.'))
+            raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 
     def save(self):
