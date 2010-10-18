@@ -31,7 +31,7 @@ class SignupForm(forms.Form):
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Confirm password"))
 
     def clean_username(self):
         """
