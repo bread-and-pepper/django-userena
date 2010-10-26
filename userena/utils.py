@@ -5,7 +5,14 @@ from django.db.models import get_model
 
 from userena import settings as userena_settings
 
-import urllib, hashlib, random
+import urllib, random
+
+try:
+    import hashlib
+    md5 = hashlib.md5
+except ImportError:
+    import md5
+    md5 = md5.new
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a gravatar for a e-mail address.
@@ -45,7 +52,7 @@ def get_gravatar(email, size=80, default='identicon'):
 
     gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
             {'base_url': base_url,
-             'gravatar_id': hashlib.md5(email.lower()).hexdigest()}
+             'gravatar_id': md5(email.lower()).hexdigest()}
 
     gravatar_url += urllib.urlencode({'s': str(size),
                                       'd': default})
