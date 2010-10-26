@@ -123,7 +123,9 @@ class UserenaSignup(models.Model):
         a request is made to change this email address.
 
         """
-        protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
+        protocol = 'http'
+        if userena_settings.USERENA_USE_HTTPS:
+            protocol = 'https'
         context= {'user': self.user,
                   'new_email': self.email_unconfirmed,
                   'protocol': protocol,
@@ -186,7 +188,9 @@ class UserenaSignup(models.Model):
         ``USERENA_USE_HTTPS`` value.
 
         """
-        protocol = 'https' if userena_settings.USERENA_USE_HTTPS else 'http'
+        protocol = 'http'
+        if userena_settings.USERENA_USE_HTTPS:
+            protocol = 'https'
         context= {'user': self.user,
                   'protocol': protocol,
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
