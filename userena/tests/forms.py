@@ -51,7 +51,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('email', [u'This email address is already in use. Please supply a different email address.'])},
+             'error': ('email', [u'This email is already in use. Please supply a different email.'])},
         ]
 
         for invalid_dict in invalid_data_dicts:
@@ -83,7 +83,7 @@ class AuthenticationFormTests(TestCase):
         invalid_data_dicts = [
             {'data': {'identification': '',
                       'password': 'inhalefish'},
-             'error': ('identification', [u'Either supply us with your e-mail address or username.'])},
+             'error': ('identification', [u'Either supply us with your email or username.'])},
             {'data': {'identification': 'john',
                       'password': 'inhalefish'},
              'error': ('__all__', [u'Please enter a correct username or email and password. Note that both fields are case-sensitive.'])}
@@ -116,10 +116,10 @@ class ChangeEmailFormTests(TestCase):
         invalid_data_dicts = [
             # No change in e-mail address
             {'data': {'email': 'john@example.com'},
-             'error': ('email', [u'You\'re already known under this email address.'])},
+             'error': ('email', [u'You\'re already known under this email.'])},
             # An e-mail address used by another
             {'data': {'email': 'jane@example.com'},
-             'error': ('email', [u'This email address is already in use. Please supply a different email address.'])},
+             'error': ('email', [u'This email is already in use. Please supply a different email.'])},
         ]
         for invalid_dict in invalid_data_dicts:
             form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
