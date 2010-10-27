@@ -561,16 +561,15 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
                              username__iexact=username)
     profile = user.get_profile()
     if not profile.can_view_profile(request.user):
-        return HttpResponseForbidden(_("You don't have permission to view this \
-                                       profile."))
+        return HttpResponseForbidden(_("You don't have permission to view this profile."))
     if not extra_context: extra_context = dict()
     extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
 
-def profile_list(request, page=1, template_name='userena/profile_list.html', paginate_by=50,
-                 extra_context=None, **kwargs):
+def profile_list(request, page=1, template_name='userena/profile_list.html',
+                 paginate_by=50, extra_context=None, **kwargs):
     """
     Returns a list of all profiles that are public.
 
