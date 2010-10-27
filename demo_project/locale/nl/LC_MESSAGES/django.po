@@ -8,56 +8,106 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-29 20:21+0200\n"
+"POT-Creation-Date: 2010-10-27 10:05-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings.py:37
+#: settings.py:36
 msgid "English"
 msgstr "Engels"
 
-#: settings.py:38
+#: settings.py:37
 msgid "Dutch"
 msgstr "Nederlands"
 
-#: templates/base.html:23
+#: profiles/models.py:11
+msgid "Male"
+msgstr ""
+
+#: profiles/models.py:12
+msgid "Female"
+msgstr ""
+
+#: profiles/models.py:14
+msgid "gender"
+msgstr ""
+
+#: profiles/models.py:18
+msgid "website"
+msgstr ""
+
+#: profiles/models.py:19
+msgid "location"
+msgstr ""
+
+#: profiles/models.py:20
+msgid "birth date"
+msgstr ""
+
+#: profiles/models.py:21
+msgid "about me"
+msgstr ""
+
+#: templates/404.html:4
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:7
+msgid "Page could not be found."
+msgstr ""
+
+#: templates/404.html:8
+msgid ""
+"If you think this is a bug in userena, please create an issue at Github."
+msgstr ""
+
+#: templates/base.html:32
+#, fuzzy
+msgid "Choose language"
+msgstr "Verander taal"
+
+#: templates/base.html:39
 msgid "Change language"
 msgstr "Verander taal"
 
-#: templates/base.html:37
+#: templates/base.html:51
 msgid "Home"
 msgstr "Thuis"
 
-#: templates/base.html:39
-msgid "Accounts"
+#: templates/base.html:53
+msgid "Profiles"
+msgstr ""
+
+#: templates/base.html:54
+#, fuzzy
+msgid "Account settings"
 msgstr "Accounts"
 
-#: templates/base.html:40
-msgid "Your account"
-msgstr "Jouw account"
-
-#: templates/base.html:41
+#: templates/base.html:55
 msgid "Signout"
 msgstr "Uitloggen"
 
-#: templates/base.html:43
+#: templates/base.html:57
 msgid "Signin"
 msgstr "Inloggen"
 
-#: templates/base.html:44
+#: templates/base.html:58
 msgid "Signup"
 msgstr "Inschrijven"
 
-#: templates/base.html:49
+#: templates/base.html:67
 msgid "Fork me hard"
 msgstr "Fork me!"
 
-#: templates/base.html:56
+#: templates/base.html:74
 msgid "Made by"
 msgstr "Gemaakt door"
+
+#~ msgid "Your account"
+#~ msgstr "Jouw account"
