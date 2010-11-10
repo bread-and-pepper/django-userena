@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'guardian',
     'south',
     'userena',
+    'userena.contrib.messages',
 )
 
 # Userena settings
