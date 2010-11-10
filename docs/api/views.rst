@@ -15,6 +15,16 @@ activate
 
 .. autofunction:: userena.views.activate
 
+email_confirm
+-------------
+
+.. autofunction:: userena.views.email_confirm
+
+direct_to_user_template
+-----------------------
+
+.. autofunction:: userena.views.direct_to_user_template
+
 signin
 ------
 
@@ -24,6 +34,11 @@ email_change
 ------------
 
 .. autofunction:: userena.views.email_change
+
+password_change
+---------------
+
+.. autofunction:: userena.views.password_change
 
 profile_edit
 ------------

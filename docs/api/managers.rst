@@ -7,8 +7,14 @@ Managers
 
 Return to :ref:`api`
 
-AccountManager
+UserenaManager
 --------------
 
-.. autoclass:: userena.managers.UserenaUserManager
+.. autoclass:: userena.managers.UserenaManager
+   :members:
+
+UserenaBaseProfileManager
+-------------------------
+
+.. autoclass:: userena.managers.UserenaBaseProfileManager
    :members:

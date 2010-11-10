@@ -305,11 +305,18 @@ class UserenaBaseProfile(models.Model):
 
         Users are divided into four groups:
 
-            - Open: Everyone can view your profile
-            - Closed: Nobody can view your profile.
-            - Registered: Users that are registered on the website and signed
-            in only.
-            - Special cases like superadmin and the owner of the profile.
+            ``Open``
+                Everyone can view your profile
+
+            ``Closed``
+                Nobody can view your profile.
+
+            ``Registered``
+                Users that are registered on the website and signed
+                in only.
+
+            ``Admin``
+                Special cases like superadmin and the owner of the profile.
 
         Through the ``privacy`` field a owner of an profile can define what
         they want to show to whom.
@@ -317,7 +324,6 @@ class UserenaBaseProfile(models.Model):
         **Arguments**
 
         ``user``
-
             A django ``User`` instance.
 
         """
