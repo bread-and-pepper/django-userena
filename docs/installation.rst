@@ -46,20 +46,69 @@ in your terminal::
 Manual installation with git.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Clone userena with::
+    
+    git clone git://github.com/bread-and-pepper/django-userena.git
 
+You now have a directory ``django-userena`` which contains the ``userena``
+application. You can add userena to your ``$PYTHONPATH`` by symlinking it. For
+example::
+
+    cd YOUR_PYTHON_PATH
+    ln -s ~/src/django-userena/userena userena
+
+Now userena is available to your project.
+
+Required: django-guardian
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Userena requires django-guardian to be installed. You can find more information
+how to do this on `Github`_.
 
 Required settings
 -----------------
 
-Begin by adding ``userena`` to the ``INSTALLED_APPS`` setting of your project
-and adding ``UserenaAuthenticationBackend`` at the top of
-``AUTHENTICATION_BACKENDS``. If you only want Django's default backend and that
-of userena you will get the following::
+You need to make some changes to some Django settings if you want to use
+Userena in your project. This means modifying ``AUTHENTICATION_BACKENDS``,
+``INSTALLED_APPS`` and optionally ``MIDDLEWARE_CLASSES``.
+
+Begin by adding ``userena`` and ``guardian`` to the ``INSTALLED_APPS`` setting
+of your project and adding ``UserenaAuthenticationBackend`` and
+``ObjectPermissionBackend``, from django-guardian, at the top of
+``AUTHENTICATION_BACKENDS``. If you only want Django's default backend,
+django-guardian and that of userena you will get the following::
 
     AUTHENTICATION_BACKENDS = (
         'userena.UserenaAuthenticationBackend',
+        'guardian.backends.ObjectPermissionBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
+
+Profiles
+~~~~~~~~
+
+Userena needs you to define the profile that is used by supplying Django's
+``AUTH_PROFILE_MODULE`` setting. Userena supplies the following two base
+profiles for you that you should use for your own profile model by inheriting
+from them:
+
+    ``UserenaBaseProfile``
+        Basic profile that supplies your user with mugshots and the necessary
+        fields for privacy settings.
+
+    ``UserenaLanguageBaseProfile``
+        Adds an extra field that let's the user define it's preferred language
+        after logging in to your site.
+
+**IMPORTANT**: The above profiles are ``abstract`` models. This means that you cannot use them
+directly in ``AUTH_PROFILE_MODULE`` but you must create your own profile model
+which inherits from one of the above models.
+
+If you want the user have the ability to choose their default language in their
+profile, you must add ``UserenaLocaleMiddleware`` at the end of
+``MIDDLEWARE_CLASSES`` in your Django settings. This does require a profile
+model which has a language field. You can use the
+``UserenaLanguageBaseProfile`` class of userena that does this for you.
 
 The URI's
 ~~~~~~~~~
@@ -75,3 +124,5 @@ the following to your project's root ``URLconf``::
 This should have you a working accounts application for your project. See the
 :ref:`settings <settings>` and :ref:`templates <templates>` for further
 configuration options.
+
+.. _Github: https://github.com/lukaszb/django-guardian

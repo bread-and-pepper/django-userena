@@ -42,8 +42,8 @@ is plug it into your project and you will have all enabled the following:
     - *TODO*: Optional **Friends** system which let's users become friends.
       Special permissions can be granted to users that are friends.
 
-Please help us out!
-===================
+Help out
+========
 
 Found a bug in userena? File an issue at Github. Have an improvement? Fork it
 and add it, or if you can't code it, contact us to do it.
