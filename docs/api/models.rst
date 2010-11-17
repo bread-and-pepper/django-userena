@@ -7,8 +7,26 @@ Models
 
 Return to :ref:`api`.
 
-BaseAccount
------------
+upload_to_mugshot
+-----------------
 
-.. autoclass:: userena.models.UserenaUser
+.. autofunction:: userena.models.upload_to_mugshot
+
+UserenaSignup
+-------------
+
+.. autoclass:: userena.models.UserenaSignup
    :members:
+
+UserenaBaseProfile
+------------------
+
+.. autoclass:: userena.models.UserenaBaseProfile
+   :members:
+
+UserenaLanguageBaseProfile
+--------------------------
+
+.. autoclass:: userena.models.UserenaLanguageBaseProfile
+   :members:
+

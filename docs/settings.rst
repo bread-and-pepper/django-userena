@@ -10,9 +10,15 @@ Userena.
 Userena settings
 ----------------
 
+USERENA_SIGNIN_REDIRECT_URL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default ``/accounts/%(username)s/'`` (string)
+
+A string which defines the URI where the user will be redirected to after
+signin.
 
 USERENA_ACTIVATION_DAYS
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``7`` (integer)
 
 A integer which stands for the amount of days a user has to activate their
@@ -21,7 +27,7 @@ account after these amount of days by running the ``cleanexpired``
 :ref:`command <commands>`.
 
 USERENA_ACTIVATION_NOTIFY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
 A boolean that turns on/of the sending of a notification when
@@ -29,18 +35,18 @@ A boolean that turns on/of the sending of a notification when
 expire and the user will be deleted.
 
 USERENA_ACTIVATION_NOTIFY_DAYS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``2`` (integer)
 
 The amount of days, before the expiration of an account, that a notification
 get's send out. Warning the user of his coming demise.
 
-USERENA_VERIFIED
-~~~~~~~~~~~~~~~~
-Default: ``ALREADY_VERIFIED`` (string)
+USERENA_ACTIVATED
+~~~~~~~~~~~~~~~~~
+Default: ``ALREADY_ACTIVATED`` (string)
 
-This value will be inserted into ``Account.activation_key`` if a key gets
-used successfully.
+String that defines the value that the ``activation_key`` will be set to after
+a successful signup.
 
 USERENA_REMEMBER_ME_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,6 +103,57 @@ USERENA_MUGSHOT_SIZE
 Default: ``80`` (int)
 
 Integer defining the size (in pixels) of the sides of the mugshot image.
+
+USERENA_MUGSHOT_PATH
+~~~~~~~~~~~~~~~~~~~~
+Default: ``mugshots/`` (string)
+
+The default path that the mugshots will be saved to. Is appended to the
+``MEDIA_PATH`` in your Django settings.
+
+USERENA_USE_HTTPS
+~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+Boolean that defines if you have a secure version of your website. If so,
+userena will redirect sensitive URI's to the secure protocol.
+
+USERENA_DEFAULT_PRIVACY
+~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``registered`` (string)
+
+Defines the default privacy value for a newly registered user. There are three
+options:
+
+``closed``
+    Only the owner of the profile can view their profile.
+
+``registered``
+    All registered users can view their profile.
+
+``open``
+    All users (registered and anonymous) can view their profile.
+
+USERENA_DISABLE_PROFILE_LIST
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+Boolean value that defines if the ``profile_list`` view is enabled within the
+project. If so, users can view a list of different profiles.
+
+USERENA_USE_MESSAGES
+~~~~~~~~~~~~~~~~~~~~
+Default: ``True`` (boolean)
+
+Boolean value that defines if userena should use the django messages framework
+to notify the user of any changes.
+
+USERENA_LANGUAGE_FIELD
+~~~~~~~~~~~~~~~~~~~~~~
+Default: ``language`` (string)
+
+The language field that is used in the custom profile to define the preferred
+language of the user.
 
 Django settings
 ---------------

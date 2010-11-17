@@ -7,20 +7,18 @@ Userena Introduction
 ====================
 
 This documentation covers the first release of django-userena application. A
-Django application that takes care off all your account needs.
+Django application that takes care of your account needs.
 
-Want to experience it first? Go to django-userena.org and create an account for
-yourself.
+Want to experience it's about? Go to django-userena.org and create an account
+for yourself.
 
 Why userena?
 ================
 
 Because we have done the hard work for you. Userena supplies you with signup,
-signin, account editing, privacy settings for your users and more. Everything
-is tested with unit-tests, with a 100% code coverage as requirement. All you
-have to do is plug it into your project and you will have all of this for free.
-
-The following things are build into userena:
+signin, account editing, privacy settings for your users, etc.. Everything is
+tested with unit-tests, with a 100% code coverage as goal. All you have to do
+is plug it into your project and you will have all enabled the following:
 
     - User has to **activate** their account by clicking on a activation link
       in an email send to them.
@@ -35,8 +33,8 @@ The following things are build into userena:
     - All **templates** are already supplied for you. Only override those that
       don't fit with your needs!
 
-    - Mugshots supplied by **Gravatar** or uploaded by the user. The default
-      mugshot can be set in the settings.
+    - Mugshots are supplied by **Gravatar** or uploaded by the user. The
+      default mugshot can be set in the settings.
 
     - *TODO*: Optional **Messaging** system between users and a notification
       system for administrators.
@@ -44,8 +42,8 @@ The following things are build into userena:
     - *TODO*: Optional **Friends** system which let's users become friends.
       Special permissions can be granted to users that are friends.
 
-Please help us out!
-===================
+Help out
+========
 
 Found a bug in userena? File an issue at Github. Have an improvement? Fork it
 and add it, or if you can't code it, contact us to do it.
@@ -59,7 +57,6 @@ Contents
    installation
    settings
    commands
-   todo
 
 **API**
 

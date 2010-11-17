@@ -8,7 +8,9 @@ API Reference
    
    backends
    decorators
+   forms
    managers
+   middleware
    models
    utils
    views
