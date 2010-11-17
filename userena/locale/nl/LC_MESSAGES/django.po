@@ -50,7 +50,7 @@ msgstr "Deze gebruikersnaam is niet toegestaan."
 #: forms.py:56
 #: forms.py:144
 msgid "This email is already in use. Please supply a different email."
-msgstr "Dit e-mailadres is al in gebruik. Gebruik alsjeblieft een andere mail-adres."
+msgstr "Deze e-mail is reeds in gebruik. Geef een ander e-mail adres op."
 
 #: forms.py:68
 msgid "The two password fields didn't match."
@@ -89,7 +89,7 @@ msgstr "Nieuw e-mailadres"
 #: forms.py:136
 #, python-format
 msgid "Your current email is %(email)s"
-msgstr "Je huidige email is %(email)s"
+msgstr "Huidige email is %(email)s"
 
 #: forms.py:142
 msgid "You're already known under this email."
@@ -508,69 +508,3 @@ msgstr "lokatie"
 #: tests/profiles/models.py:20
 msgid "about me"
 msgstr "over mij"
-
-#~ msgid "Email address"
-#~ msgstr "E-mailadres"
-
-#~ msgid "new wanted e-mail"
-#~ msgstr "nieuwe e-mailadres"
-
-#~ msgid "Success!"
-#~ msgstr "Succes!"
-
-#~ msgid "Edit Account"
-#~ msgstr "Wijzig account"
-
-#~ msgid "Click on the verification link to start using this email address"
-#~ msgstr "Klik op de verificatie link om dit e-mailadres te gebruiken"
-
-#~ msgid "Your email has been verified and set as your active email."
-#~ msgstr "Je e-mailadres is geverifieerd en zal voortaan gebruikt worden."
-
-#~ msgid "Dear"
-#~ msgstr "Beste"
-
-#~ msgid "Thank you for signing up at"
-#~ msgstr "Bedankt voor het inschrijven bij"
-
-#~ msgid "To activate your account you should click on the link below:"
-#~ msgstr "Om je account te activeren moet je op de link hieronder klikken:"
-
-#~ msgid "Sincerely"
-#~ msgstr "Met vriendelijke groet"
-
-#~ msgid "Your signup at"
-#~ msgstr "Jouw inschrijving bij"
-
-#~ msgid ""
-#~ "Your account on %(site_name)s is about to expire in %(days_left)s days."
-#~ msgstr "Je account op %(site_name)s is in %(days_left)s dagen verlopen."
-
-#~ msgid "To activate your account you should click on the link below"
-#~ msgstr "Om je account te activeren moet je op de link hieronder klikken:"
-
-#~ msgid "Your account is about to expire."
-#~ msgstr "Je account is bijna verlopen."
-
-#~ msgid "You're receiving this e-mail because you requested a password reset"
-#~ msgstr ""
-#~ "Je ontvangt deze e-mail omdat je een wachtwoord reset hebt aangevraagd"
-
-#~ msgid "for your user account at %(site_name)s"
-#~ msgstr "voor jouw account op %(site_name)s"
-
-#~ msgid "Please go to the following page and choose a new password:"
-#~ msgstr ""
-#~ "Ga alsjeblieft naar de volgende pagina en kies een nieuw wachtwoord:"
-
-#~ msgid "Your username, in case you've forgotten:"
-#~ msgstr "Je gebruikersnaam is:"
-
-#~ msgid "Thanks for using our site!"
-#~ msgstr "Bedankt voor het gebruiken van onze site!"
-
-#~ msgid "The %(site_name)s"
-#~ msgstr "%(site_name)s"
-
-#~ msgid "You requested a change of your email address at"
-#~ msgstr "Je hebt een wijziging van je e-mail adres aangevraagd bij"
