@@ -1,5 +1,5 @@
 # Django
-http://www.djangoproject.com/download/1.2.1/tarball/
+http://www.djangoproject.com/download/1.2.3/tarball/
 
 # Imaging library needed for easy_thumbnails
 http://effbot.org/downloads/Imaging-1.1.7.tar.gz
