@@ -19,7 +19,7 @@ setup(name='django-userena',
       author_email='petar@wunki.org',
       url='http://github.com/wunki/django-userena',
       download_url='http://github.com/wunki/django-userenity/downloads',
-      packages = find_packages(),
+      packages = find_packages(exclude=['demo_project', 'demo_project.*']),
       include_package_data=True,
       install_requires = [
         'Django>=1.2.1',
