@@ -35,6 +35,7 @@ ugettext = lambda s: s
 LANGUAGES = (
     ('en', ugettext('English')),
     ('nl', ugettext('Dutch')),
+    ('pl', ugettext('Polish')),
 )
 
 SITE_ID = 1
