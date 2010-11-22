@@ -22,7 +22,18 @@ class UserenaManager(UserManager):
 
     def create_inactive_user(self, username, email, password):
         """
-        A simple wrapper that creates a new ``User``.
+        A simple wrapper that creates a new :class:`User`.
+
+        :param username:
+            String containing the username of the new user.
+
+        :param email:
+            String containing the email address of the new user.
+
+        :param password:
+            String containing the password for the new user.
+
+        :return: :class:`User` instance representing the new user.
 
         """
         now = datetime.datetime.now()
@@ -51,7 +62,15 @@ class UserenaManager(UserManager):
         return new_user
 
     def create_userena_profile(self, user):
-        """ Creates an userena profile """
+        """
+        Creates an :class:`UserenaSignup` instance for this user.
+
+        :param user:
+            Django :class:`User` instance.
+
+        :return: The newly created :class:`UserenaSignup` instance.
+
+        """
         if isinstance(user.username, unicode):
             user.username = user.username.encode('utf-8')
         salt, activation_key = generate_sha1(user.username)
@@ -61,10 +80,19 @@ class UserenaManager(UserManager):
 
     def activate_user(self, username, activation_key):
         """
-        Activate an ``User`` by supplying a valid ``activation_key``.
+        Activate an :class:`User` by supplying a valid ``activation_key``.
 
         If the key is valid and an user is found, activate the user and
         return it.
+
+        :param username:
+            String containing the username that wants to be activated.
+
+        :param activation_key:
+            String containing the secret SHA1 for a valid activation.
+
+        :return:
+            The newly activated :class:`User` or ``False`` if not successful.
 
         """
         if SHA1_RE.search(activation_key):
@@ -90,6 +118,16 @@ class UserenaManager(UserManager):
         as the current e-mail address. Returns the user after success or
         ``False`` when the confirmation key is invalid.
 
+        :param username:
+            String containing the username of the user that wants their email
+            verified.
+
+        :param confirmation_key:
+            String containing the secret SHA1 that is used for verification.
+
+        :return:
+            The verified :class:`User` or ``False`` if not successful.
+
         """
         if SHA1_RE.search(confirmation_key):
             try:
@@ -112,7 +150,7 @@ class UserenaManager(UserManager):
         Checks for expired users and delete's the ``User`` associated with
         it. Skips if the user ``is_staff``.
 
-        Returns a list of the deleted users.
+        :return: A list containing the deleted users.
 
         """
         deleted_users = []
@@ -127,7 +165,7 @@ class UserenaManager(UserManager):
         """
         Checks that all permissions are set correctly for the users.
 
-        Returns a set of users whose permissions was wrong.
+        :return: A set of users whose permissions was wrong.
 
         """
         changed_users = set()
@@ -148,7 +186,7 @@ class UserenaManager(UserManager):
         return changed_users
 
 class UserenaBaseProfileManager(models.Manager):
-    """ Manager for UserenaProfile """
+    """ Manager for :class:`UserenaProfile` """
     def get_visible_profiles(self, user=None):
         """
         Returns all the visible profiles available to this user.
@@ -157,10 +195,11 @@ class UserenaBaseProfileManager(models.Manager):
         active, a user has it's profile closed to everyone or a user only
         allows registered users to view their profile.
 
-        **Keyword Arguments**
+        :param user:
+            A Django :class:`User` instance.
 
-        ``user``
-            A django ``User`` instance.
+        :return:
+            All profiles that are visible to this user.
 
         """
         profiles = self.all()

@@ -1,6 +1,8 @@
 from django.db import models
 
 class MessageManager(models.Manager):
+    """ Manager for the :class:`Message` model. """
+
     def get_mailbox_for(self, user, mailbox):
         """
         Returns all messages in the mailbox that were received by the given
@@ -13,7 +15,7 @@ class MessageManager(models.Manager):
             String containing the mailbox which is requested. This can be
             either ``inbox``, ``outbox``, ``drafts`` or ``trash``.
 
-        :return: Returns a queryset of :class:`Messages`.
+        :return: Queryset containing :class:`Messages`.
 
         """
         if mailbox == 'outbox':

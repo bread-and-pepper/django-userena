@@ -10,15 +10,13 @@ import urllib, random
 from django.utils.hashcompat import md5_constructor
 
 def get_gravatar(email, size=80, default='identicon'):
-    """ Get's a gravatar for a e-mail address.
+    """ Get's a Gravatar for a email address.
 
-    **Arguments**
-
-    ``size``
-        The size in pixels of one side of the gravatar's square image.
+    :param size:
+        The size in pixels of one side of the Gravatar's square image.
         Optional, if not supplied will default to ``80``.
 
-    ``default``
+    :param default:
         Defines what should be displayed if no image is found for this user.
         Optional argument which defaults to ``identicon``. The argument can be
         a URI to an image or one of the following options:
@@ -40,6 +38,8 @@ def get_gravatar(email, size=80, default='identicon'):
             ``wavatar``
                 Generated faces with differing features and backgrounds
 
+    :return: The URI pointing to the Gravatar.
+
     """
     if userena_settings.USERENA_USE_HTTPS:
         base_url = 'https://secure.gravatar.com/avatar/'
@@ -55,21 +55,21 @@ def get_gravatar(email, size=80, default='identicon'):
 
 def signin_redirect(redirect=None, user=None):
     """
-    Redirect user after successfull signin.
+    Redirect user after successful sign in.
 
-    First looks for a ``requested_redirect``. If not supplied will fallback to
-    the user specific account page. If all fails, will fallback to the standard
+    First looks for a ``requested_redirect``. If not supplied will fall-back to
+    the user specific account page. If all fails, will fall-back to the standard
     Django ``LOGIN_REDIRECT_URL`` setting. Returns a string defining the URI to
     go next.
 
-    **Keyword Arguments**
-
-    ``redirect``
-        A value normally supplied by ``next`` form field. Get's preference
+    :param redirect:
+        A value normally supplied by ``next`` form field. Gets preference
         before the default view which requires the user.
 
-    ``user``
+    :param user:
         A ``User`` object specifying the user who has just signed in.
+
+    :return: String containing the URI to redirect to.
 
     """
     if redirect: return redirect
@@ -83,18 +83,14 @@ def generate_sha1(string, salt=None):
     Generates a sha1 hash for supplied string. Doesn't need to be very secure
     because it's not used for password checking. We got Django for that.
 
-    Returns a tuple containing the salt and hash.
-
-    **Arguments**
-
-    ``string``
+    :param string:
         The string that needs to be encrypted.
 
-    **Keyword arguments**
-
-    ``salt``
+    :param salt:
         Optionally define your own salt. If none is supplied, will use a random
         string of 5 characters.
+
+    :return: Tuple containing the salt and hash.
 
     """
     if not salt:
@@ -107,6 +103,8 @@ def get_profile_model():
     """
     Return the model class for the currently-active user profile
     model, as defined by the ``AUTH_PROFILE_MODULE`` setting.
+
+    :return: The model that is used as profile.
 
     """
     if (not hasattr(settings, 'AUTH_PROFILE_MODULE')) or \
