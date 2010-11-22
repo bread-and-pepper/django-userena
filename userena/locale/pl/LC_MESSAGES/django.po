@@ -2,509 +2,490 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-27 19:52+0200\n"
-"PO-Revision-Date: 2010-10-27 19:55+0100\n"
-"Last-Translator: Petar Radosevic <petar@wunki.org>\n"
+"POT-Creation-Date: 2010-11-17 21:41+0100\n"
+"PO-Revision-Date: 2010-11-17 15:41\n"
+"Last-Translator: <a@a.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.5.6\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: forms.py:24
 msgid "Username"
-msgstr "Gebruikersnaam"
+msgstr "Nazwa użytkownika"
 
 #: forms.py:25
 msgid "Username must contain only letters, numbers and underscores."
-msgstr "Gebruikersnaam mag alleen bestaan uit letters, cijfers en liggende streepjes."
+msgstr "Nazwa użytkownika może zawierać tylko litery, liczby oraz podkreślenia."
 
-#: forms.py:28
-#: templates/userena/profile_detail.html:26
+#: forms.py:28 templates/userena/profile_detail.html:26
 msgid "Email"
-msgstr "E-mail"
+msgstr "Adres email"
 
-#: forms.py:31
-#: forms.py:96
+#: forms.py:31 forms.py:96
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr "Hasło"
 
 #: forms.py:34
 msgid "Confirm password"
-msgstr "Bevestig wachtwoord"
+msgstr "Potwierdzenie hasła"
 
 #: forms.py:48
 msgid "This username is already taken."
-msgstr "Deze gebruikersnaam is al bezet."
+msgstr "Ta nazwa jest już zajęta."
 
 #: forms.py:50
 msgid "This username is not allowed."
-msgstr "Deze gebruikersnaam is niet toegestaan."
+msgstr "Ta nazwa nie jest dozwolona."
 
-#: forms.py:56
-#: forms.py:144
+#: forms.py:56 forms.py:141
 msgid "This email is already in use. Please supply a different email."
-msgstr "Deze e-mail is reeds in gebruik. Geef een ander e-mail adres op."
+msgstr "Adres email jest już używany. Proszę podać inny adres."
 
 #: forms.py:68
 msgid "The two password fields didn't match."
-msgstr "De twee wachtwoordvelden kwamen niet overeen."
+msgstr "Podane hasła nie zgadzają się."
 
 #: forms.py:83
 msgid "I have read and agree to the Terms of Service"
-msgstr "Ik heb de algemene voorwaarden gelezen en ga hiermee akkoord"
+msgstr "Przeczytałem i akceptuję z regulamin."
 
 #: forms.py:84
 msgid "You must agree to the terms to register."
-msgstr "Je moet akkoord gaan met de algemene voorwaarden."
+msgstr "Musisz zaakceptować regulamin aby się zarejestrować."
 
 #: forms.py:92
 msgid "Email or username"
-msgstr "E-mail of gebruikersnaam"
+msgstr "Adres email lub nazwa użytkownika"
 
 #: forms.py:95
 msgid "Either supply us with your email or username."
-msgstr "Vul je gebruikersnaam of e-mailadres in."
+msgstr "Proszę podać adres email lub nazwę użytkownika."
 
 #: forms.py:100
 #, python-format
 msgid "Remember me for %(days)s"
-msgstr "Hou me ingelogd voor %(days)s"
+msgstr "Zapamiętaj mnie na %(days)s"
 
 #: forms.py:115
 msgid "Please enter a correct username or email and password. Note that both fields are case-sensitive."
-msgstr "Vul alsjeblieft een correcte gebruikersnaam of e-mailadres in gecombineerd met je wachtwoord."
+msgstr "Proszę wprowadzić poprawną nazwę użytkownika lub adres email oraz hasło. Wielkość liter jest uwzględniana dla obu pól."
 
-#: forms.py:121
-#: templates/userena/email_confirm_complete.html:6
+#: forms.py:121 templates/userena/email_confirm_complete.html:6
 msgid "New email"
-msgstr "Nieuw e-mailadres"
+msgstr "Nowy adres email"
 
-#: forms.py:136
-#, python-format
-msgid "Your current email is %(email)s"
-msgstr "Huidige email is %(email)s"
-
-#: forms.py:142
+#: forms.py:139
 msgid "You're already known under this email."
-msgstr "Je staat al bekend onder dit e-maildres."
+msgstr "Jesteś już zarejestrowany pod tym adresem email."
+
+#: forms.py:155
+msgid "First name"
+msgstr "Imię"
 
 #: forms.py:158
-msgid "First name"
-msgstr "Voornaam"
-
-#: forms.py:161
 msgid "Last name"
-msgstr "Achternaam"
+msgstr "Nazwisko"
 
-#: models.py:49
-#: models.py:225
+#: models.py:49 models.py:227
 msgid "user"
-msgstr "gebruiker"
+msgstr "użytkownik"
 
 #: models.py:53
 msgid "last active"
-msgstr "laatst actief"
+msgstr "ostatnio aktywny"
 
 #: models.py:56
 msgid "The last date that the user was active."
-msgstr "De laatste datum dat deze gebruiker actief was."
+msgstr "Data ostatniej aktywności użytkownika."
 
 #: models.py:58
 msgid "activation key"
-msgstr "activatie sleutel"
+msgstr "klucz aktywacyjny"
 
 #: models.py:62
 msgid "notification send"
-msgstr "notificatie verzonden"
+msgstr "wysłano powiadomienie"
 
 #: models.py:64
 msgid "Designates whether this user has already got a notification about activating their account."
-msgstr "Verteld ons of deze gebruiker al een notificatie heeft gehad over het activeren van zijn account."
+msgstr "Wskazuje, czy dany użytkownik został już powiadomiony o aktywowaniu konta."
 
 #: models.py:66
 msgid "unconfirmed email address"
-msgstr "ongeconfirmeerd e-mail adres"
+msgstr "niepotwierdzony adres email"
 
 #: models.py:68
 msgid "Temporary email address when the user requests an email change."
-msgstr "Tijdelijke e-mailadres wanneer de gebruiker een wijziging heeft aangevraagd."
+msgstr "Tymczasowy adres email na czas zmiany adresu użytkownika."
 
 #: models.py:70
 msgid "unconfirmed email verification key"
-msgstr "nieuw email verificatie sleutel"
+msgstr "klucz weryfikacyjny niepotwierdzonego adresu email"
 
 #: models.py:74
 msgid "creation date of email confirmation key"
-msgstr "creatie datum van activatie sleutel"
+msgstr "data utworzenia klucza potwierdzającego adres email"
 
 #: models.py:82
 msgid "userena registration"
-msgstr "userena registratie"
+msgstr "rejestracja Userena"
 
 #: models.py:83
 msgid "userena registrations"
-msgstr "userena registraties"
-
-#: models.py:214
-msgid "Open"
-msgstr "Open"
-
-#: models.py:215
-msgid "Registered"
-msgstr "Geregistreerd"
+msgstr "rejestracje Userena"
 
 #: models.py:216
+msgid "Open"
+msgstr "Otwarty"
+
+#: models.py:217
+msgid "Registered"
+msgstr "Zarejestrowany"
+
+#: models.py:218
 msgid "Closed"
-msgstr "Gesloten"
+msgstr "Zamknięty"
 
-#: models.py:228
+#: models.py:230
 msgid "mugshot"
-msgstr "avatar"
-
-#: models.py:232
-msgid "A personal image displayed in your profile."
-msgstr "Een persoonlijk plaatje voor je profiel."
+msgstr "portret"
 
 #: models.py:234
+msgid "A personal image displayed in your profile."
+msgstr "Obrazek widoczny w Twoim profilu."
+
+#: models.py:236
 msgid "privacy"
-msgstr "privacy"
+msgstr "prywatność"
 
-#: models.py:238
+#: models.py:240
 msgid "Designates who can view your profile."
-msgstr "Bepaald wie jouw profiel kan zien."
+msgstr "Wskazuje, kto może oglądać Twój profil."
 
-#: models.py:344
+#: models.py:352
 msgid "language"
-msgstr "taal"
+msgstr "język"
 
-#: settings.py:36
+#: settings.py:31
 msgid "a month"
-msgstr "een maand"
+msgstr "miesiąc"
 
 #: views.py:128
 msgid "Your account has been activated and you have been signed in."
-msgstr "Je account is geactiveerd."
+msgstr "Twoje konto zostało aktywowane oraz zostałeś zalogowany."
 
 #: views.py:293
 msgid "You have been signed in."
-msgstr "Je bent ingelogd"
+msgstr "Zostałeś zalogowany."
 
 #: views.py:521
 msgid "Your profile has been updated."
-msgstr "De wijzigingen aan je account zijn opgslagen."
+msgstr "Twój profil został zaktualizowany."
 
 #: views.py:564
 msgid "You don't have permission to view this profile."
-msgstr "Je hebt geen toestemming om dit profiel te bekijken."
+msgstr "Nie masz uprawnień, by obejrzeć ten profil."
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
-msgstr "Account activeren is mislukt."
+msgstr "Aktywacja konta nie powiodła się."
 
 #: templates/userena/activate_fail.html:5
 msgid "Your account could not be activated.."
-msgstr "Je account kon niet geactiveerd worden.."
+msgstr "Twoje konto nie mogło zostać aktywowane.."
 
 #: templates/userena/activate_fail.html:8
 msgid "Your account could not be activated. This could be because your activation link has aged."
-msgstr "Je account kon niet geactiveerd worden. Dit kan gebeurd zijn doordat de link die je gebruikt hebt niet meer geldig is."
+msgstr "Twoje konto nie mogło zostać aktywowane. Może być to spowodowane przedawnieniem odnośnika aktywacyjnego."
 
 #: templates/userena/activate_fail.html:9
 msgid "Please try signing up again or contact us if you think something went wrong."
-msgstr "Probeer alsjeblieft nogmaals te registreren of neem contact met ons op als jedenkt dat er wat mis is gegaan."
+msgstr "Proszę spróbować zalogować się ponownie lub skontaktuj się z nami, jeżeli uważasz, że coś jest nie tak."
 
 #: templates/userena/disabled.html:4
 msgid "Disabled account"
-msgstr "Uitgeschakelde account"
+msgstr "Konto zablokowane"
 
 #: templates/userena/disabled.html:5
 msgid "You're account has been disabled"
-msgstr "Je account is uitgeschakeld."
+msgstr "Twoje konto zostało zablokowane."
 
 #: templates/userena/disabled.html:7
 msgid "It seems you're account has been disabled."
-msgstr "Het lijkt erop dat je account is uitgeschakeld."
+msgstr "Wygląda na to, że Twoje konto zostało zablokowane."
 
 #: templates/userena/disabled.html:8
 msgid "If you feel that injustice has been done to you, feel free to contact the administrators to find out why"
-msgstr "Als je denkt dat dit niet correct is, neem dan contact met ons op zodat wij het verder kunnen uitzoeken"
+msgstr "Jeżeli uważasz, że podjęte czynności są niesprawiedliwe, proszę skontaktować się z administracją w celu ustalenia szczegółów"
 
 #: templates/userena/email_change_complete.html:4
 msgid "Email verification"
-msgstr "E-mail verificatie voor"
+msgstr "Weryfikacja adresu email"
 
 #: templates/userena/email_change_complete.html:5
 msgid "Confirm your new email"
-msgstr "Verifieer nieuw e-mailadres"
+msgstr "Potwierdzenie adresu email"
 
 #: templates/userena/email_change_complete.html:8
 #, python-format
 msgid "You have received an email at %(email)s."
-msgstr "Je hebt een e-mail ontvangen op %(email)s."
+msgstr "Otrzymałeś wiadomość na adres %(email)s."
 
 #: templates/userena/email_change_complete.html:9
 #, python-format
 msgid "To associate this email address with your account (%(username)s) click on the link provided in this email."
-msgstr "Om dit e-mail adres te koppelen aan je account (%(username)s) dien je op de link te klikken in deze e-mail."
+msgstr "Aby przypisać adres email z konta (%(username)s) należy kliknąć na link podany w tej wiadomości."
 
 #: templates/userena/email_confirm_complete.html:4
 msgid "Email changed!"
-msgstr "Email is gewijzigd!"
+msgstr "Adres email zmieniony!"
 
 #: templates/userena/email_confirm_complete.html:8
 #, python-format
 msgid "Your new email address (%(email)s) is saved."
-msgstr "Je huidige email is %(email)s"
+msgstr "Twój nowy adres email (%(email)s) został zapisany."
 
 #: templates/userena/email_confirm_fail.html:4
 msgid "Email verification failed."
-msgstr "E-mail verificatie is mislukt."
+msgstr "Weryfikacja adresu email nie powiodła się."
 
 #: templates/userena/email_confirm_fail.html:5
 msgid "Your email could not be verified.."
-msgstr "Jouw e-mail kon niet geverifieerd worden.."
+msgstr "Twój adres email nie mógł zostać zweryfikowany.."
 
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
-msgstr "Jouw e-mail kon niet geverifieerd worden.."
+msgstr "Twój adres email nie mógł zostać zweryfikowany..."
 
 #: templates/userena/email_confirm_fail.html:9
 msgid "You could try changing it again in your account settings."
-msgstr "Je kan het nogmaals proberen te wijzigen bij je account instellingen."
+msgstr "Możesz ponownie spróbować go zmienić w ustawieniach konta."
 
 #: templates/userena/email_form.html:10
 #: templates/userena/password_form.html:12
 #: templates/userena/profile_detail.html:13
 #: templates/userena/profile_form.html:13
 msgid "View profile"
-msgstr "Bekijk profiel"
+msgstr "Zobacz profil"
 
 #: templates/userena/email_form.html:11
 #: templates/userena/password_form.html:13
 #: templates/userena/profile_form.html:14
 msgid "Edit profile"
-msgstr "Wijzig profiel"
+msgstr "Edytuj profil"
 
-#: templates/userena/email_form.html:12
-#: templates/userena/password_form.html:4
+#: templates/userena/email_form.html:12 templates/userena/password_form.html:4
 #: templates/userena/password_form.html:14
 #: templates/userena/password_form.html:23
 #: templates/userena/profile_detail.html:15
 #: templates/userena/profile_form.html:15
 msgid "Change password"
-msgstr "Wijzig wachtwoord"
+msgstr "Zmiana hasła"
 
-#: templates/userena/email_form.html:13
-#: templates/userena/email_form.html:21
+#: templates/userena/email_form.html:13 templates/userena/email_form.html:21
 #: templates/userena/password_form.html:15
 #: templates/userena/profile_detail.html:16
 #: templates/userena/profile_form.html:16
 msgid "Change email"
-msgstr "Wijzig e-mail"
+msgstr "Zmiana adresu email"
 
 #: templates/userena/email_form.html:18
 msgid "Change email address"
-msgstr "Wijzig e-mailadres"
+msgstr "Zmiana adresu email"
 
 #: templates/userena/password_complete.html:4
 msgid "Password changed"
-msgstr "Wachtwoord (nogmaals)"
+msgstr "Hasło zmienione"
 
 #: templates/userena/password_complete.html:5
 msgid "Your password has been changed"
-msgstr "Je account is geactiveerd."
+msgstr "Twoje hasło zostało zmienione"
 
 #: templates/userena/password_complete.html:8
 msgid "From now on you can use your new password to signin"
-msgstr "Vanaf nu kan je dit wachtwoord gebruiken om in te loggen"
+msgstr "Od tej pory możesz używać nowego hasła, aby się zalogować"
 
 #: templates/userena/password_form.html:19
 msgid "Change Password"
-msgstr "Wijzig wachtwoord"
+msgstr "Zmiana hasła"
 
 #: templates/userena/password_reset_complete.html:4
 msgid "Password reset"
-msgstr "Wachtwoord"
+msgstr "Odnowienie hasła"
 
 #: templates/userena/password_reset_complete.html:5
 msgid "Your password has been reset"
-msgstr "De wijzigingen aan je account zijn opgslagen."
+msgstr "Twoje hasło zostało odnowione"
 
 #: templates/userena/password_reset_complete.html:7
 msgid "You can now "
-msgstr "Je kunt nu"
+msgstr "Możesz teraz"
 
 #: templates/userena/password_reset_complete.html:7
 msgid "signin"
-msgstr "inloggen"
+msgstr "zalogować się"
 
 #: templates/userena/password_reset_complete.html:7
 msgid "with your new password."
-msgstr "met je nieuwe wachtwoord."
+msgstr "używając nowego hasła."
 
 #: templates/userena/password_reset_confirm_form.html:4
 #: templates/userena/password_reset_confirm_form.html:13
 #: templates/userena/password_reset_form.html:4
 msgid "Reset password"
-msgstr "Wijzig wachtwoord"
+msgstr "Odnowienie hasła"
 
 #: templates/userena/password_reset_confirm_form.html:9
 #: templates/userena/password_reset_form.html:9
 msgid "Reset Password"
-msgstr "Herstel Wachtwoord"
+msgstr "Odnowienie hasła"
 
 #: templates/userena/password_reset_done.html:4
 #: templates/userena/password_reset_done.html:5
 msgid "Reset password email is send"
-msgstr "Email om je wachtwoord te verzenden is verstuurd"
+msgstr "Wysłano wiadomość email do odnowienia hasła"
 
 #: templates/userena/password_reset_done.html:8
 msgid "An e-mail has been send to you which explains how to reset your password."
-msgstr "Een e-mail is verstuurd, met daarin de uitleg hoe het wachtwoord kan worden gewijzigd."
+msgstr "Wysłano wiadomość email z wyjaśnieniem, w jaki sposób odnowić hasło."
 
 #: templates/userena/password_reset_form.html:13
 msgid "Send password"
-msgstr "Verstuur wachtwoord"
+msgstr "Wyślij hasło"
 
 #: templates/userena/profile_detail.html:4
 msgid "profile"
-msgstr "profiel"
+msgstr "profil"
 
 #: templates/userena/profile_detail.html:14
 msgid "Edit details"
-msgstr "Wijzig details"
+msgstr "Edytuj szczegóły"
 
 #: templates/userena/profile_detail.html:21
 msgid "Your mugshot"
-msgstr "Jouw avatar"
+msgstr "Twój portret"
 
 #: templates/userena/profile_detail.html:23
 msgid "Name"
-msgstr "Naam"
+msgstr "Nazwa"
 
 #: templates/userena/profile_detail.html:29
 msgid "Age"
-msgstr "Leeftijd"
+msgstr "Wiek"
 
 #: templates/userena/profile_detail.html:32
 msgid "Website"
-msgstr "Website"
+msgstr "Strona domowa"
 
 #: templates/userena/profile_detail.html:35
 msgid "Location"
-msgstr "Lokatie"
+msgstr "Miejsce"
 
 #: templates/userena/profile_detail.html:38
 msgid "About me"
-msgstr "Over mij"
+msgstr "O mnie"
 
 #: templates/userena/profile_form.html:4
 msgid "Account setup"
-msgstr "Account instellingen"
+msgstr "Ustawienia konta"
 
 #: templates/userena/profile_form.html:21
 msgid "Edit Profile"
-msgstr "Wijzig Profiel"
+msgstr "Edytuj profil"
 
 #: templates/userena/profile_form.html:24
 msgid "Save changes"
-msgstr "Opslaan"
+msgstr "Zapisz zmiany"
 
 #: templates/userena/profile_list.html:4
 msgid "Profiles"
-msgstr "Profielen"
+msgstr "Profile"
 
 #: templates/userena/profile_list.html:21
 msgid "previous"
-msgstr "vorige"
+msgstr "poprzedni"
 
 #: templates/userena/profile_list.html:25
 msgid "Page"
-msgstr "Pagina"
+msgstr "Strona"
 
 #: templates/userena/profile_list.html:25
 msgid "of"
-msgstr "van"
+msgstr "z"
 
 #: templates/userena/profile_list.html:29
 msgid "next"
-msgstr "volgende"
+msgstr "następny"
 
-#: templates/userena/signin_form.html:4
-#: templates/userena/signin_form.html:10
+#: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
 #: templates/userena/signin_form.html:27
 msgid "Signin"
-msgstr "Inloggen"
+msgstr "Zaloguj się"
 
 #: templates/userena/signout.html:4
 msgid "Signed out"
-msgstr "Uitschrijven"
+msgstr "Wylogowano"
 
 #: templates/userena/signout.html:5
 msgid "You have been signed out"
-msgstr "Je bent uitgelogd"
+msgstr "Zostałeś wylogowany"
 
 #: templates/userena/signout.html:8
 msgid "You have been signed out from userena. Till we meet again."
-msgstr "Je bent uitgelogd bij userena. Tot de volgende keer."
+msgstr "Zostałeś wylogowany z userena. Do zobaczenia następnym razem."
 
 #: templates/userena/signup_complete.html:4
 msgid "Signup almost done!"
-msgstr "Registratie is bijna klaar!"
+msgstr "Rejestracja prawie zakończona!"
 
 #: templates/userena/signup_complete.html:6
-#: templates/userena/signup_form.html:4
-#: templates/userena/signup_form.html:26
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:26
 msgid "Signup"
-msgstr "Inschrijven"
+msgstr "Rejestracja"
 
 #: templates/userena/signup_complete.html:9
 msgid "Thank you for signing up with us!"
-msgstr "Bedankt voor het inschrijven bij ons!"
+msgstr "Dziękujemy za rejestrację!"
 
 #: templates/userena/signup_complete.html:10
 #, python-format
 msgid "You have been send an e-mail with an activation link to %(email)s."
-msgstr "Je hebt een e-mail op %(email)s waar een activatie link in staat."
+msgstr "Wiadomość email z linkiem aktywacyjnym została wysłana na %(email)s."
 
 #: templates/userena/signup_complete.html:11
 #, python-format
 msgid "We will store your signup information for %(userena_activation_days)s days on our server. "
-msgstr "We zullen al je informatie verwijderen wanneer je niet activeerd binnen %(userena_activation_days)s dagen."
+msgstr "Zachowamy informację o logowaniu przez %(userena_activation_days)s dni na naszym serwerze."
 
-#: tests/profile.py:6
-#: tests/profiles/models.py:11
+#: tests/profile.py:6 tests/profiles/models.py:11
 msgid "Male"
-msgstr "Man"
+msgstr "Mężczyzna"
 
-#: tests/profile.py:7
-#: tests/profiles/models.py:12
+#: tests/profile.py:7 tests/profiles/models.py:12
 msgid "Female"
-msgstr "Vrouw"
+msgstr "Kobieta"
 
-#: tests/profile.py:9
-#: tests/profiles/models.py:14
+#: tests/profile.py:9 tests/profiles/models.py:14
 msgid "gender"
-msgstr "geslacht"
+msgstr "płeć"
 
-#: tests/profile.py:13
-#: tests/profiles/models.py:18
+#: tests/profile.py:13 tests/profiles/models.py:18
 msgid "website"
-msgstr "webpagina"
+msgstr "strona domowa"
 
-#: tests/profile.py:14
-#: tests/profiles/models.py:19
+#: tests/profile.py:14 tests/profiles/models.py:19
 msgid "location"
-msgstr "lokatie"
+msgstr "miejsce"
 
-#: tests/profile.py:15
-#: tests/profiles/models.py:20
+#: tests/profile.py:15 tests/profiles/models.py:20
 msgid "about me"
-msgstr "over mij"
+msgstr "o mnie"

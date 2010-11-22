@@ -133,9 +133,6 @@ class ChangeEmailForm(forms.Form):
             raise TypeError, "user must be an instance of User"
         else: self.user = user
 
-        self.fields['email'].help_text = _('Your current email is %(email)s' % \
-                                           {'email': user.email})
-
     def clean_email(self):
         """ Validate that the email is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
