@@ -57,13 +57,15 @@ Contents
    installation
    settings
    commands
+   api/index
 
-**API**
+Battery: Messages
+~~~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   api/index
+    contrib/messages/index
 
 Indices and tables
 ==================
