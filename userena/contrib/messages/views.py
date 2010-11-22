@@ -1,8 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.views.generic import list_detail
+
+from userena.contrib.messages.models import Message
 
 @login_required
 def message_list(request, page=1, paginate_by=50, mailbox='inbox',
-                 template_name='message_list.html'):
+                 template_name='messages/message_list.html', extra_context=None,
+                 **kwargs):
     """
 
     List a folder of specific type for this user.
@@ -19,16 +23,19 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
         String defining the mailbox that is currently opened. Can be one of the
         following three strings:
 
-        =========== ===========================================
-        inbox       the incoming messages
-        outbox      the sent messsages
-        drafts      composed but not sent messages
-        thrash      messages that are marked as deleted
-        =========== ===========================================
+        ======== =====================================
+        inbox    the incoming messages
+        outbox   the sent messsages
+        drafts   composed but not sent messages
+        thrash   messages that are marked as deleted
+        ======== =====================================
 
     :param template_name:
         String defining the name of the template that is used to render the
         list of messages. Defaults to ``list.html``.
+
+    :param extra_context:
+        A dictionary of variables that are passed on to the template.
 
     **Context**
 
@@ -38,7 +45,7 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
     ``is_paginated``
         A boolean representing whether the results are paginated.
 
-    If the result is paginated, the context will also contain the following variables:
+    If the result is paginated, the context will also contain the following variables.
 
     ``paginator``
         An instance of ``django.core.paginator.Paginator``.
@@ -51,6 +58,18 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
         page = int(request.GET.get('page', None))
     except TypeError, ValueError:
         page = page
+
+    queryset = Message.objects.all()
+
+    if not extra_context: extra_context = dict()
+    return list_detail.object_list(request,
+                                   queryset=queryset,
+                                   paginate_by=paginate_by,
+                                   page=page,
+                                   template_name=template_name,
+                                   extra_context=extra_context,
+                                   template_object_name='message',
+                                   **kwargs)
 
 def message_detail(request):
     pass

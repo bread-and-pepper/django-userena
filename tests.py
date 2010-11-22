@@ -17,13 +17,13 @@ settings.INSTALLED_APPS = (
     'demo_project.profiles',
     'guardian',
     'userena',
+    'userena.contrib.messages',
 )
 
 def main():
     from django.test.utils import get_runner
     test_runner = get_runner(settings)(interactive=False)
-
-    failures = test_runner.run_tests(['userena'])
+    failures = test_runner.run_tests(['userena', 'messages'])
     sys.exit(failures)
 
 if __name__ == '__main__':

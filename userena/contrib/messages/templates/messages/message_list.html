@@ -1,0 +1,10 @@
+{% extends 'messages/base_message.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>{% trans 'Messages' %}</h2>{% endblock %}
+
+{% block content %}
+{% for message in message_list %}
+  {{ message }}
+{% endfor  %}
+{% endblock %}

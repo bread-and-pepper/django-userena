@@ -573,7 +573,7 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
     ``is_paginated``
         A boolean representing whether the results are paginated.
 
-    If the result is paginated. It will also contain the following variables:
+    If the result is paginated. It will also contain the following variables.
 
     ``paginator``
         An instance of ``django.core.paginator.Paginator``.
