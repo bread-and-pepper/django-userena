@@ -1,0 +1,60 @@
+[
+  {
+    "pk": 1, 
+    "model": "messages.message", 
+    "fields": {
+      "subject": "UNREAD: Do you want a pizza?", 
+      "body": "Well, do you?", 
+      "sender_deleted_at": "2010-01-01 12:00:01", 
+      "parent_msg": null, 
+      "sent_at": "2010-01-01 12:00:00", 
+      "sender": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "messages.message", 
+    "fields": {
+      "subject": "REMOVED: I found a bug...", 
+      "body": "But I'm not gonna tell you where.", 
+      "sender_deleted_at": "2010-01-01 12:00:00", 
+      "parent_msg": null, 
+      "sent_at": "2010-01-01 12:00:00", 
+      "sender": 2
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "messages.message", 
+    "fields": {
+      "subject": "DRAFT: You hungry?", 
+      "body": "Me too..", 
+      "sender_deleted_at": "2010-01-01 12:00:00", 
+      "parent_msg": null, 
+      "sent_at": null, 
+      "sender": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "messages.messagerecipient", 
+    "fields": {
+      "replied_at": null, 
+      "message": 1, 
+      "read_at": null, 
+      "deleted_at": null, 
+      "user": 1
+    }
+  },
+  {
+    "pk": 2, 
+    "model": "messages.messagerecipient", 
+    "fields": {
+      "replied_at": "2010-01-01 12:00:01", 
+      "message": 2, 
+      "read_at": "2010-01-01 12:00:00", 
+      "deleted_at": "2010-01-01 12:00:02", 
+      "user": 2
+    }
+  }
+]
