@@ -59,7 +59,8 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
     except TypeError, ValueError:
         page = page
 
-    queryset = Message.objects.all()
+    queryset = Message.objects.get_mailbox_for(user=request.user,
+                                               mailbox=mailbox)
 
     if not extra_context: extra_context = dict()
     return list_detail.object_list(request,
