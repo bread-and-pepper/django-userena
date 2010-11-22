@@ -5,7 +5,7 @@
     "fields": {
       "subject": "UNREAD: Do you want a pizza?", 
       "body": "Well, do you?", 
-      "sender_deleted_at": "2010-01-01 12:00:01", 
+      "sender_deleted_at": null, 
       "parent_msg": null, 
       "sent_at": "2010-01-01 12:00:00", 
       "sender": 1
@@ -29,7 +29,7 @@
     "fields": {
       "subject": "DRAFT: You hungry?", 
       "body": "Me too..", 
-      "sender_deleted_at": "2010-01-01 12:00:00", 
+      "sender_deleted_at": null, 
       "parent_msg": null, 
       "sent_at": null, 
       "sender": 1
@@ -43,7 +43,7 @@
       "message": 1, 
       "read_at": null, 
       "deleted_at": null, 
-      "user": 1
+      "user": 2
     }
   },
   {
@@ -53,8 +53,8 @@
       "replied_at": "2010-01-01 12:00:01", 
       "message": 2, 
       "read_at": "2010-01-01 12:00:00", 
-      "deleted_at": "2010-01-01 12:00:02", 
-      "user": 2
+      "deleted_at": null, 
+      "user": 1
     }
   }
 ]

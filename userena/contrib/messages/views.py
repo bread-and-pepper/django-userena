@@ -21,14 +21,19 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
 
     :param mailbox:
         String defining the mailbox that is currently opened. Can be one of the
-        following three strings:
+        following four strings:
 
-        ======== =====================================
-        inbox    the incoming messages
-        outbox   the sent messsages
-        drafts   composed but not sent messages
-        thrash   messages that are marked as deleted
-        ======== =====================================
+        ``inbox``
+            Incoming messages.
+
+        ``outbox``
+            Sent messsages.
+
+        ``drafts``
+            Composed but not sent messages.
+
+        ``trash``
+            Messages that are marked as deleted.
 
     :param template_name:
         String defining the name of the template that is used to render the
