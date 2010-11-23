@@ -59,13 +59,13 @@ Contents
    commands
    api/index
 
-Battery: Messages
-~~~~~~~~~~~~~~~~~
+Battery: uMessages
+~~~~~~~~~~~~~~~~~~
 
 .. toctree::
    :maxdepth: 3
 
-   contrib/messages/index
+   contrib/umessages/index
 
 Indices and tables
 ==================

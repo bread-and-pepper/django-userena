@@ -1,10 +1,32 @@
 {% extends 'messages/base_message.html' %}
 {% load i18n %}
 
-{% block content_title %}<h2>{% trans 'Messages' %}</h2>{% endblock %}
+{% block content_title %}<h2>{{ mailbox }}</h2>{% endblock %}
 
 {% block content %}
-{% for message in message_list %}
-  {{ message }}
-{% endfor  %}
+<ul id="subnav">
+  <li><a href="{% url userena_umessages_inbox %}">{% trans "Inbox" %}</a></li>
+  <li><a href="{% url userena_umessages_outbox %}">{% trans "Outbox" %}</a></li>
+  <li><a href="{% url userena_umessages_drafts %}">{% trans "Drafts" %}</a></li>
+  <li><a href="{% url userena_umessages_trash %}">{% trans "Trash" %}</a></li>
+  <li><a href="{% url userena_umessages_compose %}">{% trans "Compose" %}</a></li>
+</ul>
+<br />
+<table width="100%">
+  <tr>
+    <th scope="col">&bull;</th>
+    <th scope="col">{% trans "From" %}</th>
+    <th scope="col">{% trans "Subject" %}</th>
+    <th scope="col">{% trans "Date received" %}</th>
+  </tr>
+  {% for message in message_list %}
+  <tr{% if not message.is_read %}class="new"{% endif %}>
+    <td>{% if not message.is_read %}&bull;{% endif %}</td>
+    <td>{{ message.sender.username }}</th>
+    <td>{{ message.subject }}</td>
+    <td>{{ message.sent_at|timesince }} {% trans "ago.."%}</td>
+    <th scope="row">{% trans "Remove" %}</th>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

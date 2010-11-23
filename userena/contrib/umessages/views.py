@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail
+from django.http import Http404
 
 from userena.contrib.umessages.models import Message
 
@@ -50,7 +51,11 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
     ``is_paginated``
         A boolean representing whether the results are paginated.
 
-    If the result is paginated, the context will also contain the following variables.
+    ``mailbox``
+        The current active mailbox.
+
+    If the result is paginated, the context will also contain the following
+    variables.
 
     ``paginator``
         An instance of ``django.core.paginator.Paginator``.
@@ -68,6 +73,7 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
                                                mailbox=mailbox)
 
     if not extra_context: extra_context = dict()
+    extra_context['mailbox'] = mailbox
     return list_detail.object_list(request,
                                    queryset=queryset,
                                    paginate_by=paginate_by,
@@ -77,14 +83,18 @@ def message_list(request, page=1, paginate_by=50, mailbox='inbox',
                                    template_object_name='message',
                                    **kwargs)
 
+@login_required
 def message_detail(request):
     pass
 
+@login_required
 def message_compose(request):
     pass
 
+@login_required
 def message_remove(request):
     pass
 
+@login_required
 def message_unremove(request):
     pass

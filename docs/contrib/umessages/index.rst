@@ -1,7 +1,7 @@
-.. _messages:
+.. _umessages:
 
-Messages
-========
+uMessages
+=========
 
 .. toctree::
    :maxdepth: 2

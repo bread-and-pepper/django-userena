@@ -41,7 +41,7 @@ class Message(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('userena_messages_detail', None, {'message_id': self.pk})
+        return ('userena_umessages_detail', None, {'message_id': self.pk})
 
     class Meta:
         ordering = ['-sent_at']

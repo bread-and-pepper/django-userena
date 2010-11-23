@@ -51,7 +51,7 @@
           <li><a href="{% url promo %}"><span>{% trans 'Home' %}</span></a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url userena_profile_list %}"><span>{% trans 'Profiles' %}</span></a></li>
-          <li><a href="{% url userena_messages_inbox %}"><span>{% trans 'Messages' %}</span></a></li>
+          <li><a href="{% url userena_umessages_inbox %}"><span>{% trans 'Messages' %}</span></a></li>
           <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account settings' %} ({{ user.username }})</span></a></li>
           <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
           {% else %}

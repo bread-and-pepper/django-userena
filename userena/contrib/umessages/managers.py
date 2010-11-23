@@ -3,7 +3,7 @@ from django.db import models
 class MessageManager(models.Manager):
     """ Manager for the :class:`Message` model. """
 
-    def get_mailbox_for(self, user, mailbox):
+    def get_mailbox_for(self, user, mailbox='inbox'):
         """
         Returns all messages in the mailbox that were received by the given
         user and are not marked as deleted.
@@ -15,7 +15,9 @@ class MessageManager(models.Manager):
             String containing the mailbox which is requested. This can be
             either ``inbox``, ``outbox``, ``drafts`` or ``trash``.
 
-        :return: Queryset containing :class:`Messages`.
+        :return:
+            Queryset containing :class:`Messages` or ``ValueError`` if the
+            invalid mailbox is supplied.
 
         """
         if mailbox == 'outbox':
@@ -37,9 +39,12 @@ class MessageManager(models.Manager):
 
             messages = received | sent
 
-        else: # default to inbox
+        elif mailbox == 'inbox':
             messages = self.filter(recipients=user,
                                    messagerecipient__deleted_at__isnull=True)
+
+        else:
+            raise ValueError("mailbox must be either inbox, outbox, drafts or trash")
 
         return messages
 

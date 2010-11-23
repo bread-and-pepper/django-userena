@@ -41,3 +41,9 @@ class MessageManagerTests(TestCase):
         self.failUnlessEqual(len(removed_messages), 1)
         self.failUnlessEqual(removed_messages[0].subject,
                              'REMOVED: I found a bug...')
+
+    def test_invalid_folder(self):
+        """ Test that an invalid folder raises ``ValueError`` """
+        user = User.objects.get(pk=1)
+        self.assertRaises(ValueError, Message.objects.get_mailbox_for,
+                          user, 'fake')

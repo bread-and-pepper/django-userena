@@ -1,4 +1,4 @@
-.. _messages-api:
+.. _umessages-api:
 
 API Reference
 =============
