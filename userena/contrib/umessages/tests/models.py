@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from userena.contrib.messages.models import Message, MessageRecipient
+from userena.contrib.umessages.models import Message, MessageRecipient
 
 class MessageModelTests(TestCase):
     fixtures = ['users', 'messages']

@@ -91,14 +91,14 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    #'django.contrib.messages',
+    'django.contrib.messages',
     'django.contrib.admin',
     'demo_project.profiles',
     'easy_thumbnails',
     'guardian',
     'south',
     'userena',
-    'userena.contrib.messages',
+    'userena.contrib.umessages',
 )
 
 # Userena settings

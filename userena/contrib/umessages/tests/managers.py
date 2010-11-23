@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from userena.contrib.messages.models import Message
+from userena.contrib.umessages.models import Message
 
 class MessageManagerTests(TestCase):
     fixtures = ['users', 'messages']

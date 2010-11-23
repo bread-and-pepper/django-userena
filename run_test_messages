@@ -1,2 +1,2 @@
-coverage run demo_project/manage.py test messages
-coverage report -m userena/contrib/messages/*py
+coverage run demo_project/manage.py test umessages
+coverage report -m userena/contrib/umessages/*py

@@ -1,7 +1,7 @@
 [
   {
     "pk": 1, 
-    "model": "messages.message", 
+    "model": "umessages.message", 
     "fields": {
       "subject": "UNREAD: Do you want a pizza?", 
       "body": "Well, do you?", 
@@ -13,7 +13,7 @@
   }, 
   {
     "pk": 2, 
-    "model": "messages.message", 
+    "model": "umessages.message", 
     "fields": {
       "subject": "REMOVED: I found a bug...", 
       "body": "But I'm not gonna tell you where.", 
@@ -25,7 +25,7 @@
   }, 
   {
     "pk": 3, 
-    "model": "messages.message", 
+    "model": "umessages.message", 
     "fields": {
       "subject": "DRAFT: You hungry?", 
       "body": "Me too..", 
@@ -37,7 +37,7 @@
   }, 
   {
     "pk": 1, 
-    "model": "messages.messagerecipient", 
+    "model": "umessages.messagerecipient", 
     "fields": {
       "replied_at": null, 
       "message": 1, 
@@ -48,7 +48,7 @@
   },
   {
     "pk": 2, 
-    "model": "messages.messagerecipient", 
+    "model": "umessages.messagerecipient", 
     "fields": {
       "replied_at": "2010-01-01 12:00:01", 
       "message": 2, 
