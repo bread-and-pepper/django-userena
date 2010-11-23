@@ -63,9 +63,9 @@ Battery: Messages
 ~~~~~~~~~~~~~~~~~
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 3
 
-    contrib/messages/index
+   contrib/messages/index
 
 Indices and tables
 ==================

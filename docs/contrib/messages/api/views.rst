@@ -3,7 +3,7 @@
 Views
 =====
 
-.. automodule:: userena.views
+.. automodule:: userena.contrib.messages.views
 
 message_list
 ------------

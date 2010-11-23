@@ -85,8 +85,7 @@ class SignupFormTos(SignupForm):
 
 class AuthenticationForm(forms.Form):
     """
-    A custom ``AuthenticationForm`` where the identification can be a e-mail
-    address or username.
+    A custom form where the identification can be a e-mail address or username.
 
     """
     identification = forms.CharField(label=_("Email or username"),
@@ -103,7 +102,7 @@ class AuthenticationForm(forms.Form):
         """
         Checks for the identification and password.
 
-        If the combination can't be found will raise an invalid signin error.
+        If the combination can't be found will raise an invalid sign in error.
 
         """
         identification = self.cleaned_data.get('identification')
@@ -143,7 +142,7 @@ class ChangeEmailForm(forms.Form):
 
     def save(self):
         """
-        Save method calls ``user.change_email()`` method which sends out an
+        Save method calls :func:`user.change_email()` method which sends out an
         email with an verification key to verify and with it enable this new
         email address.
 

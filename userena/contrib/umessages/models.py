@@ -41,7 +41,7 @@ class Message(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        pass
+        return ('userena_messages_detail', None, {'message_id': self.pk})
 
     class Meta:
         ordering = ['-sent_at']
@@ -75,12 +75,12 @@ class MessageRecipient(models.Model):
     def __unicode__(self):
         return "%s (%s)" % (self.message, self.user)
 
-    def new(self):
+    def is_read(self):
         """ Returns a boolean whether the recipient has read the message """
         return self.read_at is None
 
-    def replied(self):
-        """returns whether the recipient has written a reply to this message"""
+    def is_replied(self):
+        """ Returns whether the recipient has written a reply to this message """
         return self.replied_at is not None
 
     class Meta:

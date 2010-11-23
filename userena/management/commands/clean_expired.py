@@ -4,7 +4,7 @@ from userena.models import UserenaSignup
 
 class Command(NoArgsCommand):
     """
-    Search for users that still haven't verified their e-mail address after
+    Search for users that still haven't verified their email after
     ``USERENA_ACTIVATION_DAYS`` and delete them.
 
     """
