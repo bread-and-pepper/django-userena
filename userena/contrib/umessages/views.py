@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail
 
-from userena.contrib.messages.models import Message
+from userena.contrib.umessages.models import Message
 
 @login_required
 def message_list(request, page=1, paginate_by=50, mailbox='inbox',

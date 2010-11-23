@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 
-from userena.contrib.messages.models import Message, MessageRecipient
+from userena.contrib.umessages.models import Message, MessageRecipient
 
 class MessageRecipientInline(admin.TabularInline):
     """ Inline message recipients """

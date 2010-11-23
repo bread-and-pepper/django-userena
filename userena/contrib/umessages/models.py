@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
-from userena.contrib.messages.managers import MessageManager
+from userena.contrib.umessages.managers import MessageManager
 
 class Message(models.Model):
     """ Private message model, from user to user(s) """

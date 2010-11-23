@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.shortcuts import redirect
 
-from userena.contrib.messages import views as messages_views
+from userena.contrib.umessages import views as messages_views
 
 urlpatterns = patterns('',
     url(r'^$',
