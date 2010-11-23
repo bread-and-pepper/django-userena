@@ -32,11 +32,11 @@ urlpatterns = patterns('',
         messages_views.message_compose,
         name='userena_umessages_compose'),
 
-    url(r'^compose/(?P<recipient>[\+\w]+)/$',
+    url(r'^compose/(?P<recipients>[\+\w]+)/$',
         messages_views.message_compose,
         name='userena_umessages_compose_to'),
 
-    url(r'^reply/(?P<message_id>[\d]+)/$',
+    url(r'^reply/(?P<parent_id>[\d]+)/$',
         messages_views.message_compose,
         name='userena_umessages_reply'),
 

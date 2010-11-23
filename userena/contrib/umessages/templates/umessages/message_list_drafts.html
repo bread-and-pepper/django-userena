@@ -1,4 +1,4 @@
-{% extends 'messages/base_message.html' %}
+{% extends 'umessages/base_message.html' %}
 {% load i18n %}
 
 {% block content_title %}<h2>{{ mailbox }}</h2>{% endblock %}
@@ -17,14 +17,13 @@
     <th scope="col">&bull;</th>
     <th scope="col">{% trans "From" %}</th>
     <th scope="col">{% trans "Subject" %}</th>
-    <th scope="col">{% trans "Date received" %}</th>
+    <td></td>
   </tr>
   {% for message in message_list %}
   <tr{% if not message.is_read %}class="new"{% endif %}>
     <td>{% if not message.is_read %}&bull;{% endif %}</td>
     <td>{{ message.sender.username }}</th>
-    <td>{{ message.subject }}</td>
-    <td>{{ message.sent_at|timesince }} {% trans "ago.."%}</td>
+    <td><a href="{{ message.get_absolute_url }}" title="{% trans "View message" %}">{{ message.subject }}</a></td>
     <th scope="row">{% trans "Remove" %}</th>
   </tr>
   {% endfor %}

@@ -16,7 +16,7 @@ class MessageModelTests(TestCase):
         """ Test the absolute url of a message """
         message = Message.objects.get(pk=1)
         self.failUnlessEqual(message.get_absolute_url(),
-                             reverse('userena_messages_detail',
+                             reverse('userena_umessages_detail',
                                      kwargs={'message_id': 1}))
 
 class MessageRecipientModelTest(TestCase):
