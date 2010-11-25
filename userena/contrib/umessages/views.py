@@ -123,6 +123,17 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
 
     """
     message = Message.objects.get(pk=message_id)
+    now = datetime.datetime.now()
+
+    if (message.sender != request.user) and \
+       (request.user not in message.recipients.all()):
+        raise Http404
+
+    mr = message.messagerecipient_set.get(message=message,
+                                          user=request.user)
+    if mr.read_at is None:
+        mr.read_at = now
+        mr.save()
 
     if not extra_context:
         extra_context = dict()
