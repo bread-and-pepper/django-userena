@@ -197,6 +197,7 @@ def message_compose(request, recipients=None, parent_id=None,
     if not extra_context:
         extra_context = dict()
     extra_context["form"] = form
+    extra_context["recipients"] = recipients
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
