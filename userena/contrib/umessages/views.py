@@ -215,9 +215,12 @@ def message_compose(request, recipients=None, parent_id=None,
 
 @login_required
 @require_http_methods(["POST"])
-def message_remove(request):
+def message_remove(request, undo=False):
     """
     A ``POST`` to remove messages.
+
+    :param undo:
+        A Boolean that if ``True`` unremoves messages.
 
     POST can have the following keys:
 
@@ -245,30 +248,42 @@ def message_remove(request):
 
         # Delete all the messages, if they belong to the user.
         now = datetime.datetime.now()
-        deleted_message_list = set()
+        changed_message_list = set()
         for pk in valid_message_pk_list:
             message = get_object_or_404(Message,
                                         pk=pk)
 
             # Check if the user is the owner
             if message.sender == request.user:
-                message.sender_deleted_at = now
+                if undo:
+                    message.sender_deleted_at = None
+                else:
+                    message.sender_deleted_at = now
                 message.save()
-                deleted_message_list.add(message.pk)
+                changed_message_list.add(message.pk)
 
             # Check if the user is a recipient of the message
             if request.user in message.recipients.all():
                 mr = message.messagerecipient_set.get(user=request.user,
                                                       message=message)
-                mr.deleted_at = now
+                if undo:
+                    mr.deleted_at = None
+                else:
+                    mr.deleted_at = now
                 mr.save()
-                deleted_message_list.add(message.pk)
+                changed_message_list.add(message.pk)
 
-        if (len(deleted_message_list) > 0) and userena_settings.USERENA_USE_MESSAGES:
-            if len(deleted_message_list) > 1:
-                messages.success(request, _('Messages are successfully removed.'), fail_silently=True)
+        if (len(changed_message_list) > 0) and userena_settings.USERENA_USE_MESSAGES:
+            if len(changed_message_list) > 1:
+                if undo:
+                    messages.success(request, _('Messages are successfully restored.'), fail_silently=True)
+                else:
+                    messages.success(request, _('Messages are successfully removed.'), fail_silently=True)
             else:
-                messages.success(request, _('Message is successfully removed.'), fail_silently=True)
+                if undo:
+                    messages.success(request, _('Message is successfully restored.'), fail_silently=True)
+                else:
+                    messages.success(request, _('Message is successfully removed.'), fail_silently=True)
 
     if redirect_to: return redirect(redirect_to)
     else: return redirect(reverse('userena_umessages_inbox'))

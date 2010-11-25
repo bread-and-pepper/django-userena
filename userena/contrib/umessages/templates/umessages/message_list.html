@@ -12,7 +12,7 @@
   <li><a href="{% url userena_umessages_compose %}">{% trans "Compose" %}</a></li>
 </ul>
 <br />
-<form id="messages_form" action="{% url userena_umessages_remove %}" method="post">
+<form id="messages_form" action="{% if mailbox == "trash" %}{% url userena_umessages_unremove %}{% else %}{% url userena_umessages_remove %}{% endif %}" method="post">
   {% csrf_token %}
   <table width="100%">
     <tr>
@@ -32,7 +32,11 @@
       <th scope="row"><input type="checkbox" value="{{ message.pk }}" name="message_pks" /></th>
     </tr>
     {% endfor %}
-    <input type="submit" value="Remove" />
+    {% if mailbox == "trash" %}
+      <input type="submit" value="Restore" />
+    {% else %}
+      <input type="submit" value="Remove" />
+    {% endif %}
   </table>
 </form>
 {% endblock %}

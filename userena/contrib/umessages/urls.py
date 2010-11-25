@@ -49,6 +49,7 @@ urlpatterns = patterns('',
         name='userena_umessages_remove'),
 
     url(r'^unremove/$',
-        messages_views.message_unremove,
+        messages_views.message_remove,
+        {'undo': True},
         name='userena_umessages_unremove'),
 )
