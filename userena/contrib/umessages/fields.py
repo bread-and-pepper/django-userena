@@ -18,8 +18,9 @@ class CommaSeparatedUserField(forms.Field):
     A :class:`CharField` that exists of comma separated usernames.
 
     :param recipient_filter:
-        A list of :class:`User` which don't whose username cannot be entered in
-        the :class:`CommaSeparatedUserField``
+        Optional function which receives as :class:`User` as parameter. The
+        function should return ``True`` if the user is allowed or ``False`` if
+        the user is not allowed.
 
     :return:
         A list of :class:`User`.
@@ -34,10 +35,6 @@ class CommaSeparatedUserField(forms.Field):
 
     def clean(self, value):
         super(CommaSeparatedUserField, self).clean(value)
-        if not value:
-            return ''
-        if isinstance(value, (list, tuple)):
-            return value
 
         names = set(value.split(','))
         names_set = set([name.strip() for name in names])
@@ -55,6 +52,7 @@ class CommaSeparatedUserField(forms.Field):
                     invalid_users.append(r.username)
 
         if unknown_names or invalid_users:
-            raise forms.ValidationError(_("The following usernames are incorrect: %(users)s") % {'users': ', '.join(list(unknown_names) + invalid_users)})
+            humanized_usernames = ', '.join(list(unknown_names) + invalid_users)
+            raise forms.ValidationError(_("The following usernames are incorrect: %(users)s.") % {'users': humanized_usernames})
 
         return users

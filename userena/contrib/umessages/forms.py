@@ -15,7 +15,7 @@ class ComposeForm(forms.Form):
                            widget=forms.Textarea({'class': 'message'}),
                            required=True)
 
-    def save(self, sender, parent_msg, draft=False):
+    def save(self, sender, parent_msg=None, draft=False):
         """
         Save the message and send it out into the wide world.
 
