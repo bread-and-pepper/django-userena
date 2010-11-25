@@ -12,28 +12,27 @@
   <li><a href="{% url userena_umessages_compose %}">{% trans "Compose" %}</a></li>
 </ul>
 <br />
-<table width="100%">
-  <tr>
-    <th scope="col">&bull;</th>
-    <th scope="col">{% trans "From" %}</th>
-    <th scope="col">{% trans "Subject" %}</th>
-    <th scope="col">{% trans "Date received" %}</th>
-    {% if mailbox != "drafts" %}
-    <td></td>
-    {% endif %}
-    <td></td>
-  </tr>
-  {% for message in message_list %}
-  <tr{% if not message.is_read %}class="new"{% endif %}>
-    <td>{% if not message.is_read %}&bull;{% endif %}</td>
-    <td>{{ message.sender.username }}</th>
-    <td><a href="{{ message.get_absolute_url }}" title="{% trans "View message" %}">{{ message.subject }}</a></td>
-    <td>{{ message.sent_at|timesince }} {% trans "ago.."%}</td>
-    {% if mailbox != "drafts" %}
-    <th scope="row"><a href="{% url userena_umessages_reply message.pk %}" title="{% trans "Reply to this message" %}">{% trans "Reply" %}</th>
-    {% endif %}
-    <th scope="row">{% trans "Remove" %}</th>
-  </tr>
-  {% endfor %}
-</table>
+<form id="messages_form" action="{% url userena_umessages_remove %}" method="post">
+  {% csrf_token %}
+  <table width="100%">
+    <tr>
+      <th scope="col">&bull;</th>
+      <th scope="col">{% trans "From" %}</th>
+      <th scope="col">{% trans "Subject" %}</th>
+      <th scope="col">{% trans "Date received" %}</th>
+      <td></td>
+    </tr>
+    {% for message in message_list %}
+    <tr{% if not message.is_read %}class="new"{% endif %}>
+      <td>{% if not message.is_read %}&bull;{% endif %}</td>
+      <td>{{ message.sender.username }}</th>
+      <td><a href="{{ message.get_absolute_url }}" title="{% trans "View message" %}">{{ message.subject }}</a></td>
+      <td>{{ message.sent_at|timesince }} {% trans "ago.."%}</td>
+      <th scope="row"><a href="{% url userena_umessages_reply message.pk %}" title="{% trans "Reply to this message" %}">{% trans "Reply" %}</a></th>
+      <th scope="row"><input type="checkbox" value="{{ message.pk }}" name="message_pks" /></th>
+    </tr>
+    {% endfor %}
+    <input type="submit" value="Remove" />
+  </table>
+</form>
 {% endblock %}

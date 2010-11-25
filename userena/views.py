@@ -584,7 +584,7 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
     """
     try:
         page = int(request.GET.get('page', None))
-    except TypeError, ValueError:
+    except (TypeError, ValueError):
         page = page
 
     if userena_settings.USERENA_DISABLE_PROFILE_LIST \

@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from userena.contrib.umessages.forms import ComposeForm
+from userena.contrib.umessages.models import Message
 
 class MessagesViewsTests(TestCase):
     fixtures = ['users', 'messages']
@@ -121,3 +122,71 @@ class MessagesViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'umessages/message_detail.html')
+
+    def test_valid_message_remove(self):
+        """ ``POST`` to remove a message """
+        # Test that sign in is required
+        response = self.client.post(reverse('userena_umessages_remove'))
+        self.assertEqual(response.status_code, 302)
+
+        # Sign in
+        client = self.client.login(username='john', password='blowfish')
+
+        # Test that only posts are allowed
+        response = self.client.get(reverse('userena_umessages_remove'))
+        self.assertEqual(response.status_code, 405)
+
+        # Test a valid post to delete a senders message
+        response = self.client.post(reverse('userena_umessages_remove'),
+                                    data={'message_pks': '1'})
+        self.assertRedirects(response,
+                             reverse('userena_umessages_inbox'))
+        msg = Message.objects.get(pk=1)
+        self.failUnless(msg.sender_deleted_at)
+
+        # Test a valid post to delete a recipients message and a redirect
+        client = self.client.login(username='jane', password='blowfish')
+        response = self.client.post(reverse('userena_umessages_remove'),
+                                    data={'message_pks': '1',
+                                          'next': reverse('userena_umessages_drafts')})
+        self.assertRedirects(response,
+                             reverse('userena_umessages_drafts'))
+        jane = User.objects.get(username='jane')
+        mr = msg.messagerecipient_set.get(user=jane,
+                                          message=msg)
+        self.failUnless(mr.deleted_at)
+
+    def test_invalid_message_remove(self):
+        """ ``POST`` to remove an invalid message """
+        # Sign in
+        client = self.client.login(username='john', password='blowfish')
+
+        bef_len = Message.objects.filter(sender_deleted_at__isnull=False).count()
+        response = self.client.post(reverse('userena_umessages_remove'),
+                                    data={'message_pks': ['a', 'b']})
+
+        # The program should play nice, nothing happened.
+        af_len = Message.objects.filter(sender_deleted_at__isnull=False).count()
+        self.assertRedirects(response,
+                             reverse('userena_umessages_inbox'))
+        self.assertEqual(bef_len, af_len)
+
+    def test_valid_message_remove_multiple(self):
+        """ ``POST`` to remove multiple messages """
+        # Sign in
+        client = self.client.login(username='john', password='blowfish')
+        response = self.client.post(reverse('userena_umessages_remove'),
+                                    data={'message_pks': [1, 2]})
+        self.assertRedirects(response,
+                             reverse('userena_umessages_inbox'))
+
+        # Message #1 and #2 should be deleted
+        msg_list = Message.objects.filter(pk__in=['1','2'],
+                                          sender_deleted_at__isnull=False)
+        self.assertEqual(msg_list.count(), 2)
+
+    def test_message_unremove(self):
+        """ Unremove a message """
+        client = self.client.login(username='john', password='blowfish')
+        self.client.post(reverse('userena_umessages_unremove'))
+

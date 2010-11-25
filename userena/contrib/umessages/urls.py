@@ -44,11 +44,11 @@ urlpatterns = patterns('',
         messages_views.message_detail,
         name='userena_umessages_detail'),
 
-    url(r'^delete/(?P<message_id>[\d]+)/$',
+    url(r'^remove/$',
         messages_views.message_remove,
-        name='userena_umessages_delete'),
+        name='userena_umessages_remove'),
 
-    url(r'^undelete/(?P<message_id>[\d]+)/$',
+    url(r'^unremove/$',
         messages_views.message_unremove,
-        name='userena_umessages_undelete'),
+        name='userena_umessages_unremove'),
 )
