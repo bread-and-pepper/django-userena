@@ -28,10 +28,10 @@ class SignupForm(forms.Form):
                              label=_("Email"))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("Password"))
+                                label=_("Choose password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("Confirm password"))
+                                label=_("Repeat password"))
 
     def clean_username(self):
         """
