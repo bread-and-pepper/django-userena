@@ -123,6 +123,13 @@ class MessagesViewsTests(TestCase):
         self.assertTemplateUsed(response,
                                 'umessages/message_detail.html')
 
+    def test_invalid_message_detail(self):
+        """ ``GET`` for a message that is not theirs should raise 404 """
+        client = self.client.login(username='arie', password='blowfish')
+        response = self.client.get(reverse('userena_umessages_detail',
+                                   kwargs={'message_id': 1}))
+        self.assertEqual(response.status_code, 404)
+
     def test_valid_message_remove(self):
         """ ``POST`` to remove a message """
         # Test that sign in is required
@@ -189,4 +196,3 @@ class MessagesViewsTests(TestCase):
         """ Unremove a message """
         client = self.client.login(username='john', password='blowfish')
         self.client.post(reverse('userena_umessages_unremove'))
-

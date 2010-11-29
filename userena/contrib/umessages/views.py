@@ -10,7 +10,7 @@ from django.template import loader
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
-from userena.contrib.umessages.models import Message
+from userena.contrib.umessages.models import Message, MessageRecipient
 from userena.contrib.umessages.forms import ComposeForm
 from userena import settings as userena_settings
 
@@ -116,7 +116,7 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
         String of the template that is rendered to display this view.
 
     :param use_threaded:
-        Boolean that defines if the view get's the parent messages also.
+        TODO: Boolean that defines if the view get's the parent messages also.
 
     :param: extra_context:
         Dictionary of variables that will be made available to the template.
@@ -129,8 +129,8 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
        (request.user not in message.recipients.all()):
         raise Http404
 
-    mr = message.messagerecipient_set.get(message=message,
-                                          user=request.user)
+    mr = message.messagerecipient_set.get(message=message)
+
     if mr.read_at is None:
         mr.read_at = now
         mr.save()
