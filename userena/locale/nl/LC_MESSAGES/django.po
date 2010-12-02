@@ -32,7 +32,7 @@ msgstr "E-mail"
 
 #: forms.py:31
 #: forms.py:96
-msgid "Choose password"
+msgid "Create password"
 msgstr "Kies wachtwoord"
 
 #: forms.py:34

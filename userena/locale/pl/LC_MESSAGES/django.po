@@ -31,7 +31,7 @@ msgid "Email"
 msgstr "Adres email"
 
 #: forms.py:31 forms.py:96
-msgid "Password"
+msgid "Create password"
 msgstr "Hasło"
 
 #: forms.py:34
