@@ -195,4 +195,18 @@ class MessagesViewsTests(TestCase):
     def test_message_unremove(self):
         """ Unremove a message """
         client = self.client.login(username='john', password='blowfish')
-        self.client.post(reverse('userena_umessages_unremove'))
+
+        # Delete a message as owner
+        response = self.client.post(reverse('userena_umessages_unremove'),
+                                    data={'message_pks': [1,]})
+
+        self.assertRedirects(response,
+                             reverse('userena_umessages_inbox'))
+
+        # Delete the message as a recipient
+        response = self.client.post(reverse('userena_umessages_unremove'),
+                                    data={'message_pks': [2,]})
+
+        self.assertRedirects(response,
+                             reverse('userena_umessages_inbox'))
+

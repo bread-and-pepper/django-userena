@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.template import loader
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 
 from userena.contrib.umessages.models import Message, MessageRecipient
 from userena.contrib.umessages.forms import ComposeForm
@@ -284,22 +285,18 @@ def message_remove(request, undo=False):
                 mr.save()
                 changed_message_list.add(message.pk)
 
+        # Send messages
         if (len(changed_message_list) > 0) and userena_settings.USERENA_USE_MESSAGES:
-            if len(changed_message_list) > 1:
-                if undo:
-                    messages.success(request, _('Messages are successfully restored.'), fail_silently=True)
-                else:
-                    messages.success(request, _('Messages are successfully removed.'), fail_silently=True)
+            if undo:
+                message = ungettext('Message is succesfully restored.',
+                                    'Messages are succesfully restored.',
+                                    len(changed_message_list))
             else:
-                if undo:
-                    messages.success(request, _('Message is successfully restored.'), fail_silently=True)
-                else:
-                    messages.success(request, _('Message is successfully removed.'), fail_silently=True)
+                message = ungettext('Message is successfully removed.',
+                                    'Messages are successfully removed.',
+                                    len(changed_message_list))
+
+            messages.success(request, message, fail_silently=True)
 
     if redirect_to: return redirect(redirect_to)
     else: return redirect(reverse('userena_umessages_inbox'))
-
-@login_required
-@require_http_methods(["POST"])
-def message_unremove(request):
-    return redirect(reverse('userena_umessages_inbox'))
