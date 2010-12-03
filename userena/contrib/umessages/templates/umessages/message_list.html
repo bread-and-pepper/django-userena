@@ -7,7 +7,6 @@
 <ul id="subnav">
   <li><a href="{% url userena_umessages_inbox %}">{% trans "Inbox" %}</a></li>
   <li><a href="{% url userena_umessages_outbox %}">{% trans "Outbox" %}</a></li>
-  <li><a href="{% url userena_umessages_drafts %}">{% trans "Drafts" %}</a></li>
   <li><a href="{% url userena_umessages_trash %}">{% trans "Trash" %}</a></li>
   <li><a href="{% url userena_umessages_compose %}">{% trans "Compose" %}</a></li>
 </ul>
@@ -18,7 +17,6 @@
     <tr>
       <th scope="col">&bull;</th>
       <th scope="col">{% trans "From" %}</th>
-      <th scope="col">{% trans "Subject" %}</th>
       <th scope="col">{% trans "Date received" %}</th>
       <td></td>
     </tr>
@@ -26,7 +24,7 @@
     <tr{% if not message.is_read %}class="new"{% endif %}>
       <td>{% if not message.is_read %}&bull;{% endif %}</td>
       <td>{{ message.sender.username }}</th>
-      <td><a href="{{ message.get_absolute_url }}" title="{% trans "View message" %}">{{ message.subject }}</a></td>
+      <td><a href="{{ message.get_absolute_url }}" title="{% trans "View message" %}">{{ message.body }}</a></td>
       <td>{{ message.sent_at|timesince }} {% trans "ago.."%}</td>
       <th scope="row"><a href="{% url userena_umessages_reply message.pk %}" title="{% trans "Reply to this message" %}">{% trans "Reply" %}</a></th>
       <th scope="row"><input type="checkbox" value="{{ message.pk }}" name="message_pks" /></th>

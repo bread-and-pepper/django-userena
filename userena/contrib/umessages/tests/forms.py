@@ -16,15 +16,8 @@ class ComposeFormTests(TestCase):
 
         """
         invalid_data_dicts = [
-            # No subject
-            {'data': {'to': 'john',
-                      'subject': '',
-                      'body': 'foo'},
-             'error': ('subject', [u'This field is required.'])},
-
             # No body
             {'data': {'to': 'john',
-                      'subject': 'foo',
                       'body': ''},
              'error': ('body', [u'This field is required.'])},
         ]
@@ -38,7 +31,6 @@ class ComposeFormTests(TestCase):
     def test_save_msg(self):
         """ Test valid data """
         valid_data = {'to': 'john, jane',
-                      'subject': 'Subject',
                       'body': 'Body'}
 
         form = ComposeForm(data=valid_data)
@@ -50,7 +42,6 @@ class ComposeFormTests(TestCase):
         msg = form.save(sender)
 
         # Check if the values are set correctly
-        self.failUnlessEqual(msg.subject, valid_data['subject'])
         self.failUnlessEqual(msg.body, valid_data['body'])
         self.failUnlessEqual(msg.sender, sender)
         self.failUnless(msg.sent_at)
@@ -59,24 +50,9 @@ class ComposeFormTests(TestCase):
         self.failUnlessEqual(msg.recipients.all()[0].username, 'jane')
         self.failUnlessEqual(msg.recipients.all()[1].username, 'john')
 
-    def test_drafted_msg(self):
-        """ Test a drafted message """
-        valid_data = {'to': 'john, jane',
-                      'subject': 'Draft: Subject',
-                      'body': 'Body'}
-        form = ComposeForm(data=valid_data)
-        self.failUnless(form.is_valid())
-
-        sender = User.objects.get(username='jane')
-        msg = form.save(sender, draft=True)
-
-        # Message cannot be sent
-        self.failIf(msg.sent_at)
-
     def test_child_msg(self):
         """ Test a child message """
         valid_data_parent = {'to': 'john',
-                             'subject': 'Parent: Subject',
                              'body': 'Body'}
 
         form = ComposeForm(data=valid_data_parent)
@@ -87,7 +63,6 @@ class ComposeFormTests(TestCase):
 
         # Send a new one
         valid_data = {'to': 'jane',
-                      'subject': 'Child: Subject',
                       'body': 'Body'}
 
         form = ComposeForm(data=valid_data)

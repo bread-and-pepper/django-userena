@@ -13,7 +13,7 @@ class MessageManager(models.Manager):
 
         :param mailbox:
             String containing the mailbox which is requested. This can be
-            either ``inbox``, ``outbox``, ``drafts`` or ``trash``.
+            either ``inbox``, ``outbox`` or ``trash``.
 
         :return:
             Queryset containing :class:`Messages` or ``ValueError`` if the
@@ -24,11 +24,6 @@ class MessageManager(models.Manager):
             messages = self.filter(sender=user,
                                    sender_deleted_at__isnull=True,
                                    sent_at__isnull=False)
-
-        elif mailbox == 'drafts':
-            messages = self.filter(sender=user,
-                                   sent_at__isnull=True,
-                                   sender_deleted_at__isnull=True)
 
         elif mailbox == 'trash':
             received = self.filter(recipients=user,
@@ -44,7 +39,7 @@ class MessageManager(models.Manager):
                                    messagerecipient__deleted_at__isnull=True)
 
         else:
-            raise ValueError("mailbox must be either inbox, outbox, drafts or trash")
+            raise ValueError("mailbox must be either inbox, outbox or trash")
 
         return messages
 
@@ -55,10 +50,6 @@ class MessageManager(models.Manager):
     def get_outbox_for(self, user):
         """ Wrapper for :func:`get_mailbox_for` to get the users outbox. """
         return self.get_mailbox_for(user, 'outbox')
-
-    def get_drafts_for(self, user):
-        """ Wrapper for :func:`get_mailbox_for` to get the users drafts. """
-        return self.get_mailbox_for(user, 'drafts')
 
     def get_trash_for(self, user):
         """ Wrapper for :func:`get_mailbox_for` to get the users trash. """

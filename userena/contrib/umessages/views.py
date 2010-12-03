@@ -35,16 +35,13 @@ def message_list(request, page=1, paginate_by=50, mailbox="inbox",
 
     :param mailbox:
         String defining the mailbox that is currently opened. Can be one of the
-        following four strings:
+        following three strings:
 
         ``inbox``
             Incoming messages.
 
         ``outbox``
             Sent messsages.
-
-        ``drafts``
-            Composed but not sent messages.
 
         ``trash``
             Messages that are marked as deleted.
@@ -195,7 +192,6 @@ def message_compose(request, recipients=None, parent_id=None,
         parent_msg = get_object_or_404(Message,
                                        pk=parent_id,
                                        recipients=request.user)
-        initial_data["subject"] = "Re: %(subject)s" % {"subject": parent_msg.subject}
         initial_data["to"] = parent_msg.sender
     else: parent_msg = None
 
@@ -203,10 +199,9 @@ def message_compose(request, recipients=None, parent_id=None,
     if request.method == "POST":
         form = compose_form(request.POST)
         if form.is_valid():
-            draft = request.POST.has_key("_draft")
             requested_redirect = request.REQUEST.get("next", False)
 
-            message = form.save(request.user, parent_msg, draft)
+            message = form.save(request.user, parent_msg)
 
             if userena_settings.USERENA_USE_MESSAGES:
                 messages.success(request, _('Message is sent.'),

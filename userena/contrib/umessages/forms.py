@@ -8,14 +8,11 @@ import datetime
 
 class ComposeForm(forms.Form):
     to = CommaSeparatedUserField(label=_("To"))
-    subject = forms.CharField(max_length=256,
-                              label=_("Subject"))
-
     body = forms.CharField(label=_("Message"),
                            widget=forms.Textarea({'class': 'message'}),
                            required=True)
 
-    def save(self, sender, parent_msg=None, draft=False):
+    def save(self, sender, parent_msg=None):
         """
         Save the message and send it out into the wide world.
 
@@ -25,26 +22,21 @@ class ComposeForm(forms.Form):
         :param parent_msg:
             The :class:`Message` that preceded this message in the thread.
 
-        :param draft:
-            ``Boolean`` defining this message as draft. Defaults to ``False``.
-
         :return: The saved :class:`Message`.
 
         """
         to_list = self.cleaned_data['to']
-        subject = self.cleaned_data['subject']
         body = self.cleaned_data['body']
 
         now = datetime.datetime.now()
 
         # Save the message
-        msg = Message(sender=sender, subject=subject, body=body)
-        if not draft:
-            msg.sent_at = now
-            if parent_msg:
-                msg.parent_msg = parent_msg
-                parent_msg.replied_at = now
-                parent_msg.save()
+        msg = Message(sender=sender, body=body)
+        msg.sent_at = now
+        if parent_msg:
+            msg.parent_msg = parent_msg
+            parent_msg.replied_at = now
+            parent_msg.save()
         msg.save()
 
         # Save the recipients

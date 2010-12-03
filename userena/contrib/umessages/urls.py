@@ -18,11 +18,6 @@ urlpatterns = patterns('',
         {'mailbox': 'outbox'},
         name='userena_umessages_outbox'),
 
-    url(r'^drafts/$',
-        messages_views.message_list,
-        {'mailbox': 'drafts'},
-        name='userena_umessages_drafts'),
-
     url(r'^trash/$',
         messages_views.message_list,
         {'mailbox': 'trash'},

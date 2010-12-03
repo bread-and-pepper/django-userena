@@ -1,9 +1,6 @@
 {% extends "umessages/base_message.html" %}
 {% load i18n %}
 
-{% block title %}{{ message.subject }}{% endblock %}
-{% block content_title %}<h2>{{ message.subject }}</h2>{% endblock %}
-
 {% block content %}
 <div class="white-box">
   <p>{{ message.body }}</p>

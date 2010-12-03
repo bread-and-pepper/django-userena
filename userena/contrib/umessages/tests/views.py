@@ -47,7 +47,6 @@ class MessagesViewsTests(TestCase):
         client = self.client.login(username='john', password='blowfish')
 
         valid_data = {'to': 'john',
-                      'subject': 'A test message',
                       'body': 'Hi'}
 
         # Check for a normal redirect
@@ -58,7 +57,7 @@ class MessagesViewsTests(TestCase):
                              reverse('userena_umessages_inbox'))
 
         # Check for a requested redirect
-        valid_data['next'] = reverse('userena_umessages_drafts')
+        valid_data['next'] = reverse('userena_umessages_outbox')
         response = self.client.post(reverse('userena_umessages_compose'),
                                     data=valid_data)
         self.assertRedirects(response,
@@ -96,11 +95,6 @@ class MessagesViewsTests(TestCase):
                                            kwargs={'parent_id': 2}))
 
         self.assertEqual(response.status_code, 200)
-
-        # Test that the initial data of the form is set.
-        self.assertEqual(response.context['form'].initial['subject'],
-                         u'Re: REMOVED: I found a bug...')
-
 
         # Get an invalid reply, because your not a recipient
         response = self.client.get(reverse('userena_umessages_reply',
@@ -155,9 +149,9 @@ class MessagesViewsTests(TestCase):
         client = self.client.login(username='jane', password='blowfish')
         response = self.client.post(reverse('userena_umessages_remove'),
                                     data={'message_pks': '1',
-                                          'next': reverse('userena_umessages_drafts')})
+                                          'next': reverse('userena_umessages_outbox')})
         self.assertRedirects(response,
-                             reverse('userena_umessages_drafts'))
+                             reverse('userena_umessages_outbox'))
         jane = User.objects.get(username='jane')
         mr = msg.messagerecipient_set.get(user=jane,
                                           message=msg)

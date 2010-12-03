@@ -10,7 +10,7 @@ class MessageModelTests(TestCase):
         """ Test the human representation of a message """
         message = Message.objects.get(pk=1)
         self.failUnlessEqual(message.__unicode__(),
-                             message.subject)
+                             '%s...' % message.body[:100])
 
     def test_absolute_url(self):
         """ Test the absolute url of a message """

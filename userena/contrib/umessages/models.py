@@ -6,9 +6,6 @@ from userena.contrib.umessages.managers import MessageManager
 
 class Message(models.Model):
     """ Private message model, from user to user(s) """
-    subject = models.CharField(_("subject"),
-                               max_length=256)
-
     body = models.TextField(_("body"))
 
     sender = models.ForeignKey(User,
@@ -27,8 +24,7 @@ class Message(models.Model):
                                    verbose_name=_("parent message"))
 
     sent_at = models.DateTimeField(_("sent at"),
-                                   null=True,
-                                   blank=True)
+                                   auto_now_add=True)
 
     sender_deleted_at = models.DateTimeField(_("sender deleted at"),
                                              null=True,
@@ -37,7 +33,7 @@ class Message(models.Model):
     objects = MessageManager()
 
     def __unicode__(self):
-        return '%s' % self.subject
+        return '%s...' % self.body[:100]
 
     @models.permalink
     def get_absolute_url(self):

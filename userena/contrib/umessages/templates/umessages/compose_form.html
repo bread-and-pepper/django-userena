@@ -10,6 +10,5 @@
     <legend>{% trans "Compose message" %}</legend>
     {{ form.as_p }}
   </fieldset>
-  <input type="submit" name="_draft" value="{% trans "Save as draft" %}" />
-  <input type="submit" name="_send" value="{% trans "Send" %}" />
+  <input type="submit" name="send" value="{% trans "Send" %}" />
 {% endblock %}
