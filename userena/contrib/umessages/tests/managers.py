@@ -38,3 +38,12 @@ class MessageManagerTests(TestCase):
         user = User.objects.get(pk=1)
         self.assertRaises(ValueError, Message.objects.get_mailbox_for,
                           user, 'fake')
+
+    def test_get_conversation(self):
+        """ Test that the conversation is returned between two users """
+        user_1 = User.objects.get(pk=1)
+        user_2 = User.objects.get(pk=2)
+
+        messages = Message.objects.get_conversation_for(user_1, user_2)
+
+        print messages

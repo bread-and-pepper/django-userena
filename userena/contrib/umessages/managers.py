@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 class MessageManager(models.Manager):
     """ Manager for the :class:`Message` model. """
@@ -54,3 +55,9 @@ class MessageManager(models.Manager):
     def get_trash_for(self, user):
         """ Wrapper for :func:`get_mailbox_for` to get the users trash. """
         return self.get_mailbox_for(user, 'trash')
+
+    def get_conversation_for(self, user, receiver):
+        """ Get's a conversation between a user and it's receiver. """
+        messages = self.filter(Q(recipients=receiver), Q(sender=user) | \
+                               Q(recipients=user), Q(sender=receiver))
+        return messages
