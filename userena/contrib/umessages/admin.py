@@ -24,7 +24,6 @@ class MessageAdmin(admin.ModelAdmin):
         }),
         (_('Date/time'), {
             'fields': (
-                'sent_at',
                 'sender_deleted_at',
             ),
             'classes': ('collapse', 'wide'),
@@ -32,6 +31,6 @@ class MessageAdmin(admin.ModelAdmin):
     )
     list_display = ('sender', 'sent_at')
     list_filter = ('sent_at', 'sender')
-    search_fields = ('body')
+    search_fields = ('body',)
 
 admin.site.register(Message, MessageAdmin)

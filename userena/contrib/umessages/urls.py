@@ -1,12 +1,9 @@
 from django.conf.urls.defaults import *
-from django.shortcuts import redirect
+from django.views.generic.simple import redirect_to
 
 from userena.contrib.umessages import views as messages_views
 
 urlpatterns = patterns('',
-    url(r'^$',
-        redirect,
-        {'url': 'inbox/'}),
 
     url(r'^inbox/$',
         messages_views.message_list,
@@ -47,4 +44,9 @@ urlpatterns = patterns('',
         messages_views.message_remove,
         {'undo': True},
         name='userena_umessages_unremove'),
+
+    url(r'',
+        redirect_to,
+        {'url': 'inbox/'},
+        name='userena_umessages_list'),
 )

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.utils.text import truncate_words
 
 from userena.contrib.umessages.managers import MessageManager
 
@@ -33,7 +34,9 @@ class Message(models.Model):
     objects = MessageManager()
 
     def __unicode__(self):
-        return '%s...' % self.body[:100]
+        """ Human representation, displaying first ten words of the body. """
+        truncated_body = truncate_words(self.body, 10)
+        return '%s' % truncated_body
 
     @models.permalink
     def get_absolute_url(self):
