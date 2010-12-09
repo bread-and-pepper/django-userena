@@ -15,6 +15,11 @@ urlpatterns = patterns('',
         {'mailbox': 'outbox'},
         name='userena_umessages_outbox'),
 
+    url(r'^conversation/$',
+        messages_views.message_list,
+        {'mailbox': 'conversation'},
+        name='userena_umessages_conversation'),
+
     url(r'^trash/$',
         messages_views.message_list,
         {'mailbox': 'trash'},

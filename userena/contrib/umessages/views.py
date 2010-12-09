@@ -22,7 +22,6 @@ def message_list(request, page=1, paginate_by=50, mailbox="inbox",
                  fallback_template_name="umessages/message_list.html",
                  extra_context=None, **kwargs):
     """
-
     List a folder of specific type for this user.
 
     :param page:
@@ -39,6 +38,10 @@ def message_list(request, page=1, paginate_by=50, mailbox="inbox",
 
         ``inbox``
             Incoming messages.
+
+        ``conversation``
+            A list of messages is returned that's combined by the user that
+            send them; iPhone style.
 
         ``outbox``
             Sent messsages.
@@ -103,7 +106,7 @@ def message_list(request, page=1, paginate_by=50, mailbox="inbox",
 
 @login_required
 def message_detail(request, message_id, template_name="umessages/message_detail.html",
-                   use_threaded=True, extra_context=None):
+                   threaded=False, conversational=False, extra_context=None):
     """
     Detailed view of a message.
 
@@ -113,15 +116,24 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
     :param template_name:
         String of the template that is rendered to display this view.
 
-    :param use_threaded:
+    :param threaded:
         TODO: Boolean that defines if the view get's the parent messages also.
+        Works the same as in GMail, combining messages about the same subject
+        (replies).
+
+    :param conversational:
+        TODO: Conversational style messages, for example SMS on the iPhone.
 
     :param: extra_context:
         Dictionary of variables that will be made available to the template.
 
     """
-    message = Message.objects.get(pk=message_id)
+    message = get_object_or_404(Message,
+                                pk=message_id)
     now = datetime.datetime.now()
+
+    if not extra_context:
+        extra_context = dict()
 
     if (message.sender != request.user) and \
        (request.user not in message.recipients.all()):
@@ -133,8 +145,12 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
         mr.read_at = now
         mr.save()
 
-    if not extra_context:
-        extra_context = dict()
+    # Add threaded messages if wanted.
+    if threaded:
+        extra_context["threaded_list"] = []
+
+    if conversational:
+        extra_context["conversational_list"] = []
 
     extra_context["message"] = message
     return direct_to_template(request,

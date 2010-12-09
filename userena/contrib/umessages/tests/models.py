@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.utils.text import truncate_words
 
 from userena.contrib.umessages.models import Message, MessageRecipient
 
@@ -9,8 +10,9 @@ class MessageModelTests(TestCase):
     def test_string_formatting(self):
         """ Test the human representation of a message """
         message = Message.objects.get(pk=1)
+        truncated_body = truncate_words(message.body, 10)
         self.failUnlessEqual(message.__unicode__(),
-                             '%s...' % message.body[:100])
+                             truncated_body)
 
     def test_absolute_url(self):
         """ Test the absolute url of a message """
@@ -26,8 +28,7 @@ class MessageRecipientModelTest(TestCase):
         """ Test the human representation of a recipient """
         recipient = MessageRecipient.objects.get(pk=1)
 
-        valid_unicode = '%s (%s)' % (recipient.message,
-                                     recipient.user)
+        valid_unicode = '%s' % (recipient.message)
 
         self.failUnlessEqual(recipient.__unicode__(),
                              valid_unicode)

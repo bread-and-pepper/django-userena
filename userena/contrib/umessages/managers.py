@@ -1,8 +1,43 @@
 from django.db import models
 from django.db.models import Q
 
+import datetime
+
 class MessageManager(models.Manager):
     """ Manager for the :class:`Message` model. """
+
+    def send_message(self, sender, to_user_list, body, parent_msg=None):
+        """
+        Send a message from a user, to a user.
+
+        :param sender:
+            The :class:`User` which sends the message.
+
+        :param to_user_list:
+            A list which elements are :class:`User` to whom the message is for.
+
+        :param message:
+            String containing the message.
+
+        :param parent_msg:
+            The :class:`Message` that this message originated from.
+
+        """
+        msg = self.create(sender=sender,
+                          body=body)
+
+        if parent_msg:
+            msg.parent_msg = parent_msg
+            msg.save()
+
+            now = datetime.datetime.now()
+            parent_msg.replied_at = now
+            parent_msg.save()
+
+        # Save the recipients
+        msg.save_recipients(to_user_list)
+
+        return msg
 
     def get_mailbox_for(self, user, mailbox='inbox'):
         """
@@ -14,7 +49,7 @@ class MessageManager(models.Manager):
 
         :param mailbox:
             String containing the mailbox which is requested. This can be
-            either ``inbox``, ``outbox`` or ``trash``.
+            either ``inbox``, ``outbox``, ``conversation`` or ``trash``.
 
         :return:
             Queryset containing :class:`Messages` or ``ValueError`` if the
@@ -23,8 +58,7 @@ class MessageManager(models.Manager):
         """
         if mailbox == 'outbox':
             messages = self.filter(sender=user,
-                                   sender_deleted_at__isnull=True,
-                                   sent_at__isnull=False)
+                                   sender_deleted_at__isnull=True)
 
         elif mailbox == 'trash':
             received = self.filter(recipients=user,
@@ -38,6 +72,11 @@ class MessageManager(models.Manager):
         elif mailbox == 'inbox':
             messages = self.filter(recipients=user,
                                    messagerecipient__deleted_at__isnull=True)
+
+        elif mailbox == 'conversation':
+            # Returns a iPhone style conversational list.
+            messages = None
+            pass
 
         else:
             raise ValueError("mailbox must be either inbox, outbox or trash")
@@ -58,6 +97,5 @@ class MessageManager(models.Manager):
 
     def get_conversation_for(self, user, receiver):
         """ Get's a conversation between a user and it's receiver. """
-        messages = self.filter(Q(recipients=receiver), Q(sender=user) | \
-                               Q(recipients=user), Q(sender=receiver))
+        messages = self.filter(Q(recipients=receiver, sender=user) | Q(recipients=user, sender=receiver))
         return messages

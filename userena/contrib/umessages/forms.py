@@ -25,24 +25,12 @@ class ComposeForm(forms.Form):
         :return: The saved :class:`Message`.
 
         """
-        to_list = self.cleaned_data['to']
+        to_user_list = self.cleaned_data['to']
         body = self.cleaned_data['body']
 
-        now = datetime.datetime.now()
-
-        # Save the message
-        msg = Message(sender=sender, body=body)
-        msg.sent_at = now
-        if parent_msg:
-            msg.parent_msg = parent_msg
-            parent_msg.replied_at = now
-            parent_msg.save()
-        msg.save()
-
-        # Save the recipients
-        for r in to_list:
-            mr = MessageRecipient(message=msg,
-                                  user=r)
-            mr.save()
+        msg = Message.objects.send_message(sender,
+                                           to_user_list,
+                                           body,
+                                           parent_msg)
 
         return msg

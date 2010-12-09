@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 
-from userena.contrib.umessages.models import Message, MessageRecipient
+from userena.contrib.umessages.models import Message, MessageContact, MessageRecipient
 
 class MessageRecipientInline(admin.TabularInline):
     """ Inline message recipients """
@@ -34,3 +34,4 @@ class MessageAdmin(admin.ModelAdmin):
     search_fields = ('body',)
 
 admin.site.register(Message, MessageAdmin)
+admin.site.register(MessageContact)
