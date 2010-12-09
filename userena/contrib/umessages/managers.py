@@ -3,6 +3,47 @@ from django.db.models import Q
 
 import datetime
 
+class MessageContactManager(models.Manager):
+    """ Manager for the :class:`MessageContact` model """
+
+    def get_or_create(self, from_user, to_user, message):
+        """
+        Get or create a Contact
+
+        We override Django's :func:`get_or_create` because we want contact to
+        be unique in a bi-directional manner.
+
+        """
+        created = False
+        try:
+            contact = self.get(Q(from_user=from_user, to_user=to_user) |
+                               Q(from_user=to_user, to_user=from_user))
+
+        except self.model.DoesNotExist:
+            created = True
+            contact = self.create(from_user=from_user,
+                                  to_user=to_user,
+                                  latest_message=message)
+
+        return (contact, created)
+
+    def update_contact(self, from_user, to_user, message):
+        """ Get or update a contacts information """
+        contact, created = self.get_or_create(from_user,
+                                              to_user,
+                                              message)
+
+        # If the contact already existed, update the message
+        if not created:
+            contact.latest_message = message
+            contact.save()
+        return contact
+
+    def get_contacts_for(self, user):
+        """ Returns the contacts for this user """
+        contacts = self.filter(Q(from_user=user) | Q(to_user=user))
+        return contacts
+
 class MessageManager(models.Manager):
     """ Manager for the :class:`Message` model. """
 
@@ -23,19 +64,21 @@ class MessageManager(models.Manager):
             The :class:`Message` that this message originated from.
 
         """
-        msg = self.create(sender=sender,
-                          body=body)
+        msg = self.model(sender=sender,
+                         body=body)
 
         if parent_msg:
             msg.parent_msg = parent_msg
-            msg.save()
 
             now = datetime.datetime.now()
             parent_msg.replied_at = now
             parent_msg.save()
 
+        msg.save()
+
         # Save the recipients
         msg.save_recipients(to_user_list)
+        msg.update_contacts(to_user_list)
 
         return msg
 
@@ -73,11 +116,6 @@ class MessageManager(models.Manager):
             messages = self.filter(recipients=user,
                                    messagerecipient__deleted_at__isnull=True)
 
-        elif mailbox == 'conversation':
-            # Returns a iPhone style conversational list.
-            messages = None
-            pass
-
         else:
             raise ValueError("mailbox must be either inbox, outbox or trash")
 
@@ -95,7 +133,10 @@ class MessageManager(models.Manager):
         """ Wrapper for :func:`get_mailbox_for` to get the users trash. """
         return self.get_mailbox_for(user, 'trash')
 
-    def get_conversation_for(self, user, receiver):
-        """ Get's a conversation between a user and it's receiver. """
-        messages = self.filter(Q(recipients=receiver, sender=user) | Q(recipients=user, sender=receiver))
+    def get_conversation_between(self, from_user, to_user):
+        """ Returns a conversation between two users """
+        messages = self.filter(Q(sender=from_user, recipients=to_user,
+                                 sender_deleted_at__isnull=True) |
+                               Q(sender=to_user, recipients=from_user,
+                                 messagerecipient__deleted_at__isnull=True))
         return messages

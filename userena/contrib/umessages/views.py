@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 
-from userena.contrib.umessages.models import Message, MessageRecipient
+from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
 from userena.contrib.umessages.forms import ComposeForm
 from userena import settings as userena_settings
 
@@ -105,8 +105,113 @@ def message_list(request, page=1, paginate_by=50, mailbox="inbox",
                                    **kwargs)
 
 @login_required
+def conversation_list(request, page=1, paginate_by=50,
+                      template_name="umessages/conversation_list.html",
+                      extra_context=None, **kwargs):
+    """
+
+    Returns the conversational list for this user. This is a list contacts
+    which at the top has the user that the last conversation was with. This is
+    an imitation of the iPhone SMS functionality.
+
+    :param page:
+        Integer of the active page used for pagination. Defaults to the first
+        page.
+
+    :param paginate_by:
+        Integer defining the amount of displayed messages per page.
+        Defaults to 50 messages per per page.
+
+    :param template_name:
+        String of the template that is rendered to display this view.
+
+    :param extra_context:
+        Dictionary of variables that will be made available to the template.
+
+    If the result is paginated, the context will also contain the following
+    variables.
+
+    ``paginator``
+        An instance of ``django.core.paginator.Paginator``.
+
+    ``page_obj``
+        An instance of ``django.core.paginator.Page``.
+
+    """
+    queryset = MessageContact.objects.get_contacts_for(request.user)
+
+    if not extra_context: extra_context = dict()
+    return list_detail.object_list(request,
+                                   queryset=queryset,
+                                   paginate_by=paginate_by,
+                                   page=page,
+                                   template_name=template_name,
+                                   extra_context=extra_context,
+                                   template_object_name="conversation",
+                                   **kwargs)
+
+@login_required
+def conversation_detail(request, username, page=1, paginate_by=50,
+                        template_name="umessages/conversation_detail.html",
+                        extra_context=None, **kwargs):
+    """
+    Returns a conversation between two users
+
+    :param username:
+        String containing the username of :class:`User` of whom the
+        conversation is with.
+
+    :param page:
+        Integer of the active page used for pagination. Defaults to the first
+        page.
+
+    :param paginate_by:
+        Integer defining the amount of displayed messages per page.
+        Defaults to 50 messages per per page.
+
+    :param extra_context:
+        Dictionary of variables that will be made available to the template.
+
+    :param template_name:
+        String of the template that is rendered to display this view.
+
+    If the result is paginated, the context will also contain the following
+    variables.
+
+    ``paginator``
+        An instance of ``django.core.paginator.Paginator``.
+
+    ``page_obj``
+        An instance of ``django.core.paginator.Page``.
+
+    """
+    conversation_user = get_object_or_404(User,
+                                          username__iexact=username)
+    queryset = Message.objects.get_conversation_between(request.user,
+                                                        conversation_user)
+
+    # Update all the messages that are unread.
+    message_pks = [m.pk for m in queryset]
+    unread_list = MessageRecipient.objects.filter(message__in=message_pks,
+                                                  user=request.user,
+                                                  read_at__isnull=True)
+    now = datetime.datetime.now()
+    unread_list.update(read_at=now)
+
+    if not extra_context: extra_context = dict()
+    extra_context['conversation_user'] = conversation_user
+    return list_detail.object_list(request,
+                                   queryset=queryset,
+                                   paginate_by=paginate_by,
+                                   page=page,
+                                   template_name=template_name,
+                                   extra_context=extra_context,
+                                   template_object_name="message",
+                                   **kwargs)
+
+@login_required
 def message_detail(request, message_id, template_name="umessages/message_detail.html",
-                   threaded=False, conversational=False, extra_context=None):
+                   threaded=False, extra_context=None):
     """
     Detailed view of a message.
 
@@ -121,10 +226,7 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
         Works the same as in GMail, combining messages about the same subject
         (replies).
 
-    :param conversational:
-        TODO: Conversational style messages, for example SMS on the iPhone.
-
-    :param: extra_context:
+    :param extra_context:
         Dictionary of variables that will be made available to the template.
 
     """
@@ -139,7 +241,8 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
        (request.user not in message.recipients.all()):
         raise Http404
 
-    mr = message.messagerecipient_set.get(message=message)
+    mr = message.messagerecipient_set.get(message=message,
+                                          user=request.user)
 
     if mr.read_at is None:
         mr.read_at = now
@@ -148,9 +251,6 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
     # Add threaded messages if wanted.
     if threaded:
         extra_context["threaded_list"] = []
-
-    if conversational:
-        extra_context["conversational_list"] = []
 
     extra_context["message"] = message
     return direct_to_template(request,

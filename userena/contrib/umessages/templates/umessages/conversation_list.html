@@ -1,0 +1,20 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>Conversations</h2>{% endblock %}
+
+{% block content %}
+
+<ul>
+{% for contact in conversation_list %}
+<li>
+{% if contact.from_user == user %}
+<a href="{% url userena_umessages_conversation_detail contact.to_user.username %}">{{ contact.to_user }}</a>
+{% else %}
+<a href="{% url userena_umessages_conversation_detail contact.from_user.username %}">{{ contact.from_user }}</a>
+{% endif %}
+{{ contact.latest_message }}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

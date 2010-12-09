@@ -3,7 +3,46 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils.text import truncate_words
 
-from userena.contrib.umessages.managers import MessageManager
+from userena.contrib.umessages.managers import MessageManager, MessageContactManager
+
+class MessageContact(models.Model):
+    """
+    A contact model.
+
+    """
+    from_user = models.ForeignKey(User, verbose_name=_("from user"),
+                                  related_name=('from_users'))
+
+    to_user = models.ForeignKey(User, verbose_name=_("to user"),
+                                related_name=('to_users'))
+
+    latest_message = models.ForeignKey('Message',
+                                       verbose_name=_("latest message"))
+
+    objects = MessageContactManager()
+
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+        ordering = ['latest_message']
+        verbose_name = _("contact")
+        verbose_name_plural = _("contacts")
+
+    def __unicode__(self):
+        return (_("%(from_user)s and %(to_user)s")
+                % {'from_user': self.from_user.username,
+                   'to_user': self.to_user.username})
+
+    def opposite_user(self, user):
+        """
+        Returns the user opposite of the user that is given
+
+        :param user:
+            A Django :class:`User`.
+
+        """
+        if self.from_user == user:
+            return self.to_user
+        else: return self.from_user
 
 class MessageRecipient(models.Model):
     """
@@ -98,29 +137,15 @@ class Message(models.Model):
             MessageRecipient.objects.create(user=user,
                                             message=self)
 
-class MessageContact(models.Model):
-    """
-    A contact model.
+    def update_contacts(self, to_user_list):
+        """
+        Updates the contacts that are used for this message.
 
-    """
-    from_user = models.ForeignKey(User, verbose_name=_("from user"),
-                                  related_name=('from_users'))
+        :param to_user_list:
+            List of Django :class:`User`.
 
-    to_user = models.ForeignKey(User, verbose_name=_("to user"),
-                                related_name=('to_users'))
-
-    latest_message = models.ForeignKey(Message,
-                                       verbose_name=_("latest message"))
-
-    class Meta:
-        unique_together = ('from_user', 'to_user')
-        ordering = ['latest_message']
-        verbose_name = _("contact")
-        verbose_name_plural = _("contacts")
-
-    def __unicode__(self):
-        return (_("Contact from %(from_user)s to %(to_user)s")
-                % {'from_user': self.from_user.get_full_name(),
-                   'to_user': self.to_user.get_full_name()})
-
-
+        """
+        for user in to_user_list:
+            MessageContact.objects.update_contact(self.sender,
+                                                  user,
+                                                  self)
