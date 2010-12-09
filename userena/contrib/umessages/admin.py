@@ -29,7 +29,7 @@ class MessageAdmin(admin.ModelAdmin):
             'classes': ('collapse', 'wide'),
         }),
     )
-    list_display = ('sender', 'sent_at')
+    list_display = ('sender', 'body', 'sent_at')
     list_filter = ('sent_at', 'sender')
     search_fields = ('body',)
 

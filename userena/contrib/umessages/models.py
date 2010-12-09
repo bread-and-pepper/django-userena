@@ -3,7 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils.text import truncate_words
 
-from userena.contrib.umessages.managers import MessageManager, MessageContactManager
+from userena.contrib.umessages.managers import (MessageManager, MessageContactManager,
+                                                MessageRecipientManager)
 
 class MessageContact(models.Model):
     """
@@ -67,6 +68,9 @@ class MessageRecipient(models.Model):
     replied_at = models.DateTimeField(_("replied at"),
                                       null=True,
                                       blank=True)
+
+    objects = MessageRecipientManager()
+
     class Meta:
         verbose_name = _("recipient")
         verbose_name_plural = _("recipients")

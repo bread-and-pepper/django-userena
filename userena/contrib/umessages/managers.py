@@ -140,3 +140,46 @@ class MessageManager(models.Manager):
                                Q(sender=to_user, recipients=from_user,
                                  messagerecipient__deleted_at__isnull=True))
         return messages
+
+
+class MessageRecipientManager(models.Manager):
+    """ Manager for the :class:`MessageRecipient` model. """
+
+    def count_unread_messages_for(self, user):
+        """
+        Returns the amount of unread messages for this user
+
+        :param user:
+            A Django :class:`User`
+
+        :return:
+            An integer with the amount of unread messages.
+
+        """
+        unread_total = self.filter(user=user,
+                                   read_at__isnull=True,
+                                   deleted_at__isnull=True).count()
+        print unread_total
+
+        return unread_total
+
+    def count_unread_messages_between(self, to_user, from_user):
+        """
+        Returns the amount of unread messages between two users
+
+        :param to_user:
+            A Django :class:`User` for who the messages are for.
+
+        :param from_user:
+            A Django :class:`User` from whom the messages originate from.
+
+        :return:
+            An integer with the amount of unread messages.
+
+        """
+        unread_total = self.filter(message__sender=from_user,
+                                   user=to_user,
+                                   read_at__isnull=True,
+                                   deleted_at__isnull=True)
+        print unread_total
+        return unread_total.count()
