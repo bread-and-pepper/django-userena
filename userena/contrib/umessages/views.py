@@ -151,7 +151,7 @@ def conversation_list(request, page=1, paginate_by=50,
                                    **kwargs)
 
 @login_required
-def conversation_detail(request, username, page=1, paginate_by=50,
+def conversation_detail(request, username, page=1, paginate_by=10,
                         template_name="umessages/conversation_detail.html",
                         extra_context=None, **kwargs):
     """
