@@ -11,7 +11,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
 from django.http import HttpResponseForbidden, Http404
 
-from userena.forms import SignupForm, AuthenticationForm, ChangeEmailForm, EditProfileForm
+from userena.forms import SignupForm, SignupFormOnlyEmail, AuthenticationForm, ChangeEmailForm, EditProfileForm
 from userena.models import UserenaSignup
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
@@ -55,6 +55,9 @@ def signup(request, signup_form=SignupForm,
         Form supplied by ``signup_form``.
 
     """
+    if userena_settings.USERENA_WITHOUT_USERNAMES and isinstance(signup_form, SignupForm):
+        signup_form = SignupFormOnlyEmail
+
     form = signup_form()
 
     if request.method == 'POST':

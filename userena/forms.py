@@ -2,10 +2,13 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.utils.hashcompat import sha_constructor
 
 from userena import settings as userena_settings
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model
+
+import random
 
 attrs_dict = {'class': 'required'}
 
@@ -77,6 +80,31 @@ class SignupForm(forms.Form):
         new_user = UserenaSignup.objects.create_inactive_user(username, email, password)
         return new_user
 
+class SignupFormOnlyEmail(SignupForm):
+    """
+    Form for creating a new user account but not needing a username.
+
+    This form is an adaptation of :class:`SignupForm`. It's used when
+    ``USERENA_WITHOUT_USERNAME`` setting is set to ``True``. And thus the user
+    is not asked to supply an username, but one is generated for them. The user
+    can than keep sign in by using their email.
+
+    """
+    def __init__(self, *args, **kwargs):
+        super(SignupFormOnlyEmail, self).__init__(*args, **kwargs)
+        del self.fields['username']
+
+    def save(self):
+        """ Generate a random username before falling back to parent signup form """
+        while True:
+            username = sha_constructor(str(random.random())).hexdigest()[:5]
+            try:
+                User.objects.get(username__iexact=username)
+            except User.DoesNotExist: break
+
+        self.cleaned_data['username'] = username
+        return super(SignupFormOnlyEmail, self).save()
+
 class SignupFormTos(SignupForm):
     """ Add a Terms of Service button to the ``SignupForm``. """
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
@@ -97,6 +125,12 @@ class AuthenticationForm(forms.Form):
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
                                      required=False,
                                      label=_(u'Remember me for %(days)s' % {'days': userena_settings.USERENA_REMEMBER_ME_DAYS[0]}))
+
+    def __init__(self, *args, **kwargs):
+        """ A custom init because we need to change the label if no usernames is used """
+        super(AuthenticationForm, self).__init__(*args, **kwargs)
+        if userena_settings.USERENA_WITHOUT_USERNAMES:
+            self.fields['identification'].label = _("Email")
 
     def clean(self):
         """
