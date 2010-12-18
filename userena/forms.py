@@ -111,15 +111,25 @@ class SignupFormTos(SignupForm):
                              label=_(u'I have read and agree to the Terms of Service'),
                              error_messages={'required': _('You must agree to the terms to register.')})
 
+def identification_field_factory(label):
+    """
+    A simple identification field factory which enable you to set the label.
+
+    :param label:
+        String containing the label for this field.
+
+    """
+    return forms.CharField(label=_("%(label)s") % {'label': label},
+                           widget=forms.TextInput(attrs=attrs_dict),
+                           max_length=75,
+                           error_messages={'required': _('Either supply us with your email or username.')})
+
 class AuthenticationForm(forms.Form):
     """
     A custom form where the identification can be a e-mail address or username.
 
     """
-    identification = forms.CharField(label=_("Email or username"),
-                                     widget=forms.TextInput(attrs=attrs_dict),
-                                     max_length=75,
-                                     error_messages={'required': _('Either supply us with your email or username.')})
+    identification = identification_field_factory("Email or username")
     password = forms.CharField(label=_("Password"),
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
@@ -130,7 +140,7 @@ class AuthenticationForm(forms.Form):
         """ A custom init because we need to change the label if no usernames is used """
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         if userena_settings.USERENA_WITHOUT_USERNAMES:
-            self.fields['identification'].label = _("Email")
+            self.fields['identification'] = identification_field_factory("Email")
 
     def clean(self):
         """

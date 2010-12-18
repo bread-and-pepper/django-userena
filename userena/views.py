@@ -55,7 +55,9 @@ def signup(request, signup_form=SignupForm,
         Form supplied by ``signup_form``.
 
     """
-    if userena_settings.USERENA_WITHOUT_USERNAMES and isinstance(signup_form, SignupForm):
+    # If no usernames are wanted and the default form is used, fallback to the
+    # default form that doesn't display to enter the username.
+    if userena_settings.USERENA_WITHOUT_USERNAMES and (signup_form == SignupForm):
         signup_form = SignupFormOnlyEmail
 
     form = signup_form()

@@ -86,6 +86,17 @@ class UserenaViewsTests(ProfileTestCase):
         self.failUnless(isinstance(response.context['form'],
                                    forms.SignupForm))
 
+        # Now check that a different form is used when
+        # ``USERENA_WITHOUT_USERNAMES`` setting is set to ``True``
+        userena_settings.USERENA_WITHOUT_USERNAMES = True
+
+        response = self.client.get(reverse('userena_signup'))
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.SignupFormOnlyEmail))
+
+        # Back to default
+        userena_settings.USERENA_WITHOUT_USERNAMES = False
+
     def test_signup_view_success(self):
         """
         After a ``POST`` to the ``signup`` view a new user should be created,
