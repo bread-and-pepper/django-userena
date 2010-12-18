@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, AnonymousUser
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
+from userena import signals as userena_signals
 
 from guardian.shortcuts import assign, get_perms
 
@@ -59,6 +60,10 @@ class UserenaManager(UserManager):
 
         userena_profile.send_activation_email()
 
+        # Send the signup complete signal
+        userena_signals.signup_complete.send(sender=None,
+                                             user=new_user)
+
         return new_user
 
     def create_userena_profile(self, user):
@@ -82,8 +87,8 @@ class UserenaManager(UserManager):
         """
         Activate an :class:`User` by supplying a valid ``activation_key``.
 
-        If the key is valid and an user is found, activate the user and
-        return it.
+        If the key is valid and an user is found, activates the user and
+        return it. Also sends the ``activation_complete`` signal.
 
         :param username:
             String containing the username that wants to be activated.
@@ -107,6 +112,11 @@ class UserenaManager(UserManager):
                 user.is_active = True
                 userena.save(using=self._db)
                 user.save(using=self._db)
+
+                # Send the activation_complete signal
+                userena_signals.activation_complete.send(sender=None,
+                                                         user=user)
+
                 return user
         return False
 
@@ -142,6 +152,11 @@ class UserenaManager(UserManager):
                 userena.email_unconfirmed, userena.email_confirmation_key = '',''
                 userena.save(using=self._db)
                 user.save(using=self._db)
+
+                # Send the activation_complete signal
+                userena_signals.confirmation_complete.send(sender=None,
+                                                           user=user)
+
                 return user
         return False
 
