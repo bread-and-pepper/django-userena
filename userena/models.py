@@ -295,6 +295,32 @@ class UserenaBaseProfile(models.Model):
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
+    def get_full_name_or_username(self):
+        """
+        Returns the full name of the user, or if none is supplied will return
+        the username.
+
+        :return:
+            ``String`` containing the full name of the user. If no name is
+            supplied it will return the username or email address depending on
+            the ``USERENA_WITHOUT_USERNAMES`` setting.
+
+        """
+        user = self.user
+        if user.first_name or user.last_name:
+            # We will return this as translated string. Maybe there are some
+            # countries that first display the last name.
+            name = _('%(first_name)s %(last_name)s') % \
+                {'first_name': user.first_name,
+                 'last_name': user.last_name}
+        else:
+            # Fallback to the username if usernames are used
+            if userena_settings.USERENA_WITHOUT_USERNAMES:
+                name = '%(username)s' % {'username': user.username}
+            else:
+                name = '%(email)s' % {'email': user.email}
+        return name.strip()
+
     def can_view_profile(self, user):
         """
         Can the :class:`User` view this profile?
