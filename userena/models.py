@@ -315,7 +315,7 @@ class UserenaBaseProfile(models.Model):
                  'last_name': user.last_name}
         else:
             # Fallback to the username if usernames are used
-            if userena_settings.USERENA_WITHOUT_USERNAMES:
+            if not userena_settings.USERENA_WITHOUT_USERNAMES:
                 name = '%(username)s' % {'username': user.username}
             else:
                 name = '%(email)s' % {'email': user.email}
