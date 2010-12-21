@@ -69,3 +69,7 @@ USERENA_USE_MESSAGES = getattr(settings,
 USERENA_LANGUAGE_FIELD = getattr(settings,
                                  'USERENA_LANGUAGE_FIELD',
                                  'language')
+
+USERENA_WITHOUT_USERNAMES = getattr(settings,
+                                    'USERENA_WITHOUT_USERNAMES',
+                                    False)

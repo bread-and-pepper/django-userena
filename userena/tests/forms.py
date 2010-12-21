@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from userena import forms
+from userena import settings as userena_settings
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """
@@ -106,9 +107,59 @@ class AuthenticationFormTests(TestCase):
             form = forms.AuthenticationForm(valid_dict)
             self.failUnless(form.is_valid())
 
+    def test_signin_form_email(self):
+        """
+        Test that the signin form has a different label is
+        ``USERENA_WITHOUT_USERNAME`` is set to ``True``
+
+        """
+        userena_settings.USERENA_WITHOUT_USERNAMES = True
+
+        form = forms.AuthenticationForm(data={'identification': "john",
+                                              'password': "blowfish"})
+
+        correct_label = "Email"
+        self.assertEqual(form.fields['identification'].label,
+                         correct_label)
+
+        # Restore default settings
+        userena_settings.USERENA_WITHOUT_USERNAMES = False
+
+class SignupFormOnlyEmailTests(TestCase):
+    """
+    Test the :class:`SignupFormOnlyEmail`.
+
+    This is the same form as :class:`SignupForm` but doesn't require an
+    username for a successfull signup.
+
+    """
+    fixtures = ['users']
+
+    def test_signup_form_only_email(self):
+        """
+        Test that the form has no username field. And that the username is
+        generated in the save method
+
+        """
+        valid_data = {'email': 'hans@gretel.com',
+                      'password1': 'blowfish',
+                      'password2': 'blowfish'}
+
+        form = forms.SignupFormOnlyEmail(data=valid_data)
+
+        # Should have no username field
+        self.failIf(form.fields.get('username', False))
+
+        # Form should be valid.
+        self.failUnless(form.is_valid())
+
+        # Creates an unique username
+        user = form.save()
+
+        self.failUnless(len(user.username), 5)
+
 class ChangeEmailFormTests(TestCase):
     """ Test the ``ChangeEmailForm`` """
-
     fixtures = ['users']
 
     def test_change_email_form(self):
