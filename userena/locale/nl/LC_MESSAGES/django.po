@@ -32,12 +32,12 @@ msgstr "E-mail"
 
 #: forms.py:31
 #: forms.py:96
-msgid "Password"
-msgstr "Wachtwoord"
+msgid "Create password"
+msgstr "Kies wachtwoord"
 
 #: forms.py:34
-msgid "Confirm password"
-msgstr "Bevestig wachtwoord"
+msgid "Repeat password"
+msgstr "Herhaal wachtwoord"
 
 #: forms.py:48
 msgid "This username is already taken."
