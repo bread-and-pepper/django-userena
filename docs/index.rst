@@ -57,13 +57,15 @@ Contents
    installation
    settings
    commands
+   api/index
 
-**API**
+Battery: uMessages
+~~~~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   api/index
+   contrib/umessages/index
 
 Indices and tables
 ==================

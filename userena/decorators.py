@@ -26,6 +26,9 @@ def secure_required(view_func):
         if 'HTTP_X_FORWARDED_SSL' in request.META:
             request.is_secure = lambda: request.META['HTTP_X_FORWARDED_SSL'] == 'on'
 
+        if 'HTTP_X_FORWARDED_PROTOCOL' in request.META:
+            request.is_secure = lambda: request.META['HTTP_X_FORWARDED_PROTOCOL'] == 'https'
+
         if not request.is_secure():
             if userena_settings.USERENA_USE_HTTPS:
                 request_url = request.build_absolute_uri(request.get_full_path())

@@ -1,0 +1,23 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n umessages_tags %}
+
+{% block content_title %}<h2>Conversations</h2>{% endblock %}
+
+{% block content %}
+{% get_unread_message_count_for user as unread_message_count %}
+{{ unread_message_count }} new messages.
+<ul>
+{% for contact in conversation_list %}
+<li>
+{% if contact.from_user == user %}
+<a href="{% url userena_umessages_conversation_detail contact.to_user.username %}">{{ contact.to_user }}</a>
+{% get_unread_message_count_between user and contact.to_user as unread_between_count %}
+{% else %}
+<a href="{% url userena_umessages_conversation_detail contact.from_user.username %}">{{ contact.from_user }}</a>
+{% get_unread_message_count_between user and contact.from_user as unread_between_count %}
+{% endif %}
+{{ contact.latest_message }} {{ unread_between_count }} new messages for this user.
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

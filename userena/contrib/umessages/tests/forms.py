@@ -1,0 +1,75 @@
+from django.test import TestCase
+from django.contrib.auth.models import User
+
+from userena.contrib.umessages.forms import ComposeForm
+
+class ComposeFormTests(TestCase):
+    """ Test the compose form. """
+    fixtures = ['users']
+
+    def test_invalid_data(self):
+        """
+        Test the save method of :class:`ComposeForm`
+
+        We don't need to make the ``to`` field sweat because we have done that
+        in the ``fields`` test.
+
+        """
+        invalid_data_dicts = [
+            # No body
+            {'data': {'to': 'john',
+                      'body': ''},
+             'error': ('body', [u'This field is required.'])},
+        ]
+
+        for invalid_dict in invalid_data_dicts:
+            form = ComposeForm(data=invalid_dict['data'])
+            self.failIf(form.is_valid())
+            self.assertEqual(form.errors[invalid_dict['error'][0]],
+                             invalid_dict['error'][1])
+
+    def test_save_msg(self):
+        """ Test valid data """
+        valid_data = {'to': 'john, jane',
+                      'body': 'Body'}
+
+        form = ComposeForm(data=valid_data)
+
+        self.failUnless(form.is_valid())
+
+        # Save the form.
+        sender = User.objects.get(username='jane')
+        msg = form.save(sender)
+
+        # Check if the values are set correctly
+        self.failUnlessEqual(msg.body, valid_data['body'])
+        self.failUnlessEqual(msg.sender, sender)
+        self.failUnless(msg.sent_at)
+
+        # Check recipients
+        self.failUnlessEqual(msg.recipients.all()[0].username, 'jane')
+        self.failUnlessEqual(msg.recipients.all()[1].username, 'john')
+
+    def test_child_msg(self):
+        """ Test a child message """
+        valid_data_parent = {'to': 'john',
+                             'body': 'Body'}
+
+        form = ComposeForm(data=valid_data_parent)
+        self.failUnless(form.is_valid())
+
+        sender = User.objects.get(username='jane')
+        parent_msg = form.save(sender)
+
+        # Send a new one
+        valid_data = {'to': 'jane',
+                      'body': 'Body'}
+
+        form = ComposeForm(data=valid_data)
+        self.failUnless(form.is_valid())
+
+        sender = User.objects.get(username='john')
+        msg = form.save(sender, parent_msg=parent_msg)
+
+        self.failUnlessEqual(msg.parent_msg, parent_msg)
+        self.failUnless(parent_msg.replied_at)

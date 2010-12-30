@@ -41,7 +41,7 @@ def upload_to_mugshot(instance, filename):
 
 class UserenaSignup(models.Model):
     """
-    Userena model which stores all the nescessary information to have a full
+    Userena model which stores all the necessary information to have a full
     functional user implementation on your Django website.
 
     """
@@ -92,12 +92,10 @@ class UserenaSignup(models.Model):
         A user needs to verify this new email address before it becomes
         active. By storing the new email address in a temporary field --
         ``temporary_email`` -- we are able to set this email address after the
-        user has verified it by clicking on the verfication URI in the email.
-        This email get's send out by ``send_verification_email``.
+        user has verified it by clicking on the verification URI in the email.
+        This email gets send out by ``send_verification_email``.
 
-        **Arguments**
-
-        ``email``
+        :param email:
             The new email address that the user wants to use.
 
         """
@@ -117,7 +115,7 @@ class UserenaSignup(models.Model):
 
         This method sends out two emails. One to the new email address that
         contains the ``email_confirmation_key`` which is used to verify this
-        this email address with ``UserenaUser.objects.confirm_email``.
+        this email address with :func:`UserenaUser.objects.confirm_email`.
 
         The other email is to the old email address to let the user know that
         a request is made to change this email address.
@@ -273,8 +271,9 @@ class UserenaBaseProfile(models.Model):
         Gravatar functionality will only be used when
         ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
 
-        Returns ``None`` when Gravatar is not used and no default image is
-        supplied by ``USERENA_MUGSHOT_DEFAULT``.
+        :return:
+            ``None`` when Gravatar is not used and no default image is supplied
+            by ``USERENA_MUGSHOT_DEFAULT``.
 
         """
         # First check for a mugshot and if any return that.
@@ -296,9 +295,35 @@ class UserenaBaseProfile(models.Model):
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
+    def get_full_name_or_username(self):
+        """
+        Returns the full name of the user, or if none is supplied will return
+        the username.
+
+        :return:
+            ``String`` containing the full name of the user. If no name is
+            supplied it will return the username or email address depending on
+            the ``USERENA_WITHOUT_USERNAMES`` setting.
+
+        """
+        user = self.user
+        if user.first_name or user.last_name:
+            # We will return this as translated string. Maybe there are some
+            # countries that first display the last name.
+            name = _('%(first_name)s %(last_name)s') % \
+                {'first_name': user.first_name,
+                 'last_name': user.last_name}
+        else:
+            # Fallback to the username if usernames are used
+            if not userena_settings.USERENA_WITHOUT_USERNAMES:
+                name = '%(username)s' % {'username': user.username}
+            else:
+                name = '%(email)s' % {'email': user.email}
+        return name.strip()
+
     def can_view_profile(self, user):
         """
-        Can the ``user`` view this profile?
+        Can the :class:`User` view this profile?
 
         Returns a boolean if a user has the rights to view the profile of this
         user.
@@ -321,10 +346,8 @@ class UserenaBaseProfile(models.Model):
         Through the ``privacy`` field a owner of an profile can define what
         they want to show to whom.
 
-        **Arguments**
-
-        ``user``
-            A django ``User`` instance.
+        :param user:
+            A Django :class:`User` instance.
 
         """
         # Simple cases first, we don't want to waste CPU and DB hits.
@@ -343,9 +366,9 @@ class UserenaBaseProfile(models.Model):
 
 class UserenaLanguageBaseProfile(UserenaBaseProfile):
     """
-    Extends the ``UserenaBaseProfile`` with a language choice.
+    Extends the :class:`UserenaBaseProfile` with a language choice.
 
-    Use this model in combination with ``UserenaLocaleMiddleware`` automaticly
+    Use this model in combination with ``UserenaLocaleMiddleware`` automatically
     set the language of users when they are signed in.
 
     """
