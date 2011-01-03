@@ -263,9 +263,6 @@ def signin(request, auth_form=AuthenticationForm,
     """
     form = auth_form
 
-    # Sign a user out if he/she is at the signin page.
-    logout(request)
-
     if request.method == 'POST':
         form = auth_form(request.POST, request.FILES)
         if form.is_valid():
