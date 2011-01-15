@@ -115,3 +115,16 @@ def get_profile_model():
     if profile_mod is None:
         raise SiteProfileNotAvailable
     return profile_mod
+
+def get_protocol():
+    """
+    Returns a string with the current protocol.
+
+    This can be either 'http' or 'https' depending on ``USERENA_USE_HTTPS``
+    setting.
+
+    """
+    protocol = 'http'
+    if userena_settings.USERENA_USE_HTTPS:
+        protocol = 'https'
+    return protocol
