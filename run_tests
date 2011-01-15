@@ -3,4 +3,4 @@ echo "Running test suite with coverage report at the end"
 echo -e "(requires coverage python package to be installed)\n"
 
 coverage run setup.py test
-coverage report -m userena/*.py userena/management/commands/*py
+coverage report -m userena/*.py userena/management/commands/*py userena/contrib/umessages/*.py
