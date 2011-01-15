@@ -229,6 +229,8 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
     :param extra_context:
         Dictionary of variables that will be made available to the template.
 
+    TODO: Add threaded messages.
+
     """
     message = get_object_or_404(Message,
                                 pk=message_id)
@@ -247,10 +249,6 @@ def message_detail(request, message_id, template_name="umessages/message_detail.
     if mr.read_at is None:
         mr.read_at = now
         mr.save()
-
-    # Add threaded messages if wanted.
-    if threaded:
-        extra_context["threaded_list"] = []
 
     extra_context["message"] = message
     return direct_to_template(request,

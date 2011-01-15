@@ -17,7 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^conversation/$',
         messages_views.conversation_list,
-        name='userena_umessages_conversation'),
+        name='userena_umessages_conversation_list'),
 
     url(r'^trash/$',
         messages_views.message_list,

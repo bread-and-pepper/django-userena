@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from userena.contrib.umessages.forms import ComposeForm
-from userena.contrib.umessages.models import Message
+from userena.contrib.umessages.models import Message, MessageRecipient
 
 class MessagesViewsTests(TestCase):
     fixtures = ['users', 'messages']
@@ -109,14 +109,20 @@ class MessagesViewsTests(TestCase):
                           kwargs={'message_id': 2})
 
         # Sign in
-        client = self.client.login(username='john', password='blowfish')
+        client = self.client.login(username='jane', password='blowfish')
         response = self.client.get(reverse('userena_umessages_detail',
-                                   kwargs={'message_id': 2}))
+                                   kwargs={'message_id': 1}))
 
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'umessages/message_detail.html')
+
+        # Test that the message is read.
+        jane = User.objects.get(pk=2)
+        mr = MessageRecipient.objects.get(message=Message.objects.get(pk=1),
+                                          user=jane)
+        self.failUnless(mr.read_at)
 
     def test_invalid_message_detail(self):
         """ ``GET`` for a message that is not theirs should raise 404 """
@@ -205,3 +211,33 @@ class MessagesViewsTests(TestCase):
         self.assertRedirects(response,
                              reverse('userena_umessages_inbox'))
 
+    def test_conversation_list(self):
+        """ ``GET`` the conversation list for a user """
+        self._test_login("userena_umessages_conversation_list")
+
+        client = self.client.login(username="john", password="blowfish")
+        response = self.client.get(reverse("userena_umessages_conversation_list"))
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "umessages/conversation_list.html")
+
+    def test_conversation_detail(self):
+        """ ``GET`` to a conversation detail page between two users """
+        self._test_login("userena_umessages_conversation_detail", kwargs={'username': "jane"})
+        client = self.client.login(username='john', password='blowfish')
+
+        response = self.client.get(reverse("userena_umessages_conversation_detail",
+                                           kwargs={'username': "jane"}))
+        self.assertEqual(response.status_code,
+                         200)
+
+        self.assertTemplateUsed(response, "umessages/conversation_detail.html")
+
+        # Check that all the messages are marked as read.
+        john = User.objects.get(pk=1)
+        jane = User.objects.get(pk=2)
+        unread_messages = MessageRecipient.objects.filter(user=john,
+                                                          message__sender=jane,
+                                                          read_at__isnull=True)
+
+        self.assertEqual(len(unread_messages), 0)
