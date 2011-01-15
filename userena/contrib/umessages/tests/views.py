@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from userena.contrib.umessages.forms import ComposeForm
 from userena.contrib.umessages.models import Message
@@ -105,12 +106,12 @@ class MessagesViewsTests(TestCase):
     def test_message_detail(self):
         """ A ``GET`` to the detail view """
         self._test_login('userena_umessages_detail',
-                          kwargs={'message_id': 1})
+                          kwargs={'message_id': 2})
 
         # Sign in
         client = self.client.login(username='john', password='blowfish')
         response = self.client.get(reverse('userena_umessages_detail',
-                                   kwargs={'message_id': 1}))
+                                   kwargs={'message_id': 2}))
 
 
         self.assertEqual(response.status_code, 200)

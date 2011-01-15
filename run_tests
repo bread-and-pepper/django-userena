@@ -1,6 +1,20 @@
-#!/bin/sh
-echo "Running test suite with coverage report at the end"
-echo -e "(requires coverage python package to be installed)\n"
+#!/usr/bin/env bash
 
-coverage run setup.py test
-coverage report -m userena/*.py userena/management/commands/*py userena/contrib/umessages/*.py
+# TODO: How to tell setup.py to only run some tests.
+
+case $1 in
+    userena )   echo -e "\033[1mRunning tests for userena.\033[0m"
+                cmd="coverage run setup.py test"
+                report_cmd="coverage report -m userena/*.py userena/management/commands/*.py"
+                ;;
+    umessages ) echo -e "\033[1mRunning tests for umessages.\033[0m"
+                cmd="coverage run setup.py test"
+                report_cmd="coverage report -m userena/contrib/umessages/*.py"
+                ;;
+    * )         echo -e "\033[1mRunning all tests.\033[0m"
+                cmd="coverage run setup.py test"
+                report_cmd="coverage report -m userena/*.py userena/management/commands/*py userena/contrib/umessages/*.py"
+esac
+
+$cmd
+$report_cmd

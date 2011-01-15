@@ -33,11 +33,6 @@ class MessageManagerTests(TestCase):
         self.failUnlessEqual(removed_messages[0].body,
                              "Hello from your mother")
 
-    def test_get_conversation_list(self):
-        """ Get a list of conversations between users """
-        user = User.objects.get(pk=1)
-        conversation = Message.objects.get_mailbox_for(user, mailbox='conversation')
-
     def test_invalid_folder(self):
         """ Test that an invalid folder raises ``ValueError`` """
         user = User.objects.get(pk=1)
@@ -49,4 +44,4 @@ class MessageManagerTests(TestCase):
         user_1 = User.objects.get(pk=1)
         user_2 = User.objects.get(pk=2)
 
-        messages = Message.objects.get_conversation_for(user_1, user_2)
+        messages = Message.objects.get_conversation_between(user_1, user_2)
