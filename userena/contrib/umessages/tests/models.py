@@ -1,8 +1,32 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import truncate_words
+from django.contrib.auth.models import User
 
-from userena.contrib.umessages.models import Message, MessageRecipient
+from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
+
+class MessageContactTests(TestCase):
+    fixtures = ['users', 'messages']
+
+    def test_string_formatting(self):
+        """ Test the human representation of a message """
+        contact = MessageContact.objects.get(pk=1)
+        correct_format = "john and jane"
+        self.failUnlessEqual(contact.__unicode__(),
+                             correct_format)
+
+    def test_opposite_user(self):
+        """ Test if the opposite user is returned """
+        contact = MessageContact.objects.get(pk=1)
+        john = User.objects.get(pk=1)
+        jane = User.objects.get(pk=2)
+
+        # Test the opposites
+        self.failUnlessEqual(contact.opposite_user(john),
+                             jane)
+
+        self.failUnlessEqual(contact.opposite_user(jane),
+                             john)
 
 class MessageModelTests(TestCase):
     fixtures = ['users', 'messages']

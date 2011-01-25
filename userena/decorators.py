@@ -4,10 +4,7 @@ from django.utils.decorators import available_attrs
 
 from userena import settings as userena_settings
 
-try:
-    from functools import wraps
-except ImportError:
-    from django.utils.functional import wraps  # Python 2.4 fallback.
+from django.utils.functional import wraps
 
 def secure_required(view_func):
     """

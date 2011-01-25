@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
-from userena.utils import get_gravatar, generate_sha1
+from userena.utils import get_gravatar, generate_sha1, get_protocol
 from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena import settings as userena_settings
 
@@ -121,13 +121,9 @@ class UserenaSignup(models.Model):
         a request is made to change this email address.
 
         """
-        protocol = 'http'
-        if userena_settings.USERENA_USE_HTTPS:
-            protocol = 'https'
-
         context= {'user': self.user,
                   'new_email': self.email_unconfirmed,
-                  'protocol': protocol,
+                  'protocol': get_protocol(),
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
@@ -183,16 +179,11 @@ class UserenaSignup(models.Model):
         Sends a activation email to the user.
 
         This email is send when the user wants to activate their newly created
-        user. Also checks if the protocol is secured by looking at
-        ``USERENA_USE_HTTPS`` value.
+        user.
 
         """
-        protocol = 'http'
-        if userena_settings.USERENA_USE_HTTPS:
-            protocol = 'https'
-
         context= {'user': self.user,
-                  'protocol': protocol,
+                  'protocol': get_protocol(),
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
@@ -300,6 +291,10 @@ class UserenaBaseProfile(models.Model):
         Returns the full name of the user, or if none is supplied will return
         the username.
 
+        Also looks at ``USERENA_WITHOUT_USERNAMES`` settings to define if it
+        should return the username or email address when the full name is not
+        supplied.
+
         :return:
             ``String`` containing the full name of the user. If no name is
             supplied it will return the username or email address depending on
@@ -310,15 +305,15 @@ class UserenaBaseProfile(models.Model):
         if user.first_name or user.last_name:
             # We will return this as translated string. Maybe there are some
             # countries that first display the last name.
-            name = _('%(first_name)s %(last_name)s') % \
+            name = _("%(first_name)s %(last_name)s") % \
                 {'first_name': user.first_name,
                  'last_name': user.last_name}
         else:
             # Fallback to the username if usernames are used
             if not userena_settings.USERENA_WITHOUT_USERNAMES:
-                name = '%(username)s' % {'username': user.username}
+                name = "%(username)s" % {'username': user.username}
             else:
-                name = '%(email)s' % {'email': user.email}
+                name = "%(email)s" % {'email': user.email}
         return name.strip()
 
     def can_view_profile(self, user):

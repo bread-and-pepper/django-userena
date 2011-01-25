@@ -40,7 +40,16 @@ class MessageContactManager(models.Manager):
         return contact
 
     def get_contacts_for(self, user):
-        """ Returns the contacts for this user """
+        """
+        Returns the contacts for this user.
+
+        Contacts are other users that this user has received messages
+        from or send messages to.
+
+        :param user:
+            The :class:`User` which to get the contacts for.
+
+        """
         contacts = self.filter(Q(from_user=user) | Q(to_user=user))
         return contacts
 
@@ -140,7 +149,6 @@ class MessageManager(models.Manager):
                                Q(sender=to_user, recipients=from_user,
                                  messagerecipient__deleted_at__isnull=True))
         return messages
-
 
 class MessageRecipientManager(models.Manager):
     """ Manager for the :class:`MessageRecipient` model. """

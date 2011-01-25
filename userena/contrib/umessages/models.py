@@ -8,7 +8,10 @@ from userena.contrib.umessages.managers import (MessageManager, MessageContactMa
 
 class MessageContact(models.Model):
     """
-    A contact model.
+    Contact model.
+
+    A contact is a user to whom a user has send a message to or
+    received a message from.
 
     """
     from_user = models.ForeignKey(User, verbose_name=_("from user"),
@@ -38,6 +41,9 @@ class MessageContact(models.Model):
         Returns the user opposite of the user that is given
 
         :param user:
+            A Django :class:`User`.
+
+        :return:
             A Django :class:`User`.
 
         """
@@ -136,10 +142,16 @@ class Message(models.Model):
         :param to_user_list:
             A list which elements are :class:`User` to whom the message is for.
 
+        :return:
+            Boolean indicating if any users are saved.
+
         """
+        created = False
         for user in to_user_list:
             MessageRecipient.objects.create(user=user,
                                             message=self)
+            created = True
+        return created
 
     def update_contacts(self, to_user_list):
         """
@@ -148,8 +160,14 @@ class Message(models.Model):
         :param to_user_list:
             List of Django :class:`User`.
 
+        :return:
+            A boolean if a user is contact is updated.
+
         """
+        updated = False
         for user in to_user_list:
             MessageContact.objects.update_contact(self.sender,
                                                   user,
                                                   self)
+            updated = True
+        return updated
