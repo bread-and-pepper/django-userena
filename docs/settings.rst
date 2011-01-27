@@ -155,6 +155,14 @@ Default: ``language`` (string)
 The language field that is used in the custom profile to define the preferred
 language of the user.
 
+USERENA_WITHOUT_USERNAMES
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+Defines if usernames are used within userena. Currently it's often for the
+users convenience that only an email is used for identification. With this
+setting you get just that.
+
 Django settings
 ---------------
 
@@ -173,3 +181,16 @@ Default: ``/accounts/logout/`` (string)
 LOGIN_URL counterpart.
 
 In userena this URI normally would be ``/accounts/signout/``.
+
+LOGIN_REDIRECT_URL
+~~~~~~~~~~~~~~~~~~
+Default: ``/accounts/profile/``
+
+In userena this URI should point to the profile of the user. Thus a string of
+``/accounts/%(username)s/`` is best.
+
+AUTH_PROFILE_MODULE
+~~~~~~~~~~~~~~~~~~~
+Default: ``not defined``
+
+This should point to the model that is your custom made profile.

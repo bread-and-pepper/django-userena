@@ -7,6 +7,6 @@
 
 {% block content %}
 <p>{% trans "Thank you for signing up with us!" %}</p>
-<p>{% blocktrans with account.email as email %}You have been send an e-mail with an activation link to {{ email }}.{% endblocktrans %}</p>
+<p>{% blocktrans %}You have been send an e-mail with an activation link to the supplied email.{% endblocktrans %}</p>
 <p>{% blocktrans %}We will store your signup information for {{ userena_activation_days }} days on our server. {% endblocktrans %}</p>
 {% endblock %}

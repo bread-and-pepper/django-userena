@@ -11,7 +11,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic import list_detail
 from django.http import HttpResponseForbidden, Http404
 
-from userena.forms import SignupForm, SignupFormOnlyEmail, AuthenticationForm, ChangeEmailForm, EditProfileForm
+from userena.forms import (SignupForm, SignupFormOnlyEmail, AuthenticationForm,
+                           ChangeEmailForm, EditProfileForm)
 from userena.models import UserenaSignup
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
