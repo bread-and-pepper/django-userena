@@ -6,7 +6,9 @@ from django.conf import settings
 gettext = lambda s: s
 
 
-USERENA_REDIRECT_ON_LOGOUT = getattr(settings,'USERENA_REDIRECT_ON_LOGOUT',None)
+USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
+                                      'USERENA_REDIRECT_ON_SIGNOUT',
+                                      None)
 
 USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
                                       'USERENA_SIGNIN_REDIRECT_URL',

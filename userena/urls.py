@@ -16,7 +16,7 @@ urlpatterns = patterns('',
                            name='userena_signin'),
                        url(r'^signout/$',
                            auth_views.logout,
-                           {'next_page':userena_settings.USERENA_REDIRECT_ON_LOGOUT,
+                           {'next_page': userena_settings.USERENA_REDIRECT_ON_SIGNOUT,
                             'template_name': 'userena/signout.html'},
                            name='userena_signout'),
 
