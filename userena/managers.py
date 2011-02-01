@@ -21,7 +21,7 @@ PERMISSIONS = {
 class UserenaManager(UserManager):
     """ Extra functionality for the Userena model. """
 
-    def create_inactive_user(self, username, email, password):
+    def create_inactive_user(self, username, email, password, send_email=True):
         """
         A simple wrapper that creates a new :class:`User`.
 
@@ -33,6 +33,11 @@ class UserenaManager(UserManager):
 
         :param password:
             String containing the password for the new user.
+
+        :param send_email:
+            Boolean that defines if the user should be send an email. You could
+            set this to ``False`` when you want to create a user in your own
+            code, but don't want the user to activate through email.
 
         :return: :class:`User` instance representing the new user.
 
@@ -58,7 +63,8 @@ class UserenaManager(UserManager):
         for perm in PERMISSIONS['user']:
             assign(perm, new_user, new_user)
 
-        userena_profile.send_activation_email()
+        if send_email:
+            userena_profile.send_activation_email()
 
         # Send the signup complete signal
         userena_signals.signup_complete.send(sender=None,
