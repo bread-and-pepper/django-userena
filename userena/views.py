@@ -284,7 +284,8 @@ def signin(request, auth_form=AuthenticationForm,
 
                 # Whereto now?
                 redirect_to = redirect_signin_function(
-                    request.REQUEST.get(redirect_field_name), user)
+                    request.REQUEST.get(redirect_field_name),
+                    user)
                 return redirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled',
