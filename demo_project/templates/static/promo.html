@@ -1,33 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 <div id="intro">
-    <h2><span>django-userena</span><br/>Accounts made beautifully simple</h2>
-    <p>Userena is a Django application that wants to supply you with account functionality according to current <a href="http://designingsocialinterfaces.com/patterns/Profile">standards</a>.</p>
-    <p><strong>Please do note that userena is currently under heavy development and not yet ready for production.</strong></p>
-    
+  <h2><span>django-userena</span><br/>Accounts made beautifully simple</h2>
+
+  <p>Userena is a Django application that supplies your Django project with
+  full account management. It's a fully customizable application that takes
+  care of the signup, activation, messaging and more. It's BSD licensed, which
+  means you can use it commercially for free!</p>
 
 </div><!-- /intro-->
 <p id="xtra-info">Got any feedback? Email me at &#112;&#101;&#116;&#97;&#114;&#64;&#98;&#114;&#101;&#97;&#100;&#97;&#110;&#100;&#112;&#101;&#112;&#112;&#101;&#114;&#46;&#99;&#111;&#109;. For bugs you can report an issue at <a href="http://github.com/bread-and-pepper/django-userena/issues">Github</a>.</p>
 <ul class="features">
-    <li><h3>Feature #1</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
-    <li><h3>Feature #2</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
-    <li><h3>Feature #3</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
-    <li><h3>Feature #4</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
-    <li><h3>Feature #5</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
-    <li><h3>Feature #6</h3><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></li>
+  <li><h3>What is userena?</h3>
+  <p>
+
+  Userena is an django application that supplies your project with full
+  account management. It handles the signup, activation, signin etc. for you.
+  It also supplies your users with an optional profile model that integrates
+  <a href="http://www.gravatar.com">gravatar</a> avatars. Please signup at
+  this website and try it out for yourself.
+
+  </p>
+  </li>
+  <li><h3>It's free!</h3>
+  <p>
+
+  Userena is licensed under the BSD license. This means you it's also free for
+  commercial use. You can adapt the software at free.
+
+  </p>
+  <li>
+  <h3>Used in production</h3>
+  <p> 
+
+  <a href="http://www.breadandpepper.com">Bread & Pepper</a> uses userena in
+  their own project. Because of this we have revised a lot of the code and
+  spared you of repeating this work. This has made us confident enough to be
+  able to say that the the software is ready for production. Because it's open
+  source, we also get feedback from the community that we use to build a solid
+  product.
+
+  </p></li>
+  <li><h3>100% test coverage</h3>
+  <p>
+
+  Account management is an important aspect of any website, therefore we
+  have chosen to have 100% test coverage for every bit of code. This
+  increases the confidence that we can supply a great user experience.
+
+  </p>
+  </li>
+  <li><h3>Messaging</h3>
+  <p>
+  
+  Userena comes with an optional, chat-like, messaging system. Within this system
+  users can see their communication with another user. It's use is intuitive and easy!
+
+  </p>
+
+  </li>
+
+  <li><h3>Privacy</h3>
+  
+  <p>
+    
+    Permissions for viewing other peoples profiles are managed by
+    django-guardian. This way we can let the user decide if they want to share
+    their profile to everyone, registered users or nobody.
+   
+  </p>
+  </li>
 </ul>
 <ul class="blocks">
-    <li><h3>Browse source</h3>
-    <a href="http://github.com/bread-and-pepper/django-userena" id="browse">Browse</a>
-    </li>
-    <li><h3>Download</h3>
-    <a href="http://github.com/downloads/bread-and-pepper/django-userena/django-userena-0.1-alpha.tar.gz" id="download">Download</a>
-    </li>
-    <li><h3>Read docs</h3>
-    <a href="http://packages.python.org/django-userena/" id="docs">Documentation</a>
-    </li>
-    <li><h3>Try it out!</h3>
-    <a href="{% url userena_signup %}" id="demo">Try it out!</a>
-    </li>
+  <li><h3>Browse source</h3>
+  <a href="http://github.com/bread-and-pepper/django-userena" id="browse">Browse</a>
+  </li>
+  <li><h3>Download</h3>
+  <a href="http://github.com/downloads/bread-and-pepper/django-userena/django-userena-0.1-alpha.tar.gz" id="download">Download</a>
+  </li>
+  <li><h3>Read docs</h3>
+  <a href="http://packages.python.org/django-userena/" id="docs">Documentation</a>
+  </li>
+  <li><h3>Try it out!</h3>
+  <a href="{% url userena_signup %}" id="demo">Try it out!</a>
+  </li>
 </ul>
 {% endblock %}
