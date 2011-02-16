@@ -1,0 +1,14 @@
+{% extends 'umessages/base_message.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>{% trans "Compose" %}</h2>{% endblock %}
+
+{% block content %}
+<form action="" method="post" id="password_change_form">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Compose message" %}</legend>
+    {{ form.as_p }}
+  </fieldset>
+  <input type="submit" name="send" value="{% trans "Send" %}" />
+{% endblock %}

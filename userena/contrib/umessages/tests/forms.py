@@ -49,27 +49,3 @@ class ComposeFormTests(TestCase):
         # Check recipients
         self.failUnlessEqual(msg.recipients.all()[0].username, 'jane')
         self.failUnlessEqual(msg.recipients.all()[1].username, 'john')
-
-    def test_child_msg(self):
-        """ Test a child message """
-        valid_data_parent = {'to': 'john',
-                             'body': 'Body'}
-
-        form = ComposeForm(data=valid_data_parent)
-        self.failUnless(form.is_valid())
-
-        sender = User.objects.get(username='jane')
-        parent_msg = form.save(sender)
-
-        # Send a new one
-        valid_data = {'to': 'jane',
-                      'body': 'Body'}
-
-        form = ComposeForm(data=valid_data)
-        self.failUnless(form.is_valid())
-
-        sender = User.objects.get(username='john')
-        msg = form.save(sender, parent_msg=parent_msg)
-
-        self.failUnlessEqual(msg.parent_msg, parent_msg)
-        self.failUnless(parent_msg.replied_at)

@@ -18,7 +18,7 @@ class MessageAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'parent_msg', 'sender', 'body',
+                'sender', 'body',
             ),
             'classes': ('monospace' ),
         }),

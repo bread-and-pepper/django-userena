@@ -5,7 +5,6 @@
     "fields": {
       "body": "Hello from your friend", 
       "sender_deleted_at": null, 
-      "parent_msg": null, 
       "sent_at": "2010-01-01 12:00:00", 
       "sender": 1
     }
@@ -16,7 +15,6 @@
     "fields": {
       "body": "Hello from your mother", 
       "sender_deleted_at": "2010-01-01 12:00:00", 
-      "parent_msg": null, 
       "sent_at": "2010-01-01 12:00:00", 
       "sender": 2
     }
@@ -25,7 +23,6 @@
     "pk": 1, 
     "model": "umessages.messagerecipient", 
     "fields": {
-      "replied_at": null, 
       "message": 1, 
       "read_at": null, 
       "deleted_at": null, 
@@ -36,7 +33,6 @@
     "pk": 2, 
     "model": "umessages.messagerecipient", 
     "fields": {
-      "replied_at": "2010-01-01 12:00:01", 
       "message": 2, 
       "read_at": "2010-01-01 12:00:00", 
       "deleted_at": null, 

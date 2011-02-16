@@ -10,6 +10,7 @@ from django.template import loader
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
+from django.contrib.auth import REDIRECT_FIELD_NAME
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
 from userena.contrib.umessages.forms import ComposeForm
@@ -18,95 +19,8 @@ from userena import settings as userena_settings
 import datetime
 
 @login_required
-def message_list(request, page=1, paginate_by=50, mailbox="inbox",
-                 fallback_template_name="umessages/message_list.html",
-                 extra_context=None, **kwargs):
-    """
-    List a folder of specific type for this user.
-
-    :param page:
-        Integer of the active page used for pagination. Defaults to the first
-        page.
-
-    :param paginate_by:
-        Integer defining the amount of displayed messages per page.
-        Defaults to 50 messages per per page.
-
-    :param mailbox:
-        String defining the mailbox that is currently opened. Can be one of the
-        following three strings:
-
-        ``inbox``
-            Incoming messages.
-
-        ``conversation``
-            A list of messages is returned that's combined by the user that
-            send them; iPhone style.
-
-        ``outbox``
-            Sent messsages.
-
-        ``trash``
-            Messages that are marked as deleted.
-
-    :param fallback_template_name:
-        String defining the name of the template that is used to render the
-        list of messages when no custom mailbox template is found. Defaults to
-        ``umessages/message_list.html``. A custom mailbox template can be
-        created with the name of the mailbox append to
-        ``message_list_<mailbox>.html``. This template has preference above the
-        ``fallback_template_name``.
-
-    :param extra_context:
-        A dictionary of variables that are passed on to the template.
-
-    **Context**
-
-    ``message_list``
-        A list of messages.
-
-    ``is_paginated``
-        A boolean representing whether the results are paginated.
-
-    ``mailbox``
-        The current active mailbox.
-
-    If the result is paginated, the context will also contain the following
-    variables.
-
-    ``paginator``
-        An instance of ``django.core.paginator.Paginator``.
-
-    ``page_obj``
-        An instance of ``django.core.paginator.Page``.
-
-    """
-    try:
-        page = int(request.GET.get("page", None))
-    except TypeError, ValueError:
-        page = page
-
-    queryset = Message.objects.get_mailbox_for(user=request.user,
-                                               mailbox=mailbox)
-
-    # Get the right template
-    template_loader = loader.select_template(["umessages/message_list_%(mailbox)s.html" % {"mailbox": mailbox},
-                                               fallback_template_name])
-
-    if not extra_context: extra_context = dict()
-    extra_context["mailbox"] = mailbox
-    return list_detail.object_list(request,
-                                   queryset=queryset,
-                                   paginate_by=paginate_by,
-                                   page=page,
-                                   template_name=template_loader.name,
-                                   extra_context=extra_context,
-                                   template_object_name="message",
-                                   **kwargs)
-
-@login_required
-def conversation_list(request, page=1, paginate_by=50,
-                      template_name="umessages/conversation_list.html",
+def message_list(request, page=1, paginate_by=50,
+                      template_name="umessages/message_list.html",
                       extra_context=None, **kwargs):
     """
 
@@ -147,13 +61,13 @@ def conversation_list(request, page=1, paginate_by=50,
                                    page=page,
                                    template_name=template_name,
                                    extra_context=extra_context,
-                                   template_object_name="conversation",
+                                   template_object_name="message",
                                    **kwargs)
 
 @login_required
-def conversation_detail(request, username, page=1, paginate_by=10,
-                        template_name="umessages/conversation_detail.html",
-                        extra_context=None, **kwargs):
+def message_detail(request, username, page=1, paginate_by=10,
+                   template_name="umessages/message_detail.html",
+                   extra_context=None, **kwargs):
     """
     Returns a conversation between two users
 
@@ -185,10 +99,10 @@ def conversation_detail(request, username, page=1, paginate_by=10,
         An instance of ``django.core.paginator.Page``.
 
     """
-    conversation_user = get_object_or_404(User,
-                                          username__iexact=username)
+    recipient = get_object_or_404(User,
+                                  username__iexact=username)
     queryset = Message.objects.get_conversation_between(request.user,
-                                                        conversation_user)
+                                                        recipient)
 
     # Update all the messages that are unread.
     message_pks = [m.pk for m in queryset]
@@ -199,7 +113,7 @@ def conversation_detail(request, username, page=1, paginate_by=10,
     unread_list.update(read_at=now)
 
     if not extra_context: extra_context = dict()
-    extra_context['conversation_user'] = conversation_user
+    extra_context['recipient'] = recipient
     return list_detail.object_list(request,
                                    queryset=queryset,
                                    paginate_by=paginate_by,
@@ -210,56 +124,8 @@ def conversation_detail(request, username, page=1, paginate_by=10,
                                    **kwargs)
 
 @login_required
-def message_detail(request, message_id, template_name="umessages/message_detail.html",
-                   threaded=False, extra_context=None):
-    """
-    Detailed view of a message.
-
-    :param message_id:
-        Integer suppyling the pk of the message.
-
-    :param template_name:
-        String of the template that is rendered to display this view.
-
-    :param threaded:
-        TODO: Boolean that defines if the view get's the parent messages also.
-        Works the same as in GMail, combining messages about the same subject
-        (replies).
-
-    :param extra_context:
-        Dictionary of variables that will be made available to the template.
-
-    TODO: Add threaded messages.
-
-    """
-    message = get_object_or_404(Message,
-                                pk=message_id)
-    now = datetime.datetime.now()
-
-    if not extra_context:
-        extra_context = dict()
-
-    if (message.sender != request.user) and \
-       (request.user not in message.recipients.all()):
-        raise Http404
-
-    mr = message.messagerecipient_set.get(message=message,
-                                          user=request.user)
-
-    if mr.read_at is None:
-        mr.read_at = now
-        mr.save()
-
-    extra_context["message"] = message
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
-
-@login_required
-def message_compose(request, recipients=None, parent_id=None,
-                    compose_form=ComposeForm,
-                    success_url="userena_umessages_inbox",
-                    template_name="umessages/compose_form.html",
+def message_compose(request, recipients=None, compose_form=ComposeForm,
+                    success_url=None, template_name="umessages/message_form.html",
                     recipient_filter=None, extra_context=None):
     """
     Compose a new message
@@ -268,17 +134,15 @@ def message_compose(request, recipients=None, parent_id=None,
         String containing the usernames to whom the message is send to. Can be
         multiple username by seperating them with a ``+`` sign.
 
-    :param parent_msg:
-        Integer supplying the pk of the message that is replied to. Defaults to
-        ``None``.
-
     :param compose_form:
         The form that is used for getting neccesary information. Defaults to
         :class:`ComposeForm`.
 
     :param success_url:
         String containing the named url which to redirect to after successfull
-        sending a message. Defaults to ``userena_umessages_inbox``.
+        sending a message. Defaults to ``userena_umessages_list`` if there are
+        multiple recipients. If there is only one recipient, will redirect to
+        ``userena_umessages_detail`` page, showing the conversation.
 
     :param template_name:
         String containing the name of the template that is used.
@@ -302,32 +166,32 @@ def message_compose(request, recipients=None, parent_id=None,
         recipients = [u for u in User.objects.filter(username__in=username_list)]
         initial_data["to"] = recipients
 
-    if parent_id:
-        parent_msg = get_object_or_404(Message,
-                                       pk=parent_id,
-                                       recipients=request.user)
-        initial_data["to"] = parent_msg.sender
-    else: parent_msg = None
-
     form = compose_form(initial=initial_data)
     if request.method == "POST":
         form = compose_form(request.POST)
         if form.is_valid():
             requested_redirect = request.REQUEST.get("next", False)
 
-            message = form.save(request.user, parent_msg)
+            message = form.save(request.user)
+            recipients = form.cleaned_data['to']
 
             if userena_settings.USERENA_USE_MESSAGES:
                 messages.success(request, _('Message is sent.'),
                                  fail_silently=True)
 
-            if requested_redirect:
-                return redirect(requested_redirect)
-            else:
-                return redirect(reverse(success_url))
+            requested_redirect = request.REQUEST.get(REDIRECT_FIELD_NAME,
+                                                     False)
 
-    if not extra_context:
-        extra_context = dict()
+            # Redirect mechanism
+            redirect_to = reverse('userena_umessages_list')
+            if requested_redirect: redirect_to = requested_redirect
+            elif success_url: redirect_to = success_url
+            elif len(recipients) == 1:
+                redirect_to = reverse('userena_umessages_detail',
+                                      kwargs={'username': recipients[0].username})
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
     extra_context["form"] = form
     extra_context["recipients"] = recipients
     return direct_to_template(request,
@@ -371,8 +235,7 @@ def message_remove(request, undo=False):
         now = datetime.datetime.now()
         changed_message_list = set()
         for pk in valid_message_pk_list:
-            message = get_object_or_404(Message,
-                                        pk=pk)
+            message = get_object_or_404(Message, pk=pk)
 
             # Check if the user is the owner
             if message.sender == request.user:
@@ -408,4 +271,4 @@ def message_remove(request, undo=False):
             messages.success(request, message, fail_silently=True)
 
     if redirect_to: return redirect(redirect_to)
-    else: return redirect(reverse('userena_umessages_inbox'))
+    else: return redirect(reverse('userena_umessages_list'))
