@@ -50,9 +50,9 @@
         <ul id="nav">
           <li><a href="{% url promo %}"><span>{% trans 'Home' %}</span></a></li>
           {% if user.is_authenticated %}
-          <li><a href="{% url userena_profile_list %}"><span>{% trans 'Profiles' %}</span></a></li>
+          <li><a href="{% url userena_profile_list %}"><span>{% trans 'All profiles' %}</span></a></li>
           <li><a href="{% url userena_umessages_list %}"><span>{% trans 'Messages' %}</span></a></li>
-          <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account settings' %} ({{ user.username }})</span></a></li>
+          <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
           <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
           {% else %}
           <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>
@@ -66,9 +66,7 @@
 
       </div><!-- /header-->
       <a href="http://github.com/bread-and-pepper/django-userena/fork" id="fork">{% trans 'Fork me hard' %}</a>
-      <div id="content_title">
-        {% block content_title %}{% endblock %}
-      </div>
+      {% block content_title %}{% endblock %}
       <div id="content-container">
         {% block content %}{% endblock %}
       </div><!-- /content-container-->
