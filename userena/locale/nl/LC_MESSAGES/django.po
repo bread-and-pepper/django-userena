@@ -190,7 +190,7 @@ msgstr "Bepaald wie jouw profiel kan zien."
 #: models.py:308
 #, python-format
 msgid "%(first_name)s %(last_name)s"
-msgstr ""
+msgstr "%(first_name)s %(last_name)s"
 
 #: models.py:370
 msgid "language"
