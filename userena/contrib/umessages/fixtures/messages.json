@@ -1,0 +1,51 @@
+[
+  {
+    "pk": 1, 
+    "model": "umessages.message", 
+    "fields": {
+      "body": "Hello from your friend", 
+      "sender_deleted_at": null, 
+      "sent_at": "2010-01-01 12:00:00", 
+      "sender": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "umessages.message", 
+    "fields": {
+      "body": "Hello from your mother", 
+      "sender_deleted_at": "2010-01-01 12:00:00", 
+      "sent_at": "2010-01-01 12:00:00", 
+      "sender": 2
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "umessages.messagerecipient", 
+    "fields": {
+      "message": 1, 
+      "read_at": null, 
+      "deleted_at": null, 
+      "user": 2
+    }
+  },
+  {
+    "pk": 2, 
+    "model": "umessages.messagerecipient", 
+    "fields": {
+      "message": 2, 
+      "read_at": "2010-01-01 12:00:00", 
+      "deleted_at": null, 
+      "user": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "umessages.messagecontact",
+    "fields": {
+      "from_user": 1,
+      "to_user": 2,
+      "latest_message": 2
+    }
+  }
+]

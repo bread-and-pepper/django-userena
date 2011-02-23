@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.models import SiteProfileNotAvailable
 
-from userena.utils import get_gravatar, signin_redirect, get_profile_model
+from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
+                           get_protocol)
 from userena import settings as userena_settings
 from userena.models import UserenaBaseProfile
 
@@ -86,3 +87,11 @@ class UtilsTests(TestCase):
         # supplied.
         settings.AUTH_PROFILE_MODULE = None
         self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+
+    def test_get_protocol(self):
+        """ Test if the correct protocol is returned """
+        self.failUnlessEqual(get_protocol(), 'http')
+
+        userena_settings.USERENA_USE_HTTPS = True
+        self.failUnlessEqual(get_protocol(), 'https')
+        userena_settings.USERENA_USE_HTTPS = False

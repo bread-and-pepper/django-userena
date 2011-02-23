@@ -1,3 +1,5 @@
+/* @override http://localhost:8000/media/css/master.css */
+
 /*	WdeB
 breadandpepper.com
 ................................... */
@@ -16,7 +18,16 @@ html, body{
 
 #container{
     width: 1008px;
-    margin: 0 auto;
+    margin: 30px auto 50px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+     -moz-box-shadow: 0 0 3px #999;
+    -webkit-box-shadow: 0 0 3px #999;
+    box-shadow: 0 0 3px #999;
+	background-color: #f6f4f2;
+	border: 1px solid #fff;
+	padding: 0 10px;
 }
 
 #top{
@@ -25,17 +36,13 @@ html, body{
     border-bottom: 1px solid #fff;
 }
 
-#content_title {
-    margin: 2em 0 1em 10px;
-    color: #ab292a;
-}
 
 #content-container{
-    overflow: auto;
     padding: 12px;
+    position: relative;
 }
 #header{
-    height: 120px;
+    height: 130px;
     margin: -2px 0 0 0;
     padding: 0 13px;
     position: relative;
@@ -43,8 +50,8 @@ html, body{
 
 #nav{
     position: absolute;
-    right: 10px;
-    top: 50px;
+    right: 12px;
+    top: 48px;
     overflow: auto;
 
 }
@@ -76,7 +83,7 @@ html, body{
 #nav li a span { 
     display: block; 
     color: #686868; 
-    padding: 0.52em 2.2em 0.48em;  
+    padding: 0.52em 1.6em 0.48em;  
     text-shadow: rgba(255,254,255,0.45) 0 1px 0; 
     -webkit-box-shadow: rgba(33,33,33,0.45) 0px 0px 3px; 
     -moz-box-shadow: rgba(33,33,33,0.45) 0px 0px 3px; 
@@ -102,7 +109,7 @@ html, body{
     -webkit-box-shadow: rgba(33,33,33,0.45) 0px 0px 1px; 
     -moz-box-shadow: rgba(33,33,33,0.45) 0px 0px 1px; 
     box-shadow: rgba(33,33,33,0.45) 0px 0px 1px;
-    padding: 0.58em 2.2em 0.30em;
+    padding: 0.58em 1.6em 0.30em;
     line-height: 1.5em;
 }
 
@@ -111,27 +118,53 @@ html, body{
 }
 
 #intro{
-    padding: 50px 0 0 416px;
-    min-height: 300px;
-    background: url(../img/userena.png) no-repeat 80px center;
+    padding: 30px 20px;
+    min-height: 290px;
+    background: #e7e2de url(../img/userena.png) no-repeat 90px 30px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+     -moz-box-shadow: inset 0 0 3px #999;
+    -webkit-box-shadow: inset 0 0 3px #999;
+    box-shadow: inset 0 0 3px #999;
+   position: relative;
+   overflow: hidden;
 }
+
 
 #xtra-info{
     text-align: center;
     padding: 10px;
     margin: 0;
-    background-color: #dbd7d3;
-    -webkit-border-radius: 47px; 
-    -moz-border-radius: 47px; 
-    border-radius: 47px;
     font-weight: bold;
-    text-shadow: #f5f1ec 1px 1px 0;
-    color: #000;
+    text-shadow: #000 -1px -1px 0;
+    color: #c1bcb9;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+	background-image: url(../img/trans.png);
+	-moz-border-radius-topleft: 0px;
+-moz-border-radius-topright: 0px;
+-moz-border-radius-bottomright: 8px;
+-moz-border-radius-bottomleft: 8px;
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 8px;
+border-bottom-left-radius: 8px;
+ -moz-box-shadow: 0 -2px 3px #ccc;
+    -webkit-box-shadow: 0 -2px 3px #ccc;
+    box-shadow: 0 -2px 3px #ccc;
 }
+
+#xtra-info a{
+	color: #fff;
+}
+
 
 #footer{
     background: url(../img/stripe.png) repeat-x center top;
-    margin: 40px 12px 60px;
+    margin: 40px 12px 0;
     padding: 20px 0;
 }
 
@@ -141,23 +174,39 @@ html, body{
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: #efebe8;
     width: 506px;
-    -moz-box-shadow: 0 0 3px #999;
-    -webkit-box-shadow: 0 0 3px #999;
-    box-shadow: 0 0 3px #999;
+    -moz-box-shadow: inset 0 0 3px #999;
+    -webkit-box-shadow: inset 0 0 3px #999;
+    box-shadow:  inset 0 0 3px #999;
+    overflow: auto;
 }
 
 #details{
-    min-height: 120px;
+    width: 140px;
+    margin: 0 0;
+    background-color: #fffeff;
+    padding: 6px;
+    text-align: left;
+    -webkit-border-radius: 7px; 
+    -moz-border-radius: 7px; 
+    border-radius: 7px;
+    -moz-box-shadow: 0 0 3px #999;
+    -webkit-box-shadow: 0 0 3px #999;
+    box-shadow: 0 0 3px #999;
+    overflow: hidden;
+}
+
+#details img{
+	margin: 0 0 10px;
 }
 
 #try{
     position: absolute;
     height: 90px;
     width: 124px;
-    right: -113px;
-    top: 80px;
+    right: -150px;
+    top: 90px;
     background: url(../img/try.png) no-repeat;
 }
 
@@ -167,11 +216,15 @@ html, body{
 h1, h2, h3, h4, h5, h6 { font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif; text-transform: uppercase; text-shadow: #ffffff 1px 1px 0px;}
 
 p{
-    font-size: 1.0em;
+    font-size: 0.9em;
     line-height: 1.5em;
     color: #444;
     margin: 0 0 0.9em 0;
     text-shadow: #ffffff 1px 1px 0;
+}
+
+p.intro{
+	margin: 0 20px 0 380px;
 }
 
 .white-box p{
@@ -184,9 +237,23 @@ h1{
     font-size: 2.2em;
 }
 
-h2{
+h2.content-title{
+	font-size: 1.5em;
+	margin: 10px;
+    padding: 15px 15px 12px;	
+    background: #e7e2de no-repeat 90px 30px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+     -moz-box-shadow: inset 0 0 3px #999;
+    -webkit-box-shadow: inset 0 0 3px #999;
+    box-shadow: inset 0 0 3px #999;
+    color: #ab292a;
+}
+
+h2.intro{
     font-size: 1.8em;
-    margin: 0 0 9px;
+    margin: 10px 20px 9px 380px;
     padding: 0 0 5px;
     background: url(../img/stripe.png) repeat-x 0 bottom;
 }
@@ -208,7 +275,7 @@ h2 span{
 }
 
 h3{
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin: 0 0 5px;
 }
 
@@ -226,10 +293,58 @@ h6{
 }
 
 a{
-    color: #790000;
+    color: #880e00;
     text-decoration: underline;
 }
 
+a.button{ 
+    background: #ede9e4; 
+	display: block;
+	width: 200px;
+    padding: 4px 4px 3px; 
+    text-decoration: none; 
+    outline: 0; 
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px; 
+    border-radius: 10px;
+    -webkit-background-clip: padding-box;
+    clear: both;
+    position: absolute;
+    right: 20px;
+    top: -55px;
+}
+
+a.button span { 
+    display: block; 
+    color: #8b0908; 
+    padding: 0.52em 1.6em 0.48em;  
+    text-shadow: rgba(255,254,255,0.45) 0 1px 0; 
+    -webkit-box-shadow: rgba(33,33,33,0.45) 0px 0px 3px; 
+    -moz-box-shadow: rgba(33,33,33,0.45) 0px 0px 3px; 
+    box-shadow: rgba(33,33,33,0.45) 0px 0px 3px;
+    -webkit-border-radius: 7px; 
+    -moz-border-radius: 7px; 
+    border-radius: 7px;
+    background: transparent -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.6)), color-stop(1.0, rgba(255,255,255,0.15)), color-stop(1.0, rgba(255,255,255,0.01)), to(transparent)); 
+    background: transparent -moz-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0.15) 100%, rgba(255,255,255,0.01) 100%, transparent);
+    -webkit-background-clip: padding-box;
+    text-decoration: none;
+    font-size: .9em;
+    line-height: 1.4em;
+    font-weight: bold;
+	text-align: center;
+}
+
+
+
+a.button:active span {  
+    background-color: #e0dfda;
+    -webkit-box-shadow: rgba(33,33,33,0.45) 0px 0px 1px; 
+    -moz-box-shadow: rgba(33,33,33,0.45) 0px 0px 1px; 
+    box-shadow: rgba(33,33,33,0.45) 0px 0px 1px;
+    padding: 0.58em 1.6em 0.30em;
+    line-height: 1.5em;
+}
 
 a#fork{
     position: fixed;
@@ -261,25 +376,22 @@ form {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
-    background-color: #ffffff;
-    width: 506px;
-    -moz-box-shadow: 0 0 3px #999;
-    -webkit-box-shadow: 0 0 3px #999;
-    box-shadow: 0 0 3px #999;
+    width: 500px;
+
 }
 
 form p {
-    padding: 4px 10px 4px;
+    padding: 4px 0 4px;
     margin: 0 0 0 0;
     position: relative;
-    border-bottom: 1px solid #f1edeb;
+    border-bottom: 1px solid #ddd;
     overflow: hidden;
     font-size: 0.7em;
     color: #999;
 }
 
 form p label {
-    width: 150px;
+    width: 160px;
     padding: 10px 20px 0 0;
     float: left;
     display: block;
@@ -297,7 +409,7 @@ form p.checkbox label {
     width: inherit;
     float: none;
     text-align: left;
-    padding: 0 0 0 165px;
+    padding: 0 0 0 175px;
 }
 
 span.label {
@@ -306,7 +418,7 @@ span.label {
 }
 
 input[type=text],input[type=password], input[type=file], textarea, span.editable {
-    width: 300px;
+    width: 306px;
     border: 1px solid #d7d7d7;
     font-size: 14px;
     line-height: 20px;
@@ -315,7 +427,8 @@ input[type=text],input[type=password], input[type=file], textarea, span.editable
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background-color: #fafafa;
+    background-color: none;
+    float: right;
 }
 
 input[type=checkbox] {
@@ -353,9 +466,9 @@ input[type=submit] {
     min-width: 150px;
     background-color: #ab292a;
     display: block;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    border-radius: 7px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     border: 1px outset #ce3024;
     color: #f9f9f9;
     font-size: 13px;
@@ -391,7 +504,7 @@ ul.errorlist {
     border: 1px solid #a3181c;
     background-color: #fedae0;
     color: #a3181c;
-    margin: 5px 12px 3px 12px;
+    margin: 5px 0 3px 0;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -404,12 +517,13 @@ ul.errorlist li {
 }
 
 legend {
-    width: 482px;
-    padding: 5px 12px 6px;
+    width: 500px;
+    padding: 5px 0 6px 0;
     font-size: 1.3em;
     color: #ab292a;
     font-weight: bold;
-    border-bottom: 1px solid #f1edeb;
+    border-bottom: 1px solid #ddd;
+	text-transform: uppercase;
 }
 
 fieldset {
@@ -445,51 +559,52 @@ p.forgot-password{
 }
 
 
-ul#box-nav{
+ul#profile-nav{
     height: 40px;
-    margin: -12px 0 20px 0;
-    width: 506px;
-    border-bottom: 1px solid #e6e3e1;
+    position: absolute;
+    right: 25px;
+    top: -47px;
+    width: 490px;   
 }
 
-ul#box-nav li{
-    width: 25%;
+ul#profile-nav li{
+    margin: 0 0 0 0;
     float: left;
     text-align: center;
 }
 
-ul#box-nav li.selected a{
+ul#profile-nav li.selected a{
     color: #111;
-    padding: 10px 0 11px;
-    text-decoration: underline;
-}
-
-ul#box-nav li.first a{
-    -moz-border-radius-topleft: 8px;
+    padding: 8px 25px 8px;
+    text-decoration: none;
+	background-color: #f6f4f2;
+	-moz-border-radius-topleft: 8px;
     -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-box-shadow: 0 -1px 1px #ccc;
+    -webkit-box-shadow: 0 -1px 1px #ccc;
+    box-shadow:  0 -1px 1px #ccc;
+    border: 1px solid #fff;
+    border-bottom: none;
 }
 
 
-ul#box-nav li a{
+
+ul#profile-nav li a{
     text-decoration: none;
     font-weight: bold;
     font-size: 0.7em;
     display: block;
     height: 20px;
     line-height: 25px;
-    padding: 10px 0 10px;
-    border-right: 1px solid #e6e3e1;
-    background-color: #fffeff;
+    padding: 8px 25px 8px;
     color: #999997;
+	text-align: center;
 }
 
-ul#box-nav li.last a{
-    border-right: none;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-right-radius: 8px;
-}
 
-ul#box-nav li a:hover{
+ul#profile-nav li a:hover{
     text-decoration: underline;
 }
 
@@ -498,7 +613,7 @@ ul#box-nav li a:hover{
 
 ul.features {
     overflow: auto;
-    margin: 20px -12px 0;
+    margin: 30px -12px 0;
 }
 
 
@@ -570,23 +685,16 @@ ul.blocks li{
 /*	footer
 ................................... */ 
 
-a#crew{
-    height: 100px;
-    width: 281px;
-    display: block;
-    text-indent: -9999px;
-    margin: 0 auto;
-    background: url(../img/crew.png) center top;
-}    
-
-a#crew:hover{
-    background-position: 0 bottom;
-}    
+   
 
 #footer p{
     text-align: right;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }   
+
+#footer p a{
+	font-weight: bold;
+}
 
 /*	change language
 ................................... */ 
@@ -652,12 +760,11 @@ div#lang_form input[type=submit] {
 }
 
 
-/*	messages
+/*	notifications
 ................................... */
 
 ul.messages{
     position: absolute;
-
     font-size: 0.8em;
     font-weight: bold;
     width: 540px;
@@ -673,7 +780,84 @@ ul.messages li{
     border-radius: 20px;
     padding: 4px 20px;
     text-align: center;
-}    
+
+}
+
+
+/*	messages
+................................... */  
+
+#messages{
+	padding: 0;
+	margin: 20px 0 0;
+}
+
+#messages li{
+	padding: 15px 10px;
+	margin: 0;
+	overflow: auto;
+}  
+
+#messages li a{
+	font-weight: bold;
+	display: block;
+	margin: 0 0 5px;
+	text-decoration: none;
+}
+
+#messages.list-view a{
+	display: block;
+	overflow: auto;
+	padding: 10px 0 10px 10px;
+	border: 1px solid #ddd;
+	-moz-border-radius: 2px;
+border-radius: 2px;
+}
+
+#messages.list-view a:hover{
+	background-color: #eee;
+}
+
+
+p.date {
+  font-size: 70%;
+  margin: 10px 0 0;
+  color: #777;
+}
+
+.avatar {
+  width: 80px;
+  border: 1px solid #ccc;
+  float: right;
+  margin: 0 10px;
+}
+
+.avatar.received {
+  float: left;
+}
+
+.message-content{
+	
+	margin: 0 110px;
+	padding: 15px;
+	-moz-border-radius: 2px;
+border-radius: 2px;
+position: relative;
+min-height: 52px;
+}
+
+.send .message-content{
+	margin: 0 110px;
+	background-color: #e6e6e6;
+	
+}
+
+.received .message-content{
+	margin:0 110px;
+	background-color: #dadada;
+	
+}
+
 
 
 /*	account list
@@ -681,6 +865,7 @@ ul.messages li{
 
 #account_list{
     margin: 0 0 0 -12px;
+    overflow: auto;
 }
 
 #account_list li{
@@ -700,6 +885,7 @@ ul.messages li{
 
 #account_list li img{
     width: 142px;
+    height: 142px;
     -webkit-border-radius: 7px; 
     -moz-border-radius: 7px; 
     border-radius: 7px;

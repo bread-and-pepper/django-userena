@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User, AnonymousUser
-from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
@@ -168,6 +167,30 @@ class BaseProfileModelTest(ProfileTestCase):
         # Settings back to default
         userena_settings.USERENA_MUGSHOT_SIZE = 80
         userena_settings.USERENA_MUGSHOT_DEFAULT = 'identicon'
+
+    def test_get_full_name_or_username(self):
+        """ Test if the full name or username are returned correcly """
+        user = User.objects.get(pk=1)
+        profile = user.get_profile()
+
+        # Profile #1 has a first and last name
+        full_name = profile.get_full_name_or_username()
+        self.failUnlessEqual(full_name, "John Doe")
+
+        # Let's empty out his name, now we should get his username
+        user.first_name = ''
+        user.last_name = ''
+        user.save()
+
+        self.failUnlessEqual(profile.get_full_name_or_username(),
+                             "john")
+
+        # Finally, userena doesn't use any usernames, so we should return the
+        # e-mail address.
+        userena_settings.USERENA_WITHOUT_USERNAMES = True
+        self.failUnlessEqual(profile.get_full_name_or_username(),
+                             "john@example.com")
+        userena_settings.USERENA_WITHOUT_USERNAMES = False
 
     def test_can_view_profile(self):
         """ Test if the user can see the profile with three type of users. """

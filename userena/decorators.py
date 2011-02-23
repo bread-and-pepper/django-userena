@@ -4,10 +4,7 @@ from django.utils.decorators import available_attrs
 
 from userena import settings as userena_settings
 
-try:
-    from functools import wraps
-except ImportError:
-    from django.utils.functional import wraps  # Python 2.4 fallback.
+from django.utils.functional import wraps
 
 def secure_required(view_func):
     """
@@ -23,9 +20,6 @@ def secure_required(view_func):
 
     """
     def _wrapped_view(request, *args, **kwargs):
-        if 'HTTP_X_FORWARDED_SSL' in request.META:
-            request.is_secure = lambda: request.META['HTTP_X_FORWARDED_SSL'] == 'on'
-
         if not request.is_secure():
             if userena_settings.USERENA_USE_HTTPS:
                 request_url = request.build_absolute_uri(request.get_full_path())

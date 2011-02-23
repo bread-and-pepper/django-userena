@@ -6,19 +6,16 @@
 Userena Introduction
 ====================
 
-This documentation covers the first release of django-userena application. A
-Django application that takes care of your account needs.
-
-Want to experience it's about? Go to django-userena.org and create an account
-for yourself.
+This documentation covers 1.0 release of django-userena application. A Django
+application that takes care of your account needs.
 
 Why userena?
 ================
 
 Because we have done the hard work for you. Userena supplies you with signup,
-signin, account editing, privacy settings for your users, etc.. Everything is
-tested with unit-tests, with a 100% code coverage as goal. All you have to do
-is plug it into your project and you will have all enabled the following:
+signin, account editing, privacy settings and private messaging. All you have
+to do is plug it into your project and you will have a created account
+management with the following options:
 
     - User has to **activate** their account by clicking on a activation link
       in an email send to them.
@@ -31,16 +28,13 @@ is plug it into your project and you will have all enabled the following:
       and emails.
 
     - All **templates** are already supplied for you. Only override those that
-      don't fit with your needs!
+      don't fit with your needs.
 
     - Mugshots are supplied by **Gravatar** or uploaded by the user. The
       default mugshot can be set in the settings.
 
-    - *TODO*: Optional **Messaging** system between users and a notification
-      system for administrators.
-
-    - *TODO*: Optional **Friends** system which let's users become friends.
-      Special permissions can be granted to users that are friends.
+    - **Messaging** system between users that either get's displayed as
+      conversations (iPhone like) or sorted per subject (Gmail).
 
 Help out
 ========
@@ -57,13 +51,15 @@ Contents
    installation
    settings
    commands
+   api/index
 
-**API**
+Contrib: uMessages
+~~~~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   api/index
+   contrib/umessages/index
 
 Indices and tables
 ==================

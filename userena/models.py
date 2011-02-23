@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ImproperlyConfigured
 
-from userena.utils import get_gravatar, generate_sha1
+from userena.utils import get_gravatar, generate_sha1, get_protocol
 from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena import settings as userena_settings
 
@@ -41,7 +41,7 @@ def upload_to_mugshot(instance, filename):
 
 class UserenaSignup(models.Model):
     """
-    Userena model which stores all the nescessary information to have a full
+    Userena model which stores all the necessary information to have a full
     functional user implementation on your Django website.
 
     """
@@ -92,12 +92,10 @@ class UserenaSignup(models.Model):
         A user needs to verify this new email address before it becomes
         active. By storing the new email address in a temporary field --
         ``temporary_email`` -- we are able to set this email address after the
-        user has verified it by clicking on the verfication URI in the email.
-        This email get's send out by ``send_verification_email``.
+        user has verified it by clicking on the verification URI in the email.
+        This email gets send out by ``send_verification_email``.
 
-        **Arguments**
-
-        ``email``
+        :param email:
             The new email address that the user wants to use.
 
         """
@@ -117,19 +115,15 @@ class UserenaSignup(models.Model):
 
         This method sends out two emails. One to the new email address that
         contains the ``email_confirmation_key`` which is used to verify this
-        this email address with ``UserenaUser.objects.confirm_email``.
+        this email address with :func:`UserenaUser.objects.confirm_email`.
 
         The other email is to the old email address to let the user know that
         a request is made to change this email address.
 
         """
-        protocol = 'http'
-        if userena_settings.USERENA_USE_HTTPS:
-            protocol = 'https'
-
         context= {'user': self.user,
                   'new_email': self.email_unconfirmed,
-                  'protocol': protocol,
+                  'protocol': get_protocol(),
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
@@ -185,16 +179,11 @@ class UserenaSignup(models.Model):
         Sends a activation email to the user.
 
         This email is send when the user wants to activate their newly created
-        user. Also checks if the protocol is secured by looking at
-        ``USERENA_USE_HTTPS`` value.
+        user.
 
         """
-        protocol = 'http'
-        if userena_settings.USERENA_USE_HTTPS:
-            protocol = 'https'
-
         context= {'user': self.user,
-                  'protocol': protocol,
+                  'protocol': get_protocol(),
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
@@ -273,8 +262,9 @@ class UserenaBaseProfile(models.Model):
         Gravatar functionality will only be used when
         ``USERENA_MUGSHOT_GRAVATAR`` is set to ``True``.
 
-        Returns ``None`` when Gravatar is not used and no default image is
-        supplied by ``USERENA_MUGSHOT_DEFAULT``.
+        :return:
+            ``None`` when Gravatar is not used and no default image is supplied
+            by ``USERENA_MUGSHOT_DEFAULT``.
 
         """
         # First check for a mugshot and if any return that.
@@ -296,9 +286,39 @@ class UserenaBaseProfile(models.Model):
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
             else: return None
 
+    def get_full_name_or_username(self):
+        """
+        Returns the full name of the user, or if none is supplied will return
+        the username.
+
+        Also looks at ``USERENA_WITHOUT_USERNAMES`` settings to define if it
+        should return the username or email address when the full name is not
+        supplied.
+
+        :return:
+            ``String`` containing the full name of the user. If no name is
+            supplied it will return the username or email address depending on
+            the ``USERENA_WITHOUT_USERNAMES`` setting.
+
+        """
+        user = self.user
+        if user.first_name or user.last_name:
+            # We will return this as translated string. Maybe there are some
+            # countries that first display the last name.
+            name = _("%(first_name)s %(last_name)s") % \
+                {'first_name': user.first_name,
+                 'last_name': user.last_name}
+        else:
+            # Fallback to the username if usernames are used
+            if not userena_settings.USERENA_WITHOUT_USERNAMES:
+                name = "%(username)s" % {'username': user.username}
+            else:
+                name = "%(email)s" % {'email': user.email}
+        return name.strip()
+
     def can_view_profile(self, user):
         """
-        Can the ``user`` view this profile?
+        Can the :class:`User` view this profile?
 
         Returns a boolean if a user has the rights to view the profile of this
         user.
@@ -321,10 +341,8 @@ class UserenaBaseProfile(models.Model):
         Through the ``privacy`` field a owner of an profile can define what
         they want to show to whom.
 
-        **Arguments**
-
-        ``user``
-            A django ``User`` instance.
+        :param user:
+            A Django :class:`User` instance.
 
         """
         # Simple cases first, we don't want to waste CPU and DB hits.
@@ -343,9 +361,9 @@ class UserenaBaseProfile(models.Model):
 
 class UserenaLanguageBaseProfile(UserenaBaseProfile):
     """
-    Extends the ``UserenaBaseProfile`` with a language choice.
+    Extends the :class:`UserenaBaseProfile` with a language choice.
 
-    Use this model in combination with ``UserenaLocaleMiddleware`` automaticly
+    Use this model in combination with ``UserenaLocaleMiddleware`` automatically
     set the language of users when they are signed in.
 
     """
