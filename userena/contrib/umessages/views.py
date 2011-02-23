@@ -20,11 +20,11 @@ import datetime
 
 @login_required
 def message_list(request, page=1, paginate_by=50,
-                      template_name="umessages/message_list.html",
-                      extra_context=None, **kwargs):
+                 template_name="umessages/message_list.html",
+                 extra_context=None, **kwargs):
     """
 
-    Returns the conversational list for this user. This is a list contacts
+    Returns the message list for this user. This is a list contacts
     which at the top has the user that the last conversation was with. This is
     an imitation of the iPhone SMS functionality.
 

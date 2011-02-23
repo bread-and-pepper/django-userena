@@ -3,10 +3,10 @@
 Managers
 ========
 
-.. automodule:: userena.contrib.messages.managers
+.. automodule:: userena.contrib.umessages.managers
 
 MessageManager
 --------------
 
-.. autoclass:: userena.contrib.messages.managers.MessageManager
+.. autoclass:: userena.contrib.umessages.managers.MessageManager
    :members:
