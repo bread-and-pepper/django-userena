@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-07 19:00-0600\n"
+"POT-Creation-Date: 2011-02-23 13:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: forms.py:27
 msgid "Username"
@@ -205,11 +205,11 @@ msgstr "Sua conta foi activada e autentidada"
 msgid "You have been signed in."
 msgstr "Entrou"
 
-#: views.py:498
+#: views.py:497
 msgid "Your profile has been updated."
 msgstr "O seu perfil foi actualizado"
 
-#: views.py:537
+#: views.py:536
 msgid "You don't have permission to view this profile."
 msgstr "Não tem permissão para visualizar ester perfil"
 
@@ -255,11 +255,11 @@ msgstr "contactos"
 msgid "%(from_user)s and %(to_user)s"
 msgstr ""
 
-#: contrib/umessages/models.py:61 contrib/umessages/models.py:81
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
 msgstr "destinatário"
 
-#: contrib/umessages/models.py:64 contrib/umessages/models.py:126
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
 msgid "message"
 msgstr "mensagem"
 
@@ -271,107 +271,62 @@ msgstr "lido em"
 msgid "recipient deleted at"
 msgstr ""
 
-#: contrib/umessages/models.py:74
-msgid "replied at"
-msgstr "destinatário apagado em"
-
-#: contrib/umessages/models.py:82 contrib/umessages/models.py:107
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
 msgid "recipients"
 msgstr "destinatários"
 
-#: contrib/umessages/models.py:85
+#: contrib/umessages/models.py:81
 #, python-format
 msgid "%(message)s"
 msgstr ""
 
-#: contrib/umessages/models.py:98
+#: contrib/umessages/models.py:90
 msgid "body"
 msgstr "corpo"
 
-#: contrib/umessages/models.py:102
+#: contrib/umessages/models.py:94
 msgid "sender"
 msgstr "remetente"
 
-#: contrib/umessages/models.py:113
-msgid "parent message"
-msgstr "mensagem pai"
-
-#: contrib/umessages/models.py:115
+#: contrib/umessages/models.py:101
 msgid "sent at"
 msgstr "enviado em"
 
-#: contrib/umessages/models.py:118
+#: contrib/umessages/models.py:104
 msgid "sender deleted at"
 msgstr "remetende apagado em"
 
-#: contrib/umessages/models.py:127
+#: contrib/umessages/models.py:113
 msgid "messages"
 msgstr "mensagens"
 
-#: contrib/umessages/views.py:321
+#: contrib/umessages/views.py:179
 msgid "Message is sent."
 msgstr "Mensagem enviada"
 
-#: contrib/umessages/views.py:400
+#: contrib/umessages/views.py:263
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
 msgstr[0] "A mensagem foi restaurada com sucesso"
 msgstr[1] "As mensagens foram restauradas com sucesso"
 
-#: contrib/umessages/views.py:404
+#: contrib/umessages/views.py:267
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
 msgstr[0] "A mensagem foi removida com sucesso"
 msgstr[1] "As menssagens foram removidas com sucesso"
 
-#: contrib/umessages/templates/umessages/compose_form.html:4
-#: contrib/umessages/templates/umessages/message_list.html:11
+#: contrib/umessages/templates/umessages/message_form.html:4
 msgid "Compose"
 msgstr "Compor"
 
-#: contrib/umessages/templates/umessages/compose_form.html:10
+#: contrib/umessages/templates/umessages/message_form.html:10
 msgid "Compose message"
 msgstr "Compor mensagem"
 
-#: contrib/umessages/templates/umessages/compose_form.html:13
+#: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
 msgstr "Enviar"
-
-#: contrib/umessages/templates/umessages/message_list.html:8
-msgid "Inbox"
-msgstr "Caixa de Entrada"
-
-#: contrib/umessages/templates/umessages/message_list.html:9
-msgid "Outbox"
-msgstr "Caixa de Saída"
-
-#: contrib/umessages/templates/umessages/message_list.html:10
-msgid "Trash"
-msgstr "Lixo"
-
-#: contrib/umessages/templates/umessages/message_list.html:19
-msgid "From"
-msgstr "De"
-
-#: contrib/umessages/templates/umessages/message_list.html:20
-msgid "Date received"
-msgstr "Data de recebimento"
-
-#: contrib/umessages/templates/umessages/message_list.html:27
-msgid "View message"
-msgstr "Ver mensagem"
-
-#: contrib/umessages/templates/umessages/message_list.html:28
-msgid "ago.."
-msgstr "atrás.."
-
-#: contrib/umessages/templates/umessages/message_list.html:29
-msgid "Reply to this message"
-msgstr "Responder a esta mensagem"
-
-#: contrib/umessages/templates/umessages/message_list.html:29
-msgid "Reply"
-msgstr "Responder"
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
@@ -664,8 +619,104 @@ msgid ""
 "We will store your signup information for %(userena_activation_days)s days "
 "on our server. "
 msgstr ""
-"Vamos armazenar a usa informação de inscrição por "
-"%(userena_activation_days)s dias no nosso servidor. "
+"Vamos armazenar a usa informação de inscrição por %(userena_activation_days)"
+"s dias no nosso servidor. "
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/activation_notify_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+msgid "Dear"
+msgstr ""
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, fuzzy
+msgid "Thank you for signing up at"
+msgstr "Obrigado por se inscrever!"
+
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr ""
+
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/activation_notify_message.txt:9
+#: templates/userena/emails/confirmation_email_message_new.txt:10
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+msgid "Sincerely"
+msgstr ""
+
+#: templates/userena/emails/activation_email_subject.txt:2
+msgid "Your signup at"
+msgstr ""
+
+#: templates/userena/emails/activation_notify_message.txt:4
+#, python-format
+msgid "Your account on %(site_name)s is about to expire in %(days_left)s days."
+msgstr ""
+
+#: templates/userena/emails/activation_notify_message.txt:5
+msgid "To activate your account you should click on the link below"
+msgstr ""
+
+#: templates/userena/emails/activation_notify_subject.txt:3
+#, python-format
+msgid "Your account on %(site_name)s is about to expire."
+msgstr ""
+
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+msgid "You requested a change of your email address at"
+msgstr ""
+
+#: templates/userena/emails/confirmation_email_message_new.txt:6
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr ""
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+msgid "There was a request to change your email address at"
+msgstr ""
+
+#: templates/userena/emails/confirmation_email_message_old.txt:5
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, fuzzy
+msgid "Email verification for"
+msgstr "Email de verificação"
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+msgid "A request to change your email address is made at"
+msgstr ""
+
+#: templates/userena/emails/password_reset_message.txt:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr ""
+
+#: templates/userena/emails/password_reset_message.txt:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr ""
+
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: templates/userena/emails/password_reset_message.txt:9
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: templates/userena/emails/password_reset_message.txt:11
+#, fuzzy
+msgid "Thanks for using our site!"
+msgstr "Obrigado por se inscrever!"
+
+#: templates/userena/emails/password_reset_message.txt:13
+#, python-format
+msgid "The %(site_name)s"
+msgstr ""
 
 #: tests/profile.py:6 tests/profiles/models.py:11
 msgid "Male"
@@ -690,3 +741,36 @@ msgstr "Localização"
 #: tests/profile.py:15 tests/profiles/models.py:20
 msgid "about me"
 msgstr "Sobre mim"
+
+#~ msgid "replied at"
+#~ msgstr "destinatário apagado em"
+
+#~ msgid "parent message"
+#~ msgstr "mensagem pai"
+
+#~ msgid "Inbox"
+#~ msgstr "Caixa de Entrada"
+
+#~ msgid "Outbox"
+#~ msgstr "Caixa de Saída"
+
+#~ msgid "Trash"
+#~ msgstr "Lixo"
+
+#~ msgid "From"
+#~ msgstr "De"
+
+#~ msgid "Date received"
+#~ msgstr "Data de recebimento"
+
+#~ msgid "View message"
+#~ msgstr "Ver mensagem"
+
+#~ msgid "ago.."
+#~ msgstr "atrás.."
+
+#~ msgid "Reply to this message"
+#~ msgstr "Responder a esta mensagem"
+
+#~ msgid "Reply"
+#~ msgstr "Responder"
