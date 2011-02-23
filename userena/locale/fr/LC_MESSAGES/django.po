@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-23 12:19+0100\n"
-"PO-Revision-Date: 2011-02-23 12:21\n"
+"PO-Revision-Date: 2011-02-23 13:01\n"
 "Last-Translator: Guillaume Libersat <guillaume@spreadband.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,11 +35,11 @@ msgstr "Adresse email"
 
 #: forms.py:34
 msgid "Create password"
-msgstr "Créer un mot de passe"
+msgstr "Créez un mot de passe"
 
 #: forms.py:37
 msgid "Repeat password"
-msgstr "Répéter le mot de passe"
+msgstr "Répétez le mot de passe"
 
 #: forms.py:51
 msgid "This username is already taken."
