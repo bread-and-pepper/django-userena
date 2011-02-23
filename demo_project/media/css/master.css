@@ -805,6 +805,28 @@ ul.messages li{
 	text-decoration: none;
 }
 
+#messages li.send {
+  background-color: #fff;
+}
+
+#messages li.received {
+  background-color: #efefef;
+}
+
+ul#message p.date {
+  font-size: 80%;
+}
+
+.avatar {
+  width: 80px;
+  border: 1px solid #333;
+  float: right;
+  margin: 10px;
+}
+
+.avatar.received {
+  float: left;
+}
 
 /*	account list
 ................................... */    

@@ -11,9 +11,11 @@
   {% for message in message_list %}
   <li>
   {% if message.from_user == user %}
+  <img src="{{ message.to_user.profile.get_mugshot_url }}" class="avatar" />
   <a href="{% url userena_umessages_detail message.to_user.username %}">{{ message.to_user }}</a>
   {% get_unread_message_count_between user and message.to_user as unread_between_count %}
   {% else %}
+  <img src="{{ message.from_user.profile.get_mugshot_url }}" class="avatar" />
   <a href="{% url userena_umessages_detail message.from_user.username %}">{{ message.from_user }}</a>
   {% get_unread_message_count_between user and message.from_user as unread_between_count %}
   {% endif %}
