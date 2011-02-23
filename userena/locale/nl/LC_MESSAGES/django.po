@@ -70,7 +70,7 @@ msgstr ""
 #: forms.py:128
 #, python-format
 msgid "%(error)s"
-msgstr ""
+msgstr "%(error)s"
 
 #: forms.py:137
 #, fuzzy
@@ -218,7 +218,7 @@ msgstr "Je hebt geen toestemming om dit profiel te bekijken."
 
 #: contrib/umessages/admin.py:25
 msgid "Date/time"
-msgstr ""
+msgstr "Datum/tijd"
 
 #: contrib/umessages/fields.py:56
 #, python-format
@@ -227,11 +227,11 @@ msgstr ""
 
 #: contrib/umessages/forms.py:10
 msgid "To"
-msgstr ""
+msgstr "Naar"
 
 #: contrib/umessages/forms.py:11
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 #: contrib/umessages/models.py:17
 #, fuzzy
@@ -245,40 +245,40 @@ msgstr "gebruiker"
 
 #: contrib/umessages/models.py:24
 msgid "latest message"
-msgstr ""
+msgstr "laatste bericht"
 
 #: contrib/umessages/models.py:31
 msgid "contact"
-msgstr ""
+msgstr "contact"
 
 #: contrib/umessages/models.py:32
 msgid "contacts"
-msgstr ""
+msgstr "contacten"
 
 #: contrib/umessages/models.py:35
 #, python-format
 msgid "%(from_user)s and %(to_user)s"
-msgstr ""
+msgstr "%(from_user)s en %(to_user)s"
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
-msgstr ""
+msgstr "ontvanger"
 
 #: contrib/umessages/models.py:64 contrib/umessages/models.py:112
 msgid "message"
-msgstr ""
+msgstr "bericht"
 
 #: contrib/umessages/models.py:66
 msgid "read at"
-msgstr ""
+msgstr "gelezen op"
 
 #: contrib/umessages/models.py:70
 msgid "recipient deleted at"
-msgstr ""
+msgstr "ontvanger verwijderd op"
 
 #: contrib/umessages/models.py:78 contrib/umessages/models.py:99
 msgid "recipients"
-msgstr ""
+msgstr "ontvangers"
 
 #: contrib/umessages/models.py:81
 #, python-format
@@ -287,7 +287,7 @@ msgstr ""
 
 #: contrib/umessages/models.py:90
 msgid "body"
-msgstr ""
+msgstr "inhoud"
 
 #: contrib/umessages/models.py:94
 #, fuzzy
@@ -296,43 +296,43 @@ msgstr "geslacht"
 
 #: contrib/umessages/models.py:101
 msgid "sent at"
-msgstr ""
+msgstr "verzonden op"
 
 #: contrib/umessages/models.py:104
 msgid "sender deleted at"
-msgstr ""
+msgstr "verzender verwijderd op"
 
 #: contrib/umessages/models.py:113
 msgid "messages"
-msgstr ""
+msgstr "berichten"
 
 #: contrib/umessages/views.py:179
 msgid "Message is sent."
-msgstr ""
+msgstr "Bericht is verzonden."
 
 #: contrib/umessages/views.py:263
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bericht is hersteld."
+msgstr[1] "Berichten zijn hersteld."
 
 #: contrib/umessages/views.py:267
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bericht is verwijderd."
+msgstr[1] "Berichten zijn verwijderd."
 
 #: contrib/umessages/templates/umessages/message_form.html:4
 msgid "Compose"
-msgstr ""
+msgstr "Opstellen"
 
 #: contrib/umessages/templates/umessages/message_form.html:10
 msgid "Compose message"
-msgstr ""
+msgstr "Stel bericht op"
 
 #: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
-msgstr ""
+msgstr "Verzonden"
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
@@ -408,6 +408,8 @@ msgid ""
 "Your new email address is saved. You can continue using userena with this "
 "email."
 msgstr ""
+"Je nieuwe e-mail adres is opgeslagen. Je kunt nu doorgaan met het gebruiken "
+"van de site."
 
 #: templates/userena/email_confirm_fail.html:4
 msgid "Email verification failed."
@@ -634,7 +636,7 @@ msgstr ""
 #: templates/userena/emails/confirmation_email_message_new.txt:2
 #: templates/userena/emails/confirmation_email_message_old.txt:2
 msgid "Dear"
-msgstr ""
+msgstr "Beste"
 
 #: templates/userena/emails/activation_email_message.txt:4
 #, fuzzy
@@ -643,44 +645,44 @@ msgstr "Bedankt voor het inschrijven bij ons!"
 
 #: templates/userena/emails/activation_email_message.txt:6
 msgid "To activate your account you should click on the link below:"
-msgstr ""
+msgstr "Om je account te activeren moet je op de onderstaande link klikken:"
 
 #: templates/userena/emails/activation_email_message.txt:10
 #: templates/userena/emails/activation_notify_message.txt:9
 #: templates/userena/emails/confirmation_email_message_new.txt:10
 #: templates/userena/emails/confirmation_email_message_old.txt:8
 msgid "Sincerely"
-msgstr ""
+msgstr "Met vriendelijke groet"
 
 #: templates/userena/emails/activation_email_subject.txt:2
 msgid "Your signup at"
-msgstr ""
+msgstr "Jouw inschrijving op"
 
 #: templates/userena/emails/activation_notify_message.txt:4
 #, python-format
 msgid "Your account on %(site_name)s is about to expire in %(days_left)s days."
-msgstr ""
+msgstr "Je account op %(site_name)s is over %(days_left)s verlopen."
 
 #: templates/userena/emails/activation_notify_message.txt:5
 msgid "To activate your account you should click on the link below"
-msgstr ""
+msgstr "Om je account te activeren moet je op de onderstaande link klikken"
 
 #: templates/userena/emails/activation_notify_subject.txt:3
 #, python-format
 msgid "Your account on %(site_name)s is about to expire."
-msgstr ""
+msgstr "Jouw account op %(site_name)s is bijna verlopen."
 
 #: templates/userena/emails/confirmation_email_message_new.txt:4
 msgid "You requested a change of your email address at"
-msgstr ""
+msgstr "Je hebt een verzoek ingediend om je e-mail adres te wijzigen op"
 
 #: templates/userena/emails/confirmation_email_message_new.txt:6
 msgid "Please confirm this email address by clicking on the link below:"
-msgstr ""
+msgstr "Confirmeer alsjeblieft dit e-mail adres door te klikken op de onderstaande link:"
 
 #: templates/userena/emails/confirmation_email_message_old.txt:4
 msgid "There was a request to change your email address at"
-msgstr ""
+msgstr "Er was een verzoek om je e-mail te veranderen op"
 
 #: templates/userena/emails/confirmation_email_message_old.txt:5
 #, python-format
@@ -688,6 +690,8 @@ msgid ""
 "An email has been send to %(new_email)s which contains a verification link. "
 "Click on the link in this email to activate it."
 msgstr ""
+"Een e-mail is verstuurd naar %(new_email)s welke een link bevat waarmee je "
+"het nieuwe adres kunt verifieeren."
 
 #: templates/userena/emails/confirmation_email_subject_new.txt:2
 #, fuzzy
@@ -696,24 +700,24 @@ msgstr "E-mail verificatie voor"
 
 #: templates/userena/emails/confirmation_email_subject_old.txt:2
 msgid "A request to change your email address is made at"
-msgstr ""
+msgstr "Een verzoek om je e-mail adres te wijzigen is gemaakt op"
 
 #: templates/userena/emails/password_reset_message.txt:2
 msgid "You're receiving this e-mail because you requested a password reset"
-msgstr ""
+msgstr "Je ontvangt deze e-mail omdat je een wachtwoord wijziging hebt aangevraagd"
 
 #: templates/userena/emails/password_reset_message.txt:3
 #, python-format
 msgid "for your user account at %(site_name)s"
-msgstr ""
+msgstr "voor jouw account op %(site_name)s"
 
 #: templates/userena/emails/password_reset_message.txt:5
 msgid "Please go to the following page and choose a new password:"
-msgstr ""
+msgstr "Ga alsjeblieft naar de onderstaande pagina en kies een nieuw wachtwoord:"
 
 #: templates/userena/emails/password_reset_message.txt:9
 msgid "Your username, in case you've forgotten:"
-msgstr ""
+msgstr "Jouw gebruikersnaam, in het geval dat je het vergeten bent:"
 
 #: templates/userena/emails/password_reset_message.txt:11
 #, fuzzy
@@ -723,7 +727,7 @@ msgstr "Bedankt voor het inschrijven bij ons!"
 #: templates/userena/emails/password_reset_message.txt:13
 #, python-format
 msgid "The %(site_name)s"
-msgstr ""
+msgstr "De %(site_name)s"
 
 #: tests/profile.py:6 tests/profiles/models.py:11
 msgid "Male"
@@ -748,15 +752,3 @@ msgstr "lokatie"
 #: tests/profile.py:15 tests/profiles/models.py:20
 msgid "about me"
 msgstr "over mij"
-
-#~ msgid "Email or username"
-#~ msgstr "E-mail of gebruikersnaam"
-
-#~ msgid "Either supply us with your email or username."
-#~ msgstr "Vul je gebruikersnaam of e-mailadres in."
-
-#~ msgid "Your current email is %(email)s"
-#~ msgstr "Huidige email is %(email)s"
-
-#~ msgid "Your new email address (%(email)s) is saved."
-#~ msgstr "Je huidige email is %(email)s"
