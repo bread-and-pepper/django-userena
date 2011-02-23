@@ -12,7 +12,7 @@ class ComposeForm(forms.Form):
                            widget=forms.Textarea({'class': 'message'}),
                            required=True)
 
-    def save(self, sender, parent_msg=None):
+    def save(self, sender):
         """
         Save the message and send it out into the wide world.
 
@@ -30,7 +30,6 @@ class ComposeForm(forms.Form):
 
         msg = Message.objects.send_message(sender,
                                            to_user_list,
-                                           body,
-                                           parent_msg)
+                                           body)
 
         return msg

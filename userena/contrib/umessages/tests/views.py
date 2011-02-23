@@ -14,19 +14,6 @@ class MessagesViewsTests(TestCase):
         response = self.client.get(reverse(named_url, **kwargs))
         self.assertEqual(response.status_code, 302)
 
-    def test_mailbox(self):
-        """ A ``GET`` to the message list view """
-        # Viewing without logging in should redirect.
-        self._test_login('userena_umessages_inbox')
-
-        # After signing in.
-        client = self.client.login(username='john', password='blowfish')
-        response = self.client.get(reverse('userena_umessages_inbox'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                                'umessages/message_list.html')
-
     def test_compose(self):
         """ A ``GET`` to the compose view """
         # Login is required.
@@ -38,7 +25,7 @@ class MessagesViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
-                                'umessages/compose_form.html')
+                                'umessages/message_form.html')
 
         self.failUnless(isinstance(response.context['form'],
                                    ComposeForm))
@@ -55,10 +42,11 @@ class MessagesViewsTests(TestCase):
                                     data=valid_data)
 
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_detail',
+                                     kwargs={'username': 'john'}))
 
         # Check for a requested redirect
-        valid_data['next'] = reverse('userena_umessages_outbox')
+        valid_data['next'] = reverse('userena_umessages_compose')
         response = self.client.post(reverse('userena_umessages_compose'),
                                     data=valid_data)
         self.assertRedirects(response,
@@ -87,22 +75,6 @@ class MessagesViewsTests(TestCase):
         self.assertEqual(response.context['form'].initial['to'],
                          [jane, john])
 
-    def test_compose_reply(self):
-        """ A ``GET`` to the compose view with a parent_id """
-        client = self.client.login(username='john', password='blowfish')
-
-        # Get a valid reply
-        response = self.client.get(reverse('userena_umessages_reply',
-                                           kwargs={'parent_id': 2}))
-
-        self.assertEqual(response.status_code, 200)
-
-        # Get an invalid reply, because your not a recipient
-        response = self.client.get(reverse('userena_umessages_reply',
-                                           kwargs={'parent_id': 1}))
-
-        self.assertEqual(response.status_code, 404)
-
     def test_message_detail(self):
         """ A ``GET`` to the detail view """
         self._test_login('userena_umessages_detail',
@@ -124,13 +96,6 @@ class MessagesViewsTests(TestCase):
                                           user=jane)
         self.failUnless(mr.read_at)
 
-    def test_invalid_message_detail(self):
-        """ ``GET`` for a message that is not theirs should raise 404 """
-        client = self.client.login(username='arie', password='blowfish')
-        response = self.client.get(reverse('userena_umessages_detail',
-                                   kwargs={'message_id': 1}))
-        self.assertEqual(response.status_code, 404)
-
     def test_valid_message_remove(self):
         """ ``POST`` to remove a message """
         # Test that sign in is required
@@ -148,7 +113,7 @@ class MessagesViewsTests(TestCase):
         response = self.client.post(reverse('userena_umessages_remove'),
                                     data={'message_pks': '1'})
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_list'))
         msg = Message.objects.get(pk=1)
         self.failUnless(msg.sender_deleted_at)
 
@@ -156,9 +121,9 @@ class MessagesViewsTests(TestCase):
         client = self.client.login(username='jane', password='blowfish')
         response = self.client.post(reverse('userena_umessages_remove'),
                                     data={'message_pks': '1',
-                                          'next': reverse('userena_umessages_outbox')})
+                                          'next': reverse('userena_umessages_list')})
         self.assertRedirects(response,
-                             reverse('userena_umessages_outbox'))
+                             reverse('userena_umessages_list'))
         jane = User.objects.get(username='jane')
         mr = msg.messagerecipient_set.get(user=jane,
                                           message=msg)
@@ -176,7 +141,7 @@ class MessagesViewsTests(TestCase):
         # The program should play nice, nothing happened.
         af_len = Message.objects.filter(sender_deleted_at__isnull=False).count()
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_list'))
         self.assertEqual(bef_len, af_len)
 
     def test_valid_message_remove_multiple(self):
@@ -186,7 +151,7 @@ class MessagesViewsTests(TestCase):
         response = self.client.post(reverse('userena_umessages_remove'),
                                     data={'message_pks': [1, 2]})
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_list'))
 
         # Message #1 and #2 should be deleted
         msg_list = Message.objects.filter(pk__in=['1','2'],
@@ -202,36 +167,37 @@ class MessagesViewsTests(TestCase):
                                     data={'message_pks': [1,]})
 
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_list'))
 
         # Delete the message as a recipient
         response = self.client.post(reverse('userena_umessages_unremove'),
                                     data={'message_pks': [2,]})
 
         self.assertRedirects(response,
-                             reverse('userena_umessages_inbox'))
+                             reverse('userena_umessages_list'))
 
-    def test_conversation_list(self):
-        """ ``GET`` the conversation list for a user """
-        self._test_login("userena_umessages_conversation_list")
+    def test_message_list(self):
+        """ ``GET`` the message list for a user """
+        self._test_login("userena_umessages_list")
 
         client = self.client.login(username="john", password="blowfish")
-        response = self.client.get(reverse("userena_umessages_conversation_list"))
+        response = self.client.get(reverse("userena_umessages_list"))
         self.assertEqual(response.status_code, 200)
 
-        self.assertTemplateUsed(response, "umessages/conversation_list.html")
+        self.assertTemplateUsed(response, "umessages/message_list.html")
 
-    def test_conversation_detail(self):
-        """ ``GET`` to a conversation detail page between two users """
-        self._test_login("userena_umessages_conversation_detail", kwargs={'username': "jane"})
+    def test_message_detail(self):
+        """ ``GET`` to a detail page between two users """
+        self._test_login("userena_umessages_detail",
+                         kwargs={'username': "jane"})
         client = self.client.login(username='john', password='blowfish')
 
-        response = self.client.get(reverse("userena_umessages_conversation_detail",
+        response = self.client.get(reverse("userena_umessages_detail",
                                            kwargs={'username': "jane"}))
-        self.assertEqual(response.status_code,
-                         200)
 
-        self.assertTemplateUsed(response, "umessages/conversation_detail.html")
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(response, "umessages/message_detail.html")
 
         # Check that all the messages are marked as read.
         john = User.objects.get(pk=1)

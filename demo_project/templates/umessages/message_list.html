@@ -1,13 +1,13 @@
 {% extends 'umessages/base_message.html' %}
 {% load i18n umessages_tags %}
 
-{% block content_title %}<h2>Messages</h2>{% endblock %}
+{% block content_title %}{% get_unread_message_count_for user as unread_message_count %}
+<h2 class="content-title">Messages ({{ unread_message_count }} )</h2>{% endblock %}
 
 {% block content %}
-{% get_unread_message_count_for user as unread_message_count %}
-{{ unread_message_count }} new messages.
-<a href="{% url userena_umessages_compose %}">Compose</a>
-<ul>
+
+<a href="{% url userena_umessages_compose %}" class="button"><span>+ Compose message</span></a>
+<ul id="messages">
   {% for message in message_list %}
   <li>
   {% if message.from_user == user %}

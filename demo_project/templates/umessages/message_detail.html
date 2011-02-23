@@ -1,11 +1,11 @@
 {% extends 'umessages/base_message.html' %}
 {% load i18n %}
 
-{% block content_title %}<h2>Conversation with {{ conversation_user }}</h2>{% endblock %}
+{% block content_title %}<h2 class="content-title">Conversation with {{ recipient }}</h2>{% endblock %}
 
 {% block content %}
-
-<ul>
+<a href="{% url userena_umessages_compose %}" class="button"><span>+ Compose message</span></a>
+<ul id="messages">
 {% for message in message_list %}
 <li>
   {{ message }}

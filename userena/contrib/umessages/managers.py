@@ -56,7 +56,7 @@ class MessageContactManager(models.Manager):
 class MessageManager(models.Manager):
     """ Manager for the :class:`Message` model. """
 
-    def send_message(self, sender, to_user_list, body, parent_msg=None):
+    def send_message(self, sender, to_user_list, body):
         """
         Send a message from a user, to a user.
 
@@ -69,20 +69,9 @@ class MessageManager(models.Manager):
         :param message:
             String containing the message.
 
-        :param parent_msg:
-            The :class:`Message` that this message originated from.
-
         """
         msg = self.model(sender=sender,
                          body=body)
-
-        if parent_msg:
-            msg.parent_msg = parent_msg
-
-            now = datetime.datetime.now()
-            parent_msg.replied_at = now
-            parent_msg.save()
-
         msg.save()
 
         # Save the recipients
@@ -90,57 +79,6 @@ class MessageManager(models.Manager):
         msg.update_contacts(to_user_list)
 
         return msg
-
-    def get_mailbox_for(self, user, mailbox='inbox'):
-        """
-        Returns all messages in the mailbox that were received by the given
-        user and are not marked as deleted.
-
-        :param user:
-            The :class:`User` for who the mailbox is for.
-
-        :param mailbox:
-            String containing the mailbox which is requested. This can be
-            either ``inbox``, ``outbox``, ``conversation`` or ``trash``.
-
-        :return:
-            Queryset containing :class:`Messages` or ``ValueError`` if the
-            invalid mailbox is supplied.
-
-        """
-        if mailbox == 'outbox':
-            messages = self.filter(sender=user,
-                                   sender_deleted_at__isnull=True)
-
-        elif mailbox == 'trash':
-            received = self.filter(recipients=user,
-                                   messagerecipient__deleted_at__isnull=False)
-
-            sent = self.filter(sender=user,
-                               sender_deleted_at__isnull=False)
-
-            messages = received | sent
-
-        elif mailbox == 'inbox':
-            messages = self.filter(recipients=user,
-                                   messagerecipient__deleted_at__isnull=True)
-
-        else:
-            raise ValueError("mailbox must be either inbox, outbox or trash")
-
-        return messages
-
-    def get_inbox_for(self, user):
-        """ Wrapper for :func:`get_mailbox_for` to get the users inbox. """
-        return self.get_mailbox_for(user, 'inbox')
-
-    def get_outbox_for(self, user):
-        """ Wrapper for :func:`get_mailbox_for` to get the users outbox. """
-        return self.get_mailbox_for(user, 'outbox')
-
-    def get_trash_for(self, user):
-        """ Wrapper for :func:`get_mailbox_for` to get the users trash. """
-        return self.get_mailbox_for(user, 'trash')
 
     def get_conversation_between(self, from_user, to_user):
         """ Returns a conversation between two users """

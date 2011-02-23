@@ -72,8 +72,8 @@ def signin_redirect(redirect=None, user=None):
     :return: String containing the URI to redirect to.
 
     """
-    if redirect: return redirect
-    elif user:
+    if redirect is not None: return redirect
+    elif user is not None:
         return userena_settings.USERENA_SIGNIN_REDIRECT_URL % \
                 {'username': user.username}
     else: return settings.LOGIN_REDIRECT_URL

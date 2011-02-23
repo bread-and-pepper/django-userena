@@ -38,13 +38,6 @@ class MessageModelTests(TestCase):
         self.failUnlessEqual(message.__unicode__(),
                              truncated_body)
 
-    def test_absolute_url(self):
-        """ Test the absolute url of a message """
-        message = Message.objects.get(pk=1)
-        self.failUnlessEqual(message.get_absolute_url(),
-                             reverse('userena_umessages_detail',
-                                     kwargs={'message_id': 1}))
-
 class MessageRecipientModelTest(TestCase):
     fixtures = ['users', 'messages']
 
@@ -64,11 +57,3 @@ class MessageRecipientModelTest(TestCase):
 
         self.failUnless(new_message.is_read())
         self.failIf(read_message.is_read())
-
-    def test_replied(self):
-        """ Test that replied messages are correctly shown """
-        not_replied_message = MessageRecipient.objects.get(pk=1)
-        replied_message = MessageRecipient.objects.get(pk=2)
-
-        self.failIf(not_replied_message.is_replied())
-        self.failUnless(replied_message.is_replied())

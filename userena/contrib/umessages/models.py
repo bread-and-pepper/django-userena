@@ -71,10 +71,6 @@ class MessageRecipient(models.Model):
                                       null=True,
                                       blank=True)
 
-    replied_at = models.DateTimeField(_("replied at"),
-                                      null=True,
-                                      blank=True)
-
     objects = MessageRecipientManager()
 
     class Meta:
@@ -89,10 +85,6 @@ class MessageRecipient(models.Model):
         """ Returns a boolean whether the recipient has read the message """
         return self.read_at is None
 
-    def is_replied(self):
-        """ Returns whether the recipient has written a reply to this message """
-        return self.replied_at is not None
-
 class Message(models.Model):
     """ Private message model, from user to user(s) """
     body = models.TextField(_("body"))
@@ -105,12 +97,6 @@ class Message(models.Model):
                                         through='MessageRecipient',
                                         related_name="received_messages",
                                         verbose_name=_("recipients"))
-
-    parent_msg = models.ForeignKey('self',
-                                   related_name='next_messages',
-                                   null=True,
-                                   blank=True,
-                                   verbose_name=_("parent message"))
 
     sent_at = models.DateTimeField(_("sent at"),
                                    auto_now_add=True)
@@ -130,10 +116,6 @@ class Message(models.Model):
         """ Human representation, displaying first ten words of the body. """
         truncated_body = truncate_words(self.body, 10)
         return "%(truncated_body)s" % {'truncated_body': truncated_body}
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('userena_umessages_detail', None, {'message_id': self.pk})
 
     def save_recipients(self, to_user_list):
         """
