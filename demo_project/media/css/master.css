@@ -780,6 +780,7 @@ ul.messages li{
     border-radius: 20px;
     padding: 4px 20px;
     text-align: center;
+
 }
 
 
@@ -787,15 +788,14 @@ ul.messages li{
 ................................... */  
 
 #messages{
-	background: url(../img/stripe.png) repeat-x 0 top;
 	padding: 0;
-	margin: 10px 0 0;
+	margin: 20px 0 0;
 }
 
 #messages li{
-	padding: 30px 10px;
+	padding: 15px 10px;
 	margin: 0;
-	background: url(../img/stripe.png) repeat-x 0 bottom;
+	overflow: auto;
 }  
 
 #messages li a{
@@ -805,28 +805,60 @@ ul.messages li{
 	text-decoration: none;
 }
 
-#messages li.send {
-  background-color: #fff;
+#messages.list-view a{
+	display: block;
+	overflow: auto;
+	padding: 10px 0 10px 10px;
+	border: 1px solid #ddd;
+	-moz-border-radius: 2px;
+border-radius: 2px;
 }
 
-#messages li.received {
-  background-color: #efefef;
+#messages.list-view a:hover{
+	background-color: #eee;
 }
 
-ul#message p.date {
-  font-size: 80%;
+
+p.date {
+  font-size: 70%;
+  margin: 10px 0 0;
+  color: #777;
 }
 
 .avatar {
   width: 80px;
-  border: 1px solid #333;
+  border: 1px solid #ccc;
   float: right;
-  margin: 10px;
+  margin: 0 10px;
 }
 
 .avatar.received {
   float: left;
 }
+
+.message-content{
+	
+	margin: 0 110px;
+	padding: 15px;
+	-moz-border-radius: 2px;
+border-radius: 2px;
+position: relative;
+min-height: 52px;
+}
+
+.send .message-content{
+	margin: 0 110px;
+	background-color: #e6e6e6;
+	
+}
+
+.received .message-content{
+	margin:0 110px;
+	background-color: #dadada;
+	
+}
+
+
 
 /*	account list
 ................................... */    
