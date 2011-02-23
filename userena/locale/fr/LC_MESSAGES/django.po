@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-18 17:46+0100\n"
-"PO-Revision-Date: 2011-02-23 12:13\n"
-"Last-Translator:   <pl@plop.fr>\n"
+"POT-Creation-Date: 2011-02-23 12:19+0100\n"
+"PO-Revision-Date: 2011-02-23 12:21\n"
+"Last-Translator: Guillaume Libersat <guillaume@spreadband.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -197,23 +197,23 @@ msgstr "%(first_name)s %(last_name)s"
 msgid "language"
 msgstr "la langue"
 
-#: settings.py:31
+#: settings.py:35
 msgid "a month"
 msgstr "un mois"
 
-#: views.py:127
+#: views.py:128
 msgid "Your account has been activated and you have been signed in."
 msgstr "Votre compte a été activé et vous avez été connecté"
 
-#: views.py:281
+#: views.py:282
 msgid "You have been signed in."
 msgstr "Vous avez été connecté"
 
-#: views.py:496
+#: views.py:497
 msgid "Your profile has been updated."
 msgstr "Votre profil a été mis à jour."
 
-#: views.py:535
+#: views.py:536
 msgid "You don't have permission to view this profile."
 msgstr "Vous n'avez pas l'autorisation de voir ce profil."
 
@@ -259,11 +259,11 @@ msgstr "contacts"
 msgid "%(from_user)s and %(to_user)s"
 msgstr "%(from_user)s et %(to_user)s"
 
-#: contrib/umessages/models.py:61 contrib/umessages/models.py:81
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
 msgstr "bénéficiaire"
 
-#: contrib/umessages/models.py:64 contrib/umessages/models.py:126
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
 msgid "message"
 msgstr "message"
 
@@ -275,107 +275,62 @@ msgstr "lu à"
 msgid "recipient deleted at"
 msgstr "destinataire supprimé au"
 
-#: contrib/umessages/models.py:74
-msgid "replied at"
-msgstr "a répondu à"
-
-#: contrib/umessages/models.py:82 contrib/umessages/models.py:107
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
 msgid "recipients"
 msgstr "bénéficiaires"
 
-#: contrib/umessages/models.py:85
+#: contrib/umessages/models.py:81
 #, python-format
 msgid "%(message)s"
 msgstr "%(message)s"
 
-#: contrib/umessages/models.py:98
+#: contrib/umessages/models.py:90
 msgid "body"
 msgstr "corps"
 
-#: contrib/umessages/models.py:102
+#: contrib/umessages/models.py:94
 msgid "sender"
 msgstr "expéditeur"
 
-#: contrib/umessages/models.py:113
-msgid "parent message"
-msgstr "message parent"
-
-#: contrib/umessages/models.py:115
+#: contrib/umessages/models.py:101
 msgid "sent at"
 msgstr "envoyé à"
 
-#: contrib/umessages/models.py:118
+#: contrib/umessages/models.py:104
 msgid "sender deleted at"
 msgstr "expéditeur supprimé au"
 
-#: contrib/umessages/models.py:127
+#: contrib/umessages/models.py:113
 msgid "messages"
 msgstr "messages"
 
-#: contrib/umessages/views.py:321
+#: contrib/umessages/views.py:179
 msgid "Message is sent."
 msgstr "Le message est envoyé."
 
-#: contrib/umessages/views.py:400
+#: contrib/umessages/views.py:263
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
 msgstr[0] "Le message est restauré avec succès."
 msgstr[1] "Les messages sont restaurés avec succès."
 
-#: contrib/umessages/views.py:404
+#: contrib/umessages/views.py:267
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
 msgstr[0] "Le message est supprimé avec succès."
 msgstr[1] "Les messages sont supprimés avec succès"
 
-#: contrib/umessages/templates/umessages/compose_form.html:4
-#: contrib/umessages/templates/umessages/message_list.html:11
+#: contrib/umessages/templates/umessages/message_form.html:4
 msgid "Compose"
 msgstr "Composer"
 
-#: contrib/umessages/templates/umessages/compose_form.html:10
+#: contrib/umessages/templates/umessages/message_form.html:10
 msgid "Compose message"
 msgstr "Composer un message"
 
-#: contrib/umessages/templates/umessages/compose_form.html:13
+#: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
 msgstr "Envoyer"
-
-#: contrib/umessages/templates/umessages/message_list.html:8
-msgid "Inbox"
-msgstr "Boîte de réception"
-
-#: contrib/umessages/templates/umessages/message_list.html:9
-msgid "Outbox"
-msgstr "Boîte d'envoi"
-
-#: contrib/umessages/templates/umessages/message_list.html:10
-msgid "Trash"
-msgstr "Poubelle"
-
-#: contrib/umessages/templates/umessages/message_list.html:19
-msgid "From"
-msgstr "De"
-
-#: contrib/umessages/templates/umessages/message_list.html:20
-msgid "Date received"
-msgstr "Date de réception"
-
-#: contrib/umessages/templates/umessages/message_list.html:27
-msgid "View message"
-msgstr "Voir le message"
-
-#: contrib/umessages/templates/umessages/message_list.html:28
-msgid "ago.."
-msgstr "il y a..."
-
-#: contrib/umessages/templates/umessages/message_list.html:29
-msgid "Reply to this message"
-msgstr "Répondre à ce message"
-
-#: contrib/umessages/templates/umessages/message_list.html:29
-msgid "Reply"
-msgstr "Répondre"
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
@@ -448,9 +403,12 @@ msgid "Email changed!"
 msgstr "Adresse email changé !"
 
 #: templates/userena/email_confirm_complete.html:8
-#, python-format
-msgid "Your new email address (%(email)s) is saved."
-msgstr "Votre nouvelle adresse email ( %(email)s ) est enregistré."
+msgid ""
+"Your new email address is saved. You can continue using userena with "
+"this email."
+msgstr ""
+"Votre nouvelle adresse e-mail est sauvegardée. Vous pouvez continuer "
+"d'utiliser userena avec celle-ci."
 
 #: templates/userena/email_confirm_fail.html:4
 msgid "Email verification failed."
@@ -663,9 +621,10 @@ msgid "Thank you for signing up with us!"
 msgstr "Merci pour votre inscription"
 
 #: templates/userena/signup_complete.html:10
-#, python-format
-msgid "You have been send an e-mail with an activation link to %(email)s."
-msgstr "Un lien d'activation vous a été envoyé à l'adresse %(email)s ."
+msgid ""
+"You have been send an e-mail with an activation link to the supplied "
+"email."
+msgstr "Un lien d'activation vous a été envoyé sur votre boîte e-mail."
 
 #: templates/userena/signup_complete.html:11
 #, python-format
@@ -699,3 +658,39 @@ msgstr "localisation"
 #: tests/profile.py:15 tests/profiles/models.py:20
 msgid "about me"
 msgstr "A propos de moi"
+
+#~ msgid "replied at"
+#~ msgstr "a répondu à"
+
+#~ msgid "parent message"
+#~ msgstr "message parent"
+
+#~ msgid "Inbox"
+#~ msgstr "Boîte de réception"
+
+#~ msgid "Outbox"
+#~ msgstr "Boîte d'envoi"
+
+#~ msgid "Trash"
+#~ msgstr "Poubelle"
+
+#~ msgid "From"
+#~ msgstr "De"
+
+#~ msgid "Date received"
+#~ msgstr "Date de réception"
+
+#~ msgid "View message"
+#~ msgstr "Voir le message"
+
+#~ msgid "ago.."
+#~ msgstr "il y a..."
+
+#~ msgid "Reply to this message"
+#~ msgstr "Répondre à ce message"
+
+#~ msgid "Reply"
+#~ msgstr "Répondre"
+
+#~ msgid "Your new email address (%(email)s) is saved."
+#~ msgstr "Votre nouvelle adresse email ( %(email)s ) est enregistré."
