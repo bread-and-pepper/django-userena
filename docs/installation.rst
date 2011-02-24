@@ -68,14 +68,14 @@ Now userena is available to your project.
 Required settings
 -----------------
 
-You need to make some changes to some Django settings if you want to use
-Userena in your project. This means modifying ``AUTHENTICATION_BACKENDS``,
+You need to make some changes Django settings if you want to use Userena in
+your project. This means modifying ``AUTHENTICATION_BACKENDS``,
 ``INSTALLED_APPS`` and optionally ``MIDDLEWARE_CLASSES``.
 
 Begin by adding ``userena``, ``guardian`` and ``easy_thumbnail`` to the
-``INSTALLED_APPS`` setting of your project.
+``INSTALLED_APPS`` settings of your project.
 
-Next add ``UserenaAuthenticationBackend`` and ``ObjectPermissionBackend``, from
+Next add :class:``UserenaAuthenticationBackend`` and :class:``ObjectPermissionBackend``, from
 django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. If you only have
 Django's default backend, adding django-guardian and that of userena will get
 the following::
