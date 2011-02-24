@@ -12,6 +12,8 @@ import random
 
 attrs_dict = {'class': 'required'}
 
+USERNAME_RE = r'^[\.\w]+$'
+
 class SignupForm(forms.Form):
     """
     Form for creating a new user account.
@@ -21,11 +23,11 @@ class SignupForm(forms.Form):
     be accepted.
 
     """
-    username = forms.RegexField(regex=r'^\w+$',
+    username = forms.RegexField(regex=USERNAME_RE,
                                 max_length=30,
                                 widget=forms.TextInput(attrs=attrs_dict),
                                 label=_("Username"),
-                                error_messages={'invalid': _('Username must contain only letters, numbers and underscores.')})
+                                error_messages={'invalid': _('Username must contain only letters, numbers, dots and underscores.')})
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
                              label=_("Email"))

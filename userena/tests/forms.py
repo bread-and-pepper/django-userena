@@ -21,7 +21,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('username', [u'Username must contain only letters, numbers and underscores.'])},
+             'error': ('username', [u'Username must contain only letters, numbers, dots and underscores.'])},
             # Password is not the same
             {'data': {'username': 'katy',
                       'email': 'katy@newexample.com',
@@ -63,7 +63,7 @@ class SignupFormTests(TestCase):
 
 
         # And finally, a valid form.
-        form = forms.SignupForm(data={'username': 'foo',
+        form = forms.SignupForm(data={'username': 'foo.bla',
                                       'email': 'foo@example.com',
                                       'password1': 'foo',
                                       'password2': 'foo',
