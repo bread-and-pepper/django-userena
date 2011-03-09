@@ -106,6 +106,8 @@ from them:
 cannot use them directly in ``AUTH_PROFILE_MODULE`` but you must create your
 own profile model which inherits from one of the above models. For ex::
 
+    from userena.models import UserenaBaseProfile
+    
     class MyProfile(UserenaBaseProfile):
         favourite_snack = models.CharField(_('favourite snack'),
                                            max_length=5)
