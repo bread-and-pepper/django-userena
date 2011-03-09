@@ -72,7 +72,7 @@ You need to make some changes Django settings if you want to use Userena in
 your project. This means modifying ``AUTHENTICATION_BACKENDS``,
 ``INSTALLED_APPS`` and optionally ``MIDDLEWARE_CLASSES``.
 
-Begin by adding ``userena``, ``guardian`` and ``easy_thumbnail`` to the
+Begin by adding ``userena``, ``guardian`` and ``easy_thumbnails`` to the
 ``INSTALLED_APPS`` settings of your project.
 
 Next add :class:``UserenaAuthenticationBackend`` and :class:``ObjectPermissionBackend``, from
