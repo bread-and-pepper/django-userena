@@ -81,7 +81,7 @@ Django's default backend, adding django-guardian and that of userena will get
 the following::
 
     AUTHENTICATION_BACKENDS = (
-        'userena.UserenaAuthenticationBackend',
+        'userena.backends.UserenaAuthenticationBackend',
         'guardian.backends.ObjectPermissionBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
