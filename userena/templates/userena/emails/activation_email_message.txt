@@ -1,11 +1,13 @@
 {% load i18n %}{% autoescape off %}
-{% trans "Dear" %} {{ user.username }},
+{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
 
-{% trans "Thank you for signing up at" %} {{ site.name }}.
+{% blocktrans with site.name as site %}Thank you for signing up at {{ site }}.{% endblocktrans %}
 
 {% trans "To activate your account you should click on the link below:" %}
 
 {{ protocol }}://{{ site.domain }}{% url userena_activate user.username activation_key %}
+
+{% trans "Thanks for using our site!" %}
 
 {% trans "Sincerely" %},
 {{ site.name }}

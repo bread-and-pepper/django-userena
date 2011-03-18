@@ -1,2 +1,2 @@
 {% load i18n %}
-{% trans "Your signup at" %} {{ site.name }}.
+{% blocktrans with site.name as site %}Your signup at {{ site }}.{% endblocktrans %}

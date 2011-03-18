@@ -25,6 +25,6 @@
         {% endfor %}
     </fieldset>
     <input type="submit" value="{% trans "Signin" %}" />
-    <p class="forgot-password"><a href="{% url userena_password_reset %}" title="Forgot your password?">Forgot your password?</a></p>
+    <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
 </form>
 {% endblock %}

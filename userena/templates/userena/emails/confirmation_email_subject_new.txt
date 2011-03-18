@@ -1,2 +1,3 @@
 {% load i18n %}
-{% trans "Email verification for" %} {{ site.name }}.
+{% blocktrans with site.name as site %}Email verification for {{ site }}.{% endblocktrans %}
+

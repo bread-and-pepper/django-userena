@@ -1,9 +1,11 @@
 {% load i18n %}{% autoescape off %}
-{% trans "Dear" %} {{ user.username }},
+{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
 
-{% trans "There was a request to change your email address at" %} {{ site.name }}.
+{% blocktrans with site.name as site %}There was a request to change your email address at {{ site }}.{% endblocktrans %}
+
 {% blocktrans %}An email has been send to {{ new_email }} which contains a verification link. Click on the link in this email to activate it.{% endblocktrans %}
 
+{% trans "Thanks for using our site!" %}
 
 {% trans "Sincerely" %},
 {{ site.name }}

@@ -7,82 +7,96 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-23 13:48+0100\n"
+"POT-Creation-Date: 2011-03-18 11:02+0100\n"
 "PO-Revision-Date: 2010-10-27 19:55+0100\n"
 "Last-Translator: Petar Radosevic <petar@wunki.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:27
+#: forms.py:29
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: forms.py:28
-msgid "Username must contain only letters, numbers and underscores."
+#: forms.py:30
+#, fuzzy
+msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
 "Gebruikersnaam mag alleen bestaan uit letters, cijfers en liggende streepjes."
 
-#: forms.py:31 templates/userena/profile_detail.html:26
+#: forms.py:33 forms.py:149 templates/userena/profile_detail.html:26
 msgid "Email"
 msgstr "E-mail"
 
-#: forms.py:34
+#: forms.py:36
 msgid "Create password"
 msgstr "Kies wachtwoord"
 
-#: forms.py:37
+#: forms.py:39
 msgid "Repeat password"
 msgstr "Herhaal wachtwoord"
 
-#: forms.py:51
+#: forms.py:53
 msgid "This username is already taken."
 msgstr "Deze gebruikersnaam is al bezet."
 
-#: forms.py:53
+#: forms.py:55
 msgid "This username is not allowed."
 msgstr "Deze gebruikersnaam is niet toegestaan."
 
-#: forms.py:59 forms.py:189
+#: forms.py:61 forms.py:191
 msgid "This email is already in use. Please supply a different email."
 msgstr "Deze e-mail is reeds in gebruik. Geef een ander e-mail adres op."
 
-#: forms.py:71
+#: forms.py:73
 msgid "The two password fields didn't match."
 msgstr "De twee wachtwoordvelden kwamen niet overeen."
 
-#: forms.py:111
+#: forms.py:113
 msgid "I have read and agree to the Terms of Service"
 msgstr "Ik heb de algemene voorwaarden gelezen en ga hiermee akkoord"
 
-#: forms.py:112
+#: forms.py:114
 msgid "You must agree to the terms to register."
 msgstr "Je moet akkoord gaan met de algemene voorwaarden."
 
-#: forms.py:125
+#: forms.py:127
 #, python-format
 msgid "%(label)s"
 msgstr ""
 
-#: forms.py:128
+#: forms.py:130
 #, python-format
 msgid "%(error)s"
 msgstr "%(error)s"
 
 #: forms.py:137
 #, fuzzy
+msgid "Email or username"
+msgstr "De %(site_name)s"
+
+#: forms.py:138
+msgid "Either supply us with your email or username."
+msgstr ""
+
+#: forms.py:139
+#, fuzzy
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: forms.py:141
+#: forms.py:143
 #, python-format
 msgid "Remember me for %(days)s"
 msgstr "Hou me ingelogd voor %(days)s"
 
-#: forms.py:163
+#: forms.py:150
+msgid "Please supply your email."
+msgstr ""
+
+#: forms.py:165
 msgid ""
 "Please enter a correct username or email and password. Note that both fields "
 "are case-sensitive."
@@ -90,19 +104,19 @@ msgstr ""
 "Vul alsjeblieft een correcte gebruikersnaam of e-mailadres in gecombineerd "
 "met je wachtwoord."
 
-#: forms.py:169 templates/userena/email_confirm_complete.html:6
+#: forms.py:171 templates/userena/email_confirm_complete.html:6
 msgid "New email"
 msgstr "Nieuw e-mailadres"
 
-#: forms.py:187
+#: forms.py:189
 msgid "You're already known under this email."
 msgstr "Je staat al bekend onder dit e-maildres."
 
-#: forms.py:203
+#: forms.py:205
 msgid "First name"
 msgstr "Voornaam"
 
-#: forms.py:206
+#: forms.py:208
 msgid "Last name"
 msgstr "Achternaam"
 
@@ -427,6 +441,12 @@ msgstr "Jouw e-mail kon niet geverifieerd worden.."
 msgid "You could try changing it again in your account settings."
 msgstr "Je kan het nogmaals proberen te wijzigen bij je account instellingen."
 
+#: templates/userena/email_form.html:4 templates/userena/password_form.html:6
+#: templates/userena/profile_form.html:6
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr ""
+
 #: templates/userena/email_form.html:10
 #: templates/userena/password_form.html:12
 #: templates/userena/profile_detail.html:13
@@ -523,8 +543,9 @@ msgid "Send password"
 msgstr "Verstuur wachtwoord"
 
 #: templates/userena/profile_detail.html:4
-msgid "profile"
-msgstr "profiel"
+#, python-format
+msgid "%(username)s's profile."
+msgstr ""
 
 #: templates/userena/profile_detail.html:14
 msgid "Edit details"
@@ -575,14 +596,14 @@ msgid "previous"
 msgstr "vorige"
 
 #: templates/userena/profile_list.html:25
-msgid "Page"
-msgstr "Pagina"
+#, python-format
+msgid ""
+"\n"
+"              Page %(page)s of %(num_pages)s\n"
+"            "
+msgstr ""
 
-#: templates/userena/profile_list.html:25
-msgid "of"
-msgstr "van"
-
-#: templates/userena/profile_list.html:29
+#: templates/userena/profile_list.html:31
 msgid "next"
 msgstr "volgende"
 
@@ -590,6 +611,11 @@ msgstr "volgende"
 #: templates/userena/signin_form.html:27
 msgid "Signin"
 msgstr "Inloggen"
+
+#: templates/userena/signin_form.html:28
+#, fuzzy
+msgid "Forgot your password?"
+msgstr "met je nieuwe wachtwoord."
 
 #: templates/userena/signout.html:4
 msgid "Signed out"
@@ -600,7 +626,8 @@ msgid "You have been signed out"
 msgstr "Je bent uitgelogd"
 
 #: templates/userena/signout.html:8
-msgid "You have been signed out from userena. Till we meet again."
+#, fuzzy
+msgid "You have been signed out. Till we meet again."
 msgstr "Je bent uitgelogd bij userena. Tot de volgende keer."
 
 #: templates/userena/signup_complete.html:4
@@ -628,19 +655,19 @@ msgid ""
 "We will store your signup information for %(userena_activation_days)s days "
 "on our server. "
 msgstr ""
-"We zullen al je informatie verwijderen wanneer je niet activeerd binnen %"
-"(userena_activation_days)s dagen."
+"We zullen al je informatie verwijderen wanneer je niet activeerd binnen "
+"%(userena_activation_days)s dagen."
 
 #: templates/userena/emails/activation_email_message.txt:2
-#: templates/userena/emails/activation_notify_message.txt:2
 #: templates/userena/emails/confirmation_email_message_new.txt:2
 #: templates/userena/emails/confirmation_email_message_old.txt:2
-msgid "Dear"
-msgstr "Beste"
+#, fuzzy, python-format
+msgid "Dear %(username)s,"
+msgstr "De %(site_name)s"
 
 #: templates/userena/emails/activation_email_message.txt:4
-#, fuzzy
-msgid "Thank you for signing up at"
+#, fuzzy, python-format
+msgid "Thank you for signing up at %(site)s."
 msgstr "Bedankt voor het inschrijven bij ons!"
 
 #: templates/userena/emails/activation_email_message.txt:6
@@ -648,43 +675,42 @@ msgid "To activate your account you should click on the link below:"
 msgstr "Om je account te activeren moet je op de onderstaande link klikken:"
 
 #: templates/userena/emails/activation_email_message.txt:10
-#: templates/userena/emails/activation_notify_message.txt:9
-#: templates/userena/emails/confirmation_email_message_new.txt:10
+#: templates/userena/emails/confirmation_email_message_new.txt:11
 #: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.txt:14
+#, fuzzy
+msgid "Thanks for using our site!"
+msgstr "Bedankt voor het inschrijven bij ons!"
+
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.txt:13
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.txt:16
 msgid "Sincerely"
 msgstr "Met vriendelijke groet"
 
 #: templates/userena/emails/activation_email_subject.txt:2
-msgid "Your signup at"
+#, fuzzy, python-format
+msgid "Your signup at %(site)s."
 msgstr "Jouw inschrijving op"
 
-#: templates/userena/emails/activation_notify_message.txt:4
-#, python-format
-msgid "Your account on %(site_name)s is about to expire in %(days_left)s days."
-msgstr "Je account op %(site_name)s is over %(days_left)s verlopen."
-
-#: templates/userena/emails/activation_notify_message.txt:5
-msgid "To activate your account you should click on the link below"
-msgstr "Om je account te activeren moet je op de onderstaande link klikken"
-
-#: templates/userena/emails/activation_notify_subject.txt:3
-#, python-format
-msgid "Your account on %(site_name)s is about to expire."
-msgstr "Jouw account op %(site_name)s is bijna verlopen."
-
 #: templates/userena/emails/confirmation_email_message_new.txt:4
-msgid "You requested a change of your email address at"
+#, fuzzy, python-format
+msgid "You requested a change of your email address at %(site)s."
 msgstr "Je hebt een verzoek ingediend om je e-mail adres te wijzigen op"
 
-#: templates/userena/emails/confirmation_email_message_new.txt:6
+#: templates/userena/emails/confirmation_email_message_new.txt:7
 msgid "Please confirm this email address by clicking on the link below:"
-msgstr "Confirmeer alsjeblieft dit e-mail adres door te klikken op de onderstaande link:"
+msgstr ""
+"Confirmeer alsjeblieft dit e-mail adres door te klikken op de onderstaande "
+"link:"
 
 #: templates/userena/emails/confirmation_email_message_old.txt:4
-msgid "There was a request to change your email address at"
+#, fuzzy, python-format
+msgid "There was a request to change your email address at %(site)s."
 msgstr "Er was een verzoek om je e-mail te veranderen op"
 
-#: templates/userena/emails/confirmation_email_message_old.txt:5
+#: templates/userena/emails/confirmation_email_message_old.txt:6
 #, python-format
 msgid ""
 "An email has been send to %(new_email)s which contains a verification link. "
@@ -694,40 +720,34 @@ msgstr ""
 "het nieuwe adres kunt verifieeren."
 
 #: templates/userena/emails/confirmation_email_subject_new.txt:2
-#, fuzzy
-msgid "Email verification for"
+#, fuzzy, python-format
+msgid "Email verification for %(site)s."
 msgstr "E-mail verificatie voor"
 
 #: templates/userena/emails/confirmation_email_subject_old.txt:2
-msgid "A request to change your email address is made at"
+#, fuzzy, python-format
+msgid "A request to change your email address is made at %(site)s."
 msgstr "Een verzoek om je e-mail adres te wijzigen is gemaakt op"
 
 #: templates/userena/emails/password_reset_message.txt:2
-msgid "You're receiving this e-mail because you requested a password reset"
-msgstr "Je ontvangt deze e-mail omdat je een wachtwoord wijziging hebt aangevraagd"
-
-#: templates/userena/emails/password_reset_message.txt:3
-#, python-format
-msgid "for your user account at %(site_name)s"
-msgstr "voor jouw account op %(site_name)s"
+#, fuzzy, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Je ontvangt deze e-mail omdat je een wachtwoord wijziging hebt aangevraagd"
 
 #: templates/userena/emails/password_reset_message.txt:5
 msgid "Please go to the following page and choose a new password:"
-msgstr "Ga alsjeblieft naar de onderstaande pagina en kies een nieuw wachtwoord:"
+msgstr ""
+"Ga alsjeblieft naar de onderstaande pagina en kies een nieuw wachtwoord:"
 
-#: templates/userena/emails/password_reset_message.txt:9
-msgid "Your username, in case you've forgotten:"
+#: templates/userena/emails/password_reset_message.txt:10
+#, fuzzy, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
 msgstr "Jouw gebruikersnaam, in het geval dat je het vergeten bent:"
-
-#: templates/userena/emails/password_reset_message.txt:11
-#, fuzzy
-msgid "Thanks for using our site!"
-msgstr "Bedankt voor het inschrijven bij ons!"
-
-#: templates/userena/emails/password_reset_message.txt:13
-#, python-format
-msgid "The %(site_name)s"
-msgstr "De %(site_name)s"
 
 #: tests/profile.py:6 tests/profiles/models.py:11
 msgid "Male"
@@ -752,3 +772,31 @@ msgstr "lokatie"
 #: tests/profile.py:15 tests/profiles/models.py:20
 msgid "about me"
 msgstr "over mij"
+
+#~ msgid "The %(site_name)s"
+#~ msgstr "De %(site_name)s"
+
+#~ msgid "profile"
+#~ msgstr "profiel"
+
+#~ msgid "Page"
+#~ msgstr "Pagina"
+
+#~ msgid "of"
+#~ msgstr "van"
+
+#~ msgid "Dear"
+#~ msgstr "Beste"
+
+#~ msgid ""
+#~ "Your account on %(site_name)s is about to expire in %(days_left)s days."
+#~ msgstr "Je account op %(site_name)s is over %(days_left)s verlopen."
+
+#~ msgid "To activate your account you should click on the link below"
+#~ msgstr "Om je account te activeren moet je op de onderstaande link klikken"
+
+#~ msgid "Your account on %(site_name)s is about to expire."
+#~ msgstr "Jouw account op %(site_name)s is bijna verlopen."
+
+#~ msgid "for your user account at %(site_name)s"
+#~ msgstr "voor jouw account op %(site_name)s"
