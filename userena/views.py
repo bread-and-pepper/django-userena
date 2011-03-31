@@ -73,7 +73,8 @@ def signup(request, signup_form=SignupForm,
                                         kwargs={'username': user.username})
 
             # A new signed user should logout the old one.
-            logout(request)
+            if request.user.is_authenticated():
+                logout(request)
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
