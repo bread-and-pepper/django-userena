@@ -140,7 +140,7 @@ class AuthenticationForm(forms.Form):
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
                                      required=False,
-                                     label=_(u'Remember me for %(days)s') % {'days': userena_settings.USERENA_REMEMBER_ME_DAYS[0]})
+                                     label=_(u'Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
 
     def __init__(self, *args, **kwargs):
         """ A custom init because we need to change the label if no usernames is used """
