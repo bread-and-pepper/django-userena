@@ -276,7 +276,7 @@ def signin(request, auth_form=AuthenticationForm,
             if user.is_active:
                 login(request, user)
                 if remember_me:
-                    request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 3600)
+                    request.session.set_expiry(userena_settings.USERENA_REMEMBER_ME_DAYS[1] * 86400)
                 else: request.session.set_expiry(0)
 
                 if userena_settings.USERENA_USE_MESSAGES:
