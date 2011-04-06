@@ -7,17 +7,17 @@
 {% block content %}
 <div class="white-box">
 
-    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
-    {% if user.username == profile.user.username %}
-    <ul id="box-nav">
-        <li><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %} &raquo;</a></li>
-        <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %} &raquo;</a></li>
-        <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %} &raquo;</a></li>
-        <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %} &raquo;</a></li>
-    </ul>
-    {% endif %}
+  {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+  {% if user.username == profile.user.username %}
+  <ul id="box-nav">
+    <li><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %} &raquo;</a></li>
+    <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %} &raquo;</a></li>
+    <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %} &raquo;</a></li>
+    <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %} &raquo;</a></li>
+  </ul>
+  {% endif %}
 
-    <div id="details">
+  <div id="details">
     <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
     {% if profile.user.get_full_name %}
     <p><strong>{% trans "Name" %}</strong><br /> {{ profile.user.get_full_name }}</p>
@@ -37,6 +37,6 @@
     {% if profile.about_me %}
     <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me }}</p>
     {% endif %}
-    </div>
+  </div>
 </div>
 {% endblock %}

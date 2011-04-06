@@ -209,11 +209,16 @@ def direct_to_user_template(request, username, template_name,
         rendered template. The ``account`` key is always the ``User``
         that completed the action.
 
+    **Extra context**
+
+    ``viewed_user``
+        The currently :class:`User` that is viewed.
+
     """
     user = get_object_or_404(User, username__iexact=username)
 
     if not extra_context: extra_context = dict()
-    extra_context['account'] = user
+    extra_context['viewed_user'] = user
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -406,9 +411,6 @@ def password_change(request, username, template_name='userena/password_form.html
     ``form``
         Form used to change the password.
 
-    ``account``
-        The current active account.
-
     """
     user = get_object_or_404(User,
                              username__iexact=username)
@@ -440,16 +442,16 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     Edit profile.
 
     Edits a profile selected by the supplied username. First checks
-    permissions if the user is allowed to edit this account, if denied will
-    show a 404. When the account is succesfully edited will redirect to
+    permissions if the user is allowed to edit this profile, if denied will
+    show a 404. When the profile is succesfully edited will redirect to
     ``success_url``.
 
     :param username:
-        Username of the user which account should be edited.
+        Username of the user which profile should be edited.
 
     :param edit_profile_form:
 
-        Form that is used to edit the account. The :func:`EditProfileForm.save`
+        Form that is used to edit the profile. The :func:`EditProfileForm.save`
         method of this form will be called when the form
         :func:`EditProfileForm.is_valid`.  Defaults to :class:`EditProfileForm`
         from userena.
@@ -465,16 +467,16 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     :param extra_context:
         Dictionary containing variables that are passed on to the
         ``template_name`` template.  ``form`` key will always be the form used
-        to edit the account, and the ``account`` key is always the edited
-        account.
+        to edit the profile, and the ``profile`` key is always the edited
+        profile.
 
     **Context**
 
     ``form``
-        Form that is used to alter the account.
+        Form that is used to alter the profile.
 
-    ``account``
-        Instance of the ``Account`` that is edited.
+    ``profile``
+        Instance of the ``Profile`` that is edited.
 
     """
     user = get_object_or_404(User,
@@ -504,7 +506,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
-    extra_context['user'] = user
+    extra_context['profile'] = profile
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -514,20 +516,20 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
     Detailed view of an user.
 
     :param username:
-        String of the username of which the account should be viewed.
+        String of the username of which the profile should be viewed.
 
     :param template_name:
         String representing the template name that should be used to display
-        the account.
+        the profile.
 
     :param extra_context:
         Dictionary of variables which should be supplied to the template. The
-        ``account`` key is always the current account.
+        ``profile`` key is always the current profile.
 
     **Context**
 
-    ``account``
-        Instance of the currently edited ``Account``.
+    ``profile``
+        Instance of the currently viewed ``Profile``.
 
     """
     user = get_object_or_404(User,
@@ -558,8 +560,8 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
         list of all users. Defaults to ``userena/list.html``.
 
     :param paginate_by:
-        Integer defining the amount of displayed accounts per page. Defaults to
-        50 accounts per page.
+        Integer defining the amount of displayed profiles per page. Defaults to
+        50 profiles per page.
 
     :param extra_context:
         Dictionary of variables that are passed on to the ``template_name``
@@ -567,8 +569,8 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
 
     **Context**
 
-    ``account_list``
-        A list of accounts.
+    ``profile_list``
+        A list of profiles.
 
     ``is_paginated``
         A boolean representing whether the results are paginated.

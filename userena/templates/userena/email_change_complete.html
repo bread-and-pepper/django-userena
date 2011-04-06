@@ -5,6 +5,6 @@
 {% block content_title %}<h2>{% trans 'Confirm your new email' %}</h2>{% endblock %}
 
 {% block content %}
-<p>{% blocktrans with account.email_unconfirmed as email %}You have received an email at {{ email }}.{% endblocktrans %}</p>
-<p>{% blocktrans with account.username as username %}To associate this email address with your account ({{ username }}) click on the link provided in this email.{% endblocktrans %}</p>
+<p>{% blocktrans with viewed_user.email_unconfirmed as email %}You have received an email at {{ email }}.{% endblocktrans %}</p>
+<p>{% blocktrans with viewed_user.username as username %}To associate this email address with your account ({{ username }}) click on the link provided in this email.{% endblocktrans %}</p>
 {% endblock %}

@@ -5,26 +5,26 @@
 
 {% block content %}
 <form action="" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend>{% trans "Signin" %}</legend>
-        {{ form.non_field_errors }}
-        {% for field in form %}
-        {{ field.errors }}
-        {% comment %} Displaying checkboxes differently {% endcomment %}
-        {% if field.name == 'remember_me' %}
-        <p class="checkbox">
-            <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
-        </p>
-        {% else %}
-        <p>
-            {{ field.label_tag }} 
-            {{ field }}
-        </p>
-        {% endif %}
-        {% endfor %}
-    </fieldset>
-    <input type="submit" value="{% trans "Signin" %}" />
-    <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Signin" %}</legend>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    {{ field.errors }}
+    {% comment %} Displaying checkboxes differently {% endcomment %}
+    {% if field.name == 'remember_me' %}
+    <p class="checkbox">
+    <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
+    </p>
+    {% else %}
+    <p>
+    {{ field.label_tag }} 
+    {{ field }}
+    </p>
+    {% endif %}
+    {% endfor %}
+  </fieldset>
+  <input type="submit" value="{% trans "Signin" %}" />
+  <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
 </form>
 {% endblock %}
