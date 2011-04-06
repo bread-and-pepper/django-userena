@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-18 11:02+0100\n"
+"POT-Creation-Date: 2011-04-04 12:18+0200\n"
 "PO-Revision-Date: 2010-11-17 15:41\n"
 "Last-Translator: <a@a.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
 "Nazwa użytkownika może zawierać tylko litery, liczby oraz podkreślenia."
 
-#: forms.py:33 forms.py:149 templates/userena/profile_detail.html:26
+#: forms.py:33 forms.py:149 templates/userena/profile_detail.html:27
 msgid "Email"
 msgstr "Adres email"
 
@@ -380,11 +380,11 @@ msgid "Disabled account"
 msgstr "Konto zablokowane"
 
 #: templates/userena/disabled.html:5
-msgid "You're account has been disabled"
+msgid "Your account has been disabled"
 msgstr "Twoje konto zostało zablokowane."
 
 #: templates/userena/disabled.html:7
-msgid "It seems you're account has been disabled."
+msgid "It seems your account has been disabled."
 msgstr "Wygląda na to, że Twoje konto zostało zablokowane."
 
 #: templates/userena/disabled.html:8
@@ -451,7 +451,7 @@ msgstr ""
 
 #: templates/userena/email_form.html:10
 #: templates/userena/password_form.html:12
-#: templates/userena/profile_detail.html:13
+#: templates/userena/profile_detail.html:14
 #: templates/userena/profile_form.html:13
 msgid "View profile"
 msgstr "Zobacz profil"
@@ -465,14 +465,14 @@ msgstr "Edytuj profil"
 #: templates/userena/email_form.html:12 templates/userena/password_form.html:4
 #: templates/userena/password_form.html:14
 #: templates/userena/password_form.html:23
-#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_detail.html:16
 #: templates/userena/profile_form.html:15
 msgid "Change password"
 msgstr "Zmiana hasła"
 
 #: templates/userena/email_form.html:13 templates/userena/email_form.html:21
 #: templates/userena/password_form.html:15
-#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_detail.html:17
 #: templates/userena/profile_form.html:16
 msgid "Change email"
 msgstr "Zmiana adresu email"
@@ -547,31 +547,31 @@ msgstr "Wyślij hasło"
 msgid "%(username)s's profile."
 msgstr ""
 
-#: templates/userena/profile_detail.html:14
+#: templates/userena/profile_detail.html:15
 msgid "Edit details"
 msgstr "Edytuj szczegóły"
 
-#: templates/userena/profile_detail.html:21
+#: templates/userena/profile_detail.html:22
 msgid "Your mugshot"
 msgstr "Twój portret"
 
-#: templates/userena/profile_detail.html:23
+#: templates/userena/profile_detail.html:24
 msgid "Name"
 msgstr "Nazwa"
 
-#: templates/userena/profile_detail.html:29
+#: templates/userena/profile_detail.html:30
 msgid "Age"
 msgstr "Wiek"
 
-#: templates/userena/profile_detail.html:32
+#: templates/userena/profile_detail.html:33
 msgid "Website"
 msgstr "Strona domowa"
 
-#: templates/userena/profile_detail.html:35
+#: templates/userena/profile_detail.html:36
 msgid "Location"
 msgstr "Miejsce"
 
-#: templates/userena/profile_detail.html:38
+#: templates/userena/profile_detail.html:39
 msgid "About me"
 msgstr "O mnie"
 
@@ -608,11 +608,11 @@ msgid "next"
 msgstr "następny"
 
 #: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
-#: templates/userena/signin_form.html:27
+#: templates/userena/signin_form.html:28
 msgid "Signin"
 msgstr "Zaloguj się"
 
-#: templates/userena/signin_form.html:28
+#: templates/userena/signin_form.html:29
 #, fuzzy
 msgid "Forgot your password?"
 msgstr "używając nowego hasła."
@@ -635,7 +635,7 @@ msgid "Signup almost done!"
 msgstr "Rejestracja prawie zakończona!"
 
 #: templates/userena/signup_complete.html:6
-#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:26
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:27
 msgid "Signup"
 msgstr "Rejestracja"
 
