@@ -20,9 +20,6 @@ from easy_thumbnails.fields import ThumbnailerImageField
 import datetime, random
 
 PROFILE_PERMISSIONS = (
-            ('add_profile', 'Can add profile'),
-            ('change_profile', 'Can change profile'),
-            ('delete_profile', 'Can delete profile'),
             ('view_profile', 'Can view profile'),
 )
 
