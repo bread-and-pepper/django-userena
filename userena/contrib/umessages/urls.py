@@ -8,7 +8,7 @@ urlpatterns = patterns('',
         messages_views.message_compose,
         name='userena_umessages_compose'),
 
-    url(r'^compose/(?P<recipients>[\+\w]+)/$',
+    url(r'^compose/(?P<recipients>[\+\.\w]+)/$',
         messages_views.message_compose,
         name='userena_umessages_compose_to'),
 
@@ -16,7 +16,7 @@ urlpatterns = patterns('',
         messages_views.message_compose,
         name='userena_umessages_reply'),
 
-    url(r'^view/(?P<username>\w+)/$',
+    url(r'^view/(?P<username>[\.\w]+)/$',
         messages_views.message_detail,
         name='userena_umessages_detail'),
 
