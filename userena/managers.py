@@ -13,7 +13,7 @@ import re, datetime
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
-PERMISSIONS = {
+ASSIGNED_PERMISSIONS = {
     'profile': ('view_profile', 'change_profile'),
     'user': ('change_user', 'delete_user')
 }
@@ -56,11 +56,11 @@ class UserenaManager(UserManager):
         new_profile.save(using=self._db)
 
         # Give permissions to view and change profile
-        for perm in PERMISSIONS['profile']:
+        for perm in ASSIGNED_PERMISSIONS['profile']:
             assign(perm, new_user, new_profile)
 
         # Give permissinos to view and change itself
-        for perm in PERMISSIONS['user']:
+        for perm in ASSIGNED_PERMISSIONS['user']:
             assign(perm, new_user, new_user)
 
         if send_email:
@@ -194,7 +194,7 @@ class UserenaManager(UserManager):
             if not user.username == 'AnonymousUser':
                 all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
 
-                for model, perms in PERMISSIONS.items():
+                for model, perms in ASSIGNED_PERMISSIONS.items():
                     if model == 'profile':
                         perm_object = user.get_profile()
                     else: perm_object = user
