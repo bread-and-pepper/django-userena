@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth.models import UserManager
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User, UserManager, Permission, AnonymousUser
+from django.contrib.contenttypes.models import ContentType
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
@@ -14,8 +14,12 @@ import re, datetime
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 ASSIGNED_PERMISSIONS = {
-    'profile': ('view_profile', 'change_profile'),
-    'user': ('change_user', 'delete_user')
+    'profile':
+        (('view_profile', 'Can view profile'),
+         ('change_profile', 'Can change profile')),
+    'user':
+        (('change_user', 'Can change user'),
+         ('delete_user', 'Can delete user'))
 }
 
 class UserenaManager(UserManager):
@@ -57,11 +61,11 @@ class UserenaManager(UserManager):
 
         # Give permissions to view and change profile
         for perm in ASSIGNED_PERMISSIONS['profile']:
-            assign(perm, new_user, new_profile)
+            assign(perm[0], new_user, new_profile)
 
         # Give permissinos to view and change itself
         for perm in ASSIGNED_PERMISSIONS['user']:
-            assign(perm, new_user, new_user)
+            assign(perm[0], new_user, new_user)
 
         if send_email:
             userena_profile.send_activation_email()
@@ -189,6 +193,21 @@ class UserenaManager(UserManager):
         :return: A set of users whose permissions was wrong.
 
         """
+        # Check that all the permissions are available.
+        for model, perms in ASSIGNED_PERMISSIONS.items():
+            for perm in perms:
+                try:
+                    Permission.objects.get(codename=perm[0])
+                except Permission.DoesNotExist:
+                    if model == 'profile':
+                        model_obj = get_profile_model()
+                    else: model_obj = User
+                    content_type = ContentType.objects.get_for_model(model_obj)
+                    Permission.objects.create(name=perm[1],
+                                              codename=perm[0],
+                                              content_type=content_type)
+
+        # Check permission for every user.
         changed_users = set()
         for user in User.objects.all():
             if not user.username == 'AnonymousUser':
@@ -200,8 +219,8 @@ class UserenaManager(UserManager):
                     else: perm_object = user
 
                     for perm in perms:
-                        if perm not in all_permissions:
-                            assign(perm, user, perm_object)
+                        if perm[0] not in all_permissions:
+                            assign(perm[0], user, perm_object)
                             changed_users.add(user)
 
         return changed_users

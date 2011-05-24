@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.core.management import call_command
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 
 from userena.models import UserenaSignup
+from userena.managers import ASSIGNED_PERMISSIONS
 from userena import settings as userena_settings
 
 from guardian.shortcuts import remove_perm
@@ -63,3 +64,27 @@ class CheckPermissionTests(TestCase):
         # Check it again should do nothing
         call_command('check_permissions')
 
+    def test_incomplete_permissions(self):
+        # Delete the neccesary permissions
+        for model, perms in ASSIGNED_PERMISSIONS.items():
+            for perm in perms:
+                Permission.objects.get(name=perm[1]).delete()
+
+        # Check if they are they are back
+        for model, perms in ASSIGNED_PERMISSIONS.items():
+            for perm in perms:
+                try:
+                    perm = Permission.objects.get(name=perm[1])
+                except Permission.DoesNotExist: pass
+                else: self.fail()
+
+        # Repair them
+        call_command('check_permissions')
+
+        # Check if they are they are back
+        for model, perms in ASSIGNED_PERMISSIONS.items():
+            for perm in perms:
+                try:
+                    perm = Permission.objects.get(name=perm[1])
+                except Permission.DoesNotExist:
+                    self.fail()
