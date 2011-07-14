@@ -104,11 +104,16 @@ from them:
 
 **IMPORTANT**: The above profiles are ``abstract`` models. This means that you
 cannot use them directly in ``AUTH_PROFILE_MODULE`` but you must create your
-own profile model which inherits from one of the above models. For ex::
+own profile model which inherits from one of the above models. This models
+must also connect itself to the :class:``User`` model of Django. For ex::
 
     from userena.models import UserenaBaseProfile
     
     class MyProfile(UserenaBaseProfile):
+        user = models.OneToOneField(User,
+                                    unique=True,
+                                    verbose_name=_('user'),
+                                    related_name='my_profile') 
         favourite_snack = models.CharField(_('favourite snack'),
                                            max_length=5)
 

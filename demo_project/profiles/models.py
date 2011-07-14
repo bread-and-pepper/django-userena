@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 from userena.models import UserenaLanguageBaseProfile
 
@@ -11,6 +12,12 @@ class Profile(UserenaLanguageBaseProfile):
         (1, _('Male')),
         (2, _('Female')),
     )
+
+    user = models.OneToOneField(User,
+                                unique=True,
+                                verbose_name=_('user'),
+                                related_name='profile') 
+
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,

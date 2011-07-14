@@ -46,7 +46,6 @@ class UserenaSignup(models.Model):
                                 verbose_name=_('user'),
                                 related_name='userena_signup')
 
-
     last_active = models.DateTimeField(_('last active'),
                                        blank=True,
                                        null=True,
@@ -208,11 +207,6 @@ class UserenaBaseProfile(models.Model):
                                  userena_settings.USERENA_MUGSHOT_SIZE),
                         'crop': 'smart'}
 
-    user = models.OneToOneField(User,
-                                unique=True,
-                                verbose_name=_('user'),
-                                related_name='profile')
-
     mugshot = ThumbnailerImageField(_('mugshot'),
                                     blank=True,
                                     upload_to=upload_to_mugshot,
@@ -365,7 +359,7 @@ class UserenaLanguageBaseProfile(UserenaBaseProfile):
 
     """
     language = models.CharField(_('language'),
-                                max_length=4,
+                                max_length=5,
                                 choices=settings.LANGUAGES,
                                 default=settings.LANGUAGE_CODE[:2])
 

@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.core.management import call_command
 from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 
 from userena.models import UserenaSignup
 from userena.managers import ASSIGNED_PERMISSIONS
 from userena import settings as userena_settings
+from userena.utils import get_profile_model
 
 from guardian.shortcuts import remove_perm
 from guardian.models import UserObjectPermission
@@ -66,25 +68,40 @@ class CheckPermissionTests(TestCase):
 
     def test_incomplete_permissions(self):
         # Delete the neccesary permissions
+        profile_model_obj = get_profile_model()
+        content_type_profile = ContentType.objects.get_for_model(profile_model_obj)
+        content_type_user = ContentType.objects.get_for_model(User)
         for model, perms in ASSIGNED_PERMISSIONS.items():
+            if model == "profile":
+                content_type = content_type_profile
+            else: content_type = content_type_user
             for perm in perms:
-                Permission.objects.get(name=perm[1]).delete()
+                Permission.objects.get(name=perm[1],
+                                       content_type=content_type).delete()
 
         # Check if they are they are back
         for model, perms in ASSIGNED_PERMISSIONS.items():
+            if model == "profile":
+                content_type = content_type_profile
+            else: content_type = content_type_user
             for perm in perms:
                 try:
-                    perm = Permission.objects.get(name=perm[1])
+                    perm = Permission.objects.get(name=perm[1],
+                                                  content_type=content_type)
                 except Permission.DoesNotExist: pass
-                else: self.fail()
+                else: self.fail("Found %s: " % perm)
 
         # Repair them
         call_command('check_permissions')
 
         # Check if they are they are back
         for model, perms in ASSIGNED_PERMISSIONS.items():
+            if model == "profile":
+                content_type = content_type_profile
+            else: content_type = content_type_user
             for perm in perms:
                 try:
-                    perm = Permission.objects.get(name=perm[1])
+                    perm = Permission.objects.get(name=perm[1],
+                                                  content_type=content_type)
                 except Permission.DoesNotExist:
                     self.fail()

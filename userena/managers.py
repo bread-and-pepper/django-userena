@@ -198,17 +198,18 @@ class UserenaManager(UserManager):
         """
         # Check that all the permissions are available.
         for model, perms in ASSIGNED_PERMISSIONS.items():
+            if model == 'profile':
+                model_obj = get_profile_model()
+            else: model_obj = User
+            model_content_type = ContentType.objects.get_for_model(model_obj)
             for perm in perms:
                 try:
-                    Permission.objects.get(codename=perm[0])
+                    Permission.objects.get(codename=perm[0],
+                                           content_type=model_content_type)
                 except Permission.DoesNotExist:
-                    if model == 'profile':
-                        model_obj = get_profile_model()
-                    else: model_obj = User
-                    content_type = ContentType.objects.get_for_model(model_obj)
                     Permission.objects.create(name=perm[1],
                                               codename=perm[0],
-                                              content_type=content_type)
+                                              content_type=model_content_type)
 
         # Check permission for every user.
         changed_users = set()
