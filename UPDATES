@@ -1,0 +1,8 @@
+This file contains all the backwards-incompatible changes.
+
+Version 1.0.1
+
+- Removed the ``user`` relationship outside ``UserenaBaseProfile`` model. This
+  allows the user to define it's own relationship and fixes a conflict while
+  running ``manage.py test``. To migrate, place the ``user`` field inside your
+  profile model, instead of inheriting it from the ``abstract`` class. 
