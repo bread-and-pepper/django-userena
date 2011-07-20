@@ -105,7 +105,7 @@ from them:
 **IMPORTANT**: The above profiles are ``abstract`` models. This means that you
 cannot use them directly in ``AUTH_PROFILE_MODULE`` but you must create your
 own profile model which inherits from one of the above models. This models
-must also connect itself to the :class:``User`` model of Django. For ex::
+must also connect itself to the :class:`User` model of Django. For ex::
 
     from userena.models import UserenaBaseProfile
     
