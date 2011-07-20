@@ -300,7 +300,7 @@ def signin(request, auth_form=AuthenticationForm,
     extra_context['form'] = form
     return direct_to_template(request,
                               template_name,
-                              extra_context={'form': form})
+                              extra_context=extra_context)
 
 
 
