@@ -50,7 +50,7 @@ in your terminal::
 
 
 Manual installation of development version with git.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Clone userena with::
     
@@ -85,6 +85,22 @@ the following::
         'guardian.backends.ObjectPermissionBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
+
+Email Backend
+~~~~~~~~~~~~~
+
+Userena uses the Django email facilities to send mail to users, for example
+after user signup for email verification.  By default Django uses the SMTP
+backend, which may cause issues in development and/or if the default SMTP 
+settings are not suitable for your environment.  It is recommended to 
+explicitly set the email backend provider in your settings.py.  For example:
+
+.. code-block:: python
+
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+    
+
+See: `Django Email Documentation <https://docs.djangoproject.com/en/dev/topics/email/>`_
 
 Profiles
 ~~~~~~~~
@@ -133,6 +149,7 @@ For example, to place the URIs under the prefix ``/accounts/``, you could add
 the following to your project's root ``URLconf``::
 
     (r'^accounts/', include('userena.urls')),
+
 
 This should have you a working accounts application for your project. See the
 :ref:`settings <settings>` and :ref:`templates <templates>` for further
