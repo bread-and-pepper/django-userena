@@ -219,7 +219,7 @@ msgstr "Votre compte a été activé et vous avez été connecté"
 
 #: views.py:282
 msgid "You have been signed in."
-msgstr "Vous avez été connecté"
+msgstr "Vous été à présent connecté"
 
 #: views.py:497
 msgid "Your profile has been updated."
