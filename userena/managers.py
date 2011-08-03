@@ -207,25 +207,32 @@ class UserenaManager(UserManager):
                     Permission.objects.get(codename=perm[0],
                                            content_type=model_content_type)
                 except Permission.DoesNotExist:
+                    print "Creating permission: %s" % perm[1]
                     Permission.objects.create(name=perm[1],
                                               codename=perm[0],
                                               content_type=model_content_type)
+                else: print "Found permission: %s" % perm[1]
 
         # Check permission for every user.
         changed_users = set()
         for user in User.objects.all():
             if not user.username == 'AnonymousUser':
-                all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
+                try:
+                    user_profile = user.get_profile()
+                except get_profile_model().DoesNotExist:
+                    print "WARNING: No profile found for %s" % user.username
+                else:
+                    all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
 
-                for model, perms in ASSIGNED_PERMISSIONS.items():
-                    if model == 'profile':
-                        perm_object = user.get_profile()
-                    else: perm_object = user
+                    for model, perms in ASSIGNED_PERMISSIONS.items():
+                        if model == 'profile':
+                            perm_object = user.get_profile()
+                        else: perm_object = user
 
-                    for perm in perms:
-                        if perm[0] not in all_permissions:
-                            assign(perm[0], user, perm_object)
-                            changed_users.add(user)
+                        for perm in perms:
+                            if perm[0] not in all_permissions:
+                                assign(perm[0], user, perm_object)
+                                changed_users.add(user)
 
         return changed_users
 
