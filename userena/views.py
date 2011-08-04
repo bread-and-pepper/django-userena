@@ -69,6 +69,11 @@ def signup(request, signup_form=SignupForm,
         if form.is_valid():
             user = form.save()
 
+            # Send the signup complete signal
+            userena_signals.signup_complete.send(sender=None,
+                                             user=new_user)
+
+
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_signup_complete',
                                         kwargs={'username': user.username})

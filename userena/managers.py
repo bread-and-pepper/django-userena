@@ -79,11 +79,7 @@ class UserenaManager(UserManager):
 
         if send_email:
             userena_profile.send_activation_email()
-
-        # Send the signup complete signal
-        userena_signals.signup_complete.send(sender=None,
-                                             user=new_user)
-
+ 
         return new_user
 
     def create_userena_profile(self, user):
