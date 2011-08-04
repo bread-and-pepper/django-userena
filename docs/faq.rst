@@ -3,7 +3,7 @@
 F.A.Q
 =====
 
-I get a ``Permission matching query does not exist`` exception
+I get a "``Permission matching query does not exist``" exception
 --------------------------------------------------------------
 
 Sometimes Django decides not to install the default permissions for a model
