@@ -17,6 +17,7 @@ from userena.models import UserenaSignup
 from userena.decorators import secure_required
 from userena.backends import UserenaAuthenticationBackend
 from userena.utils import signin_redirect, get_profile_model
+from userena import signals as userena_signals
 from userena import settings as userena_settings
 
 from guardian.decorators import permission_required_or_403
@@ -384,7 +385,6 @@ def password_change(request, username, template_name='userena/password_form.html
     that in a later stadium administrators can also change the users password
     through the web application itself.
 
-
     :param username:
         String supplying the username of the user who's password is about to be
         changed.
@@ -421,6 +421,10 @@ def password_change(request, username, template_name='userena/password_form.html
         form = pass_form(user=user, data=request.POST)
         if form.is_valid():
             form.save()
+
+            # Send a signal that the password has changed
+            userena_signals.password_complete.send(sender=None,
+                                                   user=user)
 
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_password_change_complete',

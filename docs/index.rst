@@ -50,6 +50,7 @@ Contents
    
    installation
    settings
+   signals
    commands
    api/index
 
