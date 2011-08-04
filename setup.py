@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+import sys
 
 userena = __import__('userena')
 
-readme_file = 'README.rst'
+readme_file = 'README.mkd'
 try:
     long_description = open(readme_file).read()
 except IOError, err:
