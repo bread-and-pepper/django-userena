@@ -30,7 +30,7 @@ class UserenaManagerTests(TestCase):
 
         """
         # Check that the fields are set.
-        new_user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        new_user = UserenaSignup.objects.create_user(**self.user_info)
         self.assertEqual(new_user.username, self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
@@ -56,7 +56,7 @@ class UserenaManagerTests(TestCase):
         the setting ``USERENA_ACTIVATED``.
 
         """
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         active_user = UserenaSignup.objects.activate_user(user.username,
                                                           user.userena_signup.activation_key)
 
@@ -93,7 +93,7 @@ class UserenaManagerTests(TestCase):
         ``UserenaSignup.objects.activation_user`` return ``False``.
 
         """
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
 
         # Set the date that the key is created a day further away than allowed
         user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
@@ -153,7 +153,7 @@ class UserenaManagerTests(TestCase):
         Test if expired users are deleted from the database.
 
         """
-        expired_user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        expired_user = UserenaSignup.objects.create_user(**self.user_info)
         expired_user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         expired_user.save()
 

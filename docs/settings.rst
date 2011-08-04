@@ -17,6 +17,12 @@ Default ``/accounts/%(username)s/'`` (string)
 A string which defines the URI where the user will be redirected to after
 signin.
 
+USERENA_ACTIVATION_REQUIRED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``True`` (integer)
+
+Boolean that defines if a activation is required when creating a new user.
+
 USERENA_ACTIVATION_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``7`` (integer)

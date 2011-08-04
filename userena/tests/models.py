@@ -61,7 +61,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         ``USERENA_ACTIVATION_DAYS``.
 
         """
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
@@ -74,7 +74,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         already used.
 
         """
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         activated_user = UserenaSignup.objects.activate_user(user.username,
                                                              user.userena_signup.activation_key)
         self.failUnless(activated_user.userena_signup.activation_key_expired())
@@ -85,7 +85,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         ``activation_key_created`` is within the defined timeframe.``
 
         """
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         self.failIf(user.userena_signup.activation_key_expired())
 
     def test_activation_email(self):
@@ -94,7 +94,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         by ``UserenaSignup.send_activation_email``.
 
         """
-        new_user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        new_user = UserenaSignup.objects.create_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 

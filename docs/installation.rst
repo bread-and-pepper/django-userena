@@ -174,4 +174,11 @@ The above should supply you with a fully functional account management app. for
 your project. You can look into the next chapter to fully customize userena to
 your likings.
 
+Permission check
+~~~~~~~~~~~~~~~~
+
+Sometimes Django decides to skip installing the default permissions for a
+model. To check if all permissions are there, run the ``check_permissions`` in
+the management :ref:`commands`.
+
 .. _Github: https://github.com/lukaszb/django-guardian

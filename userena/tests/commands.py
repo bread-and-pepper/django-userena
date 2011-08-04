@@ -25,7 +25,7 @@ class CleanExpiredTests(TestCase):
 
         """
         # Create an account which is expired.
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         user.date_joined -= datetime.timedelta(days=userena_settings.USERENA_ACTIVATION_DAYS + 1)
         user.save()
 
@@ -44,7 +44,7 @@ class CheckPermissionTests(TestCase):
 
     def test_check_permissions(self):
         # Create a new account.
-        user = UserenaSignup.objects.create_inactive_user(**self.user_info)
+        user = UserenaSignup.objects.create_user(**self.user_info)
         user.save()
 
         # Remove all permissions
@@ -64,7 +64,7 @@ class CheckPermissionTests(TestCase):
                 self.fail()
 
         # Check it again should do nothing
-        call_command('check_permissions')
+        call_command('check_permissions', test=True)
 
     def test_incomplete_permissions(self):
         # Delete the neccesary permissions
@@ -92,7 +92,7 @@ class CheckPermissionTests(TestCase):
                 else: self.fail("Found %s: " % perm)
 
         # Repair them
-        call_command('check_permissions')
+        call_command('check_permissions', test=True)
 
         # Check if they are they are back
         for model, perms in ASSIGNED_PERMISSIONS.items():
@@ -105,3 +105,16 @@ class CheckPermissionTests(TestCase):
                                                   content_type=content_type)
                 except Permission.DoesNotExist:
                     self.fail()
+
+    def test_no_profile(self):
+        """ Check for warning when there is no profile """
+        # TODO: Dirty! Currently we check for the warning by getting a 100%
+        # test coverage, meaning that it dit output some warning.
+        user = UserenaSignup.objects.create_user(**self.user_info)
+        
+        # remove the profile of this user
+        get_profile_model().objects.get(user=user).delete()
+        
+        # run the command to check for the warning.
+        call_command('check_permissions', test=True)
+     
