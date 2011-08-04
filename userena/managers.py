@@ -232,7 +232,7 @@ class UserenaManager(UserManager):
                     warnings.append(_("No profile found for %(username)s") \
                                         % {'username': user.username})
                 else:
-                    all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
+                    all_permissions = get_perms(user, user_profile) + get_perms(user, user)
 
                     for model, perms in ASSIGNED_PERMISSIONS.items():
                         if model == 'profile':

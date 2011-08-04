@@ -112,7 +112,6 @@ AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 USERENA_DISABLE_PROFILE_LIST = True
 USERENA_MUGSHOT_SIZE = 140
-USERENA_ACTIVATION_REQUIRED = False
 
 # Test settings
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
