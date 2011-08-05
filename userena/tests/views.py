@@ -97,6 +97,21 @@ class UserenaViewsTests(ProfileTestCase):
         # Back to default
         userena_settings.USERENA_WITHOUT_USERNAMES = False
 
+    def test_signup_view_signout(self):
+        """ Check that a newly signed user shouldn't be signed in. """
+        # User should be signed in
+        self.failUnless(self.client.login(username='john', password='blowfish'))
+        # Post a new, valid signup
+        response = self.client.post(reverse('userena_signup'),
+                                    data={'username': 'alice',
+                                          'email': 'alice@example.com',
+                                          'password1': 'blueberry',
+                                          'password2': 'blueberry',
+                                          'tos': 'on'})
+
+        # And should now be signed out
+        self.failIf(len(self.client.session.keys()) > 0)
+
     def test_signup_view_success(self):
         """
         After a ``POST`` to the ``signup`` view a new user should be created,

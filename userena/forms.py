@@ -79,7 +79,11 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['email'],
                                      self.cleaned_data['password1'])
 
-        new_user = UserenaSignup.objects.create_inactive_user(username, email, password)
+        new_user = UserenaSignup.objects.create_user(username,
+                                                     email, 
+                                                     password,
+                                                     not userena_settings.USERENA_ACTIVATION_REQUIRED,
+                                                     userena_settings.USERENA_ACTIVATION_REQUIRED)
         return new_user
 
 class SignupFormOnlyEmail(SignupForm):

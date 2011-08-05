@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User, UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext as _
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model
@@ -16,7 +17,8 @@ SHA1_RE = re.compile('^[a-f0-9]{40}$')
 ASSIGNED_PERMISSIONS = {
     'profile':
         (('view_profile', 'Can view profile'),
-         ('change_profile', 'Can change profile')),
+         ('change_profile', 'Can change profile'),
+         ('delete_profile', 'Can delete profile')),
     'user':
         (('change_user', 'Can change user'),
          ('delete_user', 'Can delete user'))
@@ -25,7 +27,8 @@ ASSIGNED_PERMISSIONS = {
 class UserenaManager(UserManager):
     """ Extra functionality for the Userena model. """
 
-    def create_inactive_user(self, username, email, password, send_email=True):
+    def create_user(self, username, email, password, active=False,
+                    send_email=True):
         """
         A simple wrapper that creates a new :class:`User`.
 
@@ -38,6 +41,10 @@ class UserenaManager(UserManager):
         :param password:
             String containing the password for the new user.
 
+        :param active:
+            Boolean that defines if the user requires activation by clicking 
+            on a link in an e-mail. Defauts to ``True``.
+
         :param send_email:
             Boolean that defines if the user should be send an email. You could
             set this to ``False`` when you want to create a user in your own
@@ -49,7 +56,7 @@ class UserenaManager(UserManager):
         now = datetime.datetime.now()
 
         new_user = User.objects.create_user(username, email, password)
-        new_user.is_active = False
+        new_user.is_active = active
         new_user.save()
 
         userena_profile = self.create_userena_profile(new_user)
@@ -66,17 +73,13 @@ class UserenaManager(UserManager):
         for perm in ASSIGNED_PERMISSIONS['profile']:
             assign(perm[0], new_user, new_profile)
 
-        # Give permissinos to view and change itself
+        # Give permissions to view and change itself
         for perm in ASSIGNED_PERMISSIONS['user']:
             assign(perm[0], new_user, new_user)
 
         if send_email:
             userena_profile.send_activation_email()
-
-        # Send the signup complete signal
-        userena_signals.signup_complete.send(sender=None,
-                                             user=new_user)
-
+ 
         return new_user
 
     def create_userena_profile(self, user):
@@ -196,6 +199,11 @@ class UserenaManager(UserManager):
         :return: A set of users whose permissions was wrong.
 
         """
+        # Variable to supply some feedback
+        changed_permissions = []
+        changed_users = []
+        warnings = []
+
         # Check that all the permissions are available.
         for model, perms in ASSIGNED_PERMISSIONS.items():
             if model == 'profile':
@@ -207,27 +215,32 @@ class UserenaManager(UserManager):
                     Permission.objects.get(codename=perm[0],
                                            content_type=model_content_type)
                 except Permission.DoesNotExist:
+                    changed_permissions.append(perm[1])
                     Permission.objects.create(name=perm[1],
                                               codename=perm[0],
                                               content_type=model_content_type)
 
-        # Check permission for every user.
-        changed_users = set()
         for user in User.objects.all():
             if not user.username == 'AnonymousUser':
-                all_permissions = get_perms(user, user.get_profile()) + get_perms(user, user)
+                try:
+                    user_profile = user.get_profile()
+                except get_profile_model().DoesNotExist:
+                    warnings.append(_("No profile found for %(username)s") \
+                                        % {'username': user.username})
+                else:
+                    all_permissions = get_perms(user, user_profile) + get_perms(user, user)
 
-                for model, perms in ASSIGNED_PERMISSIONS.items():
-                    if model == 'profile':
-                        perm_object = user.get_profile()
-                    else: perm_object = user
+                    for model, perms in ASSIGNED_PERMISSIONS.items():
+                        if model == 'profile':
+                            perm_object = user.get_profile()
+                        else: perm_object = user
 
-                    for perm in perms:
-                        if perm[0] not in all_permissions:
-                            assign(perm[0], user, perm_object)
-                            changed_users.add(user)
+                        for perm in perms:
+                            if perm[0] not in all_permissions:
+                                assign(perm[0], user, perm_object)
+                                changed_users.append(user)
 
-        return changed_users
+        return (changed_permissions, changed_users, warnings)
 
 class UserenaBaseProfileManager(models.Manager):
     """ Manager for :class:`UserenaProfile` """

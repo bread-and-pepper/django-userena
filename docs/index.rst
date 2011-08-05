@@ -50,7 +50,9 @@ Contents
    
    installation
    settings
+   signals
    commands
+   faq
    api/index
 
 Contrib: uMessages

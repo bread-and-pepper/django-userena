@@ -96,12 +96,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    'demo_project.profiles',
     'easy_thumbnails',
     'guardian',
     'south',
     'userena',
     'userena.contrib.umessages',
+    'demo_project.profiles',
 )
 
 # Userena settings

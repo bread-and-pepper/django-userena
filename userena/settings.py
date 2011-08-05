@@ -14,6 +14,10 @@ USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
                                       'USERENA_SIGNIN_REDIRECT_URL',
                                       '/accounts/%(username)s/')
 
+USERENA_ACTIVATION_REQUIRED = getattr(settings,
+                                      'USERENA_ACTIVATION_REQUIRED',
+                                      True)
+
 USERENA_ACTIVATION_DAYS = getattr(settings,
                                   'USERENA_ACTIVATION_DAYS',
                                   7)
