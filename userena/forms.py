@@ -214,7 +214,7 @@ class EditProfileForm(forms.ModelForm):
                                 required=False)
 
     def __init__(self, *args, **kw):
-        super(forms.ModelForm, self).__init__(*args, **kw)
+        super(EditProfileForm, self).__init__(*args, **kw)
         # Put the first and last name at the top
         new_order = self.fields.keyOrder[:-2]
         new_order.insert(0, 'first_name')
