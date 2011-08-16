@@ -13,21 +13,30 @@ downloads and installation instructions.
 Installing django-userena.
 --------------------------
 
-You can install django-userena automagicly with ``easy_install`` or ``pip``. Or
-manually placing it on on your ``PYTHON_PATH``.
+You can install django-userena automagicly with ``pip``. Or by manually
+placing it on on your ``PYTHON_PATH``. The recommended way is the shown in
+:ref:`pip-install`.
 
-I'm using `virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an
-isolated python environment. This way it's possible to create a tailored
-environment for each project.
+NOTE: It is also recommended to use
+`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an isolated
+python environment. This way it's possible to create a tailored environment
+for each project.
 
-Automatic installation with easy_install.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _pip-install:
 
-Automatic install with `easy_install
-<http://peak.telecommunity.com/DevCenter/EasyInstall>`_. All you have to do is
+Automatic installation with pip.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Automatic install with `pip
+<http://www.pip-installer.org/en/latest/index.html>`_. All you have to do is
 run the following command::
 
-    easy_install django-userena
+    pip install django-userena
+
+If you want to have a specific version of userena, you can do so by adding the
+following::
+
+    pip install django-userena==1.0.1
 
 Manual installation with easy_install.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
