@@ -35,11 +35,11 @@ msgstr "Adresse email"
 
 #: forms.py:36
 msgid "Create password"
-msgstr "Créez un mot de passe"
+msgstr "Choisissez un mot de passe"
 
 #: forms.py:39
 msgid "Repeat password"
-msgstr "Répétez le mot de passe"
+msgstr "Confirmez le mot de passe"
 
 #: forms.py:53
 msgid "This username is already taken."
@@ -219,7 +219,7 @@ msgstr "Votre compte a été activé et vous avez été connecté"
 
 #: views.py:282
 msgid "You have been signed in."
-msgstr "Vous été à présent connecté"
+msgstr "Vous êtes à présent connecté"
 
 #: views.py:497
 msgid "Your profile has been updated."
