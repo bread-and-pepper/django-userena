@@ -399,7 +399,7 @@ msgstr "Confirmez votre nouvelle adresse email"
 #: templates/userena/email_change_complete.html:8
 #, python-format
 msgid "You have received an email at %(email)s."
-msgstr "Vous avez reçu un e-mail sur %(email)s ."
+msgstr "Vous avez reçu un email sur %(email)s ."
 
 #: templates/userena/email_change_complete.html:9
 #, python-format
@@ -412,27 +412,27 @@ msgstr ""
 
 #: templates/userena/email_confirm_complete.html:4
 msgid "Email changed!"
-msgstr "Adresse email changé !"
+msgstr "Adresse email changée !"
 
 #: templates/userena/email_confirm_complete.html:8
 msgid ""
 "Your new email address is saved. You can continue using userena with "
 "this email."
 msgstr ""
-"Votre nouvelle adresse e-mail est sauvegardée. Vous pouvez continuer "
+"Votre nouvelle adresse email est sauvegardée. Vous pouvez continuer "
 "d'utiliser userena avec celle-ci."
 
 #: templates/userena/email_confirm_fail.html:4
 msgid "Email verification failed."
-msgstr "Vérification d'email échouée."
+msgstr "La vérification de votre adresse email a échoué."
 
 #: templates/userena/email_confirm_fail.html:5
 msgid "Your email could not be verified.."
-msgstr "Votre e-mail n'a pas pu être vérifié..."
+msgstr "Votre email n'a pas pu être vérifié..."
 
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
-msgstr "Votre e-mail n'a pas pu être vérifiée..."
+msgstr "Votre email n'a pas pu être vérifiée..."
 
 #: templates/userena/email_confirm_fail.html:9
 msgid "You could try changing it again in your account settings."
@@ -649,7 +649,7 @@ msgstr "Merci pour votre inscription"
 msgid ""
 "You have been send an e-mail with an activation link to the supplied "
 "email."
-msgstr "Un lien d'activation vous a été envoyé sur votre boîte e-mail."
+msgstr "Un lien d'activation vous a été envoyé sur votre boîte email."
 
 #: templates/userena/signup_complete.html:11
 #, python-format
@@ -724,13 +724,13 @@ msgstr ""
 #: templates/userena/emails/confirmation_email_subject_new.txt:2
 #, python-format
 msgid "Email verification for %(site)s."
-msgstr "E-mail de vérification pour %(site)s"
+msgstr "Email de vérification pour %(site)s"
 
 #: templates/userena/emails/confirmation_email_subject_old.txt:2
 #, python-format
 msgid "A request to change your email address is made at %(site)s."
 msgstr ""
-"Une demande de changement de votre adresse e-mail est faite sur "
+"Une demande de changement de votre adresse email est faite sur "
 "%(site)s"
 
 #: templates/userena/emails/password_reset_message.txt:2
