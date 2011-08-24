@@ -303,7 +303,10 @@ def signin(request, auth_form=AuthenticationForm,
                                         kwargs={'username': user.username}))
 
     if not extra_context: extra_context = dict()
-    extra_context['form'] = form
+    extra_context.update({
+        'form': form,
+        'next': request.REQUEST.get(redirect_field_name),
+    })
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)

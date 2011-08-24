@@ -18,7 +18,7 @@
     </p>
     {% else %}
     <p>
-    {{ field.label_tag }} 
+    {{ field.label_tag }}
     {{ field }}
     </p>
     {% endif %}
@@ -26,5 +26,6 @@
   </fieldset>
   <input type="submit" value="{% trans "Signin" %}" />
   <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
+  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
 </form>
 {% endblock %}
