@@ -148,15 +148,15 @@ msgstr "unbestätigte E-Mail-Adresse"
 
 #: models.py:64
 msgid "Temporary email address when the user requests an email change."
-msgstr "Vorläufige E-Mail-Adresse falls der Benutzer seine E-Mail ändern möchte."
+msgstr "Vorläufige E-Mail-Adresse falls der Benutzer seine E-Mail-Adresse ändern möchte."
 
 #: models.py:66
 msgid "unconfirmed email verification key"
-msgstr "unbestätigter E-Mail Verifizierungssschlüssel"
+msgstr "unbestätigter E-Mail-Verifizierungsschlüssel"
 
 #: models.py:70
 msgid "creation date of email confirmation key"
-msgstr "Erstellungsdatum des E-Mail-Bestätigungsschlüssels"
+msgstr "Erstellungsdatum des E-Mail-Verifizierungsschlüssel"
 
 #: models.py:78
 msgid "userena registration"
@@ -375,7 +375,7 @@ msgstr "Falls Sie sich ungerecht behandelt fühlen, kontaktieren Sie bitte die A
 
 #: templates/userena/email_change_complete.html:4
 msgid "Email verification"
-msgstr "E-mail Verifizierung"
+msgstr "E-mail-Verifizierung"
 
 #: templates/userena/email_change_complete.html:5
 msgid "Confirm your new email"
@@ -401,7 +401,7 @@ msgstr "Ihre neue E-Mail-Adresse wurde gespeichert. Sie können userena ab jetzt
 
 #: templates/userena/email_confirm_fail.html:4
 msgid "Email verification failed."
-msgstr "E-Mail Verifizierung fehlgeschlagen."
+msgstr "E-Mail-Verifizierung fehlgeschlagen."
 
 #: templates/userena/email_confirm_fail.html:5
 msgid "Your email could not be verified.."
