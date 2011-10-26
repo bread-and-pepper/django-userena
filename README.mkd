@@ -13,6 +13,6 @@ Complete documentation about the
 [F.A.Q.](http://docs.django-userena.org/en/latest/faq.html) is available on
 [Read the Docs](http://docs.django-userena.org/en/latest/index.html).
 
-## [Demo](https://django-userena.org/)
+## [Demo](http://django-userena.org/)
 
-Want to test userena first, you can do just that at [django-userena.org](https://django-userena.org/).
+Want to test userena first, you can do just that at [django-userena.org](http://django-userena.org/).

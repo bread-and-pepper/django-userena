@@ -43,9 +43,17 @@ USERENA_FORBIDDEN_USERNAMES = getattr(settings,
                                       ('signup', 'signout', 'signin',
                                        'activate', 'me', 'password'))
 
+USERENA_USE_HTTPS = getattr(settings,
+                            'USERENA_USE_HTTPS',
+                            False)
+
 USERENA_MUGSHOT_GRAVATAR = getattr(settings,
                                    'USERENA_MUGSHOT_GRAVATAR',
                                    True)
+
+USERENA_MUGSHOT_GRAVATAR_SECURE = getattr(settings,
+                                          'USERENA_MUGSHOT_GRAVATAR_SECURE',
+                                          USERENA_USE_HTTPS)
 
 USERENA_MUGSHOT_DEFAULT = getattr(settings,
                                   'USERENA_MUGSHOT_DEFAULT',
@@ -58,10 +66,6 @@ USERENA_MUGSHOT_SIZE = getattr(settings,
 USERENA_MUGSHOT_PATH = getattr(settings,
                                'USERENA_MUGSHOT_PATH',
                                'mugshots/')
-
-USERENA_USE_HTTPS = getattr(settings,
-                            'USERENA_USE_HTTPS',
-                            False)
 
 USERENA_DEFAULT_PRIVACY = getattr(settings,
                                   'USERENA_DEFAULT_PRIVACY',

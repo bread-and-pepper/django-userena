@@ -79,6 +79,13 @@ Default: ``True`` (boolean)
 A boolean defining if mugshots should fallback to `Gravatar
 <http://en.gravatar.com/>`_ service when no mugshot is uploaded by the user.
 
+USERENA_MUGSHOT_GRAVATAR_SECURE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``USERENA_USE_HTTPS`` (boolean)
+
+A boolean defining if the secure URI of Gravatar is used. Defaults to
+the same value as ``USERENA_USE_HTTPS``.
+
 USERENA_MUGSHOT_DEFAULT
 ~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``identicon`` (string)

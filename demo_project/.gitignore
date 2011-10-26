@@ -1,2 +1,3 @@
-media/mugshots/*
-!.gitignore
+media/mugshots
+.epio-app
+settings_email.py
