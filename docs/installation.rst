@@ -51,9 +51,8 @@ Clone the Git repository from Github. Then you can direct easy_install to the
 Automatic installation of development version with pip.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can tell `pip <http://pip.openplans.org/>`_ to install django-userena by
-supplying it with the git repository on Github. Do this by typing the following
-in your terminal::
+You can tell `pip`_ to install django-userena by supplying it with the git
+repository on Github. Do this by typing the following in your terminal::
 
     pip install -e git+git://github.com/bread-and-pepper/django-userena.git#egg=userena
 
@@ -161,8 +160,7 @@ the following to your project's root ``URLconf``::
 
 
 This should have you a working accounts application for your project. See the
-:ref:`settings <settings>` and :ref:`templates <templates>` for further
-configuration options.
+:ref:`settings <settings>` for further configuration options.
 
 Required settings
 ~~~~~~~~~~~~~~~~~
