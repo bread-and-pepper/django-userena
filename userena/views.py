@@ -449,7 +449,7 @@ def password_change(request, username, template_name='userena/password_form.html
 @permission_required_or_403('change_profile', (get_profile_model(), 'user__username', 'username'))
 def profile_edit(request, username, edit_profile_form=EditProfileForm,
                  template_name='userena/profile_form.html', success_url=None,
-                 extra_context=None):
+                 extra_context=None, **kwargs):
     """
     Edit profile.
 
@@ -521,9 +521,10 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     extra_context['profile'] = profile
     return direct_to_template(request,
                               template_name,
-                              extra_context=extra_context)
+                              extra_context=extra_context,
+                              **kwargs)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
+def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None, **kwargs):
     """
     Detailed view of an user.
 
@@ -553,7 +554,8 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
     extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
-                              extra_context=extra_context)
+                              extra_context=extra_context,
+                              **kwargs)
 
 def profile_list(request, page=1, template_name='userena/profile_list.html',
                  paginate_by=50, extra_context=None, **kwargs):
