@@ -140,9 +140,10 @@ class UserenaManager(UserManager):
         """
         Confirm an email address by checking a ``confirmation_key``.
 
-        A valid ``confirmation_key`` will set the newly wanted e-mail address
-        as the current e-mail address. Returns the user after success or
-        ``False`` when the confirmation key is invalid.
+        A valid ``confirmation_key`` will set the newly wanted e-mail
+        address as the current e-mail address. Returns the user after
+        success or ``False`` when the confirmation key is
+        invalid. Also sends the ``confirmation_complete`` signal.
 
         :param username:
             String containing the username of the user that wants their email
@@ -164,6 +165,7 @@ class UserenaManager(UserManager):
                 return False
             else:
                 user = userena.user
+                old_email = user.email
                 user.email = userena.email_unconfirmed
                 userena.email_unconfirmed, userena.email_confirmation_key = '',''
                 userena.save(using=self._db)
@@ -171,7 +173,8 @@ class UserenaManager(UserManager):
 
                 # Send the confirmation_complete signal
                 userena_signals.confirmation_complete.send(sender=None,
-                                                           user=user)
+                                                           user=user,
+                                                           old_email=old_email)
 
                 return user
         return False
