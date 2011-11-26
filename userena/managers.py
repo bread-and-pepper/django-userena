@@ -169,7 +169,7 @@ class UserenaManager(UserManager):
                 userena.save(using=self._db)
                 user.save(using=self._db)
 
-                # Send the activation_complete signal
+                # Send the confirmation_complete signal
                 userena_signals.confirmation_complete.send(sender=None,
                                                            user=user)
 
