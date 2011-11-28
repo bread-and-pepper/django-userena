@@ -86,7 +86,9 @@ Begin by adding ``userena``, ``guardian`` and ``easy_thumbnails`` to the
 Next add :class:``UserenaAuthenticationBackend`` and :class:``ObjectPermissionBackend``, from
 django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. If you only have
 Django's default backend, adding django-guardian and that of userena will get
-the following::
+the following:
+
+.. code-block:: python
 
     AUTHENTICATION_BACKENDS = (
         'userena.backends.UserenaAuthenticationBackend',
@@ -129,7 +131,9 @@ from them:
 **IMPORTANT**: The above profiles are ``abstract`` models. This means that you
 cannot use them directly in ``AUTH_PROFILE_MODULE`` but you must create your
 own profile model which inherits from one of the above models. This models
-must also connect itself to the :class:`User` model of Django. For ex::
+must also connect itself to the :class:`User` model of Django.
+
+.. code-block:: python
 
     from userena.models import UserenaBaseProfile
     
@@ -154,7 +158,9 @@ Userena has a ``URLconf`` which set's all the url's and views for you. This
 should be included in your projects root ``URLconf``.
 
 For example, to place the URIs under the prefix ``/accounts/``, you could add
-the following to your project's root ``URLconf``::
+the following to your project's root ``URLconf``.
+
+.. code-block:: python
 
     (r'^accounts/', include('userena.urls')),
 
@@ -171,7 +177,9 @@ set this to ``-1``. As noted before, you are also required to set the
 
 To integrate Django with userena you should alter the following three settings
 to reflect the URI you have chosen for userena. For example, if userena lives
-under ``accounts``::
+under ``accounts``:
+
+.. code-block:: python
 
     LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
     LOGIN_URL = '/accounts/signin/'

@@ -16,7 +16,9 @@ those that are missing.
 
 Userena already registered your profile model for you. If you want to
 customize the profile model, you can do so by registering your profile as
-follows::
+follows:
+
+.. code-block:: python
 
     # Unregister userena's
     admin.site.unregister(YOUR_PROFILE_MODEL)
@@ -29,7 +31,9 @@ How do I add extra fields to forms?
 
 This is done by overriding the default templates. A demo tells more than a
 thousand words. So here's how you add the first and last name to the signup
-form. First you override the signup form and add the fields::
+form. First you override the signup form and add the fields.
+
+.. code-block:: python
 
     django import forms
     from django.utils.translation import ugettext_lazy as _
@@ -83,7 +87,9 @@ form. First you override the signup form and add the fields::
             return new_user
 
 Finally, to use this form instead of our own, override the default URI by
-placing a new URI above it::
+placing a new URI above it.
+
+.. code-block:: python
 
      (r'^accounts/signup/$',
       'userena.views.signup',
