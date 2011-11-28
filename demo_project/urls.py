@@ -2,12 +2,21 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.views.generic.simple import direct_to_template
 
+from profiles.forms import SignupFormExtra
+
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+
+    # Demo Override the signup form with our own, which includes a 
+    # first and last name.
+    # (r'^accounts/signup/$',
+    #  'userena.views.signup',
+    #  {'signup_form': SignupFormExtra}),
+                     
     (r'^accounts/', include('userena.urls')),
     (r'^messages/', include('userena.contrib.umessages.urls')),
     url(r'^$',
