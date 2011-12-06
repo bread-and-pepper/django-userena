@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-28 10:14-0300\n"
+"POT-Creation-Date: 2011-12-06 15:30-0300\n"
 "PO-Revision-Date: 2011-09-03 19:35-0600\n"
 "Last-Translator: Vincent Guérault, vincent@communes.com \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "Nombre de Usuario"
 #: forms.py:30
 msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
-"El nombre de usuario solo puede tener letras, numeros, puntos y guion bajo."
+"El nombre de usuario sólo puede tener letras, números, puntos y guión bajo."
 
 #: forms.py:33 forms.py:153 templates/userena/profile_detail.html:26
 msgid "Email"
@@ -120,7 +120,7 @@ msgstr "Apellido"
 #: managers.py:228
 #, python-format
 msgid "No profile found for %(username)s"
-msgstr ""
+msgstr "No se ha encontrado un perfil para %(username)s"
 
 #: models.py:46 tests/profiles/models.py:18 tests/profiles/models.py:32
 msgid "user"
@@ -128,7 +128,7 @@ msgstr "usuario"
 
 #: models.py:49
 msgid "last active"
-msgstr "Última actividad"
+msgstr "última actividad"
 
 #: models.py:52
 msgid "The last date that the user was active."
@@ -289,7 +289,7 @@ msgstr "leido en"
 
 #: contrib/umessages/models.py:70
 msgid "recipient deleted at"
-msgstr "recipiente borrado el"
+msgstr "recipiente eliminado el"
 
 #: contrib/umessages/models.py:78 contrib/umessages/models.py:99
 msgid "recipients"
@@ -310,11 +310,11 @@ msgstr "Remitente"
 
 #: contrib/umessages/models.py:101
 msgid "sent at"
-msgstr "mandado a"
+msgstr "enviado a"
 
 #: contrib/umessages/models.py:104
 msgid "sender deleted at"
-msgstr "Remitente borrado el"
+msgstr "Remitente eliminado el"
 
 #: contrib/umessages/models.py:113
 msgid "messages"
@@ -353,7 +353,6 @@ msgid "Account activation failed."
 msgstr "La activación de la cuenta falló."
 
 #: templates/userena/activate_fail.html:5
-#, fuzzy
 msgid "Your account could not be activated.."
 msgstr "Tu cuenta no pudo ser activada."
 
@@ -411,8 +410,8 @@ msgid ""
 "To associate this email address with your account (%(username)s) click on "
 "the link provided in this email."
 msgstr ""
-"Para sincronizar esta dirección de correo con tu cuenta ( %(username)s ), "
-"Haz clic en el enlace provisto en el correo."
+"Para asociar esta dirección de correo con tu cuenta ( %(username)s ), Has "
+"clic en el enlace provisto en el correo."
 
 #: templates/userena/email_confirm_complete.html:4
 msgid "Email changed!"
@@ -489,7 +488,7 @@ msgstr "Tu contraseña ha sido cambiada"
 
 #: templates/userena/password_complete.html:8
 msgid "From now on you can use your new password to signin"
-msgstr "Desde ahora puedes usar tu nueva contraseña para conectarte"
+msgstr "Desde ahora puedes usar tu nueva contraseña para ingresar"
 
 #: templates/userena/password_form.html:17
 msgid "Change Password"
@@ -528,12 +527,10 @@ msgstr "Reinicializar tu contraseña"
 
 #: templates/userena/password_reset_done.html:4
 #: templates/userena/password_reset_done.html:5
-#, fuzzy
 msgid "Password reset email sent"
 msgstr "Contraseña reinicializada"
 
 #: templates/userena/password_reset_done.html:8
-#, fuzzy
 msgid ""
 "An e-mail has been sent to you which explains how to reset your password."
 msgstr ""
@@ -598,14 +595,15 @@ msgid "previous"
 msgstr "Precedente"
 
 #: templates/userena/profile_list.html:25
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "      Page %(page)s of %(num_pages)s\n"
 "      "
 msgstr ""
 "\n"
-"Page %(page)s de %(num_pages)s "
+"      Página %(page)s de %(num_pages)s\n"
+"      "
 
 #: templates/userena/profile_list.html:31
 msgid "next"
@@ -618,11 +616,11 @@ msgstr "Ingresa"
 
 #: templates/userena/signin_form.html:28
 msgid "Forgot your password?"
-msgstr "Olvidaste tu contraseña ?"
+msgstr "¿Olvidaste tu contraseña?"
 
 #: templates/userena/signout.html:4
 msgid "Signed out"
-msgstr "Desconexión"
+msgstr "Desconectado"
 
 #: templates/userena/signout.html:5
 msgid "You have been signed out"
@@ -661,7 +659,100 @@ msgstr ""
 
 #: templates/userena/signup_complete.html:15
 msgid "You can now use the supplied credentials to signin."
+msgstr "Ahora puedes usar las credenciales provistas para ingresar"
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Estimado %(username)s,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr "Gracias por tu registro en %(site)s."
+
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "Para activar tu cuenta debes darle clic en el siguiente enlace:"
+
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.txt:11
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "¡Gracias por usar nuestro sitio!"
+
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.txt:13
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "Sinceramente"
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "Tu registro en %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr "Pediste un cambio de dirección de correo en %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
 msgstr ""
+"Por favor confirma tu dirección de correo dándole clic en el siguiente "
+"enlace:"
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr ""
+"Se ha realizado una petición de cambio de dirección de correo en %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+"Un correo electrónico con un enlace de verficación ha sido enviado a "
+"%(new_email)s. Has clic en el enlace para activarlo."
+
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr "Correo electrónico de verificación para %(site)s."
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr "Un cambio de la dirección de correo ha sido solicitado en %(site)s."
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Recibiste este mensaje porque solicitaste un cambio de contraseña\n"
+"para tu cuenta en %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Por favor sigue hasta la siguiene página y elige una nueva contraseña:"
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"Tu nombre, en caso que lo hayas olvidado es: %(username)s\n"
 
 #: tests/profile.py:6 tests/profiles/models.py:12
 msgid "Male"
@@ -673,7 +764,7 @@ msgstr "Mujer"
 
 #: tests/profile.py:9 tests/profiles/models.py:21
 msgid "gender"
-msgstr "sexo "
+msgstr "sexo"
 
 #: tests/profile.py:13 tests/profiles/models.py:25
 msgid "website"
@@ -689,67 +780,6 @@ msgstr "acerca de mi"
 
 #~ msgid "Reset password email is send"
 #~ msgstr "La contraseña reinicializada ha sido enviada."
-
-#~ msgid "Dear %(username)s,"
-#~ msgstr "Estimado %(username)s,"
-
-#~ msgid "Thank you for signing up at %(site)s."
-#~ msgstr "Gracias por tu registro en %(site)s."
-
-#~ msgid "To activate your account you should click on the link below:"
-#~ msgstr "Para activar tu cuenta debes darle clic en el siguiente enlace :"
-
-#~ msgid "Thanks for using our site!"
-#~ msgstr "¡Gracias por usar nuestro sitio!"
-
-#~ msgid "Sincerely"
-#~ msgstr "Sinceramente"
-
-#~ msgid "Your signup at %(site)s."
-#~ msgstr "Tu registro en %(site)s."
-
-#~ msgid "You requested a change of your email address at %(site)s."
-#~ msgstr "Pediste un cambio de dirección de correo en %(site)s."
-
-#~ msgid "Please confirm this email address by clicking on the link below:"
-#~ msgstr ""
-#~ "Por favor confirma tu dirección de correo dándole clic en el siguiente "
-#~ "enlace:"
-
-#~ msgid "There was a request to change your email address at %(site)s."
-#~ msgstr ""
-#~ "Se ha realizado una petición de cambio de dirección de correo en %(site)s."
-
-#~ msgid ""
-#~ "An email has been send to %(new_email)s which contains a verification "
-#~ "link. Click on the link in this email to activate it."
-#~ msgstr ""
-#~ "Un correo electrónico con un enlace de verficación ha sido enviado a "
-#~ "%(new_email)s. Haz clic en el enlace para activarlo."
-
-#~ msgid "Email verification for %(site)s."
-#~ msgstr "Correo electrónico de verificación para %(site)s."
-
-#~ msgid "A request to change your email address is made at %(site)s."
-#~ msgstr "Un cambio de la dirección de correo ha sido solicitado en %(site)s."
-
-#~ msgid ""
-#~ "You're receiving this e-mail because you requested a password reset\n"
-#~ "for your user account at %(site_name)s"
-#~ msgstr ""
-#~ "Recibiste este mensaje porque solicitaste un cambio de contraseña\n"
-#~ "para tu cuenta en %(site_name)s"
-
-#~ msgid "Please go to the following page and choose a new password:"
-#~ msgstr ""
-#~ "Por favor sigue hasta la siguiene página y elige una nueva contraseña:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Your username, in case you've forgotten: %(username)s\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Tu nombre, en caso que lo hayas olvidado es: %(username)s\n"
 
 #~ msgid "The %(site_name)s"
 #~ msgstr "El %(site_name)s "
