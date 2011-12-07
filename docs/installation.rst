@@ -13,21 +13,30 @@ downloads and installation instructions.
 Installing django-userena.
 --------------------------
 
-You can install django-userena automagicly with ``easy_install`` or ``pip``. Or
-manually placing it on on your ``PYTHON_PATH``.
+You can install django-userena automagicly with ``pip``. Or by manually
+placing it on on your ``PYTHON_PATH``. The recommended way is the shown in
+:ref:`pip-install`.
 
-I'm using `virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an
-isolated python environment. This way it's possible to create a tailored
-environment for each project.
+NOTE: It is also recommended to use
+`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an isolated
+python environment. This way it's possible to create a tailored environment
+for each project.
 
-Automatic installation with easy_install.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _pip-install:
 
-Automatic install with `easy_install
-<http://peak.telecommunity.com/DevCenter/EasyInstall>`_. All you have to do is
+Automatic installation with pip.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Automatic install with `pip
+<http://www.pip-installer.org/en/latest/index.html>`_. All you have to do is
 run the following command::
 
-    easy_install django-userena
+    pip install django-userena
+
+If you want to have a specific version of userena, you can do so by adding the
+following::
+
+    pip install django-userena==1.0.1
 
 Manual installation with easy_install.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,9 +51,8 @@ Clone the Git repository from Github. Then you can direct easy_install to the
 Automatic installation of development version with pip.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can tell `pip <http://pip.openplans.org/>`_ to install django-userena by
-supplying it with the git repository on Github. Do this by typing the following
-in your terminal::
+You can tell `pip`_ to install django-userena by supplying it with the git
+repository on Github. Do this by typing the following in your terminal::
 
     pip install -e git+git://github.com/bread-and-pepper/django-userena.git#egg=userena
 
@@ -78,7 +86,9 @@ Begin by adding ``userena``, ``guardian`` and ``easy_thumbnails`` to the
 Next add :class:``UserenaAuthenticationBackend`` and :class:``ObjectPermissionBackend``, from
 django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. If you only have
 Django's default backend, adding django-guardian and that of userena will get
-the following::
+the following:
+
+.. code-block:: python
 
     AUTHENTICATION_BACKENDS = (
         'userena.backends.UserenaAuthenticationBackend',
@@ -121,7 +131,9 @@ from them:
 **IMPORTANT**: The above profiles are ``abstract`` models. This means that you
 cannot use them directly in ``AUTH_PROFILE_MODULE`` but you must create your
 own profile model which inherits from one of the above models. This models
-must also connect itself to the :class:`User` model of Django. For ex::
+must also connect itself to the :class:`User` model of Django.
+
+.. code-block:: python
 
     from userena.models import UserenaBaseProfile
     
@@ -149,14 +161,15 @@ Userena has a ``URLconf`` which set's all the url's and views for you. This
 should be included in your projects root ``URLconf``.
 
 For example, to place the URIs under the prefix ``/accounts/``, you could add
-the following to your project's root ``URLconf``::
+the following to your project's root ``URLconf``.
+
+.. code-block:: python
 
     (r'^accounts/', include('userena.urls')),
 
 
 This should have you a working accounts application for your project. See the
-:ref:`settings <settings>` and :ref:`templates <templates>` for further
-configuration options.
+:ref:`settings <settings>` for further configuration options.
 
 Required settings
 ~~~~~~~~~~~~~~~~~
@@ -167,7 +180,9 @@ set this to ``-1``. As noted before, you are also required to set the
 
 To integrate Django with userena you should alter the following three settings
 to reflect the URI you have chosen for userena. For example, if userena lives
-under ``accounts``::
+under ``accounts``:
+
+.. code-block:: python
 
     LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
     LOGIN_URL = '/accounts/signin/'

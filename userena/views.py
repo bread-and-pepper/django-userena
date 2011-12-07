@@ -115,9 +115,10 @@ def activate(request, username, activation_key,
         ``userena/activation_fail.html``.
 
     :param success_url:
-        Named URL where the user should be redirected to after a succesfull
-        activation. If not specified, will direct to
-        ``userena_profile_detail`` view.
+        String containing the URL where the user should be redirected to after
+        a succesfull activation. Wil replace ``%(username)s`` with string
+        formatting if supplied. If ``success_url`` is left empty, will direct
+        to ``userena_profile_detail`` view.
 
     :param extra_context:
         Dictionary containing variables which could be added to the template
@@ -135,7 +136,7 @@ def activate(request, username, activation_key,
             messages.success(request, _('Your account has been activated and you have been signed in.'),
                              fail_silently=True)
 
-        if success_url: redirect_to = success_url
+        if success_url: redirect_to = success_url % {'username': user.username }
         else: redirect_to = reverse('userena_profile_detail',
                                     kwargs={'username': user.username})
         return redirect(redirect_to)
@@ -171,8 +172,9 @@ def email_confirm(request, username, confirmation_key,
         needed because the user will be redirected to ``success_url``.
 
     :param success_url:
-        Named URL which is redirected to after a succesfull confirmation.
-        Supplied argument must be able to be rendered by ``reverse`` function.
+        String containing the URL which is redirected to after a succesfull
+        confirmation.  Supplied argument must be able to be rendered by
+        ``reverse`` function.
 
     :param extra_context:
         Dictionary of variables that are passed on to the template supplied by
@@ -303,7 +305,10 @@ def signin(request, auth_form=AuthenticationForm,
                                         kwargs={'username': user.username}))
 
     if not extra_context: extra_context = dict()
-    extra_context['form'] = form
+    extra_context.update({
+        'form': form,
+        'next': request.REQUEST.get(redirect_field_name),
+    })
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -446,7 +451,7 @@ def password_change(request, username, template_name='userena/password_form.html
 @permission_required_or_403('change_profile', (get_profile_model(), 'user__username', 'username'))
 def profile_edit(request, username, edit_profile_form=EditProfileForm,
                  template_name='userena/profile_form.html', success_url=None,
-                 extra_context=None):
+                 extra_context=None, **kwargs):
     """
     Edit profile.
 
@@ -518,9 +523,10 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     extra_context['profile'] = profile
     return direct_to_template(request,
                               template_name,
-                              extra_context=extra_context)
+                              extra_context=extra_context,
+                              **kwargs)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
+def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None, **kwargs):
     """
     Detailed view of an user.
 
@@ -550,7 +556,8 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
     extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
-                              extra_context=extra_context)
+                              extra_context=extra_context,
+                              **kwargs)
 
 def profile_list(request, page=1, template_name='userena/profile_list.html',
                  paginate_by=50, extra_context=None, **kwargs):

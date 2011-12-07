@@ -44,7 +44,7 @@ class UtilsTests(TestCase):
         self.failUnlessEqual(response.status_code, 404)
 
         # Test the switch to HTTPS
-        userena_settings.USERENA_USE_HTTPS = True
+        userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE = True
 
         template = 'https://secure.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
         self.failUnlessEqual(get_gravatar('alice@example.com'),
@@ -53,7 +53,7 @@ class UtilsTests(TestCase):
                                          'type': 'identicon'})
 
         # And set back to default
-        userena_settings.USERENA_USE_HTTPS = False
+        userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE = False
 
     def test_signin_redirect(self):
         """

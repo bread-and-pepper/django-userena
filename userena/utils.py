@@ -41,7 +41,7 @@ def get_gravatar(email, size=80, default='identicon'):
     :return: The URI pointing to the Gravatar.
 
     """
-    if userena_settings.USERENA_USE_HTTPS:
+    if userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE:
         base_url = 'https://secure.gravatar.com/avatar/'
     else: base_url = 'http://www.gravatar.com/avatar/'
 

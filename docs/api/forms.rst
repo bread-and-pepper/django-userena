@@ -1,7 +1,7 @@
 .. _api-forms:
 
 Forms
-==========
+=====
 
 .. automodule:: userena.forms
 
@@ -13,12 +13,17 @@ SignupForm
 .. autoclass:: userena.forms.SignupForm
    :members:
 
+SignupFormOnlyEmail
+-------------------
+
+.. autoclass:: userena.forms.SignupFormOnlyEmail
+    :members:
+
 SignupFormTos
 -------------
 
 .. autoclass:: userena.forms.SignupFormTos
    :members:
-
 
 AuthenticationForm
 ------------------
