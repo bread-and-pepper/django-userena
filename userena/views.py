@@ -126,7 +126,12 @@ def activate(request, username, activation_key,
 
     """
     user = UserenaSignup.objects.activate_user(username, activation_key)
-    if user:
+    if user and userena_settings.USERENA_MODERATE_REGISTRATION \
+        and userena_settings.USERENA_USE_MESSAGES:
+        messages.success(request, _('Your account has been activated, but is pending admin approval.'),
+                         fail_silently=True)
+        return redirect(reverse('userena_signin'))
+    elif user:
         # Sign the user in.
         auth_user = authenticate(identification=user.email,
                                  check_password=False)

@@ -1,0 +1,8 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
+
+{% blocktrans with site.name as site %}We regret to inform you that your registration at {{ site }} has been rejected.{% endblocktrans %}
+
+{% trans "Sincerely" %},
+{{ site.name }}
+{% endautoescape %}

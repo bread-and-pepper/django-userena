@@ -30,10 +30,18 @@ USERENA_ACTIVATION_NOTIFY_DAYS = getattr(settings,
                                          'USERENA_ACTIVATION_NOTIFY_DAYS',
                                          5)
 
+USERENA_ACTIVATION_REJECTED = getattr(settings,
+                                      'USERENA_ACTIVATION_REJECTED',
+                                      'ACTIVATION_REJECTED')
+                            
 USERENA_ACTIVATED = getattr(settings,
                             'USERENA_ACTIVATED',
                             'ALREADY_ACTIVATED')
 
+USERENA_PENDING_MODERATION = getattr(settings,
+                                     'USERENA_PENDING_MODERATION',
+                                     'PENDING_MODERATION')
+                            
 USERENA_REMEMBER_ME_DAYS = getattr(settings,
                                    'USERENA_REMEMBER_ME_DAYS',
                                    (gettext('a month'), 30))
@@ -86,3 +94,7 @@ USERENA_LANGUAGE_FIELD = getattr(settings,
 USERENA_WITHOUT_USERNAMES = getattr(settings,
                                     'USERENA_WITHOUT_USERNAMES',
                                     False)
+
+USERENA_MODERATE_REGISTRATION = getattr(settings,
+                                        'USERENA_MODERATE_REGISTRATION',
+                                        False)
