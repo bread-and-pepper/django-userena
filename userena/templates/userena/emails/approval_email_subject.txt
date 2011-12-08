@@ -1,2 +1,2 @@
 {% load i18n %}
-{% blocktrans with site.name as site %}Registration Approved at {{ site }}.{% endblocktrans %}
+{% blocktrans with site.name as site %}Signup Approved at {{ site }}.{% endblocktrans %}

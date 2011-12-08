@@ -91,6 +91,7 @@ def signup(request, signup_form=SignupForm,
 @secure_required
 def activate(request, username, activation_key,
              template_name='userena/activate_fail.html',
+             template_name_moderation='userena/moderation.html',
              success_url=None, extra_context=None):
     """
     Activate a user with an activation key.
@@ -114,6 +115,11 @@ def activate(request, username, activation_key,
         ``activation_key`` is invalid and the activation failes. Defaults to
         ``userena/activation_fail.html``.
 
+    :param template_name_moderation:
+        String containing the template name that is used when the activation
+        was succesfull but the user still has to wait for moderation. Defaults
+        to ``userena/moderation.html``.
+
     :param success_url:
         String containing the URL where the user should be redirected to after
         a succesfull activation. Wil replace ``%(username)s`` with string
@@ -125,12 +131,12 @@ def activate(request, username, activation_key,
         context. Default to an empty dictionary.
 
     """
+    if not extra_context: extra_context = dict()
     user = UserenaSignup.objects.activate_user(username, activation_key)
-    if user and userena_settings.USERENA_MODERATE_REGISTRATION \
-        and userena_settings.USERENA_USE_MESSAGES:
-        messages.success(request, _('Your account has been activated, but is pending admin approval.'),
-                         fail_silently=True)
-        return redirect(reverse('userena_signin'))
+    if user and userena_settings.USERENA_MODERATE_SIGNUP:
+        return direct_to_template(request,
+                                  template_name_moderation,
+                                  extra_context=extra_context)
     elif user:
         # Sign the user in.
         auth_user = authenticate(identification=user.email,
@@ -146,7 +152,6 @@ def activate(request, username, activation_key,
                                     kwargs={'username': user.username})
         return redirect(redirect_to)
     else:
-        if not extra_context: extra_context = dict()
         return direct_to_template(request,
                                   template_name,
                                   extra_context=extra_context)

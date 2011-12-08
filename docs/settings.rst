@@ -52,22 +52,22 @@ USERENA_ACTIVATION_REJECTED
 Default: ``ACTIVATION_REJECTED`` (string)
 
 String that defines the value that the ``activation_key`` will be set to after
-an admin rejects a user's registration via the admin panel.
+an admin rejects a user's signup via the admin panel.
 
 USERENA_ACTIVATED
 ~~~~~~~~~~~~~~~~~
 Default: ``ALREADY_ACTIVATED`` (string)
 
 String that defines the value that the ``activation_key`` will be set to after
-a successful signup when USERENA_MODERATE_REGISTRATION is False, or when an
-admin manually activates/approves a user's registration via the admin panel.
+a successful signup when USERENA_MODERATE_SIGNUP is False, or when an
+admin manually activates/approves a user's signup via the admin panel.
 
 USERENA_PENDING_MODERATION
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``PENDING_MODERATION`` (string)
 
 String that defines the value that the ``activation_key`` will be set to after
-a successful signup when USERENA_MODERATE_REGISTRATION is True.
+a successful signup when USERENA_MODERATE_SIGNUP is True.
 
 USERENA_REMEMBER_ME_DAYS
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,16 +191,16 @@ Defines if usernames are used within userena. Currently it's often for the
 users convenience that only an email is used for identification. With this
 setting you get just that.
 
-USERENA_MODERATE_REGISTRATION
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+USERENA_MODERATE_SIGNUP
+~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``False`` (boolean)
 
-Defines whether or not to moderate new registrations.  If enabled, the site
-administrator must login to the django admin (or custom admin panel) and 
-approve registrations before a user can login to the site.
+Defines whether or not to moderate new signups. If enabled, the site
+administrator must login to the django admin (or custom admin panel) and
+approve signups before a user can login to the site.
 
-Note: This setting is overridden by USERENA_ACTIVATION_REQUIRED.  If 
-activation is not required, then neither is moderation.
+Note: This setting is overridden by USERENA_ACTIVATION_REQUIRED. If activation
+is not required, then neither is moderation.
 
 Django settings
 ---------------

@@ -95,6 +95,6 @@ USERENA_WITHOUT_USERNAMES = getattr(settings,
                                     'USERENA_WITHOUT_USERNAMES',
                                     False)
 
-USERENA_MODERATE_REGISTRATION = getattr(settings,
-                                        'USERENA_MODERATE_REGISTRATION',
-                                        False)
+USERENA_MODERATE_SIGNUP = getattr(settings,
+                                  'USERENA_MODERATE_SIGNUP',
+                                  False)

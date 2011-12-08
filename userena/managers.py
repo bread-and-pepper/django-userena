@@ -123,7 +123,7 @@ class UserenaManager(UserManager):
             except self.model.DoesNotExist:
                 return False
             if not userena.activation_key_expired():
-                if userena_settings.USERENA_MODERATE_REGISTRATION:
+                if userena_settings.USERENA_MODERATE_SIGNUP:
                     key = userena_settings.USERENA_PENDING_MODERATION
                     is_active = False
                 else:

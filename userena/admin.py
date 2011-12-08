@@ -8,7 +8,7 @@ from userena.models import UserenaSignup
 from userena.utils import get_profile_model
 from userena import settings as userena_settings
 
-def activate_registration(modeladmin, request, queryset):
+def accept_signup(modeladmin, request, queryset):
     for obj in queryset:
         key = obj.userena_signup.activation_key
         
@@ -21,9 +21,9 @@ def activate_registration(modeladmin, request, queryset):
         obj.userena_signup.save()
         obj.save()
         
-activate_registration.short_description = "Activate/Approve a users registration."
+accept_signup.short_description = _("Accept/Enable a users signup.")
 
-def reject_registration(modeladmin, request, queryset):
+def reject_signup(modeladmin, request, queryset):
     for obj in queryset:
         key = obj.userena_signup.activation_key
         
@@ -36,7 +36,7 @@ def reject_registration(modeladmin, request, queryset):
         obj.userena_signup.save()
         obj.save()
             
-reject_registration.short_description = "Reject/Disable a users registration."
+reject_signup.short_description = _("Reject/Disable a users signup.")
 
 class UserenaSignupInline(admin.StackedInline):
     model = UserenaSignup
@@ -46,7 +46,7 @@ class UserenaAdmin(UserAdmin, GuardedModelAdmin):
     inlines = [UserenaSignupInline, ]
     list_display = ('username', 'email', 'first_name', 'last_name',
                     'is_staff', 'is_active', 'date_joined')
-    actions = [activate_registration, reject_registration]
+    actions = [accept_signup, reject_signup]
     
 admin.site.unregister(User)
 admin.site.register(User, UserenaAdmin)

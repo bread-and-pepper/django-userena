@@ -199,8 +199,8 @@ class UserenaSignup(models.Model):
         """
         Sends an approval email to the user.
 
-        This email is sent when USERENA_MODERATE_REGISTRATION, after an admin
-        has approved the registration.
+        This email is sent when USERENA_MODERATE_SIGNUP, after an admin
+        has approved the signup.
 
         """
         context= {'user': self.user,
@@ -222,8 +222,8 @@ class UserenaSignup(models.Model):
         """
         Sends a rejection email to the user.
 
-        This email is sent when USERENA_MODERATE_REGISTRATION, after an admin
-        has rejected the registration.
+        This email is sent when USERENA_MODERATE_SIGNUP, after an admin
+        has rejected the signup.
 
         """
         context= {'user': self.user,

@@ -1,0 +1,10 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Validated, awaiting moderation." %}{% endblock %}
+{% block content_title %}<h2>{% trans "Validated, awaiting moderation" %}</h2>{% endblock %}
+
+{% block content %}
+<p>{% trans "Your account has been validated but still awaits moderation." %}</p>
+<p>{% trans "You will be notified when your account has been accepted or rejected." %}</p>
+{% endblock %}
