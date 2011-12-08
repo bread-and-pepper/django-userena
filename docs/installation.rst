@@ -137,13 +137,16 @@ must also connect itself to the :class:`User` model of Django.
 
     from userena.models import UserenaBaseProfile
     
-    class MyProfile(UserenaBaseProfile):
+    class Profile(UserenaBaseProfile):
         user = models.OneToOneField(User,
                                     unique=True,
                                     verbose_name=_('user'),
-                                    related_name='my_profile') 
+                                    related_name='profile') 
         favourite_snack = models.CharField(_('favourite snack'),
                                            max_length=5)
+
+**NOTE**: At this time, the profile class must be called 'Profile', though
+it can live anywhere within an app.  For example 'profiles.Profile()'.
 
 If you want the user have the ability to choose their default language in their
 profile, you must add ``UserenaLocaleMiddleware`` at the end of

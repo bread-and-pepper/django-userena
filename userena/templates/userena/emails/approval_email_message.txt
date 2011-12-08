@@ -1,0 +1,14 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
+
+{% blocktrans with site.name as site %}Thank you for signing up at {{ site }}.{% endblocktrans %}
+
+{% trans "An administrator has approved your registration, and you can now login at:" %}
+
+{{ protocol }}://{{ site.domain }}{% url userena_signin %}
+
+{% trans "Thanks for using our site!" %}
+
+{% trans "Sincerely" %},
+{{ site.name }}
+{% endautoescape %}
