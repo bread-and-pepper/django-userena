@@ -99,7 +99,11 @@ class UserenaSignup(models.Model):
 
         salt, hash = generate_sha1(self.user.username)
         self.email_confirmation_key = hash
-        self.email_confirmation_key_created = datetime.datetime.now()
+        try:
+            from django.utils import timezone
+            self.email_confirmation_key_created = timezone.now()
+        except ImportError:
+            self.email_confirmation_key_created = datetime.datetime.now()
         self.save()
 
         # Send email for activation
@@ -166,7 +170,12 @@ class UserenaSignup(models.Model):
         expiration_date = self.user.date_joined + expiration_days
         if self.activation_key == userena_settings.USERENA_ACTIVATED:
             return True
-        if datetime.datetime.now() >= expiration_date:
+        try:
+            from django.utils import timezone
+            now = timezone.now()
+        except ImportError:
+            now = datetime.datetime.now()
+        if now >= expiration_date:
             return True
         return False
 
