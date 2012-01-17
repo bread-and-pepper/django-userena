@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-17 17:23+0100\n"
-"PO-Revision-Date: 2012-01-17 17:31+0100\n"
+"PO-Revision-Date: 2012-01-17 19:33+0100\n"
 "Last-Translator: Maciej Marczewski <maciej@marczewski.net.pl>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -437,7 +437,7 @@ msgid ""
 "To associate this email address with your account (%(username)s) click on "
 "the link provided in this email."
 msgstr ""
-"Aby przypisać adres email z konta (%(username)s) należy kliknąć na link "
+"Aby przypisać adres email do konta (%(username)s) należy kliknąć na link "
 "podany w tej wiadomości."
 
 #: templates/userena/email_confirm_complete.html:4
@@ -700,7 +700,7 @@ msgstr "Dziękujemy za rejestrację w %(site)s."
 
 #: templates/userena/emails/activation_email_message.txt:6
 msgid "To activate your account you should click on the link below:"
-msgstr "Aby aktywować swoje konto należy kliknąć poniższy link:"
+msgstr "Aby aktywować swoje konto należy kliknąć w poniższy link:"
 
 #: templates/userena/emails/activation_email_message.txt:10
 #: templates/userena/emails/confirmation_email_message_new.txt:11
@@ -728,7 +728,7 @@ msgstr "Prosiłeś o zmianę Twojego adresu email w %(site)s."
 
 #: templates/userena/emails/confirmation_email_message_new.txt:7
 msgid "Please confirm this email address by clicking on the link below:"
-msgstr "Proszę potwierdzić ten adres email klikając poniższy link:"
+msgstr "Proszę potwierdzić ten adres email klikając w poniższy link:"
 
 #: templates/userena/emails/confirmation_email_message_old.txt:4
 #, python-format
