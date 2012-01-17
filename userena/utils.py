@@ -5,7 +5,7 @@ from django.db.models import get_model
 
 from userena import settings as userena_settings
 
-import urllib, random
+import urllib, random, datetime
 
 from django.utils.hashcompat import md5_constructor
 
@@ -128,3 +128,19 @@ def get_protocol():
     if userena_settings.USERENA_USE_HTTPS:
         protocol = 'https'
     return protocol
+
+def get_datetime_now():
+    """
+    Returns datetime object with current point in time.
+
+    In Django 1.4+ it uses Django's django.utils.timezone.now() which returns
+    an aware or naive datetime that represents the current point in time
+    when ``USE_TZ`` in project's settings is True or False respectively.
+    In older versions of Django it uses datetime.datetime.now().
+
+    """
+    try:
+        from django.utils import timezone
+        return timezone.now()
+    except ImportError:
+        return datetime.datetime.now()
