@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-16 17:05+0100\n"
-"PO-Revision-Date: 2012-01-16 17:42+0100\n"
+"POT-Creation-Date: 2012-01-17 01:39+0100\n"
+"PO-Revision-Date: 2012-01-17 01:42+0100\n"
 "Last-Translator: Maciej Marczewski <maciej@marczewski.net.pl>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -320,25 +320,36 @@ msgstr "nadawca usunięty dnia"
 msgid "messages"
 msgstr "wiadomości"
 
-#: contrib/umessages/views.py:179
+#: contrib/umessages/views.py:183
 msgid "Message is sent."
 msgstr "Wiadomość została wysłana."
 
-#: contrib/umessages/views.py:263
+#: contrib/umessages/views.py:271
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
 msgstr[0] "Wiadomość pomyślnie przywrócono."
 msgstr[1] "Wiadomości pomyślnie przywrócono."
 msgstr[2] "Wiadomości pomyślnie przywrócono."
 
-#: contrib/umessages/views.py:267
+#: contrib/umessages/views.py:275
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
 msgstr[0] "Wiadomość pomyślnie usunięto."
 msgstr[1] "Wiadomości pomyślnie usunięto."
 msgstr[2] "Wiadomości pomyślnie usunięto."
 
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "Rozmowa z %(recipient)s"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "Otrzymano dnia %(sent_at)s"
+
 #: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:9
 msgid "Compose"
 msgstr "Utwórz"
 
@@ -349,6 +360,20 @@ msgstr "Utwórz wiadomość"
 #: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
 msgstr "Wyślij"
+
+#: contrib/umessages/templates/umessages/message_list.html:4
+msgid "Messages"
+msgstr "Wiadomości"
+
+#: contrib/umessages/templates/umessages/message_list.html:8
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s nowych wiadomości."
+
+#: contrib/umessages/templates/umessages/message_list.html:20
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s nowych)"
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
@@ -720,8 +745,8 @@ msgid ""
 "An email has been send to %(new_email)s which contains a verification link. "
 "Click on the link in this email to activate it."
 msgstr ""
-"Wiadomość email zawierająca link weryfikacyjny została wysłana na "
-"%(new_email)s. Kliknij na link w tej wiadomości aby aktywować adres email."
+"Wiadomość email zawierająca link weryfikacyjny została wysłana na %"
+"(new_email)s. Kliknij na link w tej wiadomości aby aktywować adres email."
 
 #: templates/userena/emails/confirmation_email_subject_new.txt:2
 #, python-format
