@@ -109,7 +109,11 @@ def message_detail(request, username, page=1, paginate_by=10,
     unread_list = MessageRecipient.objects.filter(message__in=message_pks,
                                                   user=request.user,
                                                   read_at__isnull=True)
-    now = datetime.datetime.now()
+    try:
+        from django.utils import timezone
+        now = timezone.now()
+    except ImportError:
+        now = datetime.datetime.now()
     unread_list.update(read_at=now)
 
     if not extra_context: extra_context = dict()
@@ -232,7 +236,11 @@ def message_remove(request, undo=False):
                 valid_message_pk_list.add(valid_pk)
 
         # Delete all the messages, if they belong to the user.
-        now = datetime.datetime.now()
+        try:
+            from django.utils import timezone
+            now = timezone.now()
+        except ImportError:
+            now = datetime.datetime.now()
         changed_message_list = set()
         for pk in valid_message_pk_list:
             message = get_object_or_404(Message, pk=pk)
