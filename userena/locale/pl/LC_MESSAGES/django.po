@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-17 01:39+0100\n"
-"PO-Revision-Date: 2012-01-17 01:42+0100\n"
+"POT-Creation-Date: 2012-01-17 17:23+0100\n"
+"PO-Revision-Date: 2012-01-17 17:31+0100\n"
 "Last-Translator: Maciej Marczewski <maciej@marczewski.net.pl>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -244,7 +244,7 @@ msgstr "Te nazwy użytkowników są nieprawidłowe: %(users)s."
 
 #: contrib/umessages/forms.py:10
 msgid "To"
-msgstr "Z"
+msgstr "Do"
 
 #: contrib/umessages/forms.py:11
 msgid "Message"
@@ -531,16 +531,12 @@ msgid "Your password has been reset"
 msgstr "Twoje hasło zostało odnowione"
 
 #: templates/userena/password_reset_complete.html:7
-msgid "You can now "
-msgstr "Możesz teraz"
-
-#: templates/userena/password_reset_complete.html:7
-msgid "signin"
-msgstr "zalogować się"
-
-#: templates/userena/password_reset_complete.html:7
-msgid "with your new password."
-msgstr "używając nowego hasła."
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+"Możesz teraz <a href=\"%(signin_url)s\">zalogować się</a> przy pomocy nowego "
+"hasła."
 
 #: templates/userena/password_reset_confirm_form.html:4
 #: templates/userena/password_reset_confirm_form.html:13
@@ -620,7 +616,7 @@ msgstr "Profile"
 
 #: templates/userena/profile_list.html:21
 msgid "previous"
-msgstr "poprzedni"
+msgstr "poprzednia"
 
 #: templates/userena/profile_list.html:25
 #, python-format
@@ -635,7 +631,7 @@ msgstr ""
 
 #: templates/userena/profile_list.html:31
 msgid "next"
-msgstr "następny"
+msgstr "następna"
 
 #: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
 #: templates/userena/signin_form.html:28
@@ -666,7 +662,7 @@ msgstr "Rejestracja prawie zakończona!"
 #: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
 #: templates/userena/signup_form.html:27
 msgid "Signup"
-msgstr "Rejestracja"
+msgstr "Zarejestruj się"
 
 #: templates/userena/signup_complete.html:9
 msgid "Thank you for signing up with us!"
@@ -803,6 +799,15 @@ msgstr "miejsce"
 #: tests/profile.py:15 tests/profiles/models.py:27
 msgid "about me"
 msgstr "o mnie"
+
+#~ msgid "You can now "
+#~ msgstr "Możesz teraz"
+
+#~ msgid "signin"
+#~ msgstr "zalogować się"
+
+#~ msgid "with your new password."
+#~ msgstr "używając nowego hasła."
 
 #~ msgid "Reset password email is send"
 #~ msgstr "Wysłano wiadomość email do odnowienia hasła"
