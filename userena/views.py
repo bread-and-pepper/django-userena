@@ -116,7 +116,7 @@ def activate(request, username, activation_key,
 
     :param success_url:
         String containing the URL where the user should be redirected to after
-        a succesfull activation. Wil replace ``%(username)s`` with string
+        a succesfull activation. Will replace ``%(username)s`` with string
         formatting if supplied. If ``success_url`` is left empty, will direct
         to ``userena_profile_detail`` view.
 
