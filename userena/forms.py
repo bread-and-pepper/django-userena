@@ -142,7 +142,7 @@ class AuthenticationForm(forms.Form):
                                                   _(u"Either supply us with your email or username."))
     password = forms.CharField(label=_("Password"),
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
-    remember_me = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
+    remember_me = forms.BooleanField(widget=forms.CheckboxInput(),
                                      required=False,
                                      label=_(u'Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
 
