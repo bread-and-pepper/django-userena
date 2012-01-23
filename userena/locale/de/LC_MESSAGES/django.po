@@ -346,8 +346,8 @@ msgid "Account activation failed."
 msgstr "Account-Aktivierung fehlgeschlagen."
 
 #: templates/userena/activate_fail.html:5
-msgid "Your account could not be activated.."
-msgstr "Ihr Account konnte nicht aktiviert werden."
+msgid "Your account could not be activated..."
+msgstr "Ihr Account konnte nicht aktiviert werden..."
 
 #: templates/userena/activate_fail.html:8
 msgid "Your account could not be activated. This could be because your activation link has aged."
@@ -404,12 +404,9 @@ msgid "Email verification failed."
 msgstr "E-Mail-Verifizierung fehlgeschlagen."
 
 #: templates/userena/email_confirm_fail.html:5
-msgid "Your email could not be verified.."
-msgstr "Ihre E-Mail konnte nicht verifiziert werden."
-
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
-msgstr "Ihre E-Mail konnte nicht verifiziert werden."
+msgstr "Ihre E-Mail konnte nicht verifiziert werden..."
 
 #: templates/userena/email_confirm_fail.html:9
 msgid "You could try changing it again in your account settings."

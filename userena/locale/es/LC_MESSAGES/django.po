@@ -353,8 +353,8 @@ msgid "Account activation failed."
 msgstr "La activación de la cuenta falló."
 
 #: templates/userena/activate_fail.html:5
-msgid "Your account could not be activated.."
-msgstr "Tu cuenta no pudo ser activada."
+msgid "Your account could not be activated..."
+msgstr "Tu cuenta no pudo ser activada..."
 
 #: templates/userena/activate_fail.html:8
 msgid ""
@@ -430,12 +430,9 @@ msgid "Email verification failed."
 msgstr "La verificación de dirección de correo falló."
 
 #: templates/userena/email_confirm_fail.html:5
-msgid "Your email could not be verified.."
-msgstr "Tu dirección de corro no pudo ser verificada."
-
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
-msgstr "Tu dirección de corro no pudo ser verificada."
+msgstr "Tu dirección de corro no pudo ser verificada..."
 
 #: templates/userena/email_confirm_fail.html:9
 msgid "You could try changing it again in your account settings."
