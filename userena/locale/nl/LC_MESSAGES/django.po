@@ -353,8 +353,8 @@ msgid "Account activation failed."
 msgstr "Account activeren is mislukt."
 
 #: templates/userena/activate_fail.html:5
-msgid "Your account could not be activated.."
-msgstr "Je account kon niet geactiveerd worden.."
+msgid "Your account could not be activated..."
+msgstr "Je account kon niet geactiveerd worden..."
 
 #: templates/userena/activate_fail.html:8
 msgid ""
@@ -430,12 +430,9 @@ msgid "Email verification failed."
 msgstr "E-mail verificatie is mislukt."
 
 #: templates/userena/email_confirm_fail.html:5
-msgid "Your email could not be verified.."
-msgstr "Jouw e-mail kon niet geverifieerd worden.."
-
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
-msgstr "Jouw e-mail kon niet geverifieerd worden.."
+msgstr "Jouw e-mail kon niet geverifieerd worden..."
 
 #: templates/userena/email_confirm_fail.html:9
 msgid "You could try changing it again in your account settings."

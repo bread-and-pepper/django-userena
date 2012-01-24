@@ -346,8 +346,8 @@ msgid "Account activation failed."
 msgstr "Activação de conta sem sucesso"
 
 #: templates/userena/activate_fail.html:5
-msgid "Your account could not be activated.."
-msgstr "A sua conta não pode activada"
+msgid "Your account could not be activated..."
+msgstr "A sua conta não pode activada..."
 
 #: templates/userena/activate_fail.html:8
 msgid ""
@@ -422,9 +422,6 @@ msgid "Email verification failed."
 msgstr "Verificação de email sem sucesso"
 
 #: templates/userena/email_confirm_fail.html:5
-msgid "Your email could not be verified.."
-msgstr "O email não pode ser verificado.."
-
 #: templates/userena/email_confirm_fail.html:8
 msgid "Your email could not be verified..."
 msgstr "O email não pode ser verificado..."
