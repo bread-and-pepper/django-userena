@@ -118,6 +118,7 @@ class UserenaSignup(models.Model):
 
         """
         context= {'user': self.user,
+                  'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES,
                   'new_email': self.email_unconfirmed,
                   'protocol': get_protocol(),
                   'confirmation_key': self.email_confirmation_key,
@@ -179,6 +180,7 @@ class UserenaSignup(models.Model):
 
         """
         context= {'user': self.user,
+                  'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES,
                   'protocol': get_protocol(),
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,

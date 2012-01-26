@@ -1,6 +1,6 @@
 {% load i18n %}{% autoescape off %}
-{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
-
+{% if not without_usernames %}{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
+{% endif %}
 {% blocktrans with site.name as site %}Thank you for signing up at {{ site }}.{% endblocktrans %}
 
 {% trans "To activate your account you should click on the link below:" %}

@@ -1,6 +1,6 @@
 {% load i18n %}{% autoescape off %}
-{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
-
+{% if not without_usernames %}{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
+{% endif %}
 {% blocktrans with site.name as site %}There was a request to change your email address at {{ site }}.{% endblocktrans %}
 
 {% blocktrans %}An email has been send to {{ new_email }} which contains a verification link. Click on the link in this email to activate it.{% endblocktrans %}
