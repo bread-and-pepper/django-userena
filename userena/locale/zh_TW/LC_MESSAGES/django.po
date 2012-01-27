@@ -1,0 +1,684 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-01-27 21:41+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: forms.py:29
+msgid "Username"
+msgstr "帳號名稱"
+
+#: forms.py:30
+msgid "Username must contain only letters, numbers, dots and underscores."
+msgstr "帳號名稱只能包含英文字母, 數字, 英文句點以及底線"
+
+#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:27
+msgid "Email"
+msgstr "電子郵件"
+
+#: forms.py:36
+msgid "Create password"
+msgstr "建立密碼"
+
+#: forms.py:39
+msgid "Repeat password"
+msgstr "重複密碼"
+
+#: forms.py:53
+msgid "This username is already taken."
+msgstr "這個帳號名稱已被使用"
+
+#: forms.py:55
+msgid "This username is not allowed."
+msgstr "這個帳號名稱不被允許"
+
+#: forms.py:61 forms.py:195
+msgid "This email is already in use. Please supply a different email."
+msgstr "這個電子郵件已被使用, 請提供另一個不同的電子郵件。"
+
+#: forms.py:73
+msgid "The two password fields didn't match."
+msgstr "兩個密碼欄位不符"
+
+#: forms.py:117
+msgid "I have read and agree to the Terms of Service"
+msgstr "我已經閱讀並且同意使用條款"
+
+#: forms.py:118
+msgid "You must agree to the terms to register."
+msgstr "你必須同意使用條款才能進行註冊。"
+
+#: forms.py:131
+#, python-format
+msgid "%(label)s"
+msgstr "%(label)s"
+
+#: forms.py:134
+#, python-format
+msgid "%(error)s"
+msgstr "%(error)s"
+
+#: forms.py:141
+msgid "Email or username"
+msgstr "電子郵件或帳號名稱"
+
+#: forms.py:142
+msgid "Either supply us with your email or username."
+msgstr "請提供我們你的電子郵件或帳號名稱。"
+
+#: forms.py:143
+msgid "Password"
+msgstr "密碼"
+
+#: forms.py:147
+#, python-format
+msgid "Remember me for %(days)s"
+msgstr "記住我 %(days)s"
+
+#: forms.py:154
+msgid "Please supply your email."
+msgstr "請提供你的電子郵件"
+
+#: forms.py:169
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr "請輸入正確的帳號名稱或電子郵件以及密碼。 注意兩個欄位都有需分大小寫"
+
+#: forms.py:175 templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr "新的電子郵件"
+
+#: forms.py:193
+msgid "You're already known under this email."
+msgstr "你已經確認了這個電子郵件"
+
+#: forms.py:209
+msgid "First name"
+msgstr "名"
+
+#: forms.py:212
+msgid "Last name"
+msgstr "姓"
+
+#: managers.py:228
+#, python-format
+msgid "No profile found for %(username)s"
+msgstr "找不到 %(username)s 的帳號資料"
+
+#: models.py:46 tests/profiles/models.py:18 tests/profiles/models.py:32
+msgid "user"
+msgstr "使用者"
+
+#: models.py:49
+msgid "last active"
+msgstr "最後活動時間"
+
+#: models.py:52
+msgid "The last date that the user was active."
+msgstr "這個使用者最後活動的日期。"
+
+#: models.py:54
+msgid "activation key"
+msgstr "啟用金鑰"
+
+#: models.py:58
+msgid "notification send"
+msgstr "寄出通知"
+
+#: models.py:60
+msgid ""
+"Designates whether this user has already got a notification about activating "
+"their account."
+msgstr "指定這個會員已經收到啟用帳號的通知。"
+
+#: models.py:62
+msgid "unconfirmed email address"
+msgstr "未確認的電子郵件"
+
+#: models.py:64
+msgid "Temporary email address when the user requests an email change."
+msgstr "暫時的電子郵件位置當使用者要求更改電子郵件。"
+
+#: models.py:66
+msgid "unconfirmed email verification key"
+msgstr "未確認的電子郵件啟用金鑰"
+
+#: models.py:70
+msgid "creation date of email confirmation key"
+msgstr "電子郵件啟用金鑰建立日期"
+
+#: models.py:78
+msgid "userena registration"
+msgstr "userena 註冊"
+
+#: models.py:79
+msgid "userena registrations"
+msgstr "userena 註冊"
+
+#: models.py:201
+msgid "Open"
+msgstr "公開"
+
+#: models.py:202
+msgid "Registered"
+msgstr "註冊會員"
+
+#: models.py:203
+msgid "Closed"
+msgstr "關閉"
+
+#: models.py:210
+msgid "mugshot"
+msgstr "個人頭像"
+
+#: models.py:214
+msgid "A personal image displayed in your profile."
+msgstr "在你的帳號簡介裡顯示的個人頭像"
+
+#: models.py:216
+msgid "privacy"
+msgstr "隱私"
+
+#: models.py:220
+msgid "Designates who can view your profile."
+msgstr "指定誰可以瀏覽你的個人簡介"
+
+#: models.py:299
+#, python-format
+msgid "%(first_name)s %(last_name)s"
+msgstr "%(first_name)s %(last_name)s"
+
+#: models.py:361
+msgid "language"
+msgstr "語言"
+
+#: settings.py:39
+msgid "a month"
+msgstr "一個月"
+
+#: views.py:136
+msgid "Your account has been activated and you have been signed in."
+msgstr "你的帳號已經啟用並且你已經登入。"
+
+#: views.py:296
+msgid "You have been signed in."
+msgstr "你已經登入。"
+
+#: views.py:514
+msgid "Your profile has been updated."
+msgstr "你的個人簡介已經更新。"
+
+#: views.py:554
+msgid "You don't have permission to view this profile."
+msgstr "你沒有瀏覽這個個人簡介的權限。"
+
+#: contrib/umessages/admin.py:25
+msgid "Date/time"
+msgstr "日期/時間"
+
+#: contrib/umessages/fields.py:56
+#, python-format
+msgid "The following usernames are incorrect: %(users)s."
+msgstr "下列帳號有誤: %(users)s 。"
+
+#: contrib/umessages/forms.py:10
+msgid "To"
+msgstr "給"
+
+#: contrib/umessages/forms.py:11
+msgid "Message"
+msgstr "訊息"
+
+#: contrib/umessages/models.py:17
+msgid "from user"
+msgstr "發送者"
+
+#: contrib/umessages/models.py:20
+msgid "to user"
+msgstr "接收者"
+
+#: contrib/umessages/models.py:24
+msgid "latest message"
+msgstr "最後訊息"
+
+#: contrib/umessages/models.py:31
+msgid "contact"
+msgstr "聯絡"
+
+#: contrib/umessages/models.py:32
+msgid "contacts"
+msgstr "聯絡"
+
+#: contrib/umessages/models.py:35
+#, python-format
+msgid "%(from_user)s and %(to_user)s"
+msgstr "%(from_user)s 及 %(to_user)s"
+
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
+msgid "recipient"
+msgstr "接收人"
+
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
+msgid "message"
+msgstr "訊息"
+
+#: contrib/umessages/models.py:66
+msgid "read at"
+msgstr "讀取於"
+
+#: contrib/umessages/models.py:70
+msgid "recipient deleted at"
+msgstr "收件人刪除於"
+
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
+msgid "recipients"
+msgstr "收件人"
+
+#: contrib/umessages/models.py:81
+#, python-format
+msgid "%(message)s"
+msgstr "%(message)s"
+
+#: contrib/umessages/models.py:90
+msgid "body"
+msgstr "主旨"
+
+#: contrib/umessages/models.py:94
+msgid "sender"
+msgstr "寄件人"
+
+#: contrib/umessages/models.py:101
+msgid "sent at"
+msgstr "發送於"
+
+#: contrib/umessages/models.py:104
+msgid "sender deleted at"
+msgstr "寄件人刪除於"
+
+#: contrib/umessages/models.py:113
+msgid "messages"
+msgstr "訊息"
+
+#: contrib/umessages/views.py:178
+msgid "Message is sent."
+msgstr "訊息已發送。"
+
+#: contrib/umessages/views.py:262
+msgid "Message is succesfully restored."
+msgid_plural "Messages are succesfully restored."
+msgstr[0] "訊息已經成功回復。"
+msgstr[1] "訊息已經成功回復。"
+
+#: contrib/umessages/views.py:266
+msgid "Message is successfully removed."
+msgid_plural "Messages are successfully removed."
+msgstr[0] "訊息已經成功移除。"
+msgstr[1] "訊息已經成功移除。"
+
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "與 %(recipient)s 的對話"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "接收於 %(sent_at)s"
+
+#: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:9
+msgid "Compose"
+msgstr "撰寫"
+
+#: contrib/umessages/templates/umessages/message_form.html:10
+msgid "Compose message"
+msgstr "撰寫訊息"
+
+#: contrib/umessages/templates/umessages/message_form.html:13
+msgid "Send"
+msgstr "寄送"
+
+#: contrib/umessages/templates/umessages/message_list.html:4
+msgid "Messages"
+msgstr "訊息"
+
+#: contrib/umessages/templates/umessages/message_list.html:8
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s 則新訊息"
+
+#: contrib/umessages/templates/umessages/message_list.html:20
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s 則新訊息)"
+
+#: templates/userena/activate_fail.html:4
+msgid "Account activation failed."
+msgstr "帳號啟用失敗。"
+
+#: templates/userena/activate_fail.html:5
+msgid "Your account could not be activated..."
+msgstr "你的帳號無法啟用..."
+
+#: templates/userena/activate_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr "你的帳號無法啟用, 因為你的啟用連結已經失效。"
+
+#: templates/userena/activate_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr "如果無法正常啟用, 請試著重新註冊或者聯絡我們。"
+
+#: templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr "停權帳戶"
+
+#: templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr "你的帳號已被停權"
+
+#: templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr "看來你的帳號已被停權。"
+
+#: templates/userena/disabled.html:8
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
+msgstr "如果你覺得這對你來說不合理, 請隨時聯絡管理員了解原因"
+
+#: templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr "電子郵件確認"
+
+#: templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr "確認你的新電子郵件"
+
+#: templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr "你的電子郵件 %(email)s 已經收到一封信見"
+
+#: templates/userena/email_change_complete.html:9
+#, python-format
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
+msgstr "要確認你的帳號 (%(username)s) , 請點擊這個信件所提供的啟用連結。"
+
+#: templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr "電子郵件已經更改!"
+
+#: templates/userena/email_confirm_complete.html:8
+#, python-format
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
+msgstr "你新的電子郵件位址已經儲存, 你可以繼續使用 %(site)s。"
+
+#: templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr "電子郵件確認失敗"
+
+#: templates/userena/email_confirm_fail.html:5
+#: templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr "你的電子郵件無法被驗證..."
+
+#: templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr "你可以試著在帳號設定裡再更改一次電子郵件。"
+
+#: templates/userena/email_form.html:4 templates/userena/password_form.html:6
+#: templates/userena/profile_form.html:6
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr "帳號 &raquo; %(username)s"
+
+#: templates/userena/email_form.html:9 templates/userena/password_form.html:11
+#: templates/userena/profile_detail.html:14
+#: templates/userena/profile_form.html:12
+msgid "View profile"
+msgstr "檢視個人簡介"
+
+#: templates/userena/email_form.html:10
+#: templates/userena/password_form.html:12
+#: templates/userena/profile_form.html:13
+msgid "Edit profile"
+msgstr "編輯個人簡介"
+
+#: templates/userena/email_form.html:11 templates/userena/password_form.html:4
+#: templates/userena/password_form.html:13
+#: templates/userena/password_form.html:21
+#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_form.html:14
+msgid "Change password"
+msgstr "更改密碼"
+
+#: templates/userena/email_form.html:12 templates/userena/email_form.html:19
+#: templates/userena/password_form.html:14
+#: templates/userena/profile_detail.html:17
+#: templates/userena/profile_form.html:15
+msgid "Change email"
+msgstr "更改電子郵件"
+
+#: templates/userena/email_form.html:16
+msgid "Change email address"
+msgstr "更改電子郵件位址"
+
+#: templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr "密碼已經更改"
+
+#: templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr "你的密碼已經更改"
+
+#: templates/userena/password_complete.html:8
+msgid "From now on you can use your new password to signin"
+msgstr "你可以使用你的新密碼來進行登入"
+
+#: templates/userena/password_form.html:17
+msgid "Change Password"
+msgstr "更改密碼"
+
+#: templates/userena/password_reset_complete.html:4
+msgid "Password reset"
+msgstr "重設密碼"
+
+#: templates/userena/password_reset_complete.html:5
+msgid "Your password has been reset"
+msgstr "你的密碼已經重設"
+
+#: templates/userena/password_reset_complete.html:7
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr "你現在可以使用你的新密碼進行 <a href=\"%(signin_url)s\">登入</a>。"
+
+#: templates/userena/password_reset_confirm_form.html:4
+#: templates/userena/password_reset_confirm_form.html:13
+#: templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr "重設密碼"
+
+#: templates/userena/password_reset_confirm_form.html:9
+#: templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr "重設密碼"
+
+#: templates/userena/password_reset_done.html:4
+#: templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr "密碼重設信件已經發送"
+
+#: templates/userena/password_reset_done.html:8
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
+msgstr "你應該已經收到一封說明如何重設你的密碼的信件。"
+
+#: templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr "寄送密碼"
+
+#: templates/userena/profile_detail.html:4
+#, python-format
+msgid "%(username)s's profile."
+msgstr "%(username)s 的個人簡介"
+
+#: templates/userena/profile_detail.html:15
+msgid "Edit details"
+msgstr "編輯細節"
+
+#: templates/userena/profile_detail.html:22
+msgid "Your mugshot"
+msgstr "你的個人頭像"
+
+#: templates/userena/profile_detail.html:24
+msgid "Name"
+msgstr "名稱"
+
+#: templates/userena/profile_detail.html:30
+msgid "Age"
+msgstr "年紀"
+
+#: templates/userena/profile_detail.html:33
+msgid "Website"
+msgstr "網站"
+
+#: templates/userena/profile_detail.html:36
+msgid "Location"
+msgstr "位置"
+
+#: templates/userena/profile_detail.html:39
+msgid "About me"
+msgstr "關於我"
+
+#: templates/userena/profile_form.html:4
+msgid "Account setup"
+msgstr "帳號設定"
+
+#: templates/userena/profile_form.html:19
+msgid "Edit Profile"
+msgstr "編輯個人簡介"
+
+#: templates/userena/profile_form.html:22
+msgid "Save changes"
+msgstr "儲存修改"
+
+#: templates/userena/profile_list.html:4
+msgid "Profiles"
+msgstr "個人簡介"
+
+#: templates/userena/profile_list.html:21
+msgid "previous"
+msgstr "上一個"
+
+#: templates/userena/profile_list.html:25
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+"\n"
+"      %(page)s 頁 of %(num_pages)s\n"
+"      "
+
+#: templates/userena/profile_list.html:31
+msgid "next"
+msgstr "下一個"
+
+#: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
+#: templates/userena/signin_form.html:28
+msgid "Signin"
+msgstr "登入"
+
+#: templates/userena/signin_form.html:29
+msgid "Forgot your password?"
+msgstr "忘記密碼?"
+
+#: templates/userena/signout.html:4
+msgid "Signed out"
+msgstr "登出"
+
+#: templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr "你已經登出"
+
+#: templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr "你已經登出。 下次見!"
+
+#: templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr "註冊已經快完成囉!"
+
+#: templates/userena/signup_complete.html:6
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:27
+msgid "Signup"
+msgstr "註冊"
+
+#: templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr "感謝您的註冊"
+
+#: templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr "你已經收到一封包含啟用連結的信件。"
+
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr "我們將會儲存帳號啟用資訊 %(userena_activation_days)s 天"
+
+#: templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr "你現在可以提供你的登入資訊來進行登入。"
+
+#: tests/profile.py:6 tests/profiles/models.py:12
+msgid "Male"
+msgstr "男性"
+
+#: tests/profile.py:7 tests/profiles/models.py:13
+msgid "Female"
+msgstr "女性"
+
+#: tests/profile.py:9 tests/profiles/models.py:21
+msgid "gender"
+msgstr "性別"
+
+#: tests/profile.py:13 tests/profiles/models.py:25
+msgid "website"
+msgstr "網站"
+
+#: tests/profile.py:14 tests/profiles/models.py:26
+msgid "location"
+msgstr "位置"
+
+#: tests/profile.py:15 tests/profiles/models.py:27
+msgid "about me"
+msgstr "關於我"
