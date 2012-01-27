@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-06 15:30-0300\n"
+"POT-Creation-Date: 2012-01-24 15:48-0300\n"
 "PO-Revision-Date: 2011-09-03 19:35-0600\n"
 "Last-Translator: Vincent Guérault, vincent@communes.com \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
 "El nombre de usuario sólo puede tener letras, números, puntos y guión bajo."
 
-#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:26
+#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:27
 msgid "Email"
 msgstr "Email"
 
@@ -320,23 +320,34 @@ msgstr "Remitente eliminado el"
 msgid "messages"
 msgstr "mensajes"
 
-#: contrib/umessages/views.py:179
+#: contrib/umessages/views.py:178
 msgid "Message is sent."
 msgstr "El mensaje ha sido enviado."
 
-#: contrib/umessages/views.py:263
+#: contrib/umessages/views.py:262
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
 msgstr[0] "El mensaje fue restaurado exitosamente."
 msgstr[1] "Los mensajes fueron restaurados exitosamente."
 
-#: contrib/umessages/views.py:267
+#: contrib/umessages/views.py:266
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
 msgstr[0] "El mensaje fue eliminado exitosamente."
 msgstr[1] "Los mensajes fueron eliminados exitosamente."
 
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "Conversación con %(recipient)s"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "Recibido el %(sent_at)s"
+
 #: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:9
 msgid "Compose"
 msgstr "Redactar"
 
@@ -347,6 +358,20 @@ msgstr "Redactar un mensaje"
 #: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
 msgstr "Enviar"
+
+#: contrib/umessages/templates/umessages/message_list.html:4
+msgid "Messages"
+msgstr "Mensajes"
+
+#: contrib/umessages/templates/umessages/message_list.html:8
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s mensajes nuevos."
+
+#: contrib/umessages/templates/umessages/message_list.html:20
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s nuevos)"
 
 #: templates/userena/activate_fail.html:4
 msgid "Account activation failed."
@@ -418,11 +443,12 @@ msgid "Email changed!"
 msgstr "¡Dirección de correo cambiada!"
 
 #: templates/userena/email_confirm_complete.html:8
+#, python-format
 msgid ""
-"Your new email address is saved. You can continue using userena with this "
+"Your new email address is saved. You can continue using %(site)s with this "
 "email."
 msgstr ""
-"Tu nueva dirección de correo ha sido guardada. Puedes seguir usando userena "
+"Tu nueva dirección de correo ha sido guardada. Puedes seguir usando %(site)s "
 "con este Email."
 
 #: templates/userena/email_confirm_fail.html:4
@@ -445,7 +471,7 @@ msgid "Account &raquo; %(username)s"
 msgstr "Cuenta &raquo; %(username)s "
 
 #: templates/userena/email_form.html:9 templates/userena/password_form.html:11
-#: templates/userena/profile_detail.html:13
+#: templates/userena/profile_detail.html:14
 #: templates/userena/profile_form.html:12
 msgid "View profile"
 msgstr "Ver mi perfil"
@@ -459,14 +485,14 @@ msgstr "Modificar mi perfil"
 #: templates/userena/email_form.html:11 templates/userena/password_form.html:4
 #: templates/userena/password_form.html:13
 #: templates/userena/password_form.html:21
-#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_detail.html:16
 #: templates/userena/profile_form.html:14
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
 #: templates/userena/email_form.html:12 templates/userena/email_form.html:19
 #: templates/userena/password_form.html:14
-#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_detail.html:17
 #: templates/userena/profile_form.html:15
 msgid "Change email"
 msgstr "Cambiar dirección de correo"
@@ -500,16 +526,11 @@ msgid "Your password has been reset"
 msgstr "Tu contraseña ha sido reinicializada"
 
 #: templates/userena/password_reset_complete.html:7
-msgid "You can now "
-msgstr "ahora puedes"
-
-#: templates/userena/password_reset_complete.html:7
-msgid "signin"
-msgstr "Entrar"
-
-#: templates/userena/password_reset_complete.html:7
-msgid "with your new password."
-msgstr "con tu nueva contraseña."
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+"Ahora puedes <a href=\"%(signin_url)s\">registrarte</a> con tu nueva clave."
 
 #: templates/userena/password_reset_confirm_form.html:4
 #: templates/userena/password_reset_confirm_form.html:13
@@ -543,31 +564,31 @@ msgstr "Enviar contraseña"
 msgid "%(username)s's profile."
 msgstr "Perfil de %(username)s."
 
-#: templates/userena/profile_detail.html:14
+#: templates/userena/profile_detail.html:15
 msgid "Edit details"
 msgstr "Modificar los detalles"
 
-#: templates/userena/profile_detail.html:21
+#: templates/userena/profile_detail.html:22
 msgid "Your mugshot"
 msgstr "Tu retrato"
 
-#: templates/userena/profile_detail.html:23
+#: templates/userena/profile_detail.html:24
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/userena/profile_detail.html:29
+#: templates/userena/profile_detail.html:30
 msgid "Age"
 msgstr "Edad"
 
-#: templates/userena/profile_detail.html:32
+#: templates/userena/profile_detail.html:33
 msgid "Website"
 msgstr "Sitio Web"
 
-#: templates/userena/profile_detail.html:35
+#: templates/userena/profile_detail.html:36
 msgid "Location"
 msgstr "Ubicación"
 
-#: templates/userena/profile_detail.html:38
+#: templates/userena/profile_detail.html:39
 msgid "About me"
 msgstr "Acerca de mí"
 
@@ -607,11 +628,11 @@ msgid "next"
 msgstr "siguiente"
 
 #: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
-#: templates/userena/signin_form.html:27
+#: templates/userena/signin_form.html:28
 msgid "Signin"
 msgstr "Ingresa"
 
-#: templates/userena/signin_form.html:28
+#: templates/userena/signin_form.html:29
 msgid "Forgot your password?"
 msgstr "¿Olvidaste tu contraseña?"
 
@@ -632,7 +653,8 @@ msgid "Signup almost done!"
 msgstr "¡Registro casi listo!"
 
 #: templates/userena/signup_complete.html:6
-#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:26
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:27
 msgid "Signup"
 msgstr "Regístrate"
 
@@ -774,6 +796,15 @@ msgstr "ubicación"
 #: tests/profile.py:15 tests/profiles/models.py:27
 msgid "about me"
 msgstr "acerca de mi"
+
+#~ msgid "You can now "
+#~ msgstr "ahora puedes"
+
+#~ msgid "signin"
+#~ msgstr "Entrar"
+
+#~ msgid "with your new password."
+#~ msgstr "con tu nueva contraseña."
 
 #~ msgid "Reset password email is send"
 #~ msgstr "La contraseña reinicializada ha sido enviada."
