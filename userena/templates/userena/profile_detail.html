@@ -5,38 +5,51 @@
 {% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
 
 {% block content %}
-<div class="white-box">
+  <div class="white-box">
+    {% block profile_navigation %}
+      {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+      {% if user.username == profile.user.username %}
+        <ul id="box-nav">
+          {% block profile_navigation_items %}
+            <li><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %}</a></li>
+            <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %}</a></li>
+            <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a></li>
+            <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
+          {% endblock %}
+        </ul>
+      {% endif %}
+    {% endblock %}
 
-  {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
-  {% if user.username == profile.user.username %}
-  <ul id="box-nav">
-    <li><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %} &raquo;</a></li>
-    <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %} &raquo;</a></li>
-    <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %} &raquo;</a></li>
-    <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %} &raquo;</a></li>
-  </ul>
-  {% endif %}
-
-  <div id="details">
-    <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
-    {% if profile.user.get_full_name %}
-    <p><strong>{% trans "Name" %}</strong><br /> {{ profile.user.get_full_name }}</p>
-    {% endif %}
-    {% if profile.user.email %}
-    <p><strong>{% trans "Email" %}</strong><br />{{ profile.user.email }}</p>
-    {% endif %}
-    {% if profile.age %}
-    <p><strong>{% trans "Age" %}</strong><br /> {{ profile.age }}</p>
-    {% endif %}
-    {% if profile.website %}
-    <p><strong>{% trans "Website" %}</strong><br /> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
-    {% endif %}
-    {% if profile.location %}
-    <p><strong>{% trans "Location" %}</strong><br />{{ profile.location }}</p>
-    {% endif %}
-    {% if profile.about_me %}
-    <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me }}</p>
-    {% endif %}
+    <div id="details">
+      {% block profile_details %}
+        <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+        <dl>
+          {% if profile.user.get_full_name %}
+            <dt>{% trans "Name" %}</dt>
+            <dd>{{ profile.user.get_full_name }}</dd>
+          {% endif %}
+          {% if profile.user.email %}
+            <dt>{% trans "Email" %}</dt>
+            <dd>{{ profile.user.email }}</dd>
+          {% endif %}
+          {% if profile.age %}
+            <dt>{% trans "Age" %}</dt>
+            <dd>{{ profile.age }}</dd>
+          {% endif %}
+          {% if profile.website %}
+            <dt>{% trans "Website" %}</dt>
+            <dd>{{ profile.website|urlize }}</dd>
+          {% endif %}
+          {% if profile.location %}
+            <dt>{% trans "Location" %}</dt>
+            <dd>{{ profile.location }}</dd>
+          {% endif %}
+          {% if profile.about_me %}
+            <dt>{% trans "About me" %}</dt>
+            <dd>{{ profile.about_me }}</dd>
+          {% endif %}
+        </dl>
+      {% endblock %}
+    </div>
   </div>
-</div>
 {% endblock %}

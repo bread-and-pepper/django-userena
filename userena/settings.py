@@ -90,3 +90,6 @@ USERENA_LANGUAGE_FIELD = getattr(settings,
 USERENA_WITHOUT_USERNAMES = getattr(settings,
                                     'USERENA_WITHOUT_USERNAMES',
                                     False)
+
+USERENA_PROFILE_DETAIL_TEMPLATE = getattr(
+    settings, 'USERENA_PROFILE_DETAIL_TEMPLATE', 'userena/profile_detail.html')

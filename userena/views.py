@@ -526,7 +526,10 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
                               extra_context=extra_context,
                               **kwargs)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None, **kwargs):
+def profile_detail(
+    request, username,
+    template_name=userena_settings.USERENA_PROFILE_DETAIL_TEMPLATE,
+    extra_context=None, **kwargs):
     """
     Detailed view of an user.
 

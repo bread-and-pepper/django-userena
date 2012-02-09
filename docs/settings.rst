@@ -147,6 +147,12 @@ options:
 ``open``
     All users (registered and anonymous) can view their profile.
 
+USERENA_PROFILE_DETAIL_TEMPLATE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``userena/profile_detail.html`` (string)
+
+Template to use for rendering user profiles. This allows you to specify a template in your own project which extends ``userena/profile_detail.html``.
+
 USERENA_DISABLE_PROFILE_LIST
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``False`` (boolean)
