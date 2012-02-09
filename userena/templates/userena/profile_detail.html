@@ -22,7 +22,7 @@
 
     <div id="details">
       {% block profile_details %}
-        <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+        <img class="mugshot" src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
         <dl>
           {% block profile_definition_list %}
             {% if profile.user.get_full_name %}
