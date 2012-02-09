@@ -526,7 +526,10 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
                               extra_context=extra_context,
                               **kwargs)
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None, **kwargs):
+def profile_detail(
+    request, username,
+    template_name=userena_settings.USERENA_PROFILE_DETAIL_TEMPLATE,
+    extra_context=None, **kwargs):
     """
     Detailed view of an user.
 
@@ -554,6 +557,7 @@ def profile_detail(request, username, template_name='userena/profile_detail.html
         return HttpResponseForbidden(_("You don't have permission to view this profile."))
     if not extra_context: extra_context = dict()
     extra_context['profile'] = user.get_profile()
+    extra_context['hide_email'] = userena_settings.USERENA_HIDE_EMAIL
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context,
