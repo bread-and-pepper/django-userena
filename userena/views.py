@@ -227,6 +227,7 @@ def direct_to_user_template(request, username, template_name,
 
     if not extra_context: extra_context = dict()
     extra_context['viewed_user'] = user
+    extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -378,6 +379,7 @@ def email_change(request, username, email_form=ChangeEmailForm,
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
+    extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
@@ -443,6 +445,7 @@ def password_change(request, username, template_name='userena/password_form.html
 
     if not extra_context: extra_context = dict()
     extra_context['form'] = form
+    extra_context['profile'] = user.get_profile()
     return direct_to_template(request,
                               template_name,
                               extra_context=extra_context)
