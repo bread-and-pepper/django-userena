@@ -29,7 +29,7 @@
               <dt>{% trans "Name" %}</dt>
               <dd>{{ profile.user.get_full_name }}</dd>
             {% endif %}
-            {% if profile.user.email %}
+            {% if profile.user.email and not hide_email %}
               <dt>{% trans "Email" %}</dt>
               <dd>{{ profile.user.email }}</dd>
             {% endif %}

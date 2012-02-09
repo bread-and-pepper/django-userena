@@ -183,6 +183,13 @@ Defines if usernames are used within userena. Currently it's often for the
 users convenience that only an email is used for identification. With this
 setting you get just that.
 
+USERENA_HIDE_EMAIL
+~~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+Prevents email addresses from being displayed to other users if set to `
+`True``.
+
 Django settings
 ---------------
 
