@@ -216,7 +216,7 @@ msgstr "язык"
 
 #: settings.py:39
 msgid "a month"
-msgstr "месяца"
+msgstr "месяц"
 
 #: views.py:136
 msgid "Your account has been activated and you have been signed in."
