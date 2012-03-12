@@ -36,7 +36,7 @@ USERENA_ACTIVATION_NOTIFY
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
-A boolean that turns on/of the sending of a notification when
+A boolean that turns on/off the sending of a notification when
 ``USERENA_ACTIVATION_NOTIFY_DAYS`` away the activation of the user will
 expire and the user will be deleted.
 
