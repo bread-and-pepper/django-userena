@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 
 from userena import settings as userena_settings
-from userena.utils import generate_sha1, get_profile_model
+from userena.utils import generate_sha1, get_profile_model, get_datetime_now
 from userena import signals as userena_signals
 
 from guardian.shortcuts import assign, get_perms
@@ -53,7 +53,7 @@ class UserenaManager(UserManager):
         :return: :class:`User` instance representing the new user.
 
         """
-        now = datetime.datetime.now()
+        now = get_datetime_now()
 
         new_user = User.objects.create_user(username, email, password)
         new_user.is_active = active
