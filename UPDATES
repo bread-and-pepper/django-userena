@@ -1,5 +1,12 @@
 This file contains all the backwards-incompatible changes.
 
+Version 1.1.2
+
+- Activation view no longer contains username. If you override
+  `userena/templates/userena/emails/activation_email_message.txt` and
+  `userena/templates/userena/emails/confirmation_email_message_new.txt` be sure
+  to remove username from the URL.
+
 Version 1.1
 
 - Userena now requires Django >= 1.3 because of the use of class based views.

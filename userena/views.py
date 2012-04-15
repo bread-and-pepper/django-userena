@@ -139,7 +139,7 @@ def signup(request, signup_form=SignupForm,
                                             extra_context=extra_context)(request)
 
 @secure_required
-def activate(request, username, activation_key,
+def activate(request, activation_key,
              template_name='userena/activate_fail.html',
              success_url=None, extra_context=None):
     """
@@ -150,9 +150,6 @@ def activate(request, username, activation_key,
     activated.  After a successfull activation the view will redirect to
     ``succes_url``.  If the SHA1 is not found, the user will be shown the
     ``template_name`` template displaying a fail message.
-
-    :param username:
-        String of the username that wants to be activated.
 
     :param activation_key:
         String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
@@ -175,7 +172,7 @@ def activate(request, username, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = UserenaSignup.objects.activate_user(username, activation_key)
+    user = UserenaSignup.objects.activate_user(activation_key)
     if user:
         # Sign the user in.
         auth_user = authenticate(identification=user.email,
@@ -196,7 +193,7 @@ def activate(request, username, activation_key,
                                             extra_context=extra_context)(request)
 
 @secure_required
-def email_confirm(request, username, confirmation_key,
+def email_confirm(request, confirmation_key,
                   template_name='userena/email_confirm_fail.html',
                   success_url=None, extra_context=None):
     """
@@ -207,9 +204,6 @@ def email_confirm(request, username, confirmation_key,
     e-mail address set and redirected to ``success_url``. If no ``User`` is
     returned the user will be represented with a fail message from
     ``template_name``.
-
-    :param username:
-        String of the username whose email address needs to be confirmed.
 
     :param confirmation_key:
         String with a SHA1 representing the confirmation key used to verify a
@@ -230,8 +224,12 @@ def email_confirm(request, username, confirmation_key,
         ``template_name``.
 
     """
-    user = UserenaSignup.objects.confirm_email(username, confirmation_key)
+    user = UserenaSignup.objects.confirm_email(confirmation_key)
     if user:
+        if userena_settings.USERENA_USE_MESSAGES:
+            messages.success(request, _('Your email address has been changed.'),
+                             fail_silently=True)
+
         if success_url: redirect_to = success_url
         else: redirect_to = reverse('userena_email_confirm_complete',
                                     kwargs={'username': user.username})

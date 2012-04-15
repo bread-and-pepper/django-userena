@@ -45,7 +45,7 @@ urlpatterns = patterns('',
        name='userena_signup_complete'),
 
     # Activate
-    url(r'^(?P<username>[\.\w]+)/activate/(?P<activation_key>\w+)/$',
+    url(r'^activate/(?P<activation_key>\w+)/$',
        userena_views.activate,
        name='userena_activate'),
 
@@ -61,7 +61,7 @@ urlpatterns = patterns('',
        userena_views.direct_to_user_template,
        {'template_name': 'userena/email_confirm_complete.html'},
        name='userena_email_confirm_complete'),
-    url(r'^(?P<username>[\.\w]+)/confirm-email/(?P<confirmation_key>\w+)/$',
+    url(r'^confirm-email/(?P<confirmation_key>\w+)/$',
        userena_views.email_confirm,
        name='userena_email_confirm'),
 

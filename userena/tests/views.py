@@ -23,8 +23,7 @@ class UserenaViewsTests(ProfileTestCase):
                                'tos': 'on'})
         user = User.objects.get(email='alice@example.com')
         response = self.client.get(reverse('userena_activate',
-                                           kwargs={'username': user.username,
-                                                   'activation_key': user.userena_signup.activation_key}))
+                                           kwargs={'activation_key': user.userena_signup.activation_key}))
         self.assertRedirects(response,
                              reverse('userena_profile_detail', kwargs={'username': user.username}))
 
@@ -37,8 +36,7 @@ class UserenaViewsTests(ProfileTestCase):
 
         """
         response = self.client.get(reverse('userena_activate',
-                                           kwargs={'username': 'john',
-                                                   'activation_key': 'fake'}))
+                                           kwargs={'activation_key': 'fake'}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
                                 'userena/activate_fail.html')
@@ -50,8 +48,7 @@ class UserenaViewsTests(ProfileTestCase):
         user.userena_signup.change_email('johnie@example.com')
 
         response = self.client.get(reverse('userena_email_confirm',
-                                           kwargs={'username': user.username,
-                                                   'confirmation_key': user.userena_signup.email_confirmation_key}))
+                                           kwargs={'confirmation_key': user.userena_signup.email_confirmation_key}))
 
         self.assertRedirects(response,
                              reverse('userena_email_confirm_complete', kwargs={'username': user.username}))
@@ -62,8 +59,7 @@ class UserenaViewsTests(ProfileTestCase):
 
         """
         response = self.client.get(reverse('userena_email_confirm',
-                                           kwargs={'username': 'john',
-                                                   'confirmation_key': 'WRONG'}))
+                                           kwargs={'confirmation_key': 'WRONG'}))
         self.assertTemplateUsed(response,
                                 'userena/email_confirm_fail.html')
 

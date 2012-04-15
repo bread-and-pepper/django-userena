@@ -100,15 +100,12 @@ class UserenaManager(UserManager):
         return self.create(user=user,
                            activation_key=activation_key)
 
-    def activate_user(self, username, activation_key):
+    def activate_user(self, activation_key):
         """
         Activate an :class:`User` by supplying a valid ``activation_key``.
 
         If the key is valid and an user is found, activates the user and
         return it. Also sends the ``activation_complete`` signal.
-
-        :param username:
-            String containing the username that wants to be activated.
 
         :param activation_key:
             String containing the secret SHA1 for a valid activation.
@@ -119,8 +116,7 @@ class UserenaManager(UserManager):
         """
         if SHA1_RE.search(activation_key):
             try:
-                userena = self.get(user__username=username,
-                                   activation_key=activation_key)
+                userena = self.get(activation_key=activation_key)
             except self.model.DoesNotExist:
                 return False
             if not userena.activation_key_expired():
@@ -137,7 +133,7 @@ class UserenaManager(UserManager):
                 return user
         return False
 
-    def confirm_email(self, username, confirmation_key):
+    def confirm_email(self, confirmation_key):
         """
         Confirm an email address by checking a ``confirmation_key``.
 
@@ -145,10 +141,6 @@ class UserenaManager(UserManager):
         address as the current e-mail address. Returns the user after
         success or ``False`` when the confirmation key is
         invalid. Also sends the ``confirmation_complete`` signal.
-
-        :param username:
-            String containing the username of the user that wants their email
-            verified.
 
         :param confirmation_key:
             String containing the secret SHA1 that is used for verification.
@@ -159,8 +151,7 @@ class UserenaManager(UserManager):
         """
         if SHA1_RE.search(confirmation_key):
             try:
-                userena = self.get(user__username=username,
-                                   email_confirmation_key=confirmation_key,
+                userena = self.get(email_confirmation_key=confirmation_key,
                                    email_unconfirmed__isnull=False)
             except self.model.DoesNotExist:
                 return False
