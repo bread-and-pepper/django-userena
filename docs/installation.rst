@@ -10,6 +10,10 @@ For further information, consult the `Django download page
 <http://www.djangoproject.com/download/>`_, which offers convenient packaged
 downloads and installation instructions.
 
+warning::
+   
+   django-userena has not been tested on Python3 yet.
+
 Installing django-userena.
 --------------------------
 
@@ -17,10 +21,10 @@ You can install django-userena automagicly with ``pip``. Or by manually
 placing it on on your ``PYTHON_PATH``. The recommended way is the shown in
 :ref:`pip-install`.
 
-NOTE: It is also recommended to use
-`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an isolated
-python environment. This way it's possible to create a tailored environment
-for each project.
+*It is also recommended to use* `virtualenv
+<http://pypi.python.org/pypi/virtualenv>`_ *to have an isolated python
+environment. This way it's possible to create a tailored environment for each
+project.*
 
 .. _pip-install:
 
