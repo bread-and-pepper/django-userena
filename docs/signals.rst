@@ -23,8 +23,10 @@ the ``user`` argument which Django's :class:`User` class.
 confirmation_complete
 ---------------------
 
-A user has succesfully changed their email. The signal provides you with
-the ``user`` argument which Django's :class:`User` class.
+A user has succesfully changed their email. The signal provides you
+with the ``user`` argument which Django's :class:`User` class, and the
+``old_email`` argument which is the user's old email address as a
+string.
 
 password_complete
 -----------------
