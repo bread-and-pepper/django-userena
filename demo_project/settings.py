@@ -38,6 +38,7 @@ LANGUAGES = (
     ('fr', ugettext('French')),
     ('pl', ugettext('Polish')),
     ('pt', ugettext('Portugese')),
+    ('pt-br', ugettext('Brazilian Portuguese')),
     ('es', ugettext('Spanish')),
 )
 
