@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import logout as Signout
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -314,7 +315,25 @@ def signin(request, auth_form=AuthenticationForm,
                               template_name,
                               extra_context=extra_context)
 
+@secure_required
+def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT, 
+            template_name='userena/signout.html', *args, **kwargs):
+    """
+    Signs out the user and adds a success message ``You have been signed
+    out.`` If next_page is defined you will be redirected to the URI. If
+    not the template in template_name is used.
 
+    :param next_page:
+        A string which specifies the URI to redirect to.
+
+    :param template_name:
+        String defining the name of the template to use. Defaults to
+        ``userena/signout.html``.
+
+    """
+    if request.user.is_authenticated() and userena_settings.USERENA_USE_MESSAGES:
+        messages.success(request, _('You have been signed out.'), fail_silently=True)
+    return Signout(request, next_page, template_name, *args, **kwargs)
 
 @secure_required
 @permission_required_or_403('change_user', (User, 'username', 'username'))
