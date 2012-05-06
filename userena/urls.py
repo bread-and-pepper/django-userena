@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
@@ -90,9 +90,9 @@ urlpatterns = patterns('',
        userena_views.profile_detail,
        name='userena_profile_detail'),
     url(r'^page/(?P<page>[0-9]+)/$',
-       userena_views.profile_list,
+       userena_views.ProfileListView.as_view(),
        name='userena_profile_list_paginated'),
     url(r'^$',
-       userena_views.profile_list,
+       userena_views.ProfileListView.as_view(),
        name='userena_profile_list'),
 )
