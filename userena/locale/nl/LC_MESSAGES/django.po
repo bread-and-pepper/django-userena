@@ -643,7 +643,7 @@ msgstr "Bedankt voor het inschrijven bij ons!"
 #: templates/userena/signup_complete.html:10
 #, fuzzy
 msgid ""
-"You have been send an e-mail with an activation link to the supplied email."
+"You have been sent an e-mail with an activation link to the supplied email."
 msgstr "Je hebt een e-mail op %(email)s waar een activatie link in staat."
 
 #: templates/userena/signup_complete.html:11
