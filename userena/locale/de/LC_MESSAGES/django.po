@@ -618,7 +618,7 @@ msgid "Thank you for signing up with us!"
 msgstr "Danke, dass Sie sich bei uns registriert haben!"
 
 #: templates/userena/signup_complete.html:12
-msgid "You have been send an e-mail with an activation link to the supplied email."
+msgid "You have been sent an e-mail with an activation link to the supplied email."
 msgstr "Ihnen wurde eine E-Mail mit einem Aktivierungslink geschickt."
 
 #: templates/userena/signup_complete.html:13
