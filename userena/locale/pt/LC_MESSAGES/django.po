@@ -632,7 +632,7 @@ msgstr "Obrigado por se inscrever!"
 
 #: templates/userena/signup_complete.html:10
 msgid ""
-"You have been send an e-mail with an activation link to the supplied email."
+"You have been sent an e-mail with an activation link to the supplied email."
 msgstr ""
 "Foi-lhe enviado um email com o link de activação para o email que forneceu"
 
