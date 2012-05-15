@@ -59,7 +59,7 @@ msgstr "Введённые пароли не совпадают."
 
 #: forms.py:117
 msgid "I have read and agree to the Terms of Service"
-msgstr "Я прочитал и соглашаюсь c условиями предоставления услуг."
+msgstr "Я прочитал и согласен c условиями предоставления услуг."
 
 #: forms.py:118
 msgid "You must agree to the terms to register."
@@ -143,7 +143,7 @@ msgstr "ключ активации"
 
 #: models.py:58
 msgid "notification send"
-msgstr "уведомление послено"
+msgstr "уведомление послано"
 
 #: models.py:60
 msgid ""
@@ -356,7 +356,7 @@ msgstr "Написать"
 
 #: contrib/umessages/templates/umessages/message_form.html:10
 msgid "Compose message"
-msgstr "Нописать сообщение"
+msgstr "Написать сообщение"
 
 #: contrib/umessages/templates/umessages/message_form.html:13
 msgid "Send"
@@ -597,7 +597,7 @@ msgstr "Обо мне"
 
 #: templates/userena/profile_form.html:4
 msgid "Account setup"
-msgstr ""
+msgstr "Настройки учетной записи"
 
 #: templates/userena/profile_form.html:19
 msgid "Edit Profile"
@@ -649,7 +649,7 @@ msgstr "Вы вышли"
 
 #: templates/userena/signout.html:8
 msgid "You have been signed out. Till we meet again."
-msgstr "Вывышли. Пока не встретимся снова."
+msgstr "Вы вышли. До встречи!"
 
 #: templates/userena/signup_complete.html:4
 msgid "Signup almost done!"
@@ -689,7 +689,7 @@ msgstr "Вы можете использовать указанные данны
 #: templates/userena/emails/confirmation_email_message_old.txt:2
 #, python-format
 msgid "Dear %(username)s,"
-msgstr "Уважаемыый %(username)s,"
+msgstr "Уважаемый %(username)s,"
 
 #: templates/userena/emails/activation_email_message.txt:4
 #, python-format
@@ -698,7 +698,7 @@ msgstr "Спасибо, что зарегистрировались на %(site)
 
 #: templates/userena/emails/activation_email_message.txt:6
 msgid "To activate your account you should click on the link below:"
-msgstr "Для активации вашей учётгной записи перейдите по ссылке ниже:"
+msgstr "Для активации вашей учётной записи перейдите по ссылке ниже:"
 
 #: templates/userena/emails/activation_email_message.txt:10
 #: templates/userena/emails/confirmation_email_message_new.txt:11
@@ -712,12 +712,12 @@ msgstr "Спасибо, что пользуетесь нашим сайтом!"
 #: templates/userena/emails/confirmation_email_message_old.txt:10
 #: templates/userena/emails/password_reset_message.txt:16
 msgid "Sincerely"
-msgstr "Искренне"
+msgstr "С уважением"
 
 #: templates/userena/emails/activation_email_subject.txt:2
 #, python-format
 msgid "Your signup at %(site)s."
-msgstr "Вша регистрация на %(site)s."
+msgstr "Ваша регистрация на %(site)s."
 
 #: templates/userena/emails/confirmation_email_message_new.txt:4
 #, python-format
