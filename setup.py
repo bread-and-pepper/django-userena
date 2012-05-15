@@ -23,7 +23,7 @@ setup(name='django-userena',
       packages = find_packages(exclude=['demo_project', 'demo_project.*']),
       include_package_data=True,
       install_requires = [
-        'Django>=1.2.1',
+        'Django>=1.3.1',
         'easy_thumbnails',
         'django-guardian>=0.1.0',
         ### Required to build documentation

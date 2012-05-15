@@ -5,6 +5,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import logout as Signout
+from django.views.generic import TemplateView
+from django.template.context import RequestContext
+from django.views.generic.list import ListView
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -21,14 +24,10 @@ from userena import settings as userena_settings
 
 from guardian.decorators import permission_required_or_403
 
-#============= Class based views =====================
-from django.views.generic import TemplateView
-from django.template.context import RequestContext
-from django.views.generic.list import ListView
-
+import warnings
 
 class ExtraContextTemplateView(TemplateView):
-    """Replacement for direct_to_template"""
+    """ Add extra context to a simple template view """
     extra_context = None
 
     def get_context_data(self, *args, **kwargs):
@@ -38,14 +37,13 @@ class ExtraContextTemplateView(TemplateView):
         return context
         
 class ProfileListView(ListView):
-    """Replacement for profile_list function view."""
+    """ Lists all profiles """
     context_object_name='profile_list'
     page=1
     paginate_by=50
     template_name='userena/profile_list.html'
     extra_context=None
     
-    #model = get_profile_model()
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(ProfileListView, self).get_context_data(**kwargs)
@@ -71,9 +69,6 @@ class ProfileListView(ListView):
         queryset = profile_model.objects.get_visible_profiles(self.request.user)
         return queryset      
         
-
-
-# ========== Function based views ====================
 @secure_required
 def signup(request, signup_form=SignupForm,
            template_name='userena/signup_form.html', success_url=None,
@@ -377,7 +372,7 @@ def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT,
         ``userena/signout.html``.
 
     """
-    if request.user.is_authenticated() and userena_settings.USERENA_USE_MESSAGES:
+    if request.user.is_authenticated() and userena_settings.USERENA_USE_MESSAGES: # pragma: no cover
         messages.success(request, _('You have been signed out.'), fail_silently=True)
     return Signout(request, next_page, template_name, *args, **kwargs)
 
@@ -624,9 +619,8 @@ def profile_detail(
                                             extra_context=extra_context)(request)
 
 def profile_list(request, page=1, template_name='userena/profile_list.html',
-                 paginate_by=50, extra_context=None, **kwargs):
+                 paginate_by=50, extra_context=None, **kwargs): # pragma: no cover
     """
-    DEPRECATED
     Returns a list of all profiles that are public.
 
     It's possible to disable this by changing ``USERENA_DISABLE_PROFILE_LIST``
@@ -665,6 +659,8 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
         An instance of ``django.core.paginator.Page``.
 
     """
+    warnings.warn("views.profile_list is deprecated. Use ProfileListView instead", DeprecationWarning, stacklevel=2)
+
     try:
         page = int(request.GET.get('page', None))
     except (TypeError, ValueError):

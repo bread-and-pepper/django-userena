@@ -139,10 +139,6 @@ class UserenaViewsTests(ProfileTestCase):
         self.assertTemplateUsed(response,
                                 'userena/signin_form.html')
 
-        # Check the correct form is used
-        self.failUnless(isinstance(response.context['form'],
-                                   forms.AuthenticationForm))
-
     def test_signin_view_remember_me_on(self):
         """
         A ``POST`` to the signin with tells it to remember the user for

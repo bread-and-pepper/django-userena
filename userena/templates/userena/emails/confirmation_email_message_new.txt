@@ -6,7 +6,7 @@
 
 {% trans "Please confirm this email address by clicking on the link below:" %}
 
-{{ protocol }}://{{ site.domain }}{% url "userena_email_confirm" user.username confirmation_key %}
+{{ protocol }}://{{ site.domain }}{% url userena_email_confirm user.username confirmation_key %}
 
 
 {% trans "Thanks for using our site!" %}
