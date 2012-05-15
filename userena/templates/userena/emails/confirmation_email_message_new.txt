@@ -8,6 +8,7 @@
 
 {{ protocol }}://{{ site.domain }}{% url userena_email_confirm user.username confirmation_key %}
 
+
 {% trans "Thanks for using our site!" %}
 
 {% trans "Sincerely" %},

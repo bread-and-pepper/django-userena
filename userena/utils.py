@@ -142,5 +142,5 @@ def get_datetime_now():
     try:
         from django.utils import timezone
         return timezone.now()
-    except ImportError:
+    except ImportError: # pragma: no cover
         return datetime.datetime.now()
