@@ -35,6 +35,9 @@ class ExtraContextTemplateView(TemplateView):
         if self.extra_context:
             context.update(self.extra_context)
         return context
+
+    # this view is used in POST requests, e.g. signup when the form is not valid
+    post = TemplateView.get
         
 class ProfileListView(ListView):
     """ Lists all profiles """
