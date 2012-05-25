@@ -6,6 +6,12 @@ from django.conf import settings
 gettext = lambda s: s
 
 
+# This will sign a user in after they signup successfully.
+# USERENA_ACTIVATION_REQUIRED must be False.
+USERENA_SIGNIN_AFTER_SIGNUP = getattr(settings,
+                                      'USERENA_SIGNIN_AFTER_SIGNUP',
+                                      False)
+
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
                                       'USERENA_REDIRECT_ON_SIGNOUT',
                                       None)
