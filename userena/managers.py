@@ -43,7 +43,7 @@ class UserenaManager(UserManager):
 
         :param active:
             Boolean that defines if the user requires activation by clicking 
-            on a link in an e-mail. Defauts to ``True``.
+            on a link in an e-mail. Defaults to ``False``.
 
         :param send_email:
             Boolean that defines if the user should be send an email. You could
