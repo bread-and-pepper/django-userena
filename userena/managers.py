@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User, UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model, get_datetime_now
@@ -223,25 +224,26 @@ class UserenaManager(UserManager):
                                               codename=perm[0],
                                               content_type=model_content_type)
 
-        for user in User.objects.all():
-            if not user.username == 'AnonymousUser':
-                try:
-                    user_profile = user.get_profile()
-                except get_profile_model().DoesNotExist:
-                    warnings.append(_("No profile found for %(username)s") \
-                                        % {'username': user.username})
-                else:
-                    all_permissions = get_perms(user, user_profile) + get_perms(user, user)
+        # it is safe to rely on settings.ANONYMOUS_USER_ID since it is a requirement of 
+        # django-guardian
+        for user in User.objects.exclude(id=settings.ANONYMOUS_USER_ID):
+            try:
+                user_profile = user.get_profile()
+            except get_profile_model().DoesNotExist:
+                warnings.append(_("No profile found for %(username)s") \
+                                    % {'username': user.username})
+            else:
+                all_permissions = get_perms(user, user_profile) + get_perms(user, user)
 
-                    for model, perms in ASSIGNED_PERMISSIONS.items():
-                        if model == 'profile':
-                            perm_object = user.get_profile()
-                        else: perm_object = user
+                for model, perms in ASSIGNED_PERMISSIONS.items():
+                    if model == 'profile':
+                        perm_object = user.get_profile()
+                    else: perm_object = user
 
-                        for perm in perms:
-                            if perm[0] not in all_permissions:
-                                assign(perm[0], user, perm_object)
-                                changed_users.append(user)
+                    for perm in perms:
+                        if perm[0] not in all_permissions:
+                            assign(perm[0], user, perm_object)
+                            changed_users.append(user)
 
         return (changed_permissions, changed_users, warnings)
 
