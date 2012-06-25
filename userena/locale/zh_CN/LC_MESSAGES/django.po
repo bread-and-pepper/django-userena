@@ -221,9 +221,8 @@ msgid "You have been signed in."
 msgstr "你已经登录。"
 
 #: views.py:379
-#, fuzzy
 msgid "You have been signed out."
-msgstr "你已经注销"
+msgstr "你已经注销。"
 
 #: views.py:577
 msgid "Your profile has been updated."
@@ -668,12 +667,10 @@ msgstr "现在可以用你的身份登录了。"
 #: templates/userena/emails/activation_email_message.txt:2
 #: templates/userena/emails/confirmation_email_message_new.txt:2
 #: templates/userena/emails/confirmation_email_message_old.txt:2
-#, fuzzy, python-format
 msgid "Dear %(username)s,"
-msgstr "邮件地址或用户名"
+msgstr "%(username)s 您好,"
 
 #: templates/userena/emails/activation_email_message.txt:4
-#, fuzzy, python-format
 msgid "Thank you for signing up at %(site)s."
 msgstr "感谢您的注册 %(site)s ！"
 
@@ -685,9 +682,8 @@ msgstr "您需要点击下面的链接来激活您的帐号："
 #: templates/userena/emails/confirmation_email_message_new.txt:12
 #: templates/userena/emails/confirmation_email_message_old.txt:8
 #: templates/userena/emails/password_reset_message.txt:14
-#, fuzzy
 msgid "Thanks for using our site!"
-msgstr "感谢您的注册！"
+msgstr "感谢您使用我们的站点！"
 
 #: templates/userena/emails/activation_email_message.txt:12
 #: templates/userena/emails/confirmation_email_message_new.txt:14
@@ -723,7 +719,6 @@ msgid ""
 msgstr "新邮件地址的激活邮件已经发送到了 %(new_email)s, 请点击邮件中的链接完成新邮件地址的激活。"
 
 #: templates/userena/emails/confirmation_email_subject_new.txt:2
-#, fuzzy, python-format
 msgid "Email verification for %(site)s."
 msgstr "%(site)s 邮件地址校验"
 
