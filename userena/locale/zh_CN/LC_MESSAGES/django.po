@@ -675,7 +675,7 @@ msgstr "邮件地址或用户名"
 #: templates/userena/emails/activation_email_message.txt:4
 #, fuzzy, python-format
 msgid "Thank you for signing up at %(site)s."
-msgstr "感谢您的注册！"
+msgstr "感谢您的注册 %(site)s ！"
 
 #: templates/userena/emails/activation_email_message.txt:6
 msgid "To activate your account you should click on the link below:"
