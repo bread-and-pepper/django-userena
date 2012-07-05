@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-userena 1.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-27 21:41+0800\n"
+"POT-Creation-Date: 2012-06-25 11:23+0800\n"
 "PO-Revision-Date: 2012-03-18 17:44+0800\n"
 "Last-Translator: Wang Xuerui <idontknw.wang@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,9 +26,7 @@ msgstr "用户名"
 msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr "用户名只能包含英文字母、数字、英文句号以及下划线。"
 
-#: forms.py:33
-#: forms.py:153
-#: templates/userena/profile_detail.html:27
+#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:34
 msgid "Email"
 msgstr "电子邮件地址"
 
@@ -48,8 +46,7 @@ msgstr "这个用户名已被占用。"
 msgid "This username is not allowed."
 msgstr "不允许使用这个用户名。"
 
-#: forms.py:61
-#: forms.py:195
+#: forms.py:61 forms.py:195
 msgid "This email is already in use. Please supply a different email."
 msgstr "这个邮件地址已被使用, 请提供一个不同的地址。"
 
@@ -97,11 +94,13 @@ msgid "Please supply your email."
 msgstr "请提供你的电子邮件地址。"
 
 #: forms.py:169
-msgid "Please enter a correct username or email and password. Note that both fields are case-sensitive."
-msgstr "请输入正确的用户名或电子邮件地址，以及密码。 注意这两个字段都区分大小写。"
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr ""
+"请输入正确的用户名或电子邮件地址，以及密码。 注意这两个字段都区分大小写。"
 
-#: forms.py:175
-#: templates/userena/email_confirm_complete.html:6
+#: forms.py:175 templates/userena/email_confirm_complete.html:6
 msgid "New email"
 msgstr "新地址"
 
@@ -117,14 +116,12 @@ msgstr "名"
 msgid "Last name"
 msgstr "姓"
 
-#: managers.py:228
+#: managers.py:233
 #, python-format
 msgid "No profile found for %(username)s"
 msgstr "未找到 %(username)s 的资料"
 
-#: models.py:46
-#: tests/profiles/models.py:18
-#: tests/profiles/models.py:32
+#: models.py:46 tests/profiles/models.py:18 tests/profiles/models.py:32
 msgid "user"
 msgstr "用户"
 
@@ -145,7 +142,9 @@ msgid "notification send"
 msgstr "通知已发送"
 
 #: models.py:60
-msgid "Designates whether this user has already got a notification about activating their account."
+msgid ""
+"Designates whether this user has already got a notification about activating "
+"their account."
 msgstr "指定这个会员是否已经收到激活帐号的通知。"
 
 #: models.py:62
@@ -172,40 +171,40 @@ msgstr "userena 注册"
 msgid "userena registrations"
 msgstr "userena 注册"
 
-#: models.py:201
+#: models.py:203
 msgid "Open"
 msgstr "所有人可见"
 
-#: models.py:202
+#: models.py:204
 msgid "Registered"
 msgstr "注册用户可见"
 
-#: models.py:203
+#: models.py:205
 msgid "Closed"
 msgstr "任何人不可见"
 
-#: models.py:210
+#: models.py:212
 msgid "mugshot"
 msgstr "头像"
 
-#: models.py:214
+#: models.py:216
 msgid "A personal image displayed in your profile."
 msgstr "在你的个人资料中显示的头像。"
 
-#: models.py:216
+#: models.py:218
 msgid "privacy"
 msgstr "隐私设定"
 
-#: models.py:220
+#: models.py:222
 msgid "Designates who can view your profile."
 msgstr "指定谁可以浏览你的个人资料。"
 
-#: models.py:299
+#: models.py:301
 #, python-format
 msgid "%(first_name)s %(last_name)s"
 msgstr "%(first_name)s %(last_name)s"
 
-#: models.py:361
+#: models.py:363
 msgid "language"
 msgstr "语言"
 
@@ -213,19 +212,23 @@ msgstr "语言"
 msgid "a month"
 msgstr "一个月"
 
-#: views.py:136
+#: views.py:186
 msgid "Your account has been activated and you have been signed in."
 msgstr "你的帐号已经激活，并且已自动登录。"
 
-#: views.py:296
+#: views.py:343
 msgid "You have been signed in."
 msgstr "你已经登录。"
 
-#: views.py:514
+#: views.py:379
+msgid "You have been signed out."
+msgstr "你已经注销。"
+
+#: views.py:577
 msgid "Your profile has been updated."
 msgstr "你的个人资料已经更新。"
 
-#: views.py:554
+#: views.py:617
 msgid "You don't have permission to view this profile."
 msgstr "你没有权限浏览这份资料。"
 
@@ -271,13 +274,11 @@ msgstr "联系人"
 msgid "%(from_user)s and %(to_user)s"
 msgstr "%(from_user)s 和 %(to_user)s"
 
-#: contrib/umessages/models.py:61
-#: contrib/umessages/models.py:77
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
 msgstr "接收人"
 
-#: contrib/umessages/models.py:64
-#: contrib/umessages/models.py:112
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
 msgid "message"
 msgstr "信息"
 
@@ -289,8 +290,7 @@ msgstr "读取于"
 msgid "recipient deleted at"
 msgstr "收件人删除于"
 
-#: contrib/umessages/models.py:78
-#: contrib/umessages/models.py:99
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
 msgid "recipients"
 msgstr "收件人"
 
@@ -381,11 +381,14 @@ msgid "Your account could not be activated..."
 msgstr "你的帐号不能被激活..."
 
 #: templates/userena/activate_fail.html:8
-msgid "Your account could not be activated. This could be because your activation link has aged."
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
 msgstr "你的帐号无法激活。这可能是因为你的激活链接失效了。"
 
 #: templates/userena/activate_fail.html:9
-msgid "Please try signing up again or contact us if you think something went wrong."
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
 msgstr "请尝试重新注册；或者如果你认为出现了故障，请联系我们。"
 
 #: templates/userena/disabled.html:4
@@ -401,7 +404,9 @@ msgid "It seems your account has been disabled."
 msgstr "看来你的帐号已经被禁用了。"
 
 #: templates/userena/disabled.html:8
-msgid "If you feel that injustice has been done to you, feel free to contact the administrators to find out why"
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
 msgstr "如果你觉得这对你不公正，可以随时联系管理员询问情况。"
 
 #: templates/userena/email_change_complete.html:4
@@ -419,7 +424,9 @@ msgstr "你的邮箱 %(email)s 已经收到一封信。"
 
 #: templates/userena/email_change_complete.html:9
 #, python-format
-msgid "To associate this email address with your account (%(username)s) click on the link provided in this email."
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
 msgstr "要将你的帐号 (%(username)s) 与这个邮件地址关联，请点击信中的激活链接。"
 
 #: templates/userena/email_confirm_complete.html:4
@@ -428,7 +435,9 @@ msgstr "邮件地址已经更改！"
 
 #: templates/userena/email_confirm_complete.html:8
 #, python-format
-msgid "Your new email address is saved. You can continue using %(site)s with this email."
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
 msgstr "新的邮件地址已经保存，你可以用这个地址继续使用 %(site)s。"
 
 #: templates/userena/email_confirm_fail.html:4
@@ -444,16 +453,14 @@ msgstr "你的电子邮件地址无法被验证…"
 msgid "You could try changing it again in your account settings."
 msgstr "你可以试试在帐号设置里再更改一次邮件地址。"
 
-#: templates/userena/email_form.html:4
-#: templates/userena/password_form.html:6
+#: templates/userena/email_form.html:4 templates/userena/password_form.html:6
 #: templates/userena/profile_form.html:6
 #, python-format
 msgid "Account &raquo; %(username)s"
 msgstr "帐号 &raquo; %(username)s"
 
-#: templates/userena/email_form.html:9
-#: templates/userena/password_form.html:11
-#: templates/userena/profile_detail.html:14
+#: templates/userena/email_form.html:9 templates/userena/password_form.html:11
+#: templates/userena/profile_detail.html:15
 #: templates/userena/profile_form.html:12
 msgid "View profile"
 msgstr "查看个人资料"
@@ -464,19 +471,17 @@ msgstr "查看个人资料"
 msgid "Edit profile"
 msgstr "编辑个人资料"
 
-#: templates/userena/email_form.html:11
-#: templates/userena/password_form.html:4
+#: templates/userena/email_form.html:11 templates/userena/password_form.html:4
 #: templates/userena/password_form.html:13
 #: templates/userena/password_form.html:21
-#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_detail.html:17
 #: templates/userena/profile_form.html:14
 msgid "Change password"
 msgstr "更改密码"
 
-#: templates/userena/email_form.html:12
-#: templates/userena/email_form.html:19
+#: templates/userena/email_form.html:12 templates/userena/email_form.html:19
 #: templates/userena/password_form.html:14
-#: templates/userena/profile_detail.html:17
+#: templates/userena/profile_detail.html:18
 #: templates/userena/profile_form.html:15
 msgid "Change email"
 msgstr "更改邮箱"
@@ -509,9 +514,10 @@ msgstr "重设密码"
 msgid "Your password has been reset"
 msgstr "你的密码已经重设"
 
-#: templates/userena/password_reset_complete.html:7
+#: templates/userena/password_reset_complete.html:8
 #, python-format
-msgid "You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
 msgstr "你可以用新密码<a href=\"%(signin_url)s\">登录</a>了。"
 
 #: templates/userena/password_reset_confirm_form.html:4
@@ -531,7 +537,8 @@ msgid "Password reset email sent"
 msgstr "密码重设信件已经发送"
 
 #: templates/userena/password_reset_done.html:8
-msgid "An e-mail has been sent to you which explains how to reset your password."
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
 msgstr "已经发给你一封解释如何重设密码的邮件。"
 
 #: templates/userena/password_reset_form.html:13
@@ -543,31 +550,31 @@ msgstr "发送密码"
 msgid "%(username)s's profile."
 msgstr "%(username)s 的资料"
 
-#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_detail.html:16
 msgid "Edit details"
 msgstr "编辑详细信息"
 
-#: templates/userena/profile_detail.html:22
+#: templates/userena/profile_detail.html:26
 msgid "Your mugshot"
 msgstr "你的头像"
 
-#: templates/userena/profile_detail.html:24
+#: templates/userena/profile_detail.html:30
 msgid "Name"
 msgstr "名称"
 
-#: templates/userena/profile_detail.html:30
+#: templates/userena/profile_detail.html:38
 msgid "Age"
 msgstr "年龄"
 
-#: templates/userena/profile_detail.html:33
+#: templates/userena/profile_detail.html:42
 msgid "Website"
 msgstr "网站"
 
-#: templates/userena/profile_detail.html:36
+#: templates/userena/profile_detail.html:46
 msgid "Location"
 msgstr "位置"
 
-#: templates/userena/profile_detail.html:39
+#: templates/userena/profile_detail.html:50
 msgid "About me"
 msgstr "关于我"
 
@@ -606,8 +613,7 @@ msgstr ""
 msgid "next"
 msgstr "下一页"
 
-#: templates/userena/signin_form.html:4
-#: templates/userena/signin_form.html:10
+#: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
 #: templates/userena/signin_form.html:28
 msgid "Signin"
 msgstr "登录"
@@ -633,9 +639,8 @@ msgid "Signup almost done!"
 msgstr "注册快要完成了！"
 
 #: templates/userena/signup_complete.html:6
-#: templates/userena/signup_form.html:4
-#: templates/userena/signup_form.html:10
-#: templates/userena/signup_form.html:27
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:28
 msgid "Signup"
 msgstr "注册"
 
@@ -644,45 +649,124 @@ msgid "Thank you for signing up with us!"
 msgstr "感谢您的注册！"
 
 #: templates/userena/signup_complete.html:12
-msgid "You have been sent an e-mail with an activation link to the supplied email."
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
 msgstr "已经发送给你一封包含激活链接的邮件。"
 
 #: templates/userena/signup_complete.html:13
 #, python-format
-msgid "We will store your signup information for %(userena_activation_days)s days on our server. "
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
 msgstr "我们会在服务器上保存帐号激活信息 %(userena_activation_days)s 天。"
 
 #: templates/userena/signup_complete.html:15
 msgid "You can now use the supplied credentials to signin."
 msgstr "现在可以用你的身份登录了。"
 
-#: tests/profile.py:6
-#: tests/profiles/models.py:12
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+msgid "Dear %(username)s,"
+msgstr "%(username)s 您好,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+msgid "Thank you for signing up at %(site)s."
+msgstr "感谢您的注册 %(site)s ！"
+
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "您需要点击下面的链接来激活您的帐号："
+
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.txt:12
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "感谢您使用我们的站点！"
+
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.txt:14
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "谢谢"
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "欢迎加入 %(site)s"
+
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr "您申请修改 %(site)s 的邮件地址。"
+
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr "请点击下面的链接确认该邮件地址："
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr "这里有一个修改您在 %(site)s 邮件地址的申请。"
+
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr "新邮件地址的激活邮件已经发送到了 %(new_email)s, 请点击邮件中的链接完成新邮件地址的激活。"
+
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+msgid "Email verification for %(site)s."
+msgstr "%(site)s 邮件地址校验"
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr "%(site)s 邮件地址修改申请"
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr "您收到这封邮件，是因为您申请了修改您在 %(site_name)s 的帐号密码。"
+
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "请进入下面的页面，并设置一个新的登录密码："
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"您的用户名是：%(username)s\n"
+
+#: tests/profile.py:6 tests/profiles/models.py:12
 msgid "Male"
 msgstr "男性"
 
-#: tests/profile.py:7
-#: tests/profiles/models.py:13
+#: tests/profile.py:7 tests/profiles/models.py:13
 msgid "Female"
 msgstr "女性"
 
-#: tests/profile.py:9
-#: tests/profiles/models.py:21
+#: tests/profile.py:9 tests/profiles/models.py:21
 msgid "gender"
 msgstr "性别"
 
-#: tests/profile.py:13
-#: tests/profiles/models.py:25
+#: tests/profile.py:13 tests/profiles/models.py:25
 msgid "website"
 msgstr "网站"
 
-#: tests/profile.py:14
-#: tests/profiles/models.py:26
+#: tests/profile.py:14 tests/profiles/models.py:26
 msgid "location"
 msgstr "位置"
 
-#: tests/profile.py:15
-#: tests/profiles/models.py:27
+#: tests/profile.py:15 tests/profiles/models.py:27
 msgid "about me"
 msgstr "关于我"
-
