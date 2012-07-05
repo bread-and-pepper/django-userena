@@ -80,7 +80,7 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['password1'])
 
         new_user = UserenaSignup.objects.create_user(username,
-                                                     email, 
+                                                     email,
                                                      password,
                                                      not userena_settings.USERENA_ACTIVATION_REQUIRED,
                                                      userena_settings.USERENA_ACTIVATION_REQUIRED)
@@ -128,7 +128,7 @@ def identification_field_factory(label, error_required):
         String containing the error message if the field is left empty.
 
     """
-    return forms.CharField(label=_("%(label)s") % {'label': label},
+    return forms.CharField(label=label,
                            widget=forms.TextInput(attrs=attrs_dict),
                            max_length=75,
                            error_messages={'required': _("%(error)s") % {'error': error_required}})
