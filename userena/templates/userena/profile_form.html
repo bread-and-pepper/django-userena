@@ -1,5 +1,6 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
+{% load url from future %}
 
 {% block title %}{% trans "Account setup" %}{% endblock %}
 
@@ -9,10 +10,10 @@
 
 <form action="" enctype="multipart/form-data" method="post">
   <ul id="box-nav">
-    <li class="first"><a href='{% url userena_profile_detail user.username %}'><span>{% trans 'View profile' %}</span></a></li>
-    <li class="selected"><a href='{% url userena_profile_edit user.username %}'>{% trans "Edit profile" %}</a></li>
-    <li><a href='{% url userena_password_change user.username %}'>{% trans "Change password" %}</a></li>
-    <li class="last"><a href='{% url userena_email_change user.username %}'>{% trans "Change email" %}</a></li>
+    <li class="first"><a href="{% url 'userena_profile_detail' user.username %}"><span>{% trans 'View profile' %}</span></a></li>
+    <li class="selected"><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Edit profile" %}</a></li>
+    <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Change password" %}</a></li>
+    <li class="last"><a href="{% url 'userena_email_change' user.username %}">{% trans "Change email" %}</a></li>
   </ul>
   {% csrf_token %}
   <fieldset>
