@@ -1,5 +1,6 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
+{% load url from future %}
 
 {% block content_title %}<h2>{% trans 'Profiles' %}</h2>{% endblock %}
 
@@ -7,8 +8,8 @@
 <ul id="profile_list">
   {% for profile in profile_list %}
   <li>
-  <a href='{% url userena_profile_detail profile.user.username %}'><img src="{{ profile.get_mugshot_url }}" /></a>
-  <a href='{% url userena_profile_detail profile.user.username %}'>{{ profile.user.username }}</a>
+  <a href="{% url 'userena_profile_detail' profile.user.username %}"><img src="{{ profile.get_mugshot_url }}" /></a>
+  <a href="{% url 'userena_profile_detail' profile.user.username %}">{{ profile.user.username }}</a>
   </li>
   {% endfor %}
 
@@ -18,7 +19,7 @@
 <div class="pagination">
   <span class="step-links">
     {% if page_obj.has_previous %}
-    <a href="{% url userena_profile_list_paginated page_obj.previous_page_number %}">{% trans 'previous' %}</a>
+    <a href="{% url 'userena_profile_list_paginated' page_obj.previous_page_number %}">{% trans 'previous' %}</a>
     {% endif %}
 
     <span class="current">
@@ -28,7 +29,7 @@
     </span>
 
     {% if page_obj.has_next %}
-    <a href='{% url userena_profile_list_paginated  page_obj.next_page_number %}'>{% trans 'next' %}</a>
+    <a href="{% url 'userena_profile_list_paginated'  page_obj.next_page_number %}">{% trans 'next' %}</a>
     {% endif %}
   </span>
 </div>

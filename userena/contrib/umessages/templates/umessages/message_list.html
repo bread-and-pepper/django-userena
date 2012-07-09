@@ -1,20 +1,21 @@
 {% extends 'umessages/base_message.html' %}
 {% load i18n umessages_tags %}
+{% load url from future %}
 
 {% block content_title %}<h2>{% trans "Messages" %}</h2>{% endblock %}
 
 {% block content %}
 {% get_unread_message_count_for user as unread_message_count %}
 {% blocktrans %}{{ unread_message_count }} new messages.{% endblocktrans %}
-<a href="{% url userena_umessages_compose %}">{% trans "Compose" %}</a>
+<a href="{% url 'userena_umessages_compose' %}">{% trans "Compose" %}</a>
 <ul>
   {% for message in message_list %}
   <li>
   {% if message.from_user == user %}
-  <a href="{% url userena_umessages_detail message.to_user.username %}">{{ message.to_user }}</a>
+  <a href="{% url 'userena_umessages_detail' message.to_user.username %}">{{ message.to_user }}</a>
   {% get_unread_message_count_between user and message.to_user as unread_between_count %}
   {% else %}
-  <a href="{% url userena_umessages_detail message.from_user.username %}">{{ message.from_user }}</a>
+  <a href="{% url 'userena_umessages_detail' message.from_user.username %}">{{ message.from_user }}</a>
   {% get_unread_message_count_between user and message.from_user as unread_between_count %}
   {% endif %}
   {% blocktrans with message.latest_message as latest_message %}{{ latest_message }} ({{ unread_between_count }} new){% endblocktrans %}
