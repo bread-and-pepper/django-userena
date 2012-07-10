@@ -536,8 +536,8 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
         ``userena/edit_profile_form.html``.
 
     :param success_url:
-        Named URL which be passed on to a django ``reverse`` function after the
-        form is successfully saved. Defaults to the ``userena_detail`` url.
+        Named URL which will be passed on to a django ``reverse`` function after
+        the form is successfully saved. Defaults to the ``userena_detail`` url.
 
     :param extra_context:
         Dictionary containing variables that are passed on to the
