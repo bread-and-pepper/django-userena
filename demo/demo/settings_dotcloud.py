@@ -2,7 +2,7 @@ from settings import *
 
 import json
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 with open('/home/dotcloud/environment.json') as f:
     env = json.load(f)
