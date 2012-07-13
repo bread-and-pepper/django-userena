@@ -1,5 +1,5 @@
 # Django
-http://www.djangoproject.com/download/1.3.1/tarball/
+Django==1.4
 
 # Imaging library needed for easy_thumbnails
 http://effbot.org/downloads/Imaging-1.1.7.tar.gz
@@ -12,3 +12,6 @@ django-guardian
 
 # Django-south for migrations
 South
+
+# Userena
+django-userena

@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -10,7 +10,7 @@
     <meta name="keywords" content="accounts, django, bread and pepper, open source" />
     <meta name="author" content="Bread and Pepper" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/master.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/master.css" %}" />
     <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>

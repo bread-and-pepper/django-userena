@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# This script is to setup userena on dotcloud
+python createdb.py
+python superuser.py
+python manage.py syncdb --settings=demo.settings_dotcloud --noinput
+python manage.py migrate --settings=demo.settings_dotcloud
+mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static
+python manage.py collectstatic --settings=demo.settings_dotcloud --noinput
