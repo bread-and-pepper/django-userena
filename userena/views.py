@@ -38,7 +38,7 @@ class ExtraContextTemplateView(TemplateView):
 
     # this view is used in POST requests, e.g. signup when the form is not valid
     post = TemplateView.get
-        
+
 class ProfileListView(ListView):
     """ Lists all profiles """
     context_object_name='profile_list'
@@ -46,7 +46,7 @@ class ProfileListView(ListView):
     paginate_by=50
     template_name='userena/profile_list.html'
     extra_context=None
-    
+
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(ProfileListView, self).get_context_data(**kwargs)
@@ -54,24 +54,24 @@ class ProfileListView(ListView):
             page = int(self.request.GET.get('page', None))
         except (TypeError, ValueError):
             page = self.page
-    
+
         if userena_settings.USERENA_DISABLE_PROFILE_LIST \
            and not self.request.user.is_staff:
             raise Http404
-        
+
         if not self.extra_context: self.extra_context = dict()
-        
+
         context['page'] = page
         context['paginate_by'] = self.paginate_by
         context['extra_context'] = self.extra_context
-        
+
         return context
-    
+
     def get_queryset(self):
         profile_model = get_profile_model()
         queryset = profile_model.objects.get_visible_profiles(self.request.user)
-        return queryset      
-        
+        return queryset
+
 @secure_required
 def signup(request, signup_form=SignupForm,
            template_name='userena/signup_form.html', success_url=None,
@@ -93,7 +93,7 @@ def signup(request, signup_form=SignupForm,
 
     :param success_url:
         String containing the URI which should be redirected to after a
-        successfull signup. If not supplied will redirect to
+        successful signup. If not supplied will redirect to
         ``userena_signup_complete`` view.
 
     :param extra_context:
@@ -147,8 +147,8 @@ def activate(request, activation_key,
 
     The key is a SHA1 string. When the SHA1 is found with an
     :class:`UserenaSignup`, the :class:`User` of that account will be
-    activated.  After a successfull activation the view will redirect to
-    ``succes_url``.  If the SHA1 is not found, the user will be shown the
+    activated.  After a successful activation the view will redirect to
+    ``success_url``.  If the SHA1 is not found, the user will be shown the
     ``template_name`` template displaying a fail message.
 
     :param activation_key:
@@ -158,12 +158,12 @@ def activate(request, activation_key,
 
     :param template_name:
         String containing the template name that is used when the
-        ``activation_key`` is invalid and the activation failes. Defaults to
+        ``activation_key`` is invalid and the activation fails. Defaults to
         ``userena/activation_fail.html``.
 
     :param success_url:
         String containing the URL where the user should be redirected to after
-        a succesfull activation. Will replace ``%(username)s`` with string
+        a successful activation. Will replace ``%(username)s`` with string
         formatting if supplied. If ``success_url`` is left empty, will direct
         to ``userena_profile_detail`` view.
 
@@ -211,11 +211,11 @@ def email_confirm(request, confirmation_key,
 
     :param template_name:
         String containing the template name which should be rendered when
-        confirmation fails. When confirmation is succesfull, no template is
+        confirmation fails. When confirmation is successful, no template is
         needed because the user will be redirected to ``success_url``.
 
     :param success_url:
-        String containing the URL which is redirected to after a succesfull
+        String containing the URL which is redirected to after a successful
         confirmation.  Supplied argument must be able to be rendered by
         ``reverse`` function.
 
@@ -287,7 +287,7 @@ def signin(request, auth_form=AuthenticationForm,
     Signs a user in by combining email/username with password. If the
     combination is correct and the user :func:`is_active` the
     :func:`redirect_signin_function` is called with the arguments
-    ``REDIRECT_FIELD_NAME`` and an instance of the :class:`User` whois is
+    ``REDIRECT_FIELD_NAME`` and an instance of the :class:`User` who is is
     trying the login. The returned value of the function will be the URL that
     is redirected to.
 
@@ -303,7 +303,7 @@ def signin(request, auth_form=AuthenticationForm,
 
     :param redirect_field_name:
         Form field name which contains the value for a redirect to the
-        successing page. Defaults to ``next`` and is set in
+        succeeding page. Defaults to ``next`` and is set in
         ``REDIRECT_FIELD_NAME`` setting.
 
     :param redirect_signin_function:
@@ -358,7 +358,7 @@ def signin(request, auth_form=AuthenticationForm,
                                             extra_context=extra_context)(request)
 
 @secure_required
-def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT, 
+def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT,
             template_name='userena/signout.html', *args, **kwargs):
     """
     Signs out the user and adds a success message ``You have been signed
@@ -397,8 +397,8 @@ def email_change(request, username, email_form=ChangeEmailForm,
         Defaults to ``userena/email_form.html``.
 
     :param success_url:
-        Named URL where the user will get redirected to when succesfully
-        changing their email address.  When not suplied will redirect to
+        Named URL where the user will get redirected to when successfully
+        changing their email address.  When not supplied will redirect to
         ``userena_email_complete`` URL.
 
     :param extra_context:
@@ -453,7 +453,7 @@ def password_change(request, username, template_name='userena/password_form.html
     This view is almost a mirror of the view supplied in
     :func:`contrib.auth.views.password_change`, with the minor change that in
     this view we also use the username to change the password. This was needed
-    to keep our URLs logical (and REST) accross the entire application. And
+    to keep our URLs logical (and REST) across the entire application. And
     that in a later stadium administrators can also change the users password
     through the web application itself.
 
@@ -475,7 +475,7 @@ def password_change(request, username, template_name='userena/password_form.html
         ``userena_password_complete`` URL.
 
     :param extra_context:
-        Dictionary of extra variables that are passed on the the template. The
+        Dictionary of extra variables that are passed on to the template. The
         ``form`` key is always used by the form supplied by ``pass_form``.
 
     **Context**
@@ -518,7 +518,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
 
     Edits a profile selected by the supplied username. First checks
     permissions if the user is allowed to edit this profile, if denied will
-    show a 404. When the profile is succesfully edited will redirect to
+    show a 404. When the profile is successfully edited will redirect to
     ``success_url``.
 
     :param username:
