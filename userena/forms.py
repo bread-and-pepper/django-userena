@@ -19,8 +19,7 @@ class SignupForm(forms.Form):
     Form for creating a new user account.
 
     Validates that the requested username and e-mail is not already in use.
-    Also requires the password to be entered twice and the Terms of Service to
-    be accepted.
+    Also requires the password to be entered twice.
 
     """
     username = forms.RegexField(regex=USERNAME_RE,
