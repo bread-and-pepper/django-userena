@@ -321,7 +321,7 @@ msgstr "μηνύματα"
 
 #: contrib/umessages/views.py:179
 msgid "Message is sent."
-msgstr "Το μήνυμα εστάλει."
+msgstr "Το μήνυμα απεστάλη."
 
 #: contrib/umessages/views.py:263
 msgid "Message is succesfully restored."
