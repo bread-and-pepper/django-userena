@@ -31,6 +31,7 @@ LANGUAGES = (
     ('pt', ugettext('Portugese')),
     ('pt-br', ugettext('Brazilian Portuguese')),
     ('es', ugettext('Spanish')),
+    ('el', ugettext('Greek')),
 )
 LOCALE_PATHS = (
     os.path.join(PROJECT_ROOT, 'locale'),
