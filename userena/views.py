@@ -321,7 +321,7 @@ def signin(request, auth_form=AuthenticationForm,
         Form used for authentication supplied by ``auth_form``.
 
     """
-    form = auth_form
+    form = auth_form()
 
     if request.method == 'POST':
         form = auth_form(request.POST, request.FILES)
