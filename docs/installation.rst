@@ -201,7 +201,7 @@ Django-guardian requires you to set the ``ANONYMOUS_USER_ID`` setting. I always
 set this to ``-1``. As noted before, you are also required to set the
 ``AUTH_PROFILE_MODULE`` to your custom defined profile.
 
-For examples, add the following into your settings.py file:
+For example, add the following into your settings.py file:
 
 .. code-block:: python
 
