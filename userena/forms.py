@@ -49,6 +49,8 @@ class SignupForm(forms.Form):
         except User.DoesNotExist:
             pass
         else:
+            if UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError(_('This username is already taken but not confirmed. Please check you email for verification steps.'))
             raise forms.ValidationError(_('This username is already taken.'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))
@@ -57,6 +59,8 @@ class SignupForm(forms.Form):
     def clean_email(self):
         """ Validate that the e-mail address is unique. """
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            if UserenaSignup.objects.filter(user__email__iexact=self.cleaned_data['email']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError(_('This email is already in use but not confirmed. Please check you email for verification steps.'))
             raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 
