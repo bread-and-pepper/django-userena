@@ -125,18 +125,18 @@ class UserenaSignup(models.Model):
                   'site': Site.objects.get_current()}
 
 
-        # Email to the old address
+        # Email to the old address, if present
         subject_old = render_to_string('userena/emails/confirmation_email_subject_old.txt',
                                        context)
         subject_old = ''.join(subject_old.splitlines())
 
         message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
                                        context)
-
-        send_mail(subject_old,
-                  message_old,
-                  settings.DEFAULT_FROM_EMAIL,
-                  [self.user.email])
+        if self.user.email:
+            send_mail(subject_old,
+                      message_old,
+                      settings.DEFAULT_FROM_EMAIL,
+                    [self.user.email])
 
         # Email to the new address
         subject_new = render_to_string('userena/emails/confirmation_email_subject_new.txt',
