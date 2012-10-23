@@ -47,7 +47,7 @@ class UserenaManager(UserManager):
             on a link in an e-mail. Defaults to ``False``.
 
         :param send_email:
-            Boolean that defines if the user should be send an email. You could
+            Boolean that defines if the user should be sent an email. You could
             set this to ``False`` when you want to create a user in your own
             code, but don't want the user to activate through email.
 
