@@ -584,8 +584,7 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
     extra_context['profile'] = profile
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
-def profile_detail(
-    request, username,
+def profile_detail(request, username,
     template_name=userena_settings.USERENA_PROFILE_DETAIL_TEMPLATE,
     extra_context=None, **kwargs):
     """
@@ -610,7 +609,13 @@ def profile_detail(
     """
     user = get_object_or_404(User,
                              username__iexact=username)
-    profile = user.get_profile()
+
+    profile_model = get_profile_model()
+    try:
+        profile = user.get_profile()
+    except profile_model.DoesNotExist:
+        profile = profile_model.create(user=user)
+
     if not profile.can_view_profile(request.user):
         return HttpResponseForbidden(_("You don't have permission to view this profile."))
     if not extra_context: extra_context = dict()
