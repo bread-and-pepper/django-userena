@@ -44,7 +44,7 @@ class ProfileListView(ListView):
     context_object_name='profile_list'
     page=1
     paginate_by=50
-    template_name='userena/profile_list.html'
+    template_name=userena_settings.USERENA_PROFILE_LIST_TEMPLATE
     extra_context=None
 
     def get_context_data(self, **kwargs):
