@@ -124,6 +124,20 @@ Default: ``mugshots/`` (string)
 The default path that the mugshots will be saved to. Is appended to the
 ``MEDIA_PATH`` in your Django settings.
 
+You can use the following options as arguments (f.ex. ``mugshots/%(username)s/``):
+
+``id``
+	User.id
+
+``username``
+	User.username
+
+``date``
+	User.date_joined
+
+``date_now``
+	Current date
+
 USERENA_USE_HTTPS
 ~~~~~~~~~~~~~~~~~
 Default: ``False`` (boolean)
