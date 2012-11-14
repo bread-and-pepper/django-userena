@@ -6,7 +6,6 @@ from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerImageField
 from guardian.shortcuts import get_perms
