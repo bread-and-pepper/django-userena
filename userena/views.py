@@ -146,6 +146,7 @@ def signup(request, signup_form=SignupForm,
 @secure_required
 def activate(request, activation_key,
              template_name='userena/activate_fail.html',
+             retry_template_name='userena/activate_retry.html',
              success_url=None, extra_context=None):
     """
     Activate a user with an activation key.
@@ -155,6 +156,8 @@ def activate(request, activation_key,
     activated.  After a successful activation the view will redirect to
     ``success_url``.  If the SHA1 is not found, the user will be shown the
     ``template_name`` template displaying a fail message.
+    If the SHA1 is found but expired, ``retry_template_name`` is used instead,
+    so the user can proceed to :func:`activate_retry` to get a new actvation key.
 
     :param activation_key:
         String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
@@ -164,7 +167,12 @@ def activate(request, activation_key,
     :param template_name:
         String containing the template name that is used when the
         ``activation_key`` is invalid and the activation fails. Defaults to
-        ``userena/activation_fail.html``.
+        ``userena/activate_fail.html``.
+
+    :param retry_template_name:
+        String containing the template name that is used when the
+        ``activation_key`` is expired. Defaults to
+        ``userena/activate_retry.html``.
 
     :param success_url:
         String containing the URL where the user should be redirected to after
@@ -177,25 +185,81 @@ def activate(request, activation_key,
         context. Default to an empty dictionary.
 
     """
-    user = UserenaSignup.objects.activate_user(activation_key)
-    if user:
-        # Sign the user in.
-        auth_user = authenticate(identification=user.email,
-                                 check_password=False)
-        login(request, auth_user)
+    try:
+        if (not UserenaSignup.objects.check_expired_activation(activation_key)
+            or not userena_settings.USERENA_ACTIVATION_RETRY):
+            user = UserenaSignup.objects.activate_user(activation_key)
+            if user:
+                # Sign the user in.
+                auth_user = authenticate(identification=user.email,
+                                         check_password=False)
+                login(request, auth_user)
 
-        if userena_settings.USERENA_USE_MESSAGES:
-            messages.success(request, _('Your account has been activated and you have been signed in.'),
-                             fail_silently=True)
+                if userena_settings.USERENA_USE_MESSAGES:
+                    messages.success(request, _('Your account has been activated and you have been signed in.'),
+                                     fail_silently=True)
 
-        if success_url: redirect_to = success_url % {'username': user.username }
-        else: redirect_to = reverse('userena_profile_detail',
-                                    kwargs={'username': user.username})
-        return redirect(redirect_to)
-    else:
+                if success_url: redirect_to = success_url % {'username': user.username }
+                else: redirect_to = reverse('userena_profile_detail',
+                                            kwargs={'username': user.username})
+                return redirect(redirect_to)
+            else:
+                if not extra_context: extra_context = dict()
+                return ExtraContextTemplateView.as_view(template_name=template_name,
+                                                        extra_context=extra_context)(
+                                        request)
+        else:
+            if not extra_context: extra_context = dict()
+            extra_context['activation_key'] = activation_key
+            return ExtraContextTemplateView.as_view(template_name=retry_template_name,
+                                                extra_context=extra_context)(request)
+    except UserenaSignup.DoesNotExist,e:
         if not extra_context: extra_context = dict()
         return ExtraContextTemplateView.as_view(template_name=template_name,
-                                            extra_context=extra_context)(request)
+                                                extra_context=extra_context)(request)
+
+@secure_required
+def activate_retry(request, activation_key,
+                   template_name='userena/activate_retry_success.html',
+                   extra_context=None):
+    """
+    Reissue a new ``activation_key`` for the user with the expired
+    ``activation_key``.
+
+    If ``activation_key`` does not exists, or ``USERENA_ACTIVATION_RETRY`` is
+    set to False and for any other error condition user is redirected to
+    :func:`activate` for error message display.
+
+    :param activation_key:
+        String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
+        long, with 4 bits per character this makes it --160/4-- 40 characters
+        long.
+
+    :param template_name:
+        String containing the template name that is used when new
+        ``activation_key`` has been created. Defaults to
+        ``userena/activate_retry_success.html``.
+
+    :param extra_context:
+        Dictionary containing variables which could be added to the template
+        context. Default to an empty dictionary.
+
+    """
+    if not userena_settings.USERENA_ACTIVATION_RETRY:
+        return redirect(reverse('userena_activate', args=(activation_key,)))
+    try:
+        if UserenaSignup.objects.check_expired_activation(activation_key):
+            new_key = UserenaSignup.objects.reissue_activation(activation_key)
+            if new_key:
+                if not extra_context: extra_context = dict()
+                return ExtraContextTemplateView.as_view(template_name=template_name,
+                                                    extra_context=extra_context)(request)
+            else:
+                return redirect(reverse('userena_activate',args=(activation_key,)))
+        else:
+            return redirect(reverse('userena_activate',args=(activation_key,)))
+    except UserenaSignup.DoesNotExist:
+        return redirect(reverse('userena_activate',args=(activation_key,)))
 
 @secure_required
 def email_confirm(request, confirmation_key,

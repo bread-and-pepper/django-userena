@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
+from django.test.utils import override_settings
 
 from userena import forms
 from userena import settings as userena_settings
@@ -32,6 +34,65 @@ class UserenaViewsTests(ProfileTestCase):
 
         user = User.objects.get(email='alice@example.com')
         self.failUnless(user.is_active)
+
+    def test_activation_expired_retry(self):
+        """ A ``GET`` to the activation view when activation link is expired """
+        # First, register an account.
+        userena_settings.USERENA_ACTIVATION_RETRY = True
+        self.client.post(reverse('userena_signup'),
+                         data={'username': 'alice',
+                               'email': 'alice@example.com',
+                               'password1': 'swordfish',
+                               'password2': 'swordfish',
+                               'tos': 'on'})
+        user = User.objects.get(email='alice@example.com')
+        user.date_joined = datetime.today() - timedelta(days=30)
+        user.save()
+        response = self.client.get(reverse('userena_activate',
+                                           kwargs={'activation_key': user.userena_signup.activation_key}))
+        self.assertContains(response, "Request a new activation link")
+
+        user = User.objects.get(email='alice@example.com')
+        self.failUnless(not user.is_active)
+        userena_settings.USERENA_ACTIVATION_RETRY = False
+
+    def test_retry_activation_ask(self):
+        """ Ask for a new activation link """
+        # First, register an account.
+        userena_settings.USERENA_ACTIVATION_RETRY = True
+        self.client.post(reverse('userena_signup'),
+                         data={'username': 'alice',
+                               'email': 'alice@example.com',
+                               'password1': 'swordfish',
+                               'password2': 'swordfish',
+                               'tos': 'on'})
+        user = User.objects.get(email='alice@example.com')
+        user.date_joined = datetime.today() - timedelta(days=30)
+        user.save()
+        old_key = user.userena_signup.activation_key
+        response = self.client.get(reverse('userena_activate_retry',
+                                           kwargs={'activation_key': old_key}))
+
+        # We must reload the object from database to get the new key
+        user = User.objects.get(email='alice@example.com')
+        self.assertContains(response, "Account re-activation succeded")
+
+        self.failIfEqual(old_key, user.userena_signup.activation_key)
+        user = User.objects.get(email='alice@example.com')
+        self.failUnless(not user.is_active)
+
+        self.failUnlessEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[1].to, ['alice@example.com'])
+        self.assertTrue(mail.outbox[1].body.find("activate your account ")>-1)
+
+        response = self.client.get(reverse('userena_activate',
+                                           kwargs={'activation_key': user.userena_signup.activation_key}))
+        self.assertRedirects(response,
+                             reverse('userena_profile_detail', kwargs={'username': user.username}))
+
+        user = User.objects.get(email='alice@example.com')
+        self.failUnless(user.is_active)
+        userena_settings.USERENA_ACTIVATION_RETRY = False
 
     def test_invalid_activation(self):
         """
