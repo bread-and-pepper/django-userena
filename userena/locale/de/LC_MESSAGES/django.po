@@ -84,7 +84,7 @@ msgstr "Passwort"
 #: forms.py:147
 #, python-format
 msgid "Remember me for %(days)s"
-msgstr "Erinnere mich für %(days)s"
+msgstr "%(days)s lang angemeldet bleiben"
 
 #: forms.py:154
 msgid "Please supply your email."
@@ -156,7 +156,7 @@ msgstr "unbestätigter E-Mail-Verifizierungsschlüssel"
 
 #: models.py:70
 msgid "creation date of email confirmation key"
-msgstr "Erstellungsdatum des E-Mail-Verifizierungsschlüssel"
+msgstr "Erstellungsdatum des E-Mail-Verifizierungsschlüssels"
 
 #: models.py:78
 msgid "userena registration"
@@ -605,7 +605,7 @@ msgstr "Sie haben sich abgemeldet. Bis zum nächsten Mal."
 
 #: templates/userena/signup_complete.html:4
 msgid "Signup almost done!"
-msgstr "Regsitrierung fast geschafft!"
+msgstr "Registrierung fast geschafft!"
 
 #: templates/userena/signup_complete.html:6
 #: templates/userena/signup_form.html:4
@@ -624,7 +624,7 @@ msgstr "Ihnen wurde eine E-Mail mit einem Aktivierungslink geschickt."
 #: templates/userena/signup_complete.html:13
 #, python-format
 msgid "We will store your signup information for %(userena_activation_days)s days on our server. "
-msgstr "Ihre Regsitrierungsinformationen werden für %(userena_activation_days)s bei uns gespeichert."
+msgstr "Ihre Registrierungsinformationen werden für %(userena_activation_days)s Tage bei uns gespeichert."
 
 #: templates/userena/signup_complete.html:15
 msgid "You can now use the supplied credentials to signin."
