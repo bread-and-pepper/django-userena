@@ -1,13 +1,16 @@
 from django.conf import settings
-from django.utils.hashcompat import sha_constructor
 from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import get_model
+
+try:
+    from hashlib import sha1 as sha_constructor, md5 as md5_constructor
+except ImportError:
+    from django.utils.hashcompat import sha_constructor, md5_constructor
 
 from userena import settings as userena_settings
 
 import urllib, random, datetime
 
-from django.utils.hashcompat import md5_constructor
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a Gravatar for a email address.
