@@ -149,3 +149,6 @@ LOGGING = {
 
 # Needed for Django guardian
 ANONYMOUS_USER_ID = -1
+
+# Test runner
+TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'

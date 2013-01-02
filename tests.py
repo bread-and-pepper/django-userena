@@ -5,8 +5,10 @@ python setup.py test
 import os
 import sys
 
-os.environ["DJANGO_SETTINGS_MODULE"] = 'demo_project.settings'
-from demo_project import settings
+# Insert demo at the syspath
+sys.path.append("demo")
+from demo import settings
+os.environ["DJANGO_SETTINGS_MODULE"] = 'demo.settings'
 
 settings.INSTALLED_APPS = (
     'django.contrib.auth',
@@ -14,7 +16,7 @@ settings.INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.admin',
     'django.contrib.sites',
-    'demo_project.profiles',
+    'profiles',
     'guardian',
     'userena',
     'userena.contrib.umessages',
