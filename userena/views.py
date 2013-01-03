@@ -132,9 +132,9 @@ def signup(request, signup_form=SignupForm,
             if request.user.is_authenticated():
                 logout(request)
 
-            if settings.USERENA_SIGNIN_AFTER_SIGNUP \
-            and not settings.USERENA_ACTIVATION_REQUIRED: 
-                user = authenticate(username=user.username, password=request.POST['password1'])
+            if (userena_settings.USERENA_SIGNIN_AFTER_SIGNUP and
+                not userena_settings.USERENA_ACTIVATION_REQUIRED):
+                user = authenticate(identification=user.email, check_password=False)
                 login(request, user)
 
             return redirect(redirect_to)
