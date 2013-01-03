@@ -128,6 +128,47 @@ class UserenaViewsTests(ProfileTestCase):
         # Check for new user.
         self.assertEqual(User.objects.filter(email__iexact='alice@example.com').count(), 1)
 
+    def test_signup_view_with_signin(self):
+        """
+        After a ``POST`` to the ``signup`` view a new user should be created,
+        the user should be logged in and redirected to the signup success page.
+
+        """
+        # If activation is required, user is not logged in after signup,
+        # disregarding USERENA_SIGNIN_AFTER_SIGNUP setting
+        userena_settings.USERENA_SIGNIN_AFTER_SIGNUP = True
+        userena_settings.USERENA_ACTIVATION_REQUIRED = True
+        response = self.client.post(reverse('userena_signup'),
+                                    data={'username': 'alice',
+                                          'email': 'alice@example.com',
+                                          'password1': 'blueberry',
+                                          'password2': 'blueberry',
+                                          'tos': 'on'})
+        # Immediate reset to default to avoid leaks
+        userena_settings.USERENA_SIGNIN_AFTER_SIGNUP = False
+        userena_settings.USERENA_ACTIVATION_REQUIRED = True
+
+        response_check = self.client.get(reverse('userena_profile_edit',
+                                                 kwargs={'username': 'alice'}))
+        self.assertEqual(response_check.status_code, 403)
+
+        userena_settings.USERENA_SIGNIN_AFTER_SIGNUP = True
+        userena_settings.USERENA_ACTIVATION_REQUIRED = False
+        response = self.client.post(reverse('userena_signup'),
+                                    data={'username': 'johndoe',
+                                          'email': 'johndoe@example.com',
+                                          'password1': 'blueberry',
+                                          'password2': 'blueberry',
+                                          'tos': 'on'})
+        # Immediate reset to default to avoid leaks
+        userena_settings.USERENA_SIGNIN_AFTER_SIGNUP = False
+        userena_settings.USERENA_ACTIVATION_REQUIRED = True
+
+        # Kind of hackish way to check if the user is logged in
+        response_check = self.client.get(reverse('userena_profile_edit',
+                                           kwargs={'username': 'johndoe'}))
+        self.assertEqual(response_check.status_code, 200)
+
     def test_signin_view(self):
         """ A ``GET`` to the signin view should render the correct form """
         response = self.client.get(reverse('userena_signin'))
