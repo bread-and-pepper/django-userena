@@ -131,6 +131,12 @@ def signup(request, signup_form=SignupForm,
             # A new signed user should logout the old one.
             if request.user.is_authenticated():
                 logout(request)
+
+            if settings.USERENA_SIGNIN_AFTER_SIGNUP \
+            and not settings.USERENA_ACTIVATION_REQUIRED: 
+                user = authenticate(username=user.username, password=request.POST['password1'])
+                login(request, user)
+
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()

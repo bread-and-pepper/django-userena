@@ -10,6 +10,21 @@ Userena.
 Userena settings
 ----------------
 
+USERENA_SIGNIN_AFTER_SIGNUP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default ``False`` (integer)
+
+Boolean that defines if a user should be logged in after a successful sign up.
+
+If True, USERENA_ACTIVATION_REQUIRED must be False for the sign-in to happen.
+
+Note that USERENA_SIGNIN_REDIRECT_URL will not be respected for the automatic sign-in.
+The user will be redirect to the value of 'success_url' in userena.views.signup.
+
+You can override 'success_url' in your urls.py. See the "How do I add extra fields to forms?"
+example in the FAQ, where the 'signup_form' variable is overridden.
+
+
 USERENA_SIGNIN_REDIRECT_URL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default ``/accounts/%(username)s/'`` (string)
