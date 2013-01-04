@@ -36,8 +36,6 @@ def send_mail(subject, message_plain, message_html, email_from, email_to,
     if not message_plain:
         message_plain = html2text(message_html)
 
-    content_html = message_html
-
     message = {}
 
     message['subject'] = subject
@@ -50,8 +48,8 @@ def send_mail(subject, message_plain, message_html, email_from, email_to,
         message['headers'] = custom_headers
 
     msg = EmailMultiAlternatives(**message)
-    if content_html:
-        msg.attach_alternative(content_html, "text/html")
+    if message_html:
+        msg.attach_alternative(message_html, "text/html")
     msg.send()
 
 
