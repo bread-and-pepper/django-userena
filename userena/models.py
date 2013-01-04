@@ -130,18 +130,18 @@ class UserenaSignup(models.Model):
                                        context)
         subject_old = ''.join(subject_old.splitlines())
 
-        if (not userena_settings.USERENA_HTML_EMAIL or
-            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
-            message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
-                                       context)
-        else:
-            message_old = None
-
         if userena_settings.USERENA_HTML_EMAIL:
             message_old_html = render_to_string('userena/emails/confirmation_email_message_old.html',
                                                 context)
         else:
             message_old_html = None
+
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_old_html or
+            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
+            message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
+                                       context)
+        else:
+            message_old = None
 
         if self.user.email:
             send_mail(subject_old,
@@ -155,18 +155,18 @@ class UserenaSignup(models.Model):
                                        context)
         subject_new = ''.join(subject_new.splitlines())
 
-        if (not userena_settings.USERENA_HTML_EMAIL or
-            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
-            message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
-                                       context)
-        else:
-            message_new = None
-
         if userena_settings.USERENA_HTML_EMAIL:
             message_new_html = render_to_string('userena/emails/confirmation_email_message_new.html',
                                                 context)
         else:
             message_new_html = None
+
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_new_html or
+            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
+            message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
+                                       context)
+        else:
+            message_new = None
 
         send_mail(subject_new,
                   message_new,
@@ -214,19 +214,18 @@ class UserenaSignup(models.Model):
         subject = ''.join(subject.splitlines())
 
 
+        if userena_settings.USERENA_HTML_EMAIL:
+            message_html = render_to_string('userena/emails/activation_email_message.html',
+                                            context)
+        else:
+            message_html = None
 
-        if (not userena_settings.USERENA_HTML_EMAIL or
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_html or
             userena_settings.USERENA_USE_PLAIN_TEMPLATE):
             message = render_to_string('userena/emails/activation_email_message.txt',
                                    context)
         else:
             message = None
-
-        if userena_settings.USERENA_HTML_EMAIL:
-            message_html = render_to_string('userena/emails/activation_email_message.html',
-                                                context)
-        else:
-            message_html = None
 
         send_mail(subject,
                   message,
