@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from email.mime.text import MIMEText
-from django.core.mail import EmailMultiAlternatives
 import re
 from StringIO import StringIO
-from email.mime.multipart import MIMEMultipart
-from django.utils.encoding import smart_str
-from django.utils.encoding import smart_unicode
+
+from django.utils.translation import ugettext as _
+from django.core.mail import EmailMultiAlternatives
 
 from html2text import html2text as html2text_orig
 
@@ -33,6 +31,9 @@ def send_mail(subject, message_plain, message_html, email_from, email_to,
     a multipart alternative for text (plain, HTML) plus
     all the attached files.
     """
+    if not message_plain and not message_html:
+        raise ValueError(_("Either message_plain or message_html should be not None"))
+
     if not message_plain:
         message_plain = html2text(message_html)
 
