@@ -106,3 +106,7 @@ USERENA_PROFILE_LIST_TEMPLATE = getattr(
     settings, 'USERENA_PROFILE_LIST_TEMPLATE', 'userena/profile_list.html')
 
 USERENA_HIDE_EMAIL = getattr(settings, 'USERENA_HIDE_EMAIL', False)
+
+USERENA_HTML_EMAIL = getattr(settings, 'USERENA_HTML_EMAIL', False)
+
+USERENA_USE_PLAIN_TEMPLATE = getattr(settings, 'USERENA_USE_PLAIN_TEMPLATE', not USERENA_HTML_EMAIL)
