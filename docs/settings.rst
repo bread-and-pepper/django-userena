@@ -225,6 +225,20 @@ Default: ``False`` (boolean)
 
 Prevents email addresses from being displayed to other users if set to ``True``.
 
+USERENA_HTML_EMAIL
+~~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+If ``True`` multipart emails are generated using html templates.
+
+USERENA_USE_PLAIN_TEMPLATE
+~~~~~~~~~~~~~~~~~~
+Default: ``True`` (boolean)
+
+Uses a text template for plain text part (when ``USERENA_HTML_EMAIL = True``).
+When ``USERENA_HTML_EMAIL = False``, plain text templates are always used for
+emails even if ``USERENA_USE_PLAIN_TEMPLATE = False``.
+
 Django settings
 ---------------
 
