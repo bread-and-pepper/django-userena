@@ -1,4 +1,5 @@
 {% load i18n static %}
+{% load url from future %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -41,22 +42,22 @@
         </form>
       </div>
     </div>
-    <div id="container">	
+    <div id="container">
       <div id="header">
 
-        <h1><a href="{% url promo %}">django-userena</a></h1>
+        <h1><a href="{% url 'promo' %}">django-userena</a></h1>
 
         {% block nav %}
         <ul id="nav">
-          <li><a href="{% url promo %}"><span>{% trans 'Home' %}</span></a></li>
+          <li><a href="{% url 'promo' %}"><span>{% trans 'Home' %}</span></a></li>
           {% if user.is_authenticated %}
-          <li><a href="{% url userena_profile_list %}"><span>{% trans 'All profiles' %}</span></a></li>
-          <li><a href="{% url userena_umessages_list %}"><span>{% trans 'Messages' %}</span></a></li>
-          <li><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
-          <li><a href="{% url userena_signout %}"><span>{% trans 'Signout' %}</span></a></li>
+          <li><a href="{% url 'userena_profile_list' %}"><span>{% trans 'All profiles' %}</span></a></li>
+          <li><a href="{% url 'userena_umessages_list' %}"><span>{% trans 'Messages' %}</span></a></li>
+          <li><a href="{% url 'userena_profile_detail' user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
+          <li><a href="{% url 'userena_signout' %}"><span>{% trans 'Signout' %}</span></a></li>
           {% else %}
-          <li><a href="{% url userena_signin %}"><span>{% trans 'Signin' %}</span></a></li>
-          <li><a href="{% url userena_signup %}"><span>{% trans 'Signup' %}</span></a></li>
+          <li><a href="{% url 'userena_signin' %}"><span>{% trans 'Signin' %}</span></a></li>
+          <li><a href="{% url 'userena_signup' %}"><span>{% trans 'Signup' %}</span></a></li>
           {% endif %}
         </ul>
         {% endblock %}
