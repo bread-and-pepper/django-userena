@@ -3,7 +3,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from userena.compat import User
 from django.contrib.auth.views import logout as Signout
 from django.views.generic import TemplateView
 from django.template.context import RequestContext

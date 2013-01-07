@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from userena.compat import User
 from django.conf import settings
 from django.contrib.auth.models import SiteProfileNotAvailable
 

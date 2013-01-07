@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from wsgi import *
-from django.contrib.auth.models import User
+from userena.compat import User
 try:
     wunki = User.objects.get(username='wunki')
 except User.DoesNotExist:

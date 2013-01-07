@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.management import call_command
-from django.contrib.auth.models import User, Permission
+from userena.compat import User
+from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 
 from userena.models import UserenaSignup
@@ -111,10 +112,10 @@ class CheckPermissionTests(TestCase):
         # TODO: Dirty! Currently we check for the warning by getting a 100%
         # test coverage, meaning that it dit output some warning.
         user = UserenaSignup.objects.create_user(**self.user_info)
-        
+
         # remove the profile of this user
         get_profile_model().objects.get(user=user).delete()
-        
+
         # run the command to check for the warning.
         call_command('check_permissions', test=True)
-     
+

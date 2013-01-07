@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.contrib.auth.models import User
+from userena.compat import User
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.db import models

@@ -1,7 +1,7 @@
 from django.core.validators import email_re
 from django.contrib.auth.backends import ModelBackend
 
-from django.contrib.auth.models import User
+from userena.compat import User
 
 class UserenaAuthenticationBackend(ModelBackend):
     """

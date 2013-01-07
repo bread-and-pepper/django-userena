@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth.models import User, UserManager, Permission, AnonymousUser
+from userena.compat import User
+from django.contrib.auth.models import UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.conf import settings
@@ -43,7 +44,7 @@ class UserenaManager(UserManager):
             String containing the password for the new user.
 
         :param active:
-            Boolean that defines if the user requires activation by clicking 
+            Boolean that defines if the user requires activation by clicking
             on a link in an e-mail. Defaults to ``False``.
 
         :param send_email:
@@ -80,7 +81,7 @@ class UserenaManager(UserManager):
 
         if send_email:
             userena_profile.send_activation_email()
- 
+
         return new_user
 
     def create_userena_profile(self, user):
@@ -215,7 +216,7 @@ class UserenaManager(UserManager):
                                               codename=perm[0],
                                               content_type=model_content_type)
 
-        # it is safe to rely on settings.ANONYMOUS_USER_ID since it is a requirement of 
+        # it is safe to rely on settings.ANONYMOUS_USER_ID since it is a requirement of
         # django-guardian
         for user in User.objects.exclude(id=settings.ANONYMOUS_USER_ID):
             try:

@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User, AnonymousUser
+from userena.compat import User
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings

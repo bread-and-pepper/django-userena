@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.core import mail
-from django.contrib.auth.models import User
+from userena.compat import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 

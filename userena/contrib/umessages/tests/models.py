@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import truncate_words
-from django.contrib.auth.models import User
+from userena.compat import User
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
 

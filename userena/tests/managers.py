@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core import mail
-from django.contrib.auth.models import User
+from userena.compat import User
 
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
