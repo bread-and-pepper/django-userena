@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-from django.shortcuts import render_to_response
+
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 
@@ -21,10 +21,7 @@ urlpatterns = patterns('',
 
     (r'^accounts/', include('userena.urls')),
     (r'^messages/', include('userena.contrib.umessages.urls')),
-    url(r'^$',
-        render_to_response,
-        {'template': 'static/promo.html'},
-        name='promo'),
+    url(r'^$', 'profiles.views.promo', name='promo'),
     (r'^i18n/', include('django.conf.urls.i18n')),
 )
 
