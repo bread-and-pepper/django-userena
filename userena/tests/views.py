@@ -204,7 +204,7 @@ class UserenaViewsTests(ProfileTestCase):
                                     data={'identification': 'john@example.com',
                                           'password': 'blowfish',
                                           'next': 'something-fake'},
-                                          follow=True)
+                                    follow=True)
         self.assertEqual(response.status_code, 404)
 
     def test_signout_view(self):
