@@ -207,7 +207,7 @@ For example, add the following into your settings.py file:
 
     ANONYMOUS_USER_ID = -1
 
-    AUTH_PROFILE_MODULE = ‘accounts.MyProfile’
+    AUTH_PROFILE_MODULE = 'accounts.MyProfile'
 
 To integrate Django with userena you should alter the following three settings
 to reflect the URI you have chosen for userena. For example, if userena lives
