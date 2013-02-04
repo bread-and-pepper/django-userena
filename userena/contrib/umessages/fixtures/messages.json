@@ -5,7 +5,7 @@
     "fields": {
       "body": "Hello from your friend", 
       "sender_deleted_at": null, 
-      "sent_at": "2010-01-01 12:00:00", 
+      "sent_at": "2010-01-01T12:00:00.019Z", 
       "sender": 1
     }
   }, 
@@ -14,8 +14,8 @@
     "model": "umessages.message", 
     "fields": {
       "body": "Hello from your mother", 
-      "sender_deleted_at": "2010-01-01 12:00:00", 
-      "sent_at": "2010-01-01 12:00:00", 
+      "sender_deleted_at": "2010-01-01T12:00:00.019Z", 
+      "sent_at": "2010-01-01T12:00:00.019Z", 
       "sender": 2
     }
   }, 
@@ -34,7 +34,7 @@
     "model": "umessages.messagerecipient", 
     "fields": {
       "message": 2, 
-      "read_at": "2010-01-01 12:00:00", 
+      "read_at": "2010-01-01T12:00:00.019Z", 
       "deleted_at": null, 
       "user": 1
     }
