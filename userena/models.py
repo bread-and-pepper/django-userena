@@ -30,12 +30,10 @@ def upload_to_mugshot(instance, filename):
     """
     extension = filename.split('.')[-1].lower()
     salt, hash = generate_sha1(instance.id)
-    path = userena_settings.USERENA_MUGSHOT_PATH % {
-                                                     'username': instance.username,
-                                                     'id': instance.id,
-                                                     'date': instance.date_joined,
-                                                     'date_now': get_datetime_now().date(),
-                                                     }
+    path = userena_settings.USERENA_MUGSHOT_PATH % {'username': instance.user.username,
+                                                    'id': instance.user.id,
+                                                    'date': instance.user.date_joined,
+                                                    'date_now': get_datetime_now().date()}
     return '%(path)s%(hash)s.%(extension)s' % {'path': path,
                                                'hash': hash[:10],
                                                'extension': extension}
