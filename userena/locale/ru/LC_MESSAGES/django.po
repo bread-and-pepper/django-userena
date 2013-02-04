@@ -390,7 +390,7 @@ msgid ""
 "link has aged."
 msgstr ""
 "Ваша учётная запись не может быть активирована. Возможно, ваш ключ "
-"авктивации устарел."
+"активации устарел."
 
 #: templates/userena/activate_fail.html:9
 msgid ""
