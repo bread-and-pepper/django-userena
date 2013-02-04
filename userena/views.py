@@ -11,7 +11,7 @@ from django.views.generic.list import ListView
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseForbidden, Http404
+from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect
 
 from userena.forms import (SignupForm, SignupFormOnlyEmail, AuthenticationForm,
                            ChangeEmailForm, EditProfileForm)
@@ -344,7 +344,7 @@ def signin(request, auth_form=AuthenticationForm,
                 # Whereto now?
                 redirect_to = redirect_signin_function(
                     request.REQUEST.get(redirect_field_name), user)
-                return redirect(redirect_to)
+                return HttpResponseRedirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled',
                                         kwargs={'username': user.username}))

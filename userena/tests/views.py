@@ -195,6 +195,18 @@ class UserenaViewsTests(ProfileTestCase):
                                           'next': '/accounts/'})
         self.assertRedirects(response, '/accounts/')
 
+    def test_signin_view_with_invalid_next(self):
+        """
+        If the value of "next" is not a real URL, this should not raise
+        an exception
+        """
+        response = self.client.post(reverse('userena_signin'),
+                                    data={'identification': 'john@example.com',
+                                          'password': 'blowfish',
+                                          'next': 'something-fake'},
+                                    follow=True)
+        self.assertEqual(response.status_code, 404)
+
     def test_signout_view(self):
         """ A ``GET`` to the signout view """
         response = self.client.get(reverse('userena_signout'))
