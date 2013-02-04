@@ -614,7 +614,7 @@ def profile_detail(request, username,
     try:
         profile = user.get_profile()
     except profile_model.DoesNotExist:
-        profile = profile_model.create(user=user)
+        profile = profile_model.objects.create(user=user)
 
     if not profile.can_view_profile(request.user):
         return HttpResponseForbidden(_("You don't have permission to view this profile."))
