@@ -8,6 +8,7 @@ from django.contrib.auth.views import logout as Signout
 from django.views.generic import TemplateView
 from django.template.context import RequestContext
 from django.views.generic.list import ListView
+from django.views.generic import list_detail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
