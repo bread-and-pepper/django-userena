@@ -9,14 +9,15 @@ from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerImageField
 from guardian.shortcuts import get_perms
 from userena import settings as userena_settings
-from userena.managers import UserenaManager, UserenaBaseProfileManager, \
-    ASSIGNED_PERMISSIONS
+from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena.utils import get_gravatar, generate_sha1, get_protocol, \
     get_datetime_now, get_user_model, user_model_label
 import datetime
 
 
-PROFILE_PERMISSIONS = ASSIGNED_PERMISSIONS['profile']
+PROFILE_PERMISSIONS = (
+            ('view_profile', 'Can view profile'),
+)
 
 
 def upload_to_mugshot(instance, filename):
