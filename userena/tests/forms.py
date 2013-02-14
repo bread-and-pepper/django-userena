@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.translation import ugettext_lazy as _
 
 from userena import forms
 from userena import settings as userena_settings
@@ -22,14 +23,14 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('username', [u'Username must contain only letters, numbers, dots and underscores.'])},
+             'error': ('username', [_(u'Username must contain only letters, numbers, dots and underscores.')])},
             # Password is not the same
             {'data': {'username': 'katy-',
                       'email': 'katy@newexample.com',
                       'password1': 'foo',
                       'password2': 'foo2',
                       'tos': 'on'},
-             'error': ('__all__', [u'The two password fields didn\'t match.'])},
+             'error': ('__all__', [_(u'The two password fields didn\'t match.')])},
 
             # Already taken username
             {'data': {'username': 'john',
@@ -37,7 +38,7 @@ class SignupFormTests(TestCase):
                       'password1': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('username', [u'This username is already taken.'])},
+             'error': ('username', [_(u'This username is already taken.')])},
 
             # Forbidden username
             {'data': {'username': 'SignUp',
@@ -45,7 +46,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo2',
                       'tos': 'on'},
-             'error': ('username', [u'This username is not allowed.'])},
+             'error': ('username', [_(u'This username is not allowed.')])},
 
             # Already taken email
             {'data': {'username': 'alice',
@@ -53,7 +54,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('email', [u'This email is already in use. Please supply a different email.'])},
+             'error': ('email', [_(u'This email is already in use. Please supply a different email.')])},
         ]
 
         for invalid_dict in invalid_data_dicts:
