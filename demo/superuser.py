@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from wsgi import *
-from userena.compat import User
+from userena.utils import get_user_model
 try:
-    wunki = User.objects.get(username='wunki')
-except User.DoesNotExist:
+    wunki = get_user_model().objects.get(username='wunki')
+except get_user_model().DoesNotExist:
     pass
 else:
     wunki.is_staff = True

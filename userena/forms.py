@@ -1,7 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
-from userena.compat import User
 
 try:
     from hashlib import sha1 as sha_constructor
@@ -10,7 +9,7 @@ except ImportError:
 
 from userena import settings as userena_settings
 from userena.models import UserenaSignup
-from userena.utils import get_profile_model
+from userena.utils import get_profile_model, get_user_model
 
 import random
 
@@ -49,8 +48,8 @@ class SignupForm(forms.Form):
 
         """
         try:
-            user = User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
+            user = get_user_model().objects.get(username__iexact=self.cleaned_data['username'])
+        except get_user_model().DoesNotExist:
             pass
         else:
             if UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
@@ -62,7 +61,7 @@ class SignupForm(forms.Form):
 
     def clean_email(self):
         """ Validate that the e-mail address is unique. """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+        if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']):
             if UserenaSignup.objects.filter(user__email__iexact=self.cleaned_data['email']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError(_('This email is already in use but not confirmed. Please check you email for verification steps.'))
             raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
@@ -112,8 +111,8 @@ class SignupFormOnlyEmail(SignupForm):
         while True:
             username = sha_constructor(str(random.random())).hexdigest()[:5]
             try:
-                User.objects.get(username__iexact=username)
-            except User.DoesNotExist: break
+                get_user_model().objects.get(username__iexact=username)
+            except get_user_model().DoesNotExist: break
 
         self.cleaned_data['username'] = username
         return super(SignupFormOnlyEmail, self).save()
@@ -193,15 +192,15 @@ class ChangeEmailForm(forms.Form):
 
         """
         super(ChangeEmailForm, self).__init__(*args, **kwargs)
-        if not isinstance(user, User):
-            raise TypeError, "user must be an instance of User"
+        if not isinstance(user, get_user_model()):
+            raise TypeError, "user must be an instance of %s" % get_user_model().__name__
         else: self.user = user
 
     def clean_email(self):
         """ Validate that the email is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
             raise forms.ValidationError(_(u'You\'re already known under this email.'))
-        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
+        if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
             raise forms.ValidationError(_(u'This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 

@@ -1,13 +1,13 @@
 from django.db import models
 from django.db.models import Q
-from userena.compat import User
 from django.contrib.auth.models import UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
 from userena import settings as userena_settings
-from userena.utils import generate_sha1, get_profile_model, get_datetime_now
+from userena.utils import generate_sha1, get_profile_model, get_datetime_now, \
+    get_user_model
 from userena import signals as userena_signals
 
 from guardian.shortcuts import assign, get_perms
@@ -57,7 +57,8 @@ class UserenaManager(UserManager):
         """
         now = get_datetime_now()
 
-        new_user = User.objects.create_user(username, email, password)
+        new_user = get_user_model().objects.create_user(
+            username, email, password)
         new_user.is_active = active
         new_user.save()
 
@@ -181,8 +182,8 @@ class UserenaManager(UserManager):
 
         """
         deleted_users = []
-        for user in User.objects.filter(is_staff=False,
-                                        is_active=False):
+        for user in get_user_model().objects.filter(is_staff=False,
+                                                    is_active=False):
             if user.userena_signup.activation_key_expired():
                 deleted_users.append(user)
                 user.delete()
@@ -204,7 +205,7 @@ class UserenaManager(UserManager):
         for model, perms in ASSIGNED_PERMISSIONS.items():
             if model == 'profile':
                 model_obj = get_profile_model()
-            else: model_obj = User
+            else: model_obj = get_user_model()
             model_content_type = ContentType.objects.get_for_model(model_obj)
             for perm in perms:
                 try:
@@ -216,9 +217,9 @@ class UserenaManager(UserManager):
                                               codename=perm[0],
                                               content_type=model_content_type)
 
-        # it is safe to rely on settings.ANONYMOUS_USER_ID since it is a requirement of
-        # django-guardian
-        for user in User.objects.exclude(id=settings.ANONYMOUS_USER_ID):
+        # it is safe to rely on settings.ANONYMOUS_USER_ID since it is a
+        # requirement of django-guardian
+        for user in get_user_model().objects.exclude(id=settings.ANONYMOUS_USER_ID):
             try:
                 user_profile = user.get_profile()
             except get_profile_model().DoesNotExist:

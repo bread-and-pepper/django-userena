@@ -1,8 +1,11 @@
 from django.test import TestCase
-from userena.compat import User
 
 from userena.contrib.umessages.models import (Message, MessageContact,
                                               MessageRecipient)
+from userena.utils import get_user_model
+
+User = get_user_model()
+
 
 class MessageManagerTests(TestCase):
     fixtures = ['users', 'messages']

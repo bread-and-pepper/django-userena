@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from userena.compat import User
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.db import models
@@ -12,9 +11,8 @@ from guardian.shortcuts import get_perms
 from userena import settings as userena_settings
 from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena.utils import get_gravatar, generate_sha1, get_protocol, \
-    get_datetime_now
+    get_datetime_now, get_user_model, user_model_label
 import datetime
-
 
 PROFILE_PERMISSIONS = (
             ('view_profile', 'Can view profile'),
@@ -47,7 +45,7 @@ class UserenaSignup(models.Model):
     functional user implementation on your Django website.
 
     """
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(user_model_label,
                                 verbose_name=_('user'),
                                 related_name='userena_signup')
 
@@ -347,7 +345,8 @@ class UserenaBaseProfile(models.Model):
         if self.privacy == 'open':
             return True
         # Registered users.
-        elif self.privacy == 'registered' and isinstance(user, User):
+        elif self.privacy == 'registered' \
+        and isinstance(user, get_user_model()):
             return True
 
         # Checks done by guardian for owner and admins.

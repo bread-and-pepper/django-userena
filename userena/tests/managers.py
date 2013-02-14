@@ -1,13 +1,16 @@
 from django.test import TestCase
 from django.core import mail
-from userena.compat import User
 
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
+from userena.utils import get_user_model
 
 from guardian.shortcuts import get_perms
 
 import datetime, re
+
+User = get_user_model()
+
 
 class UserenaManagerTests(TestCase):
     """ Test the manager of Userena """

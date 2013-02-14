@@ -1,12 +1,15 @@
 from django.core.urlresolvers import reverse
 from django.core import mail
-from userena.compat import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.conf import settings
 
 from userena import forms
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
+from userena.utils import get_user_model
+
+User = get_user_model()
+
 
 class UserenaViewsTests(ProfileTestCase):
     """ Test the account views """

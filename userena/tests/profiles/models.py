@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from userena.compat import User
 
 from userena.models import UserenaBaseProfile
+from userena.utils import user_model_label
 
 import datetime
 
@@ -13,7 +13,7 @@ class Profile(UserenaBaseProfile):
         (2, _('Female')),
     )
 
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(user_model_label,
                                 unique=True,
                                 verbose_name=_('user'),
                                 related_name='profile')
@@ -27,7 +27,7 @@ class Profile(UserenaBaseProfile):
     about_me = models.TextField(_('about me'), blank=True)
 
 class SecondProfile(UserenaBaseProfile):
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(user_model_label,
                                 unique=True,
                                 verbose_name=_('user'),
                                 related_name='profile_second')

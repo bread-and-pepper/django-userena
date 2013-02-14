@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from userena.compat import User
 from django.utils.text import truncate_words
 
 from userena.contrib.umessages.managers import (MessageManager, MessageContactManager,
                                                 MessageRecipientManager)
+from userena.utils import user_model_label
 
 class MessageContact(models.Model):
     """
@@ -14,10 +14,10 @@ class MessageContact(models.Model):
     received a message from.
 
     """
-    from_user = models.ForeignKey(User, verbose_name=_("from user"),
+    from_user = models.ForeignKey(user_model_label, verbose_name=_("from user"),
                                   related_name=('from_users'))
 
-    to_user = models.ForeignKey(User, verbose_name=_("to user"),
+    to_user = models.ForeignKey(user_model_label, verbose_name=_("to user"),
                                 related_name=('to_users'))
 
     latest_message = models.ForeignKey('Message',
@@ -57,7 +57,7 @@ class MessageRecipient(models.Model):
     deleted, read etc. of a message.
 
     """
-    user = models.ForeignKey(User,
+    user = models.ForeignKey(user_model_label,
                              verbose_name=_("recipient"))
 
     message = models.ForeignKey('Message',
@@ -89,11 +89,11 @@ class Message(models.Model):
     """ Private message model, from user to user(s) """
     body = models.TextField(_("body"))
 
-    sender = models.ForeignKey(User,
+    sender = models.ForeignKey(user_model_label,
                                related_name='sent_messages',
                                verbose_name=_("sender"))
 
-    recipients = models.ManyToManyField(User,
+    recipients = models.ManyToManyField(user_model_label,
                                         through='MessageRecipient',
                                         related_name="received_messages",
                                         verbose_name=_("recipients"))

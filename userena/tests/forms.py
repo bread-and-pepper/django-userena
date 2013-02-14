@@ -1,8 +1,9 @@
 from django.test import TestCase
-from userena.compat import User
 
 from userena import forms
 from userena import settings as userena_settings
+from userena.utils import get_user_model
+
 
 class SignupFormTests(TestCase):
     """ Test the signup form. """
@@ -163,7 +164,7 @@ class ChangeEmailFormTests(TestCase):
     fixtures = ['users']
 
     def test_change_email_form(self):
-        user = User.objects.get(pk=1)
+        user = get_user_model().objects.get(pk=1)
         invalid_data_dicts = [
             # No change in e-mail address
             {'data': {'email': 'john@example.com'},
