@@ -47,6 +47,7 @@ class MessageDetailListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(MessageDetailListView, self).get_context_data(**kwargs)
         context['recipient'] = self.recipient
+        return context
 
     def get_queryset(self):
         username = self.kwargs['username']
