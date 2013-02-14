@@ -9,14 +9,14 @@ from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerImageField
 from guardian.shortcuts import get_perms
 from userena import settings as userena_settings
-from userena.managers import UserenaManager, UserenaBaseProfileManager
+from userena.managers import UserenaManager, UserenaBaseProfileManager, \
+    ASSIGNED_PERMISSIONS
 from userena.utils import get_gravatar, generate_sha1, get_protocol, \
     get_datetime_now, get_user_model, user_model_label
 import datetime
 
-PROFILE_PERMISSIONS = (
-            ('view_profile', 'Can view profile'),
-)
+
+PROFILE_PERMISSIONS = ASSIGNED_PERMISSIONS['profile']
 
 
 def upload_to_mugshot(instance, filename):
@@ -28,12 +28,10 @@ def upload_to_mugshot(instance, filename):
     """
     extension = filename.split('.')[-1].lower()
     salt, hash = generate_sha1(instance.id)
-    path = userena_settings.USERENA_MUGSHOT_PATH % {
-                                                     'username': instance.user.username,
-                                                     'id': instance.user.id,
-                                                     'date': instance.user.date_joined,
-                                                     'date_now': get_datetime_now().date(),
-                                                     }
+    path = userena_settings.USERENA_MUGSHOT_PATH % {'username': instance.user.username,
+                                                    'id': instance.user.id,
+                                                    'date': instance.user.date_joined,
+                                                    'date_now': get_datetime_now().date()}
     return '%(path)s%(hash)s.%(extension)s' % {'path': path,
                                                'hash': hash[:10],
                                                'extension': extension}

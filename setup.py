@@ -20,7 +20,7 @@ setup(name='django-userena',
       author_email='petar@wunki.org',
       url='https://github.com/bread-and-pepper/django-userena/',
       download_url='https://github.com/bread-and-pepper/django-userena/downloads',
-      packages = find_packages(exclude=['demo_project', 'demo_project.*']),
+      packages = find_packages(exclude=['demo', 'demo.*']),
       include_package_data=True,
       install_requires = [
         'Django>=1.3.1',

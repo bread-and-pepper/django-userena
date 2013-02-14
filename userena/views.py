@@ -7,10 +7,11 @@ from django.contrib.auth.views import logout as Signout
 from django.views.generic import TemplateView
 from django.template.context import RequestContext
 from django.views.generic.list import ListView
+from django.views.generic import list_detail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseForbidden, Http404
+from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect
 
 from userena.forms import (SignupForm, SignupFormOnlyEmail, AuthenticationForm,
                            ChangeEmailForm, EditProfileForm)
@@ -43,7 +44,7 @@ class ProfileListView(ListView):
     context_object_name='profile_list'
     page=1
     paginate_by=50
-    template_name='userena/profile_list.html'
+    template_name=userena_settings.USERENA_PROFILE_LIST_TEMPLATE
     extra_context=None
 
     def get_context_data(self, **kwargs):
@@ -130,6 +131,12 @@ def signup(request, signup_form=SignupForm,
             # A new signed user should logout the old one.
             if request.user.is_authenticated():
                 logout(request)
+
+            if (userena_settings.USERENA_SIGNIN_AFTER_SIGNUP and
+                not userena_settings.USERENA_ACTIVATION_REQUIRED):
+                user = authenticate(identification=user.email, check_password=False)
+                login(request, user)
+
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
@@ -343,7 +350,7 @@ def signin(request, auth_form=AuthenticationForm,
                 # Whereto now?
                 redirect_to = redirect_signin_function(
                     request.REQUEST.get(redirect_field_name), user)
-                return redirect(redirect_to)
+                return HttpResponseRedirect(redirect_to)
             else:
                 return redirect(reverse('userena_disabled',
                                         kwargs={'username': user.username}))
@@ -613,7 +620,7 @@ def profile_detail(request, username,
     try:
         profile = user.get_profile()
     except profile_model.DoesNotExist:
-        profile = profile_model.create(user=user)
+        profile = profile_model.objects.create(user=user)
 
     if not profile.can_view_profile(request.user):
         return HttpResponseForbidden(_("You don't have permission to view this profile."))

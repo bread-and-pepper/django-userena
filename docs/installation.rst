@@ -171,7 +171,7 @@ must also connect itself to the :class:`User` model of Django.
                                            max_length=5)
 
 If you want the user have the ability to choose their default language in their
-profile, you must add ``UserenaLocaleMiddleware`` at the end of
+profile, you must add ``userena.middleware.UserenaLocaleMiddleware`` at the end of
 ``MIDDLEWARE_CLASSES`` in your Django settings. This does require a profile
 model which has a language field. You can use the
 ``UserenaLanguageBaseProfile`` class of userena that does this for you.
@@ -207,7 +207,7 @@ For example, add the following into your settings.py file:
 
     ANONYMOUS_USER_ID = -1
 
-    AUTH_PROFILE_MODULE = ‘accounts.MyProfile’
+    AUTH_PROFILE_MODULE = 'accounts.MyProfile'
 
 To integrate Django with userena you should alter the following three settings
 to reflect the URI you have chosen for userena. For example, if userena lives

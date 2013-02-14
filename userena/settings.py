@@ -6,6 +6,10 @@ from django.conf import settings
 gettext = lambda s: s
 
 
+USERENA_SIGNIN_AFTER_SIGNUP = getattr(settings,
+                                      'USERENA_SIGNIN_AFTER_SIGNUP',
+                                      False)
+
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
                                       'USERENA_REDIRECT_ON_SIGNOUT',
                                       None)
@@ -93,5 +97,8 @@ USERENA_WITHOUT_USERNAMES = getattr(settings,
 
 USERENA_PROFILE_DETAIL_TEMPLATE = getattr(
     settings, 'USERENA_PROFILE_DETAIL_TEMPLATE', 'userena/profile_detail.html')
+
+USERENA_PROFILE_LIST_TEMPLATE = getattr(
+    settings, 'USERENA_PROFILE_LIST_TEMPLATE', 'userena/profile_list.html')
 
 USERENA_HIDE_EMAIL = getattr(settings, 'USERENA_HIDE_EMAIL', False)

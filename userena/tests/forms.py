@@ -24,7 +24,7 @@ class SignupFormTests(TestCase):
                       'tos': 'on'},
              'error': ('username', [u'Username must contain only letters, numbers, dots and underscores.'])},
             # Password is not the same
-            {'data': {'username': 'katy',
+            {'data': {'username': 'katy-',
                       'email': 'katy@newexample.com',
                       'password1': 'foo',
                       'password2': 'foo2',

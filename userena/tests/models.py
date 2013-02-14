@@ -32,7 +32,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         """
         user = User.objects.get(pk=1)
         filename = 'my_avatar.png'
-        path = upload_to_mugshot(user, filename)
+        path = upload_to_mugshot(user.get_profile(), filename)
 
         # Path should be changed from the original
         self.failIfEqual(filename, path)

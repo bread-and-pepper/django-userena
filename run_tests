@@ -4,15 +4,15 @@
 
 case $1 in
     userena )   echo -e "\033[1mRunning tests for userena.\033[0m"
-                cmd="coverage run setup.py test"
+                cmd="coverage run demo/manage.py test userena"
                 report_cmd="coverage report -m userena/*.py userena/management/commands/*.py"
                 ;;
     umessages ) echo -e "\033[1mRunning tests for umessages.\033[0m"
-                cmd="coverage run setup.py test"
+                cmd="coverage run demo/manage.py test umessages"
                 report_cmd="coverage report -m userena/contrib/umessages/*.py"
                 ;;
     * )         echo -e "\033[1mRunning all tests.\033[0m"
-                cmd="coverage run setup.py test"
+                cmd="coverage run demo/manage.py test userena umessages"
                 report_cmd="coverage report -m userena/*.py userena/management/commands/*py userena/contrib/umessages/*.py"
 esac
 
