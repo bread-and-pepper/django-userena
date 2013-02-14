@@ -7,7 +7,6 @@ from django.contrib.auth.views import logout as Signout
 from django.views.generic import TemplateView
 from django.template.context import RequestContext
 from django.views.generic.list import ListView
-from django.views.generic import list_detail
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -686,11 +685,9 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
     queryset = profile_model.objects.get_visible_profiles(request.user)
 
     if not extra_context: extra_context = dict()
-    return list_detail.object_list(request,
-                                   queryset=queryset,
+    return ProfileListView.as_view(queryset=queryset,
                                    paginate_by=paginate_by,
                                    page=page,
                                    template_name=template_name,
                                    extra_context=extra_context,
-                                   template_object_name='profile',
-                                   **kwargs)
+                                   **kwargs)(request)
