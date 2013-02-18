@@ -1,5 +1,12 @@
 This file contains all the backwards-incompatible changes.
 
+Version 1.2.0
+
+- This version updates Userena to be able to use the new `User` model found in
+  Django 1.5. This does require the django-guardion > 1.5-dev. To make this
+  work, there is a `get_user_model` function in `userena/utils.py` which is used
+  to get the correct `User` model.
+
 Version 1.1.2
 
 - Activation view no longer contains username. If you override
