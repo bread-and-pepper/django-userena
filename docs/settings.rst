@@ -223,8 +223,7 @@ USERENA_HIDE_EMAIL
 ~~~~~~~~~~~~~~~~~~
 Default: ``False`` (boolean)
 
-Prevents email addresses from being displayed to other users if set to `
-`True``.
+Prevents email addresses from being displayed to other users if set to ``True``.
 
 Django settings
 ---------------
