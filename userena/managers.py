@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
@@ -206,7 +207,9 @@ class UserenaManager(UserManager):
             if model == 'profile':
                 model_obj = get_profile_model()
             else: model_obj = get_user_model()
+
             model_content_type = ContentType.objects.get_for_model(model_obj)
+
             for perm in perms:
                 try:
                     Permission.objects.get(codename=perm[0],
@@ -222,7 +225,7 @@ class UserenaManager(UserManager):
         for user in get_user_model().objects.exclude(id=settings.ANONYMOUS_USER_ID):
             try:
                 user_profile = user.get_profile()
-            except get_profile_model().DoesNotExist:
+            except ObjectDoesNotExist:
                 warnings.append(_("No profile found for %(username)s") \
                                     % {'username': user.username})
             else:
