@@ -25,6 +25,7 @@ setup(name='django-userena',
       install_requires = [
         'easy_thumbnails',
         'django-guardian>=1.1.0.beta',
+        'html2text',
         ### Required to build documentation
         # 'sphinx',
         # 'south',
