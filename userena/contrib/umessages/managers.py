@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Q
 
+from userena.contrib.umessages import signals
+
 import datetime
 
 class MessageContactManager(models.Manager):
@@ -77,6 +79,7 @@ class MessageManager(models.Manager):
         # Save the recipients
         msg.save_recipients(to_user_list)
         msg.update_contacts(to_user_list)
+        signals.email_sent.send(sender=None,msg=msg)
 
         return msg
 

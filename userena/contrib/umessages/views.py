@@ -25,24 +25,25 @@ class MessageListView(ListView):
     page=1
     paginate_by=50
     template_name='umessages/message_list.html'
-    extra_context=None
-    context_object_name = 'message'
+    extra_context={}
+    context_object_name = 'message_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(MessageListView, self).get_context_data(**kwargs)
+        context.update(self.extra_context)
+        return context
 
     def get_queryset(self):
         return MessageContact.objects.get_contacts_for(self.request.user)
 
 
-class MessageDetailListView(ListView):
+class MessageDetailListView(MessageListView):
     """
 
     Returns a conversation between two users
 
     """
-    page=1
-    paginate_by=50
     template_name='umessages/message_detail.html'
-    extra_context=None
-    context_object_name = 'message'
 
     def get_context_data(self, **kwargs):
         context = super(MessageDetailListView, self).get_context_data(**kwargs)
