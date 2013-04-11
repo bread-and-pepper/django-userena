@@ -1,4 +1,4 @@
-from django.core.validators import email_re
+import django.core.validators
 from django.contrib.auth.backends import ModelBackend
 
 from userena.utils import get_user_model
@@ -30,10 +30,11 @@ class UserenaAuthenticationBackend(ModelBackend):
 
         """
         User = get_user_model()
-        if email_re.search(identification):
+        try:
+            django.core.validators.validate_email(identification)
             try: user = User.objects.get(email__iexact=identification)
             except User.DoesNotExist: return None
-        else:
+        except django.core.validators.ValidationError:
             try: user = User.objects.get(username__iexact=identification)
             except User.DoesNotExist: return None
         if check_password:
