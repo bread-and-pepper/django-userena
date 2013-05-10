@@ -2,20 +2,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Turkish <kde-i18n-doc@kde.org>, 2012.
+# Gokmen Gorgen <gokmen@alageek.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-06 19:54+0300\n"
-"PO-Revision-Date: 2012-05-06 20:31+0300\n"
-"Last-Translator: Turkish <kde-i18n-doc@kde.org>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-05-10 13:37+0300\n"
+"Last-Translator: Gokmen Gorgen <gokmen@alageek.com>\n"
+"Language-Team: Turkish <translation@radity.com>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: forms.py:29
 msgid "Username"
@@ -78,7 +79,7 @@ msgstr "E-posta veya kullanıcı adı"
 
 #: forms.py:142
 msgid "Either supply us with your email or username."
-msgstr "E-posta adresinizi veya kullanıcı adınızı yazınız."
+msgstr "E-posta adresinizi veya kullanıcı adınızı giriniz."
 
 #: forms.py:143
 msgid "Password"
@@ -98,8 +99,8 @@ msgid ""
 "Please enter a correct username or email and password. Note that both fields "
 "are case-sensitive."
 msgstr ""
-"Lütfen doğru bir kullanıcı adı / e-posta ve parola yazınız. İki alan da "
-"harf-duyarlıdır."
+"Lütfen doğru bir kullanıcı adı / e-posta ve parola yazınız. İki alan da büyük "
+"küçük harfe duyarlıdır."
 
 #: forms.py:175 templates/userena/email_confirm_complete.html:6
 msgid "New email"
@@ -176,19 +177,19 @@ msgstr "userena kayıtları"
 
 #: models.py:203
 msgid "Open"
-msgstr "Herkese Açık"
+msgstr "Herkese açık"
 
 #: models.py:204
 msgid "Registered"
-msgstr "Kullanıcılara Açık"
+msgstr "Kullanıcılara açık"
 
 #: models.py:205
 msgid "Closed"
-msgstr "Sadece Ben"
+msgstr "Sadece ben"
 
 #: models.py:212
 msgid "mugshot"
-msgstr "avatar"
+msgstr "Profil resmi"
 
 #: models.py:216
 msgid "A personal image displayed in your profile."
@@ -242,7 +243,7 @@ msgstr "Tarih/zaman"
 #: contrib/umessages/fields.py:56
 #, python-format
 msgid "The following usernames are incorrect: %(users)s."
-msgstr "Şu kullanıcı adları doğru değil: %(user)s."
+msgstr "Şu kullanıcı adları doğru değil: %(users)s."
 
 #: contrib/umessages/forms.py:10
 msgid "To"
@@ -304,7 +305,7 @@ msgstr "%(message)s"
 
 #: contrib/umessages/models.py:90
 msgid "body"
-msgstr "gövde"
+msgstr "içerik"
 
 #: contrib/umessages/models.py:94
 msgid "sender"
@@ -324,7 +325,7 @@ msgstr "iletiler"
 
 #: contrib/umessages/views.py:178
 msgid "Message is sent."
-msgstr "İleti gönderildi"
+msgstr "İleti gönderildi."
 
 #: contrib/umessages/views.py:262
 msgid "Message is succesfully restored."
@@ -339,7 +340,7 @@ msgstr[0] "İletiler başarıyla silindi."
 #: contrib/umessages/templates/umessages/message_detail.html:4
 #, python-format
 msgid "Conversation with %(recipient)s"
-msgstr "%(recipient)s ile Yazışma"
+msgstr "%(recipient)s ile yazışma"
 
 #: contrib/umessages/templates/umessages/message_detail.html:12
 #, python-format
@@ -386,7 +387,7 @@ msgid ""
 "Your account could not be activated. This could be because your activation "
 "link has aged."
 msgstr ""
-"Hesabınız etkinleştirilemedi... Etkinleştirme bağlantısının süresi dolmuş "
+"Hesabınız etkinleştirilemedi. Etkinleştirme bağlantısının süresi dolmuş "
 "olabilir."
 
 #: templates/userena/activate_fail.html:9
@@ -468,7 +469,7 @@ msgstr "Hesap ayarlarından tekrar değiştirmeyi deneyebilirsiniz."
 #: templates/userena/profile_form.html:6
 #, python-format
 msgid "Account &raquo; %(username)s"
-msgstr "Hesap&raquo; %(username)s"
+msgstr "Hesap &raquo; %(username)s"
 
 #: templates/userena/email_form.html:9 templates/userena/password_form.html:11
 #: templates/userena/profile_detail.html:15
@@ -566,11 +567,11 @@ msgstr "%(username)s Profili."
 
 #: templates/userena/profile_detail.html:16
 msgid "Edit details"
-msgstr "Detayları Düzenle"
+msgstr "Ayrıntıları düzenle"
 
 #: templates/userena/profile_detail.html:26
 msgid "Your mugshot"
-msgstr "Resminiz"
+msgstr "Profil resminiz"
 
 #: templates/userena/profile_detail.html:30
 msgid "Name"
@@ -582,7 +583,7 @@ msgstr "Yaş"
 
 #: templates/userena/profile_detail.html:42
 msgid "Website"
-msgstr "Websitesi"
+msgstr "İnternet sitesi"
 
 #: templates/userena/profile_detail.html:46
 msgid "Location"
@@ -630,7 +631,7 @@ msgstr "sonraki"
 #: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
 #: templates/userena/signin_form.html:28
 msgid "Signin"
-msgstr "Giriş Yap"
+msgstr "Giriş yap"
 
 #: templates/userena/signin_form.html:29
 msgid "Forgot your password?"
@@ -656,11 +657,11 @@ msgstr "Kayıt bitmek üzere!"
 #: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
 #: templates/userena/signup_form.html:28
 msgid "Signup"
-msgstr "Kaydol"
+msgstr "Kayıt ol"
 
 #: templates/userena/signup_complete.html:9
 msgid "Thank you for signing up with us!"
-msgstr "Kaydolduğunuz için teşekkürler!"
+msgstr "Kayıt olduğunuz için teşekkürler!"
 
 #: templates/userena/signup_complete.html:12
 msgid ""
@@ -788,7 +789,7 @@ msgstr "cinsiyet"
 
 #: tests/profile.py:13 tests/profiles/models.py:25
 msgid "website"
-msgstr "web sitesi"
+msgstr "internet sitesi"
 
 #: tests/profile.py:14 tests/profiles/models.py:26
 msgid "location"
@@ -797,4 +798,5 @@ msgstr "konum"
 #: tests/profile.py:15 tests/profiles/models.py:27
 msgid "about me"
 msgstr "hakkımda"
+
 
