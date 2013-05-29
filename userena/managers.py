@@ -103,6 +103,30 @@ class UserenaManager(UserManager):
         return self.create(user=user,
                            activation_key=activation_key)
 
+    def reissue_activation(self, activation_key):
+        """
+        Creates a new ``activation_key`` resetting activation timeframe when
+        users let the previous key expire.
+
+        :param activation_key:
+            String containing the secret SHA1 activation key.
+
+        """
+        try:
+            userena = self.get(activation_key=activation_key)
+        except self.model.DoesNotExist:
+            return False
+        try:
+            salt, new_activation_key = generate_sha1(userena.user.username)
+            userena.activation_key = new_activation_key
+            userena.save(using=self._db)
+            userena.user.date_joined = get_datetime_now()
+            userena.user.save(using=self._db)
+            userena.send_activation_email()
+            return True
+        except Exception,e:
+            return False
+
     def activate_user(self, activation_key):
         """
         Activate an :class:`User` by supplying a valid ``activation_key``.
@@ -135,6 +159,25 @@ class UserenaManager(UserManager):
 
                 return user
         return False
+
+    def check_expired_activation(self, activation_key):
+        """
+        Check if ``activation_key`` is still valid.
+
+        Raises a ``self.model.DoesNotExist`` exception if key is not present or
+         ``activation_key`` is not a valid string
+
+        :param activation_key:
+            String containing the secret SHA1 for a valid activation.
+
+        :return:
+            True if the ket has expired, False if still valid.
+
+        """
+        if SHA1_RE.search(activation_key):
+            userena = self.get(activation_key=activation_key)
+            return userena.activation_key_expired()
+        raise self.model.DoesNotExist
 
     def confirm_email(self, confirmation_key):
         """

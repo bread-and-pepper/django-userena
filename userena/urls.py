@@ -49,6 +49,11 @@ urlpatterns = patterns('',
        userena_views.activate,
        name='userena_activate'),
 
+    # Retry activation
+    url(r'^activate/retry/(?P<activation_key>\w+)/$',
+        userena_views.activate_retry,
+        name='userena_activate_retry'),
+
     # Change email and confirm it
     url(r'^(?P<username>[\.\w-]+)/email/$',
        userena_views.email_change,
