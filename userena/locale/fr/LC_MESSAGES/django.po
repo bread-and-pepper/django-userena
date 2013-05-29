@@ -105,7 +105,7 @@ msgstr "Veuillez entrer un pseudonyme ou une adresse électronique valide et vot
 
 #: forms.py:171 templates/userena/email_confirm_complete.html:6
 msgid "New email"
-msgstr "Nouvel adresse électronique"
+msgstr "Nouvelle adresse électronique"
 
 #: forms.py:189
 msgid "You're already known under this email."
