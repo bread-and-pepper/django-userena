@@ -68,7 +68,7 @@ class ProfileListView(ListView):
 
     def get_queryset(self):
         profile_model = get_profile_model()
-        queryset = profile_model.objects.get_visible_profiles(self.request.user)
+        queryset = profile_model.objects.get_visible_profiles(self.request.user).select_related()
         return queryset
 
 @secure_required
