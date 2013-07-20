@@ -265,7 +265,7 @@ msgstr "contactos"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
 msgstr ""
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
