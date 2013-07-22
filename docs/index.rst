@@ -6,7 +6,7 @@
 Userena Introduction
 ====================
 
-This documentation covers 1.0 release of django-userena application. A Django
+This documentation covers 1.2.1 release of django-userena application. A Django
 application that takes care of your account needs.
 
 Why userena?
