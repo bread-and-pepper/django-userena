@@ -197,6 +197,13 @@ Default: ``False`` (boolean)
 Boolean value that defines if the ``profile_list`` view is enabled within the
 project. If so, users can view a list of different profiles.
 
+USERENA_DISABLE_SIGNUP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``False`` (boolean)
+
+Boolean value that defines if signups are disabled within the project. If so,
+users trying to sign up will be denied.
+
 USERENA_USE_MESSAGES
 ~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
