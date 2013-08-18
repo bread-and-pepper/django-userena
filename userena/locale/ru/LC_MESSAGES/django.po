@@ -25,7 +25,7 @@ msgstr "Имя пользователя"
 #: forms.py:32 tests/forms.py:26
 msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
-"Имя пользователя должно содержать только буквы, цифры, точки и подчёркивания."
+"Имя пользователя должно содержать только латинские буквы, цифры, точки и подчёркивания."
 
 #: forms.py:35 forms.py:162 templates/userena/profile_detail.html:35
 msgid "Email"
