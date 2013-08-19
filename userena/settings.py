@@ -88,8 +88,8 @@ USERENA_DISABLE_PROFILE_LIST = getattr(settings,
                                        False)
 
 USERENA_DISABLE_SIGNUP = getattr(settings,
-                                       'USERENA_DISABLE_SIGNUP',
-                                       False)
+                                 'USERENA_DISABLE_SIGNUP',
+                                 False)
 
 USERENA_USE_MESSAGES = getattr(settings,
                                'USERENA_USE_MESSAGES',
