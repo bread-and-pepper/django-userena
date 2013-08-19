@@ -156,6 +156,15 @@ class UserenaViewsTests(ProfileTestCase):
 
         # Back to default
         userena_settings.USERENA_WITHOUT_USERNAMES = False
+        
+        # Check for 403 with signups disabled
+        userena_settings.USERENA_DISABLE_SIGNUP = True
+        
+        response = self.client.get(reverse('userena_signup'))
+        self.assertEqual(response.status_code, 403)
+        
+        # Back to default
+        userena_settings.USERENA_DISABLE_SIGNUP = False
 
     def test_signup_view_signout(self):
         """ Check that a newly signed user shouldn't be signed in. """

@@ -15,3 +15,6 @@ South
 
 # Userena
 django-userena
+
+# Coverage for testing
+django_coverage

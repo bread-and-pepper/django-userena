@@ -106,6 +106,10 @@ def signup(request, signup_form=SignupForm,
         Form supplied by ``signup_form``.
 
     """
+    # If signup is disabled, return 403
+    if userena_settings.USERENA_DISABLE_SIGNUP:
+        return HttpResponseForbidden(_("Signups are disabled."))
+    
     # If no usernames are wanted and the default form is used, fallback to the
     # default form that doesn't display to enter the username.
     if userena_settings.USERENA_WITHOUT_USERNAMES and (signup_form == SignupForm):

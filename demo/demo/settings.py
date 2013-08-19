@@ -152,4 +152,4 @@ LOGGING = {
 ANONYMOUS_USER_ID = -1
 
 # Test runner
-TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
