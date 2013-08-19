@@ -7,18 +7,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'MessageContact'
         db.create_table('umessages_messagecontact', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('from_user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='from_users', to=orm['auth.User'])),
-            ('to_user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='to_users', to=orm['auth.User'])),
+            ('um_from_user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='um_from_users', to=orm['auth.User'])),
+            ('um_to_user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='um_to_users', to=orm['auth.User'])),
             ('latest_message', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['umessages.Message'])),
         ))
         db.send_create_signal('umessages', ['MessageContact'])
 
-        # Adding unique constraint on 'MessageContact', fields ['from_user', 'to_user']
-        db.create_unique('umessages_messagecontact', ['from_user_id', 'to_user_id'])
+        # Adding unique constraint on 'MessageContact', fields ['um_from_user', 'um_to_user']
+        db.create_unique('umessages_messagecontact', ['um_from_user_id', 'um_to_user_id'])
 
         # Adding model 'MessageRecipient'
         db.create_table('umessages_messagerecipient', (
@@ -42,9 +42,9 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        
-        # Removing unique constraint on 'MessageContact', fields ['from_user', 'to_user']
-        db.delete_unique('umessages_messagecontact', ['from_user_id', 'to_user_id'])
+
+        # Removing unique constraint on 'MessageContact', fields ['um_from_user', 'um_to_user']
+        db.delete_unique('umessages_messagecontact', ['um_from_user_id', 'um_to_user_id'])
 
         # Deleting model 'MessageContact'
         db.delete_table('umessages_messagecontact')
@@ -103,11 +103,11 @@ class Migration(SchemaMigration):
             'sent_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
         },
         'umessages.messagecontact': {
-            'Meta': {'ordering': "['latest_message']", 'unique_together': "(('from_user', 'to_user'),)", 'object_name': 'MessageContact'},
-            'from_user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'from_users'", 'to': "orm['auth.User']"}),
+            'Meta': {'ordering': "['latest_message']", 'unique_together': "(('um_from_user', 'um_to_user'),)", 'object_name': 'MessageContact'},
+            'um_from_user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'um_from_users'", 'to': "orm['auth.User']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'latest_message': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['umessages.Message']"}),
-            'to_user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'to_users'", 'to': "orm['auth.User']"})
+            'um_to_user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'um_to_users'", 'to': "orm['auth.User']"})
         },
         'umessages.messagerecipient': {
             'Meta': {'object_name': 'MessageRecipient'},

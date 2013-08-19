@@ -274,8 +274,8 @@ msgstr "Kontakte"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
-msgstr "%(from_user)s und %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s und %(um_to_user)s"
 
 #: contrib/umessages/models.py:61
 #: contrib/umessages/models.py:77

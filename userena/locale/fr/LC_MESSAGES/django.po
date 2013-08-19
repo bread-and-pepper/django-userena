@@ -3,7 +3,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -269,8 +269,8 @@ msgstr "contacts"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
-msgstr "%(from_user)s et %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s et %(um_to_user)s"
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"

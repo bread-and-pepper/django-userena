@@ -25,11 +25,11 @@ class ComposeForm(forms.Form):
         :return: The saved :class:`Message`.
 
         """
-        to_user_list = self.cleaned_data['to']
+        um_to_user_list = self.cleaned_data['to']
         body = self.cleaned_data['body']
 
         msg = Message.objects.send_message(sender,
-                                           to_user_list,
+                                           um_to_user_list,
                                            body)
 
         return msg

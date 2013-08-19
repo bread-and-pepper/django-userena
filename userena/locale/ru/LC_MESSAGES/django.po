@@ -3,149 +3,154 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: userena\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-23 14:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2013-07-29 11:22+0700\n"
+"PO-Revision-Date: 2013-07-29 11:27+0700\n"
+"Last-Translator: Basil Shubin <basil.shubin@gmail.com>\n"
+"Language-Team:  <RU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: forms.py:29
+#: forms.py:31
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: forms.py:30
+#: forms.py:32 tests/forms.py:26
 msgid "Username must contain only letters, numbers, dots and underscores."
 msgstr ""
-"Имя пользователя должно содержать только буквы, цифры, точки и "
-"подчёркивания."
+"Имя пользователя должно содержать только латинские буквы, цифры, точки и подчёркивания."
 
-#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:27
+#: forms.py:35 forms.py:162 templates/userena/profile_detail.html:35
 msgid "Email"
 msgstr "Адрес email"
 
-#: forms.py:36
+#: forms.py:38
 msgid "Create password"
 msgstr "Выберите пароль"
 
-#: forms.py:39
+#: forms.py:41
 msgid "Repeat password"
 msgstr "Повторите пароль"
 
-#: forms.py:53
+#: forms.py:56
+msgid ""
+"This username is already taken but not confirmed. Please check you email for "
+"verification steps."
+msgstr ""
+
+#: forms.py:57 tests/forms.py:41
 msgid "This username is already taken."
 msgstr "Это имя пользователя уже занято."
 
-#: forms.py:55
+#: forms.py:59 tests/forms.py:49
 msgid "This username is not allowed."
 msgstr "Это имя пользователя не разрешено использовать."
 
-#: forms.py:61 forms.py:195
+#: forms.py:66
+msgid ""
+"This email is already in use but not confirmed. Please check you email for "
+"verification steps."
+msgstr ""
+
+#: forms.py:67 forms.py:204 tests/forms.py:57
 msgid "This email is already in use. Please supply a different email."
 msgstr "Этот email уже занят. Пожалуйста, введите другой."
 
-#: forms.py:73
+#: forms.py:79 tests/forms.py:33
 msgid "The two password fields didn't match."
 msgstr "Введённые пароли не совпадают."
 
-#: forms.py:117
+#: forms.py:123
 msgid "I have read and agree to the Terms of Service"
 msgstr "Я прочитал и согласен c условиями предоставления услуг."
 
-#: forms.py:118
+#: forms.py:124
 msgid "You must agree to the terms to register."
 msgstr "Вы должны согласиться с условиями предоставления услуг."
 
-#: forms.py:131
-#, python-format
-msgid "%(label)s"
-msgstr "%(label)s"
-
-#: forms.py:134
+#: forms.py:140
 #, python-format
 msgid "%(error)s"
 msgstr "%(error)s"
 
-#: forms.py:141
+#: forms.py:147
 msgid "Email or username"
 msgstr "Email или имя пользователя"
 
-#: forms.py:142
+#: forms.py:148
 msgid "Either supply us with your email or username."
 msgstr "Введите email или имя пользователя."
 
-#: forms.py:143
+#: forms.py:149
 msgid "Password"
 msgstr "Пароль"
 
-#: forms.py:147
+#: forms.py:153 forms.py:160
 #, python-format
 msgid "Remember me for %(days)s"
 msgstr "Запомнить меня на %(days)s"
 
-#: forms.py:154
+#: forms.py:163
 msgid "Please supply your email."
 msgstr "Пожалуйста, введите адрес email."
 
-#: forms.py:169
+#: forms.py:178
 msgid ""
 "Please enter a correct username or email and password. Note that both fields "
 "are case-sensitive."
 msgstr ""
-"Пожалуйста, введите правильное имя пользователя или email и пароль. "
-"Обратите внимание, что оба поля чувствительны к регистру."
+"Пожалуйста, введите правильное имя пользователя или email и пароль. Обратите "
+"внимание, что оба поля чувствительны к регистру."
 
-#: forms.py:175 templates/userena/email_confirm_complete.html:6
+#: forms.py:184 templates/userena/email_confirm_complete.html:6
 msgid "New email"
 msgstr "Новый адрес email"
 
-#: forms.py:193
+#: forms.py:202
 msgid "You're already known under this email."
 msgstr "Вы уже зарегистрированы под этим адресом email."
 
-#: forms.py:209
+#: forms.py:218
 msgid "First name"
 msgstr "Имя"
 
-#: forms.py:212
+#: forms.py:221
 msgid "Last name"
 msgstr "Фамилия"
 
-#: managers.py:228
+#: managers.py:272
 #, python-format
 msgid "No profile found for %(username)s"
 msgstr "Не найден профиль для %(username)s"
 
-#: models.py:46 tests/profiles/models.py:18 tests/profiles/models.py:32
+#: models.py:48 tests/profiles/models.py:18 tests/profiles/models.py:32
 msgid "user"
 msgstr "пользователь"
 
-#: models.py:49
+#: models.py:51
 msgid "last active"
 msgstr "последняя активность"
 
-#: models.py:52
+#: models.py:54
 msgid "The last date that the user was active."
 msgstr "Дата последней активности пользователя."
 
-#: models.py:54
+#: models.py:56
 msgid "activation key"
 msgstr "ключ активации"
 
-#: models.py:58
+#: models.py:60
 msgid "notification send"
 msgstr "уведомление послано"
 
-#: models.py:60
+#: models.py:62
 msgid ""
 "Designates whether this user has already got a notification about activating "
 "their account."
@@ -153,84 +158,92 @@ msgstr ""
 "Указывает было ли этим пользователем уже получено уведомление об активации "
 "учётной записи."
 
-#: models.py:62
+#: models.py:64
 msgid "unconfirmed email address"
 msgstr "неподтверждённый адрес email"
 
-#: models.py:64
+#: models.py:66
 msgid "Temporary email address when the user requests an email change."
 msgstr "Временный адрес email, используемый при запросе на смену email."
 
-#: models.py:66
+#: models.py:68
 msgid "unconfirmed email verification key"
 msgstr "неподтверждённый email-ключ активации"
 
-#: models.py:70
+#: models.py:72
 msgid "creation date of email confirmation key"
 msgstr "дата создания email-ключа активации"
 
-#: models.py:78
+#: models.py:79
 msgid "userena registration"
 msgstr "регистрация userena"
 
-#: models.py:79
+#: models.py:80
 msgid "userena registrations"
 msgstr "регистрации userena"
 
-#: models.py:201
+#: models.py:204
 msgid "Open"
 msgstr "Открыта"
 
-#: models.py:202
+#: models.py:205
 msgid "Registered"
 msgstr "Зарегистрированные"
 
-#: models.py:203
+#: models.py:206
 msgid "Closed"
 msgstr "Закрыта"
 
-#: models.py:210
+#: models.py:213
 msgid "mugshot"
 msgstr "фото"
 
-#: models.py:214
+#: models.py:217
 msgid "A personal image displayed in your profile."
 msgstr "Личная фотография, отображаемая в профиле."
 
-#: models.py:216
+#: models.py:219
 msgid "privacy"
 msgstr "приватность"
 
-#: models.py:220
+#: models.py:223
 msgid "Designates who can view your profile."
 msgstr "Опредеяет, кто может просматривать ваш профиль."
 
-#: models.py:299
+#: models.py:302
 #, python-format
 msgid "%(first_name)s %(last_name)s"
 msgstr "%(last_name)s %(first_name)s"
 
-#: models.py:361
+#: models.py:367
 msgid "language"
 msgstr "язык"
 
-#: settings.py:39
+#: settings.py:47
 msgid "a month"
 msgstr "месяц"
 
-#: views.py:136
+#: views.py:199
 msgid "Your account has been activated and you have been signed in."
 msgstr "Ваша учётная запись активирована и вы теперь авторизованы."
 
-#: views.py:296
+#: views.py:299
+msgid "Your email address has been changed."
+msgstr "Ваш электронный адрес был изменен."
+
+#: views.py:410
 msgid "You have been signed in."
 msgstr "Вы теперь авторизованы."
 
-#: views.py:514
+#: views.py:446
+msgid "You have been signed out."
+msgstr "Вы вышли"
+
+#: views.py:644
 msgid "Your profile has been updated."
 msgstr "Ваш профиль обновлён."
 
-#: views.py:554
+#: views.py:689
 msgid "You don't have permission to view this profile."
 msgstr "У вас нет прав для просмотра этого профиля."
 
@@ -238,7 +251,7 @@ msgstr "У вас нет прав для просмотра этого проф�
 msgid "Date/time"
 msgstr "Дата/время"
 
-#: contrib/umessages/fields.py:56
+#: contrib/umessages/fields.py:57
 #, python-format
 msgid "The following usernames are incorrect: %(users)s."
 msgstr "Следующие имена пользователей не верны: %(users)s."
@@ -273,8 +286,8 @@ msgstr "контакты"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
-msgstr "%(from_user)s и %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s и %(um_to_user)s"
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
@@ -321,18 +334,18 @@ msgstr "удалено отправителем"
 msgid "messages"
 msgstr "сообщения"
 
-#: contrib/umessages/views.py:178
+#: contrib/umessages/views.py:124
 msgid "Message is sent."
 msgstr "Сообщение отправлено."
 
-#: contrib/umessages/views.py:262
+#: contrib/umessages/views.py:206
 msgid "Message is succesfully restored."
 msgid_plural "Messages are succesfully restored."
 msgstr[0] "Сообщение успешно восстановлено."
 msgstr[1] "Сообщения успешно восстановлены."
 msgstr[2] "Сообщений успешно восстановлены."
 
-#: contrib/umessages/views.py:266
+#: contrib/umessages/views.py:210
 msgid "Message is successfully removed."
 msgid_plural "Messages are successfully removed."
 msgstr[0] "Сообщение успешно удалено."
@@ -350,7 +363,7 @@ msgid "Received on %(sent_at)s"
 msgstr "Получено %(sent_at)s"
 
 #: contrib/umessages/templates/umessages/message_form.html:4
-#: contrib/umessages/templates/umessages/message_list.html:9
+#: contrib/umessages/templates/umessages/message_list.html:10
 msgid "Compose"
 msgstr "Написать"
 
@@ -362,25 +375,27 @@ msgstr "Написать сообщение"
 msgid "Send"
 msgstr "Отправить"
 
-#: contrib/umessages/templates/umessages/message_list.html:4
+#: contrib/umessages/templates/umessages/message_list.html:5
 msgid "Messages"
 msgstr "Сообщения"
 
-#: contrib/umessages/templates/umessages/message_list.html:8
+#: contrib/umessages/templates/umessages/message_list.html:9
 #, python-format
 msgid "%(unread_message_count)s new messages."
 msgstr "%(unread_message_count)s новых сообщений."
 
-#: contrib/umessages/templates/umessages/message_list.html:20
+#: contrib/umessages/templates/umessages/message_list.html:21
 #, python-format
 msgid "%(latest_message)s (%(unread_between_count)s new)"
 msgstr "%(latest_message)s (%(unread_between_count)s новых)"
 
 #: templates/userena/activate_fail.html:4
+#: templates/userena/activate_retry.html:6
 msgid "Account activation failed."
 msgstr "Активация учётной записи не удалась."
 
 #: templates/userena/activate_fail.html:5
+#: templates/userena/activate_retry.html:7
 msgid "Your account could not be activated..."
 msgstr "Ваша учётная запись не может быть активирована..."
 
@@ -389,8 +404,8 @@ msgid ""
 "Your account could not be activated. This could be because your activation "
 "link has aged."
 msgstr ""
-"Ваша учётная запись не может быть активирована. Возможно, ваш ключ "
-"активации устарел."
+"Ваша учётная запись не может быть активирована. Возможно, ваш ключ активации "
+"устарел."
 
 #: templates/userena/activate_fail.html:9
 msgid ""
@@ -398,6 +413,45 @@ msgid ""
 msgstr ""
 "Пожалуйста, попробуйте войти снова или свяжитесь с нами, если вы думаете, "
 "что что-то пошло не так."
+
+#: templates/userena/activate_retry.html:10
+msgid "Your account could not be activated because activation link is expired."
+msgstr ""
+"Ваша учётная запись не может быть активирована. Возможно, ваш ключ активации "
+"устарел."
+
+#: templates/userena/activate_retry.html:11
+msgid "Request a new activation link."
+msgstr ""
+
+#: templates/userena/activate_retry_success.html:6
+msgid "Account re-activation succeded."
+msgstr ""
+
+#: templates/userena/activate_retry_success.html:7
+msgid "Account re-activation"
+msgstr ""
+
+#: templates/userena/activate_retry_success.html:10
+msgid "You requested a new activation of your account.."
+msgstr ""
+
+#: templates/userena/activate_retry_success.html:11
+#: templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr ""
+"Email сообщение с инструкциями об активации отправлено на указанный адрес."
+
+#: templates/userena/activate_retry_success.html:12
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr ""
+"Мы будем хранить регистрационную информация на нашем сервере в течение "
+"%(userena_activation_days)s дней."
 
 #: templates/userena/disabled.html:4
 msgid "Disabled account"
@@ -467,40 +521,41 @@ msgstr "Невозможно подтвердить ваш email..."
 msgid "You could try changing it again in your account settings."
 msgstr "Вы можете попробовать сменить его в настройках учётной записи."
 
-#: templates/userena/email_form.html:4 templates/userena/password_form.html:6
-#: templates/userena/profile_form.html:6
+#: templates/userena/email_form.html:5 templates/userena/password_form.html:7
+#: templates/userena/profile_form.html:7
 #, python-format
 msgid "Account &raquo; %(username)s"
 msgstr "Учётная запись &raquo; %(username)s"
 
-#: templates/userena/email_form.html:9 templates/userena/password_form.html:11
-#: templates/userena/profile_detail.html:14
-#: templates/userena/profile_form.html:12
+#: templates/userena/email_form.html:10
+#: templates/userena/password_form.html:12
+#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_form.html:13
 msgid "View profile"
 msgstr "Смотреть профиль"
 
-#: templates/userena/email_form.html:10
-#: templates/userena/password_form.html:12
-#: templates/userena/profile_form.html:13
+#: templates/userena/email_form.html:11
+#: templates/userena/password_form.html:13
+#: templates/userena/profile_form.html:14
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: templates/userena/email_form.html:11 templates/userena/password_form.html:4
-#: templates/userena/password_form.html:13
-#: templates/userena/password_form.html:21
-#: templates/userena/profile_detail.html:16
-#: templates/userena/profile_form.html:14
+#: templates/userena/email_form.html:12 templates/userena/password_form.html:5
+#: templates/userena/password_form.html:14
+#: templates/userena/password_form.html:22
+#: templates/userena/profile_detail.html:18
+#: templates/userena/profile_form.html:15
 msgid "Change password"
 msgstr "Сменить пароль"
 
-#: templates/userena/email_form.html:12 templates/userena/email_form.html:19
-#: templates/userena/password_form.html:14
-#: templates/userena/profile_detail.html:17
-#: templates/userena/profile_form.html:15
+#: templates/userena/email_form.html:13 templates/userena/email_form.html:20
+#: templates/userena/password_form.html:15
+#: templates/userena/profile_detail.html:19
+#: templates/userena/profile_form.html:16
 msgid "Change email"
 msgstr "Сменить email"
 
-#: templates/userena/email_form.html:16
+#: templates/userena/email_form.html:17
 msgid "Change email address"
 msgstr "Сменить email адрес"
 
@@ -516,19 +571,19 @@ msgstr "Ваш пароль был изменён"
 msgid "From now on you can use your new password to signin"
 msgstr "С этого момента вы можете использовать свой новый пароль чтобы войти"
 
-#: templates/userena/password_form.html:17
+#: templates/userena/password_form.html:18
 msgid "Change Password"
 msgstr "Сменить пароль"
 
-#: templates/userena/password_reset_complete.html:4
+#: templates/userena/password_reset_complete.html:5
 msgid "Password reset"
 msgstr "Сброс пароля"
 
-#: templates/userena/password_reset_complete.html:5
+#: templates/userena/password_reset_complete.html:6
 msgid "Your password has been reset"
 msgstr "Ваш пароль был сброшен"
 
-#: templates/userena/password_reset_complete.html:7
+#: templates/userena/password_reset_complete.html:9
 #, python-format
 msgid ""
 "You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
@@ -555,67 +610,66 @@ msgstr "Письмо о сбросе пароля отправлено"
 #: templates/userena/password_reset_done.html:8
 msgid ""
 "An e-mail has been sent to you which explains how to reset your password."
-msgstr ""
-"Email сообщение с инструкциями о сбросе пароля отправлено."
+msgstr "Email сообщение с инструкциями о сбросе пароля отправлено."
 
 #: templates/userena/password_reset_form.html:13
 msgid "Send password"
 msgstr "Отправить пароль"
 
-#: templates/userena/profile_detail.html:4
+#: templates/userena/profile_detail.html:5
 #, python-format
 msgid "%(username)s's profile."
 msgstr "%(username)s: профиль."
 
-#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_detail.html:17
 msgid "Edit details"
 msgstr "Редактировать профиль"
 
-#: templates/userena/profile_detail.html:22
+#: templates/userena/profile_detail.html:27
 msgid "Your mugshot"
 msgstr "Ваше фото"
 
-#: templates/userena/profile_detail.html:24
+#: templates/userena/profile_detail.html:31
 msgid "Name"
 msgstr "Имя"
 
-#: templates/userena/profile_detail.html:30
+#: templates/userena/profile_detail.html:39
 msgid "Age"
 msgstr "Возраст"
 
-#: templates/userena/profile_detail.html:33
+#: templates/userena/profile_detail.html:43
 msgid "Website"
 msgstr "Web-сайт"
 
-#: templates/userena/profile_detail.html:36
+#: templates/userena/profile_detail.html:47
 msgid "Location"
 msgstr "Местоположение"
 
-#: templates/userena/profile_detail.html:39
+#: templates/userena/profile_detail.html:51
 msgid "About me"
 msgstr "Обо мне"
 
-#: templates/userena/profile_form.html:4
+#: templates/userena/profile_form.html:5
 msgid "Account setup"
 msgstr "Настройки учетной записи"
 
-#: templates/userena/profile_form.html:19
+#: templates/userena/profile_form.html:20
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
 
-#: templates/userena/profile_form.html:22
+#: templates/userena/profile_form.html:23
 msgid "Save changes"
 msgstr "Сохранить изменения"
 
-#: templates/userena/profile_list.html:4
+#: templates/userena/profile_list.html:5
 msgid "Profiles"
 msgstr "Профили"
 
-#: templates/userena/profile_list.html:21
+#: templates/userena/profile_list.html:22
 msgid "previous"
 msgstr "предыдущий"
 
-#: templates/userena/profile_list.html:25
+#: templates/userena/profile_list.html:26
 #, python-format
 msgid ""
 "\n"
@@ -626,16 +680,16 @@ msgstr ""
 "      Страница %(page)s из %(num_pages)s\n"
 "      "
 
-#: templates/userena/profile_list.html:31
+#: templates/userena/profile_list.html:32
 msgid "next"
 msgstr "следующая"
 
-#: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
-#: templates/userena/signin_form.html:28
+#: templates/userena/signin_form.html:5 templates/userena/signin_form.html:11
+#: templates/userena/signin_form.html:29
 msgid "Signin"
 msgstr "Войти"
 
-#: templates/userena/signin_form.html:29
+#: templates/userena/signin_form.html:30
 msgid "Forgot your password?"
 msgstr "Забыли свой пароль?"
 
@@ -657,28 +711,13 @@ msgstr "Регистрация почти завершена!"
 
 #: templates/userena/signup_complete.html:6
 #: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
-#: templates/userena/signup_form.html:27
+#: templates/userena/signup_form.html:28
 msgid "Signup"
 msgstr "Регистрация"
 
 #: templates/userena/signup_complete.html:9
 msgid "Thank you for signing up with us!"
 msgstr "Спасибо, что зарегистрировались у нас!"
-
-#: templates/userena/signup_complete.html:12
-msgid ""
-"You have been sent an e-mail with an activation link to the supplied email."
-msgstr ""
-"Email сообщение с инструкциями об активации отправлено на указанный адрес."
-
-#: templates/userena/signup_complete.html:13
-#, python-format
-msgid ""
-"We will store your signup information for %(userena_activation_days)s days "
-"on our server. "
-msgstr ""
-"Мы будем хранить регистрационную информация на нашем сервере в течение "
-"%(userena_activation_days)s дней."
 
 #: templates/userena/signup_complete.html:15
 msgid "You can now use the supplied credentials to signin."
@@ -701,14 +740,14 @@ msgid "To activate your account you should click on the link below:"
 msgstr "Для активации вашей учётной записи перейдите по ссылке ниже:"
 
 #: templates/userena/emails/activation_email_message.txt:10
-#: templates/userena/emails/confirmation_email_message_new.txt:11
+#: templates/userena/emails/confirmation_email_message_new.txt:12
 #: templates/userena/emails/confirmation_email_message_old.txt:8
 #: templates/userena/emails/password_reset_message.txt:14
 msgid "Thanks for using our site!"
 msgstr "Спасибо, что пользуетесь нашим сайтом!"
 
 #: templates/userena/emails/activation_email_message.txt:12
-#: templates/userena/emails/confirmation_email_message_new.txt:13
+#: templates/userena/emails/confirmation_email_message_new.txt:14
 #: templates/userena/emails/confirmation_email_message_old.txt:10
 #: templates/userena/emails/password_reset_message.txt:16
 msgid "Sincerely"
@@ -797,3 +836,6 @@ msgstr "местоположение"
 #: tests/profile.py:15 tests/profiles/models.py:27
 msgid "about me"
 msgstr "обо мне"
+
+#~ msgid "%(label)s"
+#~ msgstr "%(label)s"

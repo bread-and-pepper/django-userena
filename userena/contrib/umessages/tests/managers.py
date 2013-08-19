@@ -51,6 +51,6 @@ class MessageContactManagerTest(TestCase):
         self.failUnlessEqual(len(contacts), 1)
 
         jane = User.objects.get(pk=2)
-        self.failUnlessEqual(contacts[0].to_user,
+        self.failUnlessEqual(contacts[0].um_to_user,
                              jane)
 
