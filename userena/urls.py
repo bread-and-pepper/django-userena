@@ -23,7 +23,7 @@ urlpatterns = patterns('',
        auth_views.password_reset,
        {'template_name': 'userena/password_reset_form.html',
         'email_template_name': 'userena/emails/password_reset_message.txt',
-        'extra_context': {'without_username': userena_settings.USERENA_WITHOUT_USERNAMES}
+        'extra_context': {'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES}
         },
        name='userena_password_reset'),
     url(r'^password/reset/done/$',
