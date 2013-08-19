@@ -16,10 +16,14 @@ class UserenaAdmin(UserAdmin, GuardedModelAdmin):
                     'is_staff', 'is_active', 'date_joined')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
 
-try:
-    admin.site.unregister(get_user_model())
-except admin.sites.NotRegistered:
-    pass
 
-admin.site.register(get_user_model(), UserenaAdmin)
-admin.site.register(get_profile_model())
+if settings.USERENA_REGISTER_USER:
+    try:
+        admin.site.unregister(get_user_model())
+    except admin.sites.NotRegistered:
+        pass
+    
+    admin.site.register(get_user_model(), UserenaAdmin)
+    
+if settings.USERENA_REGISTER_PROFILE:    
+    admin.site.register(get_profile_model())
