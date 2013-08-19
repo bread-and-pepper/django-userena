@@ -1,5 +1,10 @@
 This file contains all the backwards-incompatible changes.
 
+Version 1.2.2
+
+- Changed backwards relationships names for Umessages contrib application from
+  `to_user` to `um_to_user` and `from_user` to `um_from_user`.
+
 Version 1.2.0
 
 - This version updates Userena to be able to use the new `User` model found in

@@ -271,8 +271,8 @@ msgstr "联系人"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
-msgstr "%(from_user)s 和 %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s 和 %(um_to_user)s"
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
