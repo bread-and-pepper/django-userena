@@ -46,7 +46,7 @@ def get_gravatar(email, size=80, default='identicon'):
     """
     if userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE:
         base_url = 'https://secure.gravatar.com/avatar/'
-    else: base_url = 'http://www.gravatar.com/avatar/'
+    else: base_url = '//www.gravatar.com/avatar/'
 
     gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
             {'base_url': base_url,
