@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import redirect_to
-
 from userena.contrib.umessages import views as messages_views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns('',
     url(r'^compose/$',
@@ -17,7 +16,7 @@ urlpatterns = patterns('',
         name='userena_umessages_reply'),
 
     url(r'^view/(?P<username>[\.\w]+)/$',
-        messages_views.message_detail,
+        login_required(messages_views.MessageDetailListView.as_view()),
         name='userena_umessages_detail'),
 
     url(r'^remove/$',
@@ -30,6 +29,6 @@ urlpatterns = patterns('',
         name='userena_umessages_unremove'),
 
     url(r'^$',
-        messages_views.message_list,
+        login_required(messages_views.MessageListView.as_view()),
         name='userena_umessages_list'),
 )

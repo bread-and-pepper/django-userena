@@ -1,5 +1,28 @@
 This file contains all the backwards-incompatible changes.
 
+Version 1.2.2
+
+- Changed backwards relationships names for Umessages contrib application from
+  `to_user` to `um_to_user` and `from_user` to `um_from_user`.
+
+Version 1.2.0
+
+- This version updates Userena to be able to use the new `User` model found in
+  Django 1.5. This does require the django-guardion > 1.5-dev. To make this
+  work, there is a `get_user_model` function in `userena/utils.py` which is used
+  to get the correct `User` model.
+
+Version 1.1.2
+
+- Activation view no longer contains username. If you override
+  `userena/templates/userena/emails/activation_email_message.txt` and
+  `userena/templates/userena/emails/confirmation_email_message_new.txt` be sure
+  to remove username from the URL.
+
+Version 1.1
+
+- Userena now requires Django >= 1.3 because of the use of class based views.
+
 Version 1.0.1
 
 - Removed the ``user`` relationship outside ``UserenaBaseProfile`` model. This

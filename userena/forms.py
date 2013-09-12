@@ -1,12 +1,15 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-from django.utils.hashcompat import sha_constructor
+
+try:
+    from hashlib import sha1 as sha_constructor
+except ImportError:
+    from django.utils.hashcompat import sha_constructor
 
 from userena import settings as userena_settings
 from userena.models import UserenaSignup
-from userena.utils import get_profile_model
+from userena.utils import get_profile_model, get_user_model
 
 import random
 
@@ -19,8 +22,7 @@ class SignupForm(forms.Form):
     Form for creating a new user account.
 
     Validates that the requested username and e-mail is not already in use.
-    Also requires the password to be entered twice and the Terms of Service to
-    be accepted.
+    Also requires the password to be entered twice.
 
     """
     username = forms.RegexField(regex=USERNAME_RE,
@@ -46,10 +48,12 @@ class SignupForm(forms.Form):
 
         """
         try:
-            user = User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
+            user = get_user_model().objects.get(username__iexact=self.cleaned_data['username'])
+        except get_user_model().DoesNotExist:
             pass
         else:
+            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError(_('This username is already taken but not confirmed. Please check your email for verification steps.'))
             raise forms.ValidationError(_('This username is already taken.'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))
@@ -57,7 +61,9 @@ class SignupForm(forms.Form):
 
     def clean_email(self):
         """ Validate that the e-mail address is unique. """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+        if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']):
+            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(user__email__iexact=self.cleaned_data['email']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError(_('This email is already in use but not confirmed. Please check your email for verification steps.'))
             raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 
@@ -80,7 +86,7 @@ class SignupForm(forms.Form):
                                      self.cleaned_data['password1'])
 
         new_user = UserenaSignup.objects.create_user(username,
-                                                     email, 
+                                                     email,
                                                      password,
                                                      not userena_settings.USERENA_ACTIVATION_REQUIRED,
                                                      userena_settings.USERENA_ACTIVATION_REQUIRED)
@@ -105,8 +111,8 @@ class SignupFormOnlyEmail(SignupForm):
         while True:
             username = sha_constructor(str(random.random())).hexdigest()[:5]
             try:
-                User.objects.get(username__iexact=username)
-            except User.DoesNotExist: break
+                get_user_model().objects.get(username__iexact=username)
+            except get_user_model().DoesNotExist: break
 
         self.cleaned_data['username'] = username
         return super(SignupFormOnlyEmail, self).save()
@@ -128,7 +134,7 @@ def identification_field_factory(label, error_required):
         String containing the error message if the field is left empty.
 
     """
-    return forms.CharField(label=_("%(label)s") % {'label': label},
+    return forms.CharField(label=label,
                            widget=forms.TextInput(attrs=attrs_dict),
                            max_length=75,
                            error_messages={'required': _("%(error)s") % {'error': error_required}})
@@ -149,6 +155,9 @@ class AuthenticationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         """ A custom init because we need to change the label if no usernames is used """
         super(AuthenticationForm, self).__init__(*args, **kwargs)
+        # Dirty hack, somehow the label doesn't get translated without declaring
+        # it again here.
+        self.fields['remember_me'].label = _(u'Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])}
         if userena_settings.USERENA_WITHOUT_USERNAMES:
             self.fields['identification'] = identification_field_factory(_(u"Email"),
                                                                          _(u"Please supply your email."))
@@ -183,15 +192,15 @@ class ChangeEmailForm(forms.Form):
 
         """
         super(ChangeEmailForm, self).__init__(*args, **kwargs)
-        if not isinstance(user, User):
-            raise TypeError, "user must be an instance of User"
+        if not isinstance(user, get_user_model()):
+            raise TypeError, "user must be an instance of %s" % get_user_model().__name__
         else: self.user = user
 
     def clean_email(self):
         """ Validate that the email is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
             raise forms.ValidationError(_(u'You\'re already known under this email.'))
-        if User.objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
+        if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
             raise forms.ValidationError(_(u'This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 

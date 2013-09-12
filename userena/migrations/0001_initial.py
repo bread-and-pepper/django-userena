@@ -3,6 +3,7 @@ import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
+from userena.utils import user_model_label
 
 class Migration(SchemaMigration):
 
@@ -11,7 +12,7 @@ class Migration(SchemaMigration):
         # Adding model 'UserenaSignup'
         db.create_table('userena_userenasignup', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'userena_signup', unique=True, to=orm['auth.User'])),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'userena_signup', unique=True, to=orm[user_model_label])),
             ('last_active', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
             ('activation_notification_send', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -42,8 +43,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'auth.user': {
-            'Meta': {'object_name': 'User'},
+        user_model_label: {
+            'Meta': {'object_name': user_model_label.split('.')[-1]},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -74,7 +75,7 @@ class Migration(SchemaMigration):
             'email_unconfirmed': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_active': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "u'userena_signup'", 'unique': 'True', 'to': "orm['auth.User']"})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "u'userena_signup'", 'unique': 'True', 'to': "orm['%s']" % user_model_label})
         }
     }
 

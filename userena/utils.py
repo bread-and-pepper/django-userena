@@ -1,13 +1,16 @@
 from django.conf import settings
-from django.utils.hashcompat import sha_constructor
 from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import get_model
+
+try:
+    from hashlib import sha1 as sha_constructor, md5 as md5_constructor
+except ImportError:
+    from django.utils.hashcompat import sha_constructor, md5_constructor
 
 from userena import settings as userena_settings
 
 import urllib, random, datetime
 
-from django.utils.hashcompat import md5_constructor
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a Gravatar for a email address.
@@ -43,7 +46,7 @@ def get_gravatar(email, size=80, default='identicon'):
     """
     if userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE:
         base_url = 'https://secure.gravatar.com/avatar/'
-    else: base_url = 'http://www.gravatar.com/avatar/'
+    else: base_url = '//www.gravatar.com/avatar/'
 
     gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
             {'base_url': base_url,
@@ -141,6 +144,19 @@ def get_datetime_now():
     """
     try:
         from django.utils import timezone
-        return timezone.now()
-    except ImportError:
+        return timezone.now() # pragma: no cover
+    except ImportError: # pragma: no cover
         return datetime.datetime.now()
+
+# Django 1.5 compatibility utilities, providing support for custom User models.
+# Since get_user_model() causes a circular import if called when app models are
+# being loaded, the user_model_label should be used when possible, with calls
+# to get_user_model deferred to execution time
+
+user_model_label = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:
+    from django.contrib.auth.models import User
+    get_user_model = lambda: User

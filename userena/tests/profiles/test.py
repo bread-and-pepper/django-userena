@@ -8,7 +8,7 @@ class ProfileTestCase(test.TestCase):
     def _pre_setup(self):
         # Add the models to the db.
         self._original_installed_apps = list(settings.INSTALLED_APPS)
-        settings.INSTALLED_APPS.append('userena.tests.profiles')
+        settings.INSTALLED_APPS += ('userena.tests.profiles',)
         loading.cache.loaded = False
         call_command('syncdb', interactive=False, verbosity=0)
 

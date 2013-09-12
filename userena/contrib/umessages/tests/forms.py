@@ -1,7 +1,7 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 from userena.contrib.umessages.forms import ComposeForm
+from userena.utils import get_user_model
 
 class ComposeFormTests(TestCase):
     """ Test the compose form. """
@@ -38,7 +38,7 @@ class ComposeFormTests(TestCase):
         self.failUnless(form.is_valid())
 
         # Save the form.
-        sender = User.objects.get(username='jane')
+        sender = get_user_model().objects.get(username='jane')
         msg = form.save(sender)
 
         # Check if the values are set correctly

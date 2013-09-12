@@ -1,0 +1,762 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Soulis Gerasimo, gsoulis@gmail.com, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-06 15:30-0300\n"
+"PO-Revision-Date: 2012-09-07 22:02+0200\n"
+"Last-Translator: Gerasimos Soulis <gsoulis@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Translated-Using: django-rosetta 0.6.0\n"
+
+#: forms.py:29
+msgid "Username"
+msgstr "Όνομα χρήστη"
+
+#: forms.py:30
+msgid "Username must contain only letters, numbers, dots and underscores."
+msgstr "Το όνομα χρήστη θα πρέπει να περιέχει μόνο γράμματα, αριθμούς, τελείες και κάτω παύλες."
+
+#: forms.py:33
+#: forms.py:153
+#: templates/userena/profile_detail.html:26
+msgid "Email"
+msgstr "Email"
+
+#: forms.py:36
+msgid "Create password"
+msgstr "Δημιουργήστε κωδικό πρόσβασης"
+
+#: forms.py:39
+msgid "Repeat password"
+msgstr "Επαναλάβεται τον κωδικό πρόσβασης."
+
+#: forms.py:53
+msgid "This username is already taken."
+msgstr "Αυτό το όνομα χρήστη χρησιμοποιείται"
+
+#: forms.py:55
+msgid "This username is not allowed."
+msgstr "Αυτό το όνομα χρήστη δεν επιτρέπεται"
+
+#: forms.py:61
+#: forms.py:195
+msgid "This email is already in use. Please supply a different email."
+msgstr "Το email αυτό χρησιμοποιείται ήδη. Παρακαλώ χρησιμοποείστε ένα άλλο email."
+
+#: forms.py:73
+msgid "The two password fields didn't match."
+msgstr "Τα δύο πεδία για τον κωδικό δεν ταιριάζουν."
+
+#: forms.py:117
+msgid "I have read and agree to the Terms of Service"
+msgstr "Έχω διαβάσει και συμφωνήσει στους Όρους Χρήσης"
+
+#: forms.py:118
+msgid "You must agree to the terms to register."
+msgstr "Πρέπει να συμφωνήσετε στους όρους για να εγγραφείτε."
+
+#: forms.py:131
+#, python-format
+msgid "%(label)s"
+msgstr "%(label)s"
+
+#: forms.py:134
+#, python-format
+msgid "%(error)s"
+msgstr "%(error)s"
+
+#: forms.py:141
+msgid "Email or username"
+msgstr "Email ή όνομα χρήστη"
+
+#: forms.py:142
+msgid "Either supply us with your email or username."
+msgstr "Χρησιμοποιήστε το email ή το όνομα χρήστη."
+
+#: forms.py:143
+msgid "Password"
+msgstr "Κωδικός"
+
+#: forms.py:147
+#, python-format
+msgid "Remember me for %(days)s"
+msgstr "Να με θυμάστε για  %(days)s"
+
+#: forms.py:154
+msgid "Please supply your email."
+msgstr "Παρακαλώ παρέχετε το email."
+
+#: forms.py:169
+msgid "Please enter a correct username or email and password. Note that both fields are case-sensitive."
+msgstr "Παρακαλώ εισάγετε ένα σωστό όνομα χρήστη ή email και κωδικό. Προσέξτε ότι και τα  δύο πεδία είναι ευαίσθητα ως προς τα κεφαλαία και τα πεζά."
+
+#: forms.py:175
+#: templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr "Νέο email"
+
+#: forms.py:193
+msgid "You're already known under this email."
+msgstr "Είστε ήδη γνωστός με αυτό το email."
+
+#: forms.py:209
+msgid "First name"
+msgstr "Όνομα"
+
+#: forms.py:212
+msgid "Last name"
+msgstr "Επώνυμο"
+
+#: managers.py:228
+#, python-format
+msgid "No profile found for %(username)s"
+msgstr "Δεν βρέθηκε προφίλ %(username)s"
+
+#: models.py:46
+#: tests/profiles/models.py:18
+#: tests/profiles/models.py:32
+msgid "user"
+msgstr "χρήστης"
+
+#: models.py:49
+msgid "last active"
+msgstr "τελευταία ενεργός"
+
+#: models.py:52
+msgid "The last date that the user was active."
+msgstr "Τελευταία ημερομηνία που ο χρήστης ήταν ενεργός."
+
+#: models.py:54
+msgid "activation key"
+msgstr "κλειδί ενεργοποίησης"
+
+#: models.py:58
+msgid "notification send"
+msgstr "ειδοποίηση απεστάλη"
+
+#: models.py:60
+msgid "Designates whether this user has already got a notification about activating their account."
+msgstr "Καθορίζει αν ο χρήστης έχει πάρει ήδη μια ειδοποίηση σχετικά με την ενεργοποίηση του λογαριασμού του."
+
+#: models.py:62
+msgid "unconfirmed email address"
+msgstr "Διεύθυνση email χωρίς επιβεβαίωση"
+
+#: models.py:64
+msgid "Temporary email address when the user requests an email change."
+msgstr "Προσωρινό email όταν ο χρήστης ζητήση αλλαγή email."
+
+#: models.py:66
+msgid "unconfirmed email verification key"
+msgstr "Ανεπιβεβαίωτο κλειδί ταυτοποίησης email"
+
+#: models.py:70
+msgid "creation date of email confirmation key"
+msgstr "ημερομηνία δημιουργίας  του email με το κλειδί επιβεβαίωσης "
+
+#: models.py:78
+msgid "userena registration"
+msgstr "εγγραφή userena"
+
+#: models.py:79
+msgid "userena registrations"
+msgstr "εγγραφές userena"
+
+#: models.py:201
+msgid "Open"
+msgstr "Ανοικτό"
+
+#: models.py:202
+msgid "Registered"
+msgstr "Εγγεγραμένο"
+
+#: models.py:203
+msgid "Closed"
+msgstr "Κλειστό"
+
+#: models.py:210
+msgid "mugshot"
+msgstr "φωτογραφία"
+
+#: models.py:214
+msgid "A personal image displayed in your profile."
+msgstr "Μια προσωπική εικόνα που εμφανίζεται στο προφίλ σας."
+
+#: models.py:216
+msgid "privacy"
+msgstr "ιδιωτικότητα"
+
+#: models.py:220
+msgid "Designates who can view your profile."
+msgstr "Καθορίζει ποιος μπορεί να δει το προφίλ σας."
+
+#: models.py:299
+#, python-format
+msgid "%(first_name)s %(last_name)s"
+msgstr "%(first_name)s %(last_name)s"
+
+#: models.py:361
+msgid "language"
+msgstr "γλώσσα"
+
+#: settings.py:39
+msgid "a month"
+msgstr "ένα μήνα"
+
+#: views.py:136
+msgid "Your account has been activated and you have been signed in."
+msgstr "Ο λογαριασμός σας έχει ενεργοποιηθεί και έχετε εισέλθει"
+
+#: views.py:296
+msgid "You have been signed in."
+msgstr "Έχετε εισέλθει"
+
+#: views.py:514
+msgid "Your profile has been updated."
+msgstr "Το προφίλ σας έχει ανανεωθεί."
+
+#: views.py:554
+msgid "You don't have permission to view this profile."
+msgstr "Δεν έχετε το δικαίωμα να δείτε αυτό το προφίλ."
+
+#: contrib/umessages/admin.py:25
+msgid "Date/time"
+msgstr "Χρονολογία/ώρα"
+
+#: contrib/umessages/fields.py:56
+#, python-format
+msgid "The following usernames are incorrect: %(users)s."
+msgstr "Τα παρακάτω ψευδώνυμα είναι λάθος: %(users)s."
+
+#: contrib/umessages/forms.py:10
+msgid "To"
+msgstr "Προς"
+
+#: contrib/umessages/forms.py:11
+msgid "Message"
+msgstr "Μήνυμα"
+
+#: contrib/umessages/models.py:17
+msgid "from user"
+msgstr "απο τον χρήστη"
+
+#: contrib/umessages/models.py:20
+msgid "to user"
+msgstr "στον χρήστη"
+
+#: contrib/umessages/models.py:24
+msgid "latest message"
+msgstr "τελευταίο μήνυμα"
+
+#: contrib/umessages/models.py:31
+msgid "contact"
+msgstr "επαφή"
+
+#: contrib/umessages/models.py:32
+msgid "contacts"
+msgstr "επαφές"
+
+#: contrib/umessages/models.py:35
+#, python-format
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s και %(um_to_user)s"
+
+#: contrib/umessages/models.py:61
+#: contrib/umessages/models.py:77
+msgid "recipient"
+msgstr "παραλήπτης"
+
+#: contrib/umessages/models.py:64
+#: contrib/umessages/models.py:112
+msgid "message"
+msgstr "μήνυμα"
+
+#: contrib/umessages/models.py:66
+msgid "read at"
+msgstr "αναγνώστηκε στις"
+
+#: contrib/umessages/models.py:70
+msgid "recipient deleted at"
+msgstr "παραλήπτης διαγράφηκε στις"
+
+#: contrib/umessages/models.py:78
+#: contrib/umessages/models.py:99
+msgid "recipients"
+msgstr "παραλήπτες"
+
+#: contrib/umessages/models.py:81
+#, python-format
+msgid "%(message)s"
+msgstr "%(message)s"
+
+#: contrib/umessages/models.py:90
+msgid "body"
+msgstr "σώμα"
+
+#: contrib/umessages/models.py:94
+msgid "sender"
+msgstr "αποστολέας"
+
+#: contrib/umessages/models.py:101
+msgid "sent at"
+msgstr "στάλθηκε στις"
+
+#: contrib/umessages/models.py:104
+msgid "sender deleted at"
+msgstr "αποστολέας διαγράφηκε στις"
+
+#: contrib/umessages/models.py:113
+msgid "messages"
+msgstr "μηνύματα"
+
+#: contrib/umessages/views.py:179
+msgid "Message is sent."
+msgstr "Το μήνυμα απεστάλη."
+
+#: contrib/umessages/views.py:263
+msgid "Message is succesfully restored."
+msgid_plural "Messages are succesfully restored."
+msgstr[0] "Το μήνυμα αποκαταστάθηκε με επιτυχία."
+msgstr[1] "Τα μηνύματα αποκαταστάθηκαν με επιτυχία."
+
+#: contrib/umessages/views.py:267
+msgid "Message is successfully removed."
+msgid_plural "Messages are successfully removed."
+msgstr[0] "Το μήνυμα διαγράφηκε με επιτυχία."
+msgstr[1] "Τα μηνύματα διαγράφηκαν με επιτυχία."
+
+#: contrib/umessages/templates/umessages/message_form.html:4
+msgid "Compose"
+msgstr "Δημιουργία"
+
+#: contrib/umessages/templates/umessages/message_form.html:10
+msgid "Compose message"
+msgstr "Δημιουργία μηνύματος"
+
+#: contrib/umessages/templates/umessages/message_form.html:13
+msgid "Send"
+msgstr "Αποστολή"
+
+#: templates/userena/activate_fail.html:4
+msgid "Account activation failed."
+msgstr "Η ενεργοποίηση του λογαριασμού απέτυχε."
+
+#: templates/userena/activate_fail.html:5
+msgid "Your account could not be activated.."
+msgstr "Ο λογαριασμός σας δεν μπορεί να ενεργοποιηθεί."
+
+#: templates/userena/activate_fail.html:8
+msgid "Your account could not be activated. This could be because your activation link has aged."
+msgstr "Ο λογαριασμός σας δεν μπόρεσε να ενεργοποιηθεί. Είναι δυνατό ο σύνδεσμος ενεργοποίησης να έχει λήξη."
+
+#: templates/userena/activate_fail.html:9
+msgid "Please try signing up again or contact us if you think something went wrong."
+msgstr "Προσπαθήστε να συνδεθείτε ξανά ή επικοινωνήστε μαζί μας, αν νομίζετε ότι κάτι πήγε στραβά."
+
+#: templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr "Απενεργοποίηση λογαριασμού"
+
+#: templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr "Ο λογαριασμός σας έχει απενεργοποιηθεί"
+
+#: templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr "Φαίνεται ότι ο λογαριασμός σας έχει απενεργοποιηθεί."
+
+#: templates/userena/disabled.html:8
+msgid "If you feel that injustice has been done to you, feel free to contact the administrators to find out why"
+msgstr "Αν αισθάνεστε ότι έχετε αδικηθεί, μην διστάσετε να επικοινωνήσετε με τους διαχειριστές να μάθετε γιατί"
+
+#: templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr "Email επαλήθευσης"
+
+#: templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr "Επιβεβαιώστε το καινούριο σας email."
+
+#: templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr "Έχεις λάβει ένα emal στο%(email)s."
+
+#: templates/userena/email_change_complete.html:9
+#, python-format
+msgid "To associate this email address with your account (%(username)s) click on the link provided in this email."
+msgstr "Για να συσχετίσετε αυτό το email με το λογαριασμό σας ( %(username)s ), ακολουθήστε το σύνδεσμο που παρέχεται σε αυτό το email."
+
+#: templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr "Το email άλλαξε!"
+
+#: templates/userena/email_confirm_complete.html:8
+msgid "Your new email address is saved. You can continue using userena with this email."
+msgstr "Το καινούριο σας email έχει σωθεί. Μπορείτε να συνεχίσετε να χρησιμοποιείτε το userena με αυτό το email."
+
+#: templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr "Η επαλήθευση του email απέτυχε."
+
+#: templates/userena/email_confirm_fail.html:5
+msgid "Your email could not be verified.."
+msgstr "Το email σας δεν μπορεί να επαληθευτεί.."
+
+#: templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr "Το email σας δεν μπορεί να επαληθευτεί.."
+
+#: templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr "Μπορείτε να δοκιμάσετε να αλλάξετε ξανά τις ρυθμίσεις του λογαριασμού σας."
+
+#: templates/userena/email_form.html:4
+#: templates/userena/password_form.html:6
+#: templates/userena/profile_form.html:6
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr "Λογαρισμός &raquo; %(username)s "
+
+#: templates/userena/email_form.html:9
+#: templates/userena/password_form.html:11
+#: templates/userena/profile_detail.html:13
+#: templates/userena/profile_form.html:12
+msgid "View profile"
+msgstr "Δείτε το προφίλ"
+
+#: templates/userena/email_form.html:10
+#: templates/userena/password_form.html:12
+#: templates/userena/profile_form.html:13
+msgid "Edit profile"
+msgstr "Επεξεργασία προφίλ"
+
+#: templates/userena/email_form.html:11
+#: templates/userena/password_form.html:4
+#: templates/userena/password_form.html:13
+#: templates/userena/password_form.html:21
+#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_form.html:14
+msgid "Change password"
+msgstr "Αλλαγή κωδικού"
+
+#: templates/userena/email_form.html:12
+#: templates/userena/email_form.html:19
+#: templates/userena/password_form.html:14
+#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_form.html:15
+msgid "Change email"
+msgstr "Αλλαγή email"
+
+#: templates/userena/email_form.html:16
+msgid "Change email address"
+msgstr "Αλλαγή διεύθυνσης email"
+
+#: templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr "Ο κωδικός άλλαξε"
+
+#: templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr "Ο κωδικός σας έχει αλλάξει"
+
+#: templates/userena/password_complete.html:8
+msgid "From now on you can use your new password to signin"
+msgstr "Από εδώ και στο εξής μπορείτε να χρησιμοποιήσετε το καινούριο σας κωδικό για να εισέλθετε"
+
+#: templates/userena/password_form.html:17
+msgid "Change Password"
+msgstr "Αλλαγή κωδικού"
+
+#: templates/userena/password_reset_complete.html:4
+msgid "Password reset"
+msgstr "Επαναφορά κωδικού"
+
+#: templates/userena/password_reset_complete.html:5
+msgid "Your password has been reset"
+msgstr "Ο κωδικό σας έχει επανέλθει."
+
+#: templates/userena/password_reset_complete.html:7
+msgid "You can now "
+msgstr "Μπορείτε τώρα"
+
+#: templates/userena/password_reset_complete.html:7
+msgid "signin"
+msgstr "να εισέλθετε"
+
+#: templates/userena/password_reset_complete.html:7
+msgid "with your new password."
+msgstr "με τον καινούριο σας κωδικό."
+
+#: templates/userena/password_reset_confirm_form.html:4
+#: templates/userena/password_reset_confirm_form.html:13
+#: templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr "Επαναφορά κωδικού"
+
+#: templates/userena/password_reset_confirm_form.html:9
+#: templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr "Επαναφορά κωδικού"
+
+#: templates/userena/password_reset_done.html:4
+#: templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr "Αποστολή email επαναφοράς κωδικού"
+
+#: templates/userena/password_reset_done.html:8
+msgid "An e-mail has been sent to you which explains how to reset your password."
+msgstr "Ένα email σας έχει σταλεί στο οποίο εξηγείται πως να επαναφέρετε τον κωδικό σας."
+
+#: templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr "Αποστολή κωδικού"
+
+#: templates/userena/profile_detail.html:4
+#, python-format
+msgid "%(username)s's profile."
+msgstr "Προφίλ του %(username)s."
+
+#: templates/userena/profile_detail.html:14
+msgid "Edit details"
+msgstr "Επεξεργασία λεπτομερειών"
+
+#: templates/userena/profile_detail.html:21
+msgid "Your mugshot"
+msgstr "Η φωτογραφία σας"
+
+#: templates/userena/profile_detail.html:23
+msgid "Name"
+msgstr "Όνομα"
+
+#: templates/userena/profile_detail.html:29
+msgid "Age"
+msgstr "Ηλικία"
+
+#: templates/userena/profile_detail.html:32
+msgid "Website"
+msgstr "Ιστοσελίδα"
+
+#: templates/userena/profile_detail.html:35
+msgid "Location"
+msgstr "Περιοχή"
+
+#: templates/userena/profile_detail.html:38
+msgid "About me"
+msgstr "Σχετικά με εμένα"
+
+#: templates/userena/profile_form.html:4
+msgid "Account setup"
+msgstr "Ρυθμίσεις λογαριασμού"
+
+#: templates/userena/profile_form.html:19
+msgid "Edit Profile"
+msgstr "Επεξεργασία προφίλ"
+
+#: templates/userena/profile_form.html:22
+msgid "Save changes"
+msgstr "Αποθήκευση των αλλαγών"
+
+#: templates/userena/profile_list.html:4
+msgid "Profiles"
+msgstr "Προφίλς"
+
+#: templates/userena/profile_list.html:21
+msgid "previous"
+msgstr "προηγούμενο"
+
+#: templates/userena/profile_list.html:25
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+"\n"
+"      Σελίδα %(page)s από %(num_pages)s\n"
+"      "
+
+#: templates/userena/profile_list.html:31
+msgid "next"
+msgstr "επόμενο"
+
+#: templates/userena/signin_form.html:4
+#: templates/userena/signin_form.html:10
+#: templates/userena/signin_form.html:27
+msgid "Signin"
+msgstr "Εισαγωγή"
+
+#: templates/userena/signin_form.html:28
+msgid "Forgot your password?"
+msgstr "Ξεχάσατε τον κωδικό πρόσβασή σας;"
+
+#: templates/userena/signout.html:4
+msgid "Signed out"
+msgstr "Αποσύνδεση"
+
+#: templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr "Έχετε αποσυνδεθεί"
+
+#: templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr "Έχετε αποσυνδεθεί Σας περιμένουμε ξανά."
+
+#: templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr "Η εγγραφή είναι σχεδόν έτοιμη!"
+
+#: templates/userena/signup_complete.html:6
+#: templates/userena/signup_form.html:4
+#: templates/userena/signup_form.html:26
+msgid "Signup"
+msgstr "Εγγραφή"
+
+#: templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr "Σας ευχαριστούμε που εγγραφήκατε!"
+
+#: templates/userena/signup_complete.html:12
+msgid "You have been sent an e-mail with an activation link to the supplied email."
+msgstr "Σας έχει σταλεί ένα email με ένα σύνδεσμο ενεργοποίησης για το email που δώσατε."
+
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid "We will store your signup information for %(userena_activation_days)s days on our server. "
+msgstr "Θα αποθηκεύσουμε τα δεδομένα της εγγραφή σας για %(userena_activation_days)s μέρες στον server μας."
+
+#: templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr "Τώρα μπορείτε να χρησιμοποιήσετε τους κωδικούς σας για να συνδεθείτε"
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Αγαπητέ/ή %(username)s,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr "Σας ευχαριστούμε που εγγραφήκατε στο %(site)s."
+
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "Για να ενεργοποιήσετε τον λογαριασμό σας παρακαλώ ακολουθήστε τον παρακάτω σύνδεσμο:"
+
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.txt:11
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "Σας ευχαριστούμε που χρησιμοποιήσατε την ιστοσελίδα μας"
+
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.txt:13
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "Με εκτίμηση"
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "Η εγγραφή σας στο %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr "Έχετε ζητήσει την αλλαγή του email σας στο %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr "Παρακαλώ επιβεβαιώστε το email ακολουθώντας τον παρακάτω σύνδεσμο:"
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr "Υπήρξε αίτημα για αλλαγή  της διεύθυνσης email στο%(site)s."
+
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid "An email has been send to %(new_email)s which contains a verification link. Click on the link in this email to activate it."
+msgstr "Ένα email έχει σταλεί στο %(new_email)s το οποίο περιέχει ένα σύνδεσμο επαλήθευσης. Ακολουθήστε το σύνδεσμο σε αυτό το email για να το ενεργοποιήσετε"
+
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr "Επαλήθευση του email για το%(site)s."
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr "Το αίτημά σας για αλλαγή κωδικού έγινε στο %(site)s."
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Έχετε λάβει αυτό το email επειδή έχετε ζητήσει αλλαγή κωδικού\n"
+"για τον λογαριασμό σας στο  %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Παρακαλώ μεταβείτε στην σελίδα που ακολουθεί και επιλέξτε ένα κωδικό:"
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"Το όνομά σας, σε περίπτωση που έχετε ξεχάσει: %(username)s\n"
+
+#: tests/profile.py:6
+#: tests/profiles/models.py:12
+msgid "Male"
+msgstr "Άνδρας"
+
+#: tests/profile.py:7
+#: tests/profiles/models.py:13
+msgid "Female"
+msgstr "Γυναίκα"
+
+#: tests/profile.py:9
+#: tests/profiles/models.py:21
+msgid "gender"
+msgstr "Φύλο"
+
+#: tests/profile.py:13
+#: tests/profiles/models.py:25
+msgid "website"
+msgstr "Ιστοσελίδα"
+
+#: tests/profile.py:14
+#: tests/profiles/models.py:26
+msgid "location"
+msgstr "Περιοχή"
+
+#: tests/profile.py:15
+#: tests/profiles/models.py:27
+msgid "about me"
+msgstr "Σχετικά με εμένα"
+
+#~ msgid "Reset password email is send"
+#~ msgstr "Το email επαναφοράς κωδικού σας έχει σταλεί."
+
+#~ msgid "The %(site_name)s"
+#~ msgstr "Το %(site_name)s "

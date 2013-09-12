@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
@@ -7,8 +7,11 @@ from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile
+from userena.utils import get_user_model
 
 import datetime, hashlib, re
+
+User = get_user_model()
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
 
@@ -29,7 +32,7 @@ class UserenaSignupModelTests(ProfileTestCase):
         """
         user = User.objects.get(pk=1)
         filename = 'my_avatar.png'
-        path = upload_to_mugshot(user, filename)
+        path = upload_to_mugshot(user.get_profile(), filename)
 
         # Path should be changed from the original
         self.failIfEqual(filename, path)
@@ -75,8 +78,7 @@ class UserenaSignupModelTests(ProfileTestCase):
 
         """
         user = UserenaSignup.objects.create_user(**self.user_info)
-        activated_user = UserenaSignup.objects.activate_user(user.username,
-                                                             user.userena_signup.activation_key)
+        activated_user = UserenaSignup.objects.activate_user(user.userena_signup.activation_key)
         self.failUnless(activated_user.userena_signup.activation_key_expired())
 
     def test_activation_unexpired_account(self):
@@ -98,6 +100,58 @@ class UserenaSignupModelTests(ProfileTestCase):
         self.failUnlessEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
+    def test_plain_email(self):
+        """
+        If HTML emails are disabled, check that outgoing emails are not multipart
+        """
+        userena_settings.USERENA_HTML_EMAIL = False
+        new_user = UserenaSignup.objects.create_user(**self.user_info)
+        self.failUnlessEqual(len(mail.outbox), 1)
+        self.assertEqual(unicode(mail.outbox[0].message()).find("multipart/alternative"),-1)
+
+    def test_html_email(self):
+        """
+        If HTML emails are enabled, check outgoings emails are multipart and
+        that different html and plain text templates are used
+        """
+        userena_settings.USERENA_HTML_EMAIL = True
+        userena_settings.USERENA_USE_PLAIN_TEMPLATE = True
+
+        new_user = UserenaSignup.objects.create_user(**self.user_info)
+
+        # Reset configuration
+        userena_settings.USERENA_HTML_EMAIL = False
+
+        self.failUnlessEqual(len(mail.outbox), 1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<h1>Test message")>-1)
+        self.assertFalse(mail.outbox[0].body.find("# Test message")>-1)
+
+    def test_generated_plain_email(self):
+        """
+        If HTML emails are enabled and plain text template are disabled,
+        check outgoings emails are multipart and that plain text is generated
+        from html body
+        """
+        userena_settings.USERENA_HTML_EMAIL = True
+        userena_settings.USERENA_USE_PLAIN_TEMPLATE = False
+
+        new_user = UserenaSignup.objects.create_user(**self.user_info)
+
+        # Reset configuration
+        userena_settings.USERENA_HTML_EMAIL = False
+        userena_settings.USERENA_USE_PLAIN_TEMPLATE = True
+
+        self.failUnlessEqual(len(mail.outbox), 1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<h1>Test message")>-1)
+        self.assertTrue(mail.outbox[0].body.find("# Test message")>-1)
 
 class BaseProfileModelTest(ProfileTestCase):
     """ Test the ``BaseProfile`` model """

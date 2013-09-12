@@ -1,10 +1,13 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.conf import settings
 
 from userena.contrib.umessages.forms import ComposeForm
 from userena.contrib.umessages.models import Message, MessageRecipient
+from userena.utils import get_user_model
+
+User = get_user_model()
+
 
 class MessagesViewsTests(TestCase):
     fixtures = ['users', 'messages']

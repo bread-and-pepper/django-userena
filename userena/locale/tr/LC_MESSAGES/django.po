@@ -1,0 +1,802 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Turkish <kde-i18n-doc@kde.org>, 2012.
+# Gokmen Gorgen <gokmen@alageek.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-06 19:54+0300\n"
+"PO-Revision-Date: 2013-05-10 13:37+0300\n"
+"Last-Translator: Gokmen Gorgen <gokmen@alageek.com>\n"
+"Language-Team: Turkish <translation@radity.com>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: forms.py:29
+msgid "Username"
+msgstr "Kullanıcı adı "
+
+#: forms.py:30
+msgid "Username must contain only letters, numbers, dots and underscores."
+msgstr ""
+"Kullanıcı adı sadece harfler, rakamlar, nokta ve alt çizgiden oluşmalıdır."
+
+#: forms.py:33 forms.py:153 templates/userena/profile_detail.html:34
+msgid "Email"
+msgstr "E-posta"
+
+#: forms.py:36
+msgid "Create password"
+msgstr "Parola oluştur"
+
+#: forms.py:39
+msgid "Repeat password"
+msgstr "Parolayı tekrar et"
+
+#: forms.py:53
+msgid "This username is already taken."
+msgstr "Bu kullanıcı adı kullanımda."
+
+#: forms.py:55
+msgid "This username is not allowed."
+msgstr "Bu kullanıcı adını alamazsınız."
+
+#: forms.py:61 forms.py:195
+msgid "This email is already in use. Please supply a different email."
+msgstr "Bu e-posta zaten kullanımda. Lütfen farklı bir e-posta adresi yazınız."
+
+#: forms.py:73
+msgid "The two password fields didn't match."
+msgstr "Parolalar uyuşmuyor."
+
+#: forms.py:117
+msgid "I have read and agree to the Terms of Service"
+msgstr "Kullanım şartlarını okudum ve kabul ediyorum."
+
+#: forms.py:118
+msgid "You must agree to the terms to register."
+msgstr "Kayıt olabilmek için şartları kabul etmelisiniz."
+
+#: forms.py:131
+#, python-format
+msgid "%(label)s"
+msgstr "%(label)s"
+
+#: forms.py:134
+#, python-format
+msgid "%(error)s"
+msgstr "%(error)s"
+
+#: forms.py:141
+msgid "Email or username"
+msgstr "E-posta veya kullanıcı adı"
+
+#: forms.py:142
+msgid "Either supply us with your email or username."
+msgstr "E-posta adresinizi veya kullanıcı adınızı giriniz."
+
+#: forms.py:143
+msgid "Password"
+msgstr "Parola"
+
+#: forms.py:147
+#, python-format
+msgid "Remember me for %(days)s"
+msgstr "Beni %(days)s gün boyunca hatırla"
+
+#: forms.py:154
+msgid "Please supply your email."
+msgstr "E-posta adresinizi yazınız."
+
+#: forms.py:169
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr ""
+"Lütfen doğru bir kullanıcı adı / e-posta ve parola yazınız. İki alan da büyük "
+"küçük harfe duyarlıdır."
+
+#: forms.py:175 templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr "Yeni e-posta"
+
+#: forms.py:193
+msgid "You're already known under this email."
+msgstr "Zaten bu e-posta ile biliniyorsunuz."
+
+#: forms.py:209
+msgid "First name"
+msgstr "Ad"
+
+#: forms.py:212
+msgid "Last name"
+msgstr "Soyad"
+
+#: managers.py:231
+#, python-format
+msgid "No profile found for %(username)s"
+msgstr "%(username)s için profil bulunamadı"
+
+#: models.py:46 tests/profiles/models.py:18 tests/profiles/models.py:32
+msgid "user"
+msgstr "kullanıcı"
+
+#: models.py:49
+msgid "last active"
+msgstr "son etkinlik"
+
+#: models.py:52
+msgid "The last date that the user was active."
+msgstr "Bu kullanıcının etkin olduğu son tarih."
+
+#: models.py:54
+msgid "activation key"
+msgstr "etkinleştirme anahtarı"
+
+#: models.py:58
+msgid "notification send"
+msgstr "bildirim gönderildi"
+
+#: models.py:60
+msgid ""
+"Designates whether this user has already got a notification about activating "
+"their account."
+msgstr ""
+"Kullanıcının hesabını etkinleştirmesi için bildirim alıp almadığını gösterir."
+
+#: models.py:62
+msgid "unconfirmed email address"
+msgstr "doğrulanmamış e-posta adresi"
+
+#: models.py:64
+msgid "Temporary email address when the user requests an email change."
+msgstr ""
+"Kullanıcı e-posta değişikliği talep ettiğinde verdiği geçici e-posta adresi."
+
+#: models.py:66
+msgid "unconfirmed email verification key"
+msgstr "doğrulanmamış e-posta doğrulama anahtarı"
+
+#: models.py:70
+msgid "creation date of email confirmation key"
+msgstr "e-posta doğrulama anahtarının oluşturulma tarihi"
+
+#: models.py:78
+msgid "userena registration"
+msgstr "userena kayıt"
+
+#: models.py:79
+msgid "userena registrations"
+msgstr "userena kayıtları"
+
+#: models.py:203
+msgid "Open"
+msgstr "Herkese açık"
+
+#: models.py:204
+msgid "Registered"
+msgstr "Kullanıcılara açık"
+
+#: models.py:205
+msgid "Closed"
+msgstr "Sadece ben"
+
+#: models.py:212
+msgid "mugshot"
+msgstr "Profil resmi"
+
+#: models.py:216
+msgid "A personal image displayed in your profile."
+msgstr "Profilinizde gösterilen kişisel resim."
+
+#: models.py:218
+msgid "privacy"
+msgstr "gizlilik"
+
+#: models.py:222
+msgid "Designates who can view your profile."
+msgstr "Profilinizi kimin görebileceğini gösterir."
+
+#: models.py:301
+#, python-format
+msgid "%(first_name)s %(last_name)s"
+msgstr "%(first_name)s %(last_name)s"
+
+#: models.py:363
+msgid "language"
+msgstr "dil"
+
+#: settings.py:39
+msgid "a month"
+msgstr "bir ay"
+
+#: views.py:188
+msgid "Your account has been activated and you have been signed in."
+msgstr "Hesabınız etkinleştirilmiştir ve siteye giriş yapmış bulunmaktasınız."
+
+#: views.py:345
+msgid "You have been signed in."
+msgstr "Giriş yaptınız."
+
+#: views.py:381
+msgid "You have been signed out."
+msgstr "Çıkış yaptınız."
+
+#: views.py:579
+msgid "Your profile has been updated."
+msgstr "Profiliniz güncellendi."
+
+#: views.py:619
+msgid "You don't have permission to view this profile."
+msgstr "Bu profili görmeye yetkiniz yok."
+
+#: contrib/umessages/admin.py:25
+msgid "Date/time"
+msgstr "Tarih/zaman"
+
+#: contrib/umessages/fields.py:56
+#, python-format
+msgid "The following usernames are incorrect: %(users)s."
+msgstr "Şu kullanıcı adları doğru değil: %(users)s."
+
+#: contrib/umessages/forms.py:10
+msgid "To"
+msgstr "Kime"
+
+#: contrib/umessages/forms.py:11
+msgid "Message"
+msgstr "İleti"
+
+#: contrib/umessages/models.py:17
+msgid "from user"
+msgstr "kimden"
+
+#: contrib/umessages/models.py:20
+msgid "to user"
+msgstr "kime"
+
+#: contrib/umessages/models.py:24
+msgid "latest message"
+msgstr "son ileti"
+
+#: contrib/umessages/models.py:31
+msgid "contact"
+msgstr "bağlantı"
+
+#: contrib/umessages/models.py:32
+msgid "contacts"
+msgstr "bağlantılar"
+
+#: contrib/umessages/models.py:35
+#, python-format
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s ve %(um_to_user)s"
+
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
+msgid "recipient"
+msgstr "alıcı"
+
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
+msgid "message"
+msgstr "ileti"
+
+#: contrib/umessages/models.py:66
+msgid "read at"
+msgstr "okunma tarihi"
+
+#: contrib/umessages/models.py:70
+msgid "recipient deleted at"
+msgstr "alıcının silme tarihi"
+
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
+msgid "recipients"
+msgstr "alıcılar"
+
+#: contrib/umessages/models.py:81
+#, python-format
+msgid "%(message)s"
+msgstr "%(message)s"
+
+#: contrib/umessages/models.py:90
+msgid "body"
+msgstr "içerik"
+
+#: contrib/umessages/models.py:94
+msgid "sender"
+msgstr "gönderici"
+
+#: contrib/umessages/models.py:101
+msgid "sent at"
+msgstr "gönderim tarihi"
+
+#: contrib/umessages/models.py:104
+msgid "sender deleted at"
+msgstr "göndericinin silme tarihi"
+
+#: contrib/umessages/models.py:113
+msgid "messages"
+msgstr "iletiler"
+
+#: contrib/umessages/views.py:178
+msgid "Message is sent."
+msgstr "İleti gönderildi."
+
+#: contrib/umessages/views.py:262
+msgid "Message is succesfully restored."
+msgid_plural "Messages are succesfully restored."
+msgstr[0] "İletiler başarıyla geri getirildi."
+
+#: contrib/umessages/views.py:266
+msgid "Message is successfully removed."
+msgid_plural "Messages are successfully removed."
+msgstr[0] "İletiler başarıyla silindi."
+
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "%(recipient)s ile yazışma"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "%(sent_at)s tarihinde alındı"
+
+#: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:9
+msgid "Compose"
+msgstr "Yaz"
+
+#: contrib/umessages/templates/umessages/message_form.html:10
+msgid "Compose message"
+msgstr "İleti yaz"
+
+#: contrib/umessages/templates/umessages/message_form.html:13
+msgid "Send"
+msgstr "Gönder"
+
+#: contrib/umessages/templates/umessages/message_list.html:4
+msgid "Messages"
+msgstr "İletiler"
+
+#: contrib/umessages/templates/umessages/message_list.html:8
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s yeni ileti."
+
+#: contrib/umessages/templates/umessages/message_list.html:20
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s yeni)"
+
+#: templates/userena/activate_fail.html:4
+msgid "Account activation failed."
+msgstr "Hesap etkinleştirme başarısız oldu."
+
+#: templates/userena/activate_fail.html:5
+msgid "Your account could not be activated..."
+msgstr "Hesabınız etkinleştirilemedi..."
+
+#: templates/userena/activate_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr ""
+"Hesabınız etkinleştirilemedi. Etkinleştirme bağlantısının süresi dolmuş "
+"olabilir."
+
+#: templates/userena/activate_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr ""
+"Eğer bir şeylerin ters gittiğini düşünüyorsanız tekrar kayıt olmayı veya bize "
+"ulaşmayı deneyebilirsiniz."
+
+#: templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr "Kapatılmış hesap"
+
+#: templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr "Hesabınız kapatılmıştır"
+
+#: templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr "Hesabınız kapatılmış görünüyor."
+
+#: templates/userena/disabled.html:8
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
+msgstr ""
+"Eğer size karşı bir haksızlık yapıldığını düşünüyorsanız yöneticilere "
+"ulaşarak kapatılma sebebini sorabilirsiniz"
+
+#: templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr "E-posta doğrulama"
+
+#: templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr "Yeni e-posta adresinizi doğrulayın"
+
+#: templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr "%(email)s adresinize bir e-posta almış olmalısınız."
+
+#: templates/userena/email_change_complete.html:9
+#, python-format
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
+msgstr ""
+"Bu e-posta adresiyle hesabınızı (%(username)s) ilişkilendirmek için bu "
+"e-postada yazılı bağlantıya tıklayınız."
+
+#: templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr "E-posta değişti!"
+
+#: templates/userena/email_confirm_complete.html:8
+#, python-format
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
+msgstr ""
+"Yeni e-posta adresiniz kaydedildi. %(site)s kullanmaya bu e-posta ile devam "
+"edebilirsiniz."
+
+#: templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr "E-posta doğrulama başarısız oldu."
+
+#: templates/userena/email_confirm_fail.html:5
+#: templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr "Hesabınız doğrulanamadı..."
+
+#: templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr "Hesap ayarlarından tekrar değiştirmeyi deneyebilirsiniz."
+
+#: templates/userena/email_form.html:4 templates/userena/password_form.html:6
+#: templates/userena/profile_form.html:6
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr "Hesap &raquo; %(username)s"
+
+#: templates/userena/email_form.html:9 templates/userena/password_form.html:11
+#: templates/userena/profile_detail.html:15
+#: templates/userena/profile_form.html:12
+msgid "View profile"
+msgstr "Profili görüntüle"
+
+#: templates/userena/email_form.html:10
+#: templates/userena/password_form.html:12
+#: templates/userena/profile_form.html:13
+msgid "Edit profile"
+msgstr "Profili düzenle"
+
+#: templates/userena/email_form.html:11 templates/userena/password_form.html:4
+#: templates/userena/password_form.html:13
+#: templates/userena/password_form.html:21
+#: templates/userena/profile_detail.html:17
+#: templates/userena/profile_form.html:14
+msgid "Change password"
+msgstr "Parolayı değiştir"
+
+#: templates/userena/email_form.html:12 templates/userena/email_form.html:19
+#: templates/userena/password_form.html:14
+#: templates/userena/profile_detail.html:18
+#: templates/userena/profile_form.html:15
+msgid "Change email"
+msgstr "E-posta değiştir"
+
+#: templates/userena/email_form.html:16
+msgid "Change email address"
+msgstr "E-posta adresi değiştir"
+
+#: templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr "Parola değişti"
+
+#: templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr "Parolanız değişti"
+
+#: templates/userena/password_complete.html:8
+msgid "From now on you can use your new password to signin"
+msgstr "Bundan sonra girişlerde yeni parolanızı kullanabilirsiniz"
+
+#: templates/userena/password_form.html:17
+msgid "Change Password"
+msgstr "Parola Değiştir"
+
+#: templates/userena/password_reset_complete.html:4
+msgid "Password reset"
+msgstr "Parola sıfırla"
+
+#: templates/userena/password_reset_complete.html:5
+msgid "Your password has been reset"
+msgstr "Parolanız sıfırlanmıştır"
+
+#: templates/userena/password_reset_complete.html:8
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+"Şimdi yeni parolanızla <a href=\"%(signin_url)s\">giriş</a> yapabilirsiniz."
+
+#: templates/userena/password_reset_confirm_form.html:4
+#: templates/userena/password_reset_confirm_form.html:13
+#: templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr "Parola sıfırla"
+
+#: templates/userena/password_reset_confirm_form.html:9
+#: templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr "Parola Sıfırla"
+
+#: templates/userena/password_reset_done.html:4
+#: templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr "Parola sıfırlama e-postası gönderildi"
+
+#: templates/userena/password_reset_done.html:8
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
+msgstr ""
+"Parolanızı nasıl sıfırlayacağınızı açıklayan bir e-posta, adresinize "
+"gönderildi."
+
+#: templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr "Parola gönder"
+
+#: templates/userena/profile_detail.html:4
+#, python-format
+msgid "%(username)s's profile."
+msgstr "%(username)s Profili."
+
+#: templates/userena/profile_detail.html:16
+msgid "Edit details"
+msgstr "Ayrıntıları düzenle"
+
+#: templates/userena/profile_detail.html:26
+msgid "Your mugshot"
+msgstr "Profil resminiz"
+
+#: templates/userena/profile_detail.html:30
+msgid "Name"
+msgstr "Ad"
+
+#: templates/userena/profile_detail.html:38
+msgid "Age"
+msgstr "Yaş"
+
+#: templates/userena/profile_detail.html:42
+msgid "Website"
+msgstr "İnternet sitesi"
+
+#: templates/userena/profile_detail.html:46
+msgid "Location"
+msgstr "Konum"
+
+#: templates/userena/profile_detail.html:50
+msgid "About me"
+msgstr "Hakkımda"
+
+#: templates/userena/profile_form.html:4
+msgid "Account setup"
+msgstr "Hesap kurulumu"
+
+#: templates/userena/profile_form.html:19
+msgid "Edit Profile"
+msgstr "Profil Düzenle"
+
+#: templates/userena/profile_form.html:22
+msgid "Save changes"
+msgstr "Değişiklikleri kaydet"
+
+#: templates/userena/profile_list.html:4
+msgid "Profiles"
+msgstr "Profiller"
+
+#: templates/userena/profile_list.html:21
+msgid "previous"
+msgstr "önceki"
+
+#: templates/userena/profile_list.html:25
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+"\n"
+"      %(num_pages)s sayfadan %(page)s\n"
+"      "
+
+#: templates/userena/profile_list.html:31
+msgid "next"
+msgstr "sonraki"
+
+#: templates/userena/signin_form.html:4 templates/userena/signin_form.html:10
+#: templates/userena/signin_form.html:28
+msgid "Signin"
+msgstr "Giriş yap"
+
+#: templates/userena/signin_form.html:29
+msgid "Forgot your password?"
+msgstr "Parolanızı mı unuttunuz?"
+
+#: templates/userena/signout.html:4
+msgid "Signed out"
+msgstr "Çıkış yaptınız"
+
+#: templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr "Çıkış yaptınız"
+
+#: templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr "Çıkış yaptınız, tekrar buluşana kadar..."
+
+#: templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr "Kayıt bitmek üzere!"
+
+#: templates/userena/signup_complete.html:6
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:28
+msgid "Signup"
+msgstr "Kayıt ol"
+
+#: templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr "Kayıt olduğunuz için teşekkürler!"
+
+#: templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr ""
+"Sunduğunuz e-posta adresine etkinleştirme bağlantısı içeren bir e-posta "
+"gönderilmiştir."
+
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr "Kayıt bilgilerinizi %(userena_activation_days)s gün saklayacağız."
+
+#: templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr "Şimdi giriş için sunulan bilgileri kullanabilirsiniz."
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Sayın %(username)s,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr "%(site)s üyeliğiniz için teşekkürler."
+
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "Hesabınızı etkinleştirmek için aşağıdaki bağlantıya tıklayın:"
+
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.txt:12
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "Sitemizi kullandığınız için teşekkürler!"
+
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.txt:14
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "Saygılarımızla"
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "%(site)s üyeliğiniz"
+
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr ""
+"%(site)s üzerinde kayıtlı e-posta adresinizi değiştirme talebinde bulundunuz."
+
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr ""
+"Lütfen bu e-posta adresinizi aşağıdaki bağlantıya tıklayarak doğrulayın:"
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr ""
+"%(site)s üzerinde kayıtlı e-posta adresinizi değiştirme talebinde bulunuldu."
+
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+"%(new_email)s adresine doğrulama bağlantısını içeren bir e-posta gönderildi. "
+"Bu bağlantıya tıklayarak hesabınızı etkinleştirebilirsiniz."
+
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr "%(site)s için e-posta doğrulaması."
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr ""
+"%(site)s üzerinde kayıtlı e-posta adresinizi değiştirme talebinde bulunuldu."
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Bu e-postayı alıyorsunuz çünkü %(site_name)s hesabınızın \n "
+"parolasını sıfırlama talebinde bulundunuz."
+
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Lütfen şu sayfaya gidin ve yeni bir parola belirleyin:"
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"Kullanıcı adınız, unuttuysanız: %(username)s\n"
+
+#: tests/profile.py:6 tests/profiles/models.py:12
+msgid "Male"
+msgstr "Erkek"
+
+#: tests/profile.py:7 tests/profiles/models.py:13
+msgid "Female"
+msgstr "Kadın"
+
+#: tests/profile.py:9 tests/profiles/models.py:21
+msgid "gender"
+msgstr "cinsiyet"
+
+#: tests/profile.py:13 tests/profiles/models.py:25
+msgid "website"
+msgstr "internet sitesi"
+
+#: tests/profile.py:14 tests/profiles/models.py:26
+msgid "location"
+msgstr "konum"
+
+#: tests/profile.py:15 tests/profiles/models.py:27
+msgid "about me"
+msgstr "hakkımda"
+
+

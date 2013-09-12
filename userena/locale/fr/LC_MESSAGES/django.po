@@ -3,7 +3,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -105,7 +105,7 @@ msgstr "Veuillez entrer un pseudonyme ou une adresse électronique valide et vot
 
 #: forms.py:171 templates/userena/email_confirm_complete.html:6
 msgid "New email"
-msgstr "Nouvel adresse électronique"
+msgstr "Nouvelle adresse électronique"
 
 #: forms.py:189
 msgid "You're already known under this email."
@@ -269,8 +269,8 @@ msgstr "contacts"
 
 #: contrib/umessages/models.py:35
 #, python-format
-msgid "%(from_user)s and %(to_user)s"
-msgstr "%(from_user)s et %(to_user)s"
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s et %(um_to_user)s"
 
 #: contrib/umessages/models.py:61 contrib/umessages/models.py:77
 msgid "recipient"
@@ -645,7 +645,7 @@ msgstr "Merci pour votre inscription !"
 
 #: templates/userena/signup_complete.html:10
 msgid ""
-"You have been send an e-mail with an activation link to the supplied "
+"You have been sent an e-mail with an activation link to the supplied "
 "email."
 msgstr "Un lien d'activation vous a été envoyé par courrier électronique."
 

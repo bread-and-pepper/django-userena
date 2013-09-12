@@ -25,9 +25,9 @@ pip-log.txt
 .coverage
 
 # Demo project
-demo_project/demo_project.db
-demo_project/settings_production.py
-demo_project/media/admin
+demo/demo_project.db
+demo/settings_production.py
+demo/media/admin
 
 # Compiled
 *.pyc

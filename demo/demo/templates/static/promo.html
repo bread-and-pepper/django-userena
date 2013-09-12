@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block content %}
+<div id="intro">
+  <h2 class="intro"><span>django-userena</span><br/>Accounts made beautifully simple</h2>
+
+  <p class="intro">Userena is a Django application that supplies your Django project with
+  full account management. It's a fully customizable application that takes
+  care of the signup, activation, messaging and more. It's BSD licensed, which
+  means you can use it commercially for free!</p>
+
+  <p id="xtra-info">Got any feedback? Email me at &#112;&#101;&#116;&#97;&#114;&#64;&#98;&#114;&#101;&#97;&#100;&#97;&#110;&#100;&#112;&#101;&#112;&#112;&#101;&#114;&#46;&#99;&#111;&#109;. For bugs you can report an issue at <a href="http://github.com/bread-and-pepper/django-userena/issues">Github</a>.</p>
+
+</div><!-- /intro-->
+
+<ul class="features">
+  <li><h3>What is userena?</h3>
+
+  <p> Userena is an django application that supplies your project with full
+  account management. It handles the signup, activation, signin etc. for you.
+  It also supplies your users with an optional profile model that integrates
+  <a href="http://www.gravatar.com">gravatar</a> avatars. Signup at
+  this website and try it out for yourself.
+  </p>
+
+  </li>
+  <li><h3>It's free!</h3>
+
+  <p>Userena is licensed under the BSD license. This means it's free for
+  commercial use. You don't have to worry about any licensing..</p>
+
+  <li>
+  <h3>Used in production</h3>
+
+  <p> <a href="http://www.breadandpepper.com">Bread & Pepper</a> uses userena
+  in their own projects. Because of this we have often revised the code and
+  spared you repeating this work. This has made us confident enough to be able
+  to say that the the software is ready for production. Because it's open
+  source, we also get feedback from the community that we use to build a solid
+  product.  </p>
+
+  </li>
+  <li><h3>100% test coverage</h3>
+
+  <p>Account management is an important aspect of any website, therefore we have
+  chosen for 100% test coverage for every bit of code. This reduces bugs and
+  makes sure that we don't introduce any new ones when updating.
+
+  </li>
+  <li><h3>Messaging</h3>
+
+  <p>Userena comes with an optional, chat-like, messaging system. This allows your
+  users to communicate with each other through your site. It's use is intuitive
+  and easy!</p>
+
+  </li>
+  <li><h3>Privacy</h3>
+
+  <p>Permission for viewing other peoples profiles are managed by
+  <a href="https://github.com/lukaszb/django-guardian">django-guardian</a>.
+    This way we can let the user decide if they want to share their profile to
+    everyone, registered users or nobody.
+  </p>
+  </li>
+</ul>
+<ul class="blocks">
+  <li><h3>Browse source</h3>
+  <a href="http://github.com/bread-and-pepper/django-userena" id="browse">Browse</a>
+  </li>
+  <li><h3>Download</h3>
+  <a href="https://github.com/bread-and-pepper/django-userena/downloads" id="download">Download</a>
+  </li>
+  <li><h3>Read docs</h3>
+  <a href="http://docs.django-userena.org/" id="docs">Documentation</a>
+  </li>
+  <li><h3>Try it out!</h3>
+  <a href="{% url 'userena_signup' %}" id="demo">Try it out!</a>
+  </li>
+</ul>
+{% endblock %}

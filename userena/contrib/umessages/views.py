@@ -1,126 +1,72 @@
 from django.contrib.auth.decorators import login_required
-from django.views.generic import list_detail
 from django.views.decorators.http import require_http_methods
 from django.core.urlresolvers import reverse
-from django.views.generic.simple import direct_to_template
-from django.shortcuts import get_object_or_404, redirect
-from django.http import Http404
-from django.contrib.auth.models import User
-from django.template import loader
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.views.generic.list import ListView
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
 from userena.contrib.umessages.forms import ComposeForm
-from userena.utils import get_datetime_now
+from userena.utils import get_datetime_now, get_user_model
 from userena import settings as userena_settings
 
-@login_required
-def message_list(request, page=1, paginate_by=50,
-                 template_name="umessages/message_list.html",
-                 extra_context=None, **kwargs):
+
+class MessageListView(ListView):
     """
 
     Returns the message list for this user. This is a list contacts
     which at the top has the user that the last conversation was with. This is
     an imitation of the iPhone SMS functionality.
 
-    :param page:
-        Integer of the active page used for pagination. Defaults to the first
-        page.
-
-    :param paginate_by:
-        Integer defining the amount of displayed messages per page.
-        Defaults to 50 messages per per page.
-
-    :param template_name:
-        String of the template that is rendered to display this view.
-
-    :param extra_context:
-        Dictionary of variables that will be made available to the template.
-
-    If the result is paginated, the context will also contain the following
-    variables.
-
-    ``paginator``
-        An instance of ``django.core.paginator.Paginator``.
-
-    ``page_obj``
-        An instance of ``django.core.paginator.Page``.
-
     """
-    queryset = MessageContact.objects.get_contacts_for(request.user)
+    page=1
+    paginate_by=50
+    template_name='umessages/message_list.html'
+    extra_context={}
+    context_object_name = 'message_list'
 
-    if not extra_context: extra_context = dict()
-    return list_detail.object_list(request,
-                                   queryset=queryset,
-                                   paginate_by=paginate_by,
-                                   page=page,
-                                   template_name=template_name,
-                                   extra_context=extra_context,
-                                   template_object_name="message",
-                                   **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(MessageListView, self).get_context_data(**kwargs)
+        context.update(self.extra_context)
+        return context
 
-@login_required
-def message_detail(request, username, page=1, paginate_by=10,
-                   template_name="umessages/message_detail.html",
-                   extra_context=None, **kwargs):
+    def get_queryset(self):
+        return MessageContact.objects.get_contacts_for(self.request.user)
+
+
+class MessageDetailListView(MessageListView):
     """
+
     Returns a conversation between two users
 
-    :param username:
-        String containing the username of :class:`User` of whom the
-        conversation is with.
-
-    :param page:
-        Integer of the active page used for pagination. Defaults to the first
-        page.
-
-    :param paginate_by:
-        Integer defining the amount of displayed messages per page.
-        Defaults to 50 messages per per page.
-
-    :param extra_context:
-        Dictionary of variables that will be made available to the template.
-
-    :param template_name:
-        String of the template that is rendered to display this view.
-
-    If the result is paginated, the context will also contain the following
-    variables.
-
-    ``paginator``
-        An instance of ``django.core.paginator.Paginator``.
-
-    ``page_obj``
-        An instance of ``django.core.paginator.Page``.
-
     """
-    recipient = get_object_or_404(User,
+    template_name='umessages/message_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MessageDetailListView, self).get_context_data(**kwargs)
+        context['recipient'] = self.recipient
+        return context
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        self.recipient = get_object_or_404(get_user_model(),
                                   username__iexact=username)
-    queryset = Message.objects.get_conversation_between(request.user,
-                                                        recipient)
+        queryset = Message.objects.get_conversation_between(self.request.user,
+                                                        self.recipient)
+        self._update_unread_messages(queryset)
+        return queryset
 
-    # Update all the messages that are unread.
-    message_pks = [m.pk for m in queryset]
-    unread_list = MessageRecipient.objects.filter(message__in=message_pks,
-                                                  user=request.user,
+    def _update_unread_messages(self, queryset):
+        message_pks = [m.pk for m in queryset]
+        unread_list = MessageRecipient.objects.filter(message__in=message_pks,
+                                                  user=self.request.user,
                                                   read_at__isnull=True)
-    now = get_datetime_now()
-    unread_list.update(read_at=now)
+        now = get_datetime_now()
+        unread_list.update(read_at=now)
 
-    if not extra_context: extra_context = dict()
-    extra_context['recipient'] = recipient
-    return list_detail.object_list(request,
-                                   queryset=queryset,
-                                   paginate_by=paginate_by,
-                                   page=page,
-                                   template_name=template_name,
-                                   extra_context=extra_context,
-                                   template_object_name="message",
-                                   **kwargs)
 
 @login_required
 def message_compose(request, recipients=None, compose_form=ComposeForm,
@@ -162,7 +108,7 @@ def message_compose(request, recipients=None, compose_form=ComposeForm,
 
     if recipients:
         username_list = [r.strip() for r in recipients.split("+")]
-        recipients = [u for u in User.objects.filter(username__in=username_list)]
+        recipients = [u for u in get_user_model().objects.filter(username__in=username_list)]
         initial_data["to"] = recipients
 
     form = compose_form(initial=initial_data)
@@ -193,9 +139,7 @@ def message_compose(request, recipients=None, compose_form=ComposeForm,
     if not extra_context: extra_context = dict()
     extra_context["form"] = form
     extra_context["recipients"] = recipients
-    return direct_to_template(request,
-                              template_name,
-                              extra_context=extra_context)
+    return render(request, template_name, extra_context)
 
 @login_required
 @require_http_methods(["POST"])

@@ -22,7 +22,7 @@ follows:
 
     # Unregister userena's
     admin.site.unregister(YOUR_PROFILE_MODEL)
-    
+
     # Register your own admin class and attach it to the model
     admin.site.register(YOUR_PROFILE_MODEL, YOUR_PROFILE_ADMIN)
 
@@ -35,13 +35,13 @@ form. First you override the signup form and add the fields.
 
 .. code-block:: python
 
-    django import forms
+    from django import forms
     from django.utils.translation import ugettext_lazy as _
 
     from userena.forms import SignupForm
 
     class SignupFormExtra(SignupForm):
-        """ 
+        """
         A form to demonstrate how to add extra fields to the signup form, in this
         case adding the first and last name.
 
@@ -70,7 +70,7 @@ form. First you override the signup form and add the fields.
             self.fields.keyOrder = new_order
 
         def save(self):
-            """ 
+            """
             Override the save method to save the first and last name to the user
             field.
 

@@ -1,0 +1,87 @@
+{% load i18n static %}
+{% load url from future %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <title>{% block title %}Django Userena - Accounts for your Django application{% endblock %}</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Accounts for your Django application" />
+    <meta name="keywords" content="accounts, django, bread and pepper, open source" />
+    <meta name="author" content="Bread and Pepper" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/master.css" %}" />
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="top">
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <div id="lang_form">
+        <form action="/i18n/setlang/" method="post" id="locale_switcher">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ request.path }}" />
+          <label>{% trans 'Choose language' %}:</label>
+          <select name="language" onchange="$('#locale_switcher').submit()">
+            {% for lang in LANGUAGES %}
+            <option value="{{ lang.0 }}" {% if request.LANGUAGE_CODE == lang.0 %}selected{% endif %}>{{ lang.1 }}</option>
+            {% endfor %}
+          </select>
+          <noscript>
+            <input type="submit" value="{% trans "Change language" %}" />
+          </noscript>
+        </form>
+      </div>
+    </div>
+    <div id="container">
+      <div id="header">
+
+        <h1><a href="{% url 'promo' %}">django-userena</a></h1>
+
+        {% block nav %}
+        <ul id="nav">
+          <li><a href="{% url 'promo' %}"><span>{% trans 'Home' %}</span></a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'userena_profile_list' %}"><span>{% trans 'All profiles' %}</span></a></li>
+          <li><a href="{% url 'userena_umessages_list' %}"><span>{% trans 'Messages' %}</span></a></li>
+          <li><a href="{% url 'userena_profile_detail' user.username %}"><span>{% trans 'Account' %} ({{ user.username }})</span></a></li>
+          <li><a href="{% url 'userena_signout' %}"><span>{% trans 'Signout' %}</span></a></li>
+          {% else %}
+          <li><a href="{% url 'userena_signin' %}"><span>{% trans 'Signin' %}</span></a></li>
+          <li><a href="{% url 'userena_signup' %}"><span>{% trans 'Signup' %}</span></a></li>
+          {% endif %}
+        </ul>
+        {% endblock %}
+        {% if not user.is_authenticated %}
+        <div id="try"></div>
+        {% endif %}
+
+      </div><!-- /header-->
+      <a href="https://github.com/bread-and-pepper/django-userena/" id="fork">{% trans 'Fork me hard' %}</a>
+      {% block content_title %}{% endblock %}
+      <div id="content-container">
+        {% block content %}{% endblock %}
+      </div><!-- /content-container-->
+      <div id="footer"><p>{% trans 'Made by' %} <a href="http://breadandpepper.com">Bread &amp; Pepper</a> | Hosting sponsored by <a href="https://www.dotcloud.com/">Dotcloud</a></p></div>
+    </div><!-- /container-->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-8888610-14']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+     </script>
+   </body>
+ </html>

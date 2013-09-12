@@ -2,7 +2,7 @@
 Django accounts management made easy.
 
 """
-VERSION = (1, 0, 2)
+VERSION = (1, 2, 3)
 
 __version__ = '.'.join((str(each) for each in VERSION[:4]))
 

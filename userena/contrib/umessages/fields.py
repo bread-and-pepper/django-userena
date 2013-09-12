@@ -1,7 +1,8 @@
 from django import forms
 from django.forms import widgets
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+
+from userena.utils import get_user_model
 
 class CommaSeparatedUserInput(widgets.Input):
     input_type = 'text'
@@ -38,7 +39,7 @@ class CommaSeparatedUserField(forms.Field):
 
         names = set(value.split(','))
         names_set = set([name.strip() for name in names])
-        users = list(User.objects.filter(username__in=names_set))
+        users = list(get_user_model().objects.filter(username__in=names_set))
 
         # Check for unknown names.
         unknown_names = names_set ^ set([user.username for user in users])

@@ -1,10 +1,9 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.models import SiteProfileNotAvailable
 
 from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
-                           get_protocol)
+                           get_protocol, get_user_model)
 from userena import settings as userena_settings
 from userena.models import UserenaBaseProfile
 
@@ -65,7 +64,7 @@ class UtilsTests(TestCase):
         self.failUnlessEqual(signin_redirect(redirect='/accounts/'), '/accounts/')
 
         # Test with only the user specified
-        user = User.objects.get(pk=1)
+        user = get_user_model().objects.get(pk=1)
         self.failUnlessEqual(signin_redirect(user=user),
                              '/accounts/%s/' % user.username)
 

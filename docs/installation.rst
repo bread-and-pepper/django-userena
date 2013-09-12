@@ -10,6 +10,10 @@ For further information, consult the `Django download page
 <http://www.djangoproject.com/download/>`_, which offers convenient packaged
 downloads and installation instructions.
 
+warning::
+   
+   django-userena has not been tested on Python3 yet.
+
 Installing django-userena.
 --------------------------
 
@@ -17,10 +21,10 @@ You can install django-userena automagicly with ``pip``. Or by manually
 placing it on on your ``PYTHON_PATH``. The recommended way is the shown in
 :ref:`pip-install`.
 
-NOTE: It is also recommended to use
-`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ to have an isolated
-python environment. This way it's possible to create a tailored environment
-for each project.
+*It is also recommended to use* `virtualenv
+<http://pypi.python.org/pypi/virtualenv>`_ *to have an isolated python
+environment. This way it's possible to create a tailored environment for each
+project.*
 
 .. _pip-install:
 
@@ -81,11 +85,11 @@ your project. This means modifying ``AUTHENTICATION_BACKENDS``,
 ``INSTALLED_APPS`` and optionally ``MIDDLEWARE_CLASSES``.
 
 Begin by adding ``userena``, ``guardian`` and ``easy_thumbnails`` to the
-``INSTALLED_APPS`` settings of your project.
+``INSTALLED_APPS`` in your settings.py file of your project.
 
-Next add :class:``UserenaAuthenticationBackend`` and :class:``ObjectPermissionBackend``, from
-django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. If you only have
-Django's default backend, adding django-guardian and that of userena will get
+Next add ``UserenaAuthenticationBackend`` and ``ObjectPermissionBackend`` 
+also in your settings.py file, from django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. 
+If you only have Django's default backend, adding django-guardian and that of userena will get
 the following:
 
 .. code-block:: python
@@ -95,6 +99,15 @@ the following:
         'guardian.backends.ObjectPermissionBackend',
         'django.contrib.auth.backends.ModelBackend',
     )
+
+Start New App
+~~~~~~~~~~~~~
+
+Next, you need to create a new app on your Django project. 
+In your Command Prompt shell, type: ``python manage.py startapp accounts``. 
+We are creating a new app for Userena titled 'accounts'.
+
+Next, add ``accounts`` to the ``INSTALLED_APPS`` in your settings.py file.
 
 Email Backend
 ~~~~~~~~~~~~~
@@ -109,6 +122,16 @@ explicitly set the email backend provider in your settings.py.  For example:
 
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
     
+
+To use GMail SMTP, you may use the following code in your settings.py:
+
+.. code-block:: python
+
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
+    EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 
 See: `Django Email Documentation <https://docs.djangoproject.com/en/dev/topics/email/>`_
 
@@ -125,7 +148,7 @@ from them:
         fields for privacy settings.
 
     ``UserenaLanguageBaseProfile``
-        Adds an extra field that let's the user define it's preferred language
+        Adds an extra field that lets the user define its preferred language
         after logging in to your site.
 
 **IMPORTANT**: The above profiles are ``abstract`` models. This means that you
@@ -135,6 +158,8 @@ must also connect itself to the :class:`User` model of Django.
 
 .. code-block:: python
 
+    from django.contrib.auth.models import User
+    from django.utils.translation import ugettext as _
     from userena.models import UserenaBaseProfile
     
     class MyProfile(UserenaBaseProfile):
@@ -146,7 +171,7 @@ must also connect itself to the :class:`User` model of Django.
                                            max_length=5)
 
 If you want the user have the ability to choose their default language in their
-profile, you must add ``UserenaLocaleMiddleware`` at the end of
+profile, you must add ``userena.middleware.UserenaLocaleMiddleware`` at the end of
 ``MIDDLEWARE_CLASSES`` in your Django settings. This does require a profile
 model which has a language field. You can use the
 ``UserenaLanguageBaseProfile`` class of userena that does this for you.
@@ -154,11 +179,12 @@ model which has a language field. You can use the
 The URI's
 ~~~~~~~~~
 
-Userena has a ``URLconf`` which set's all the url's and views for you. This
-should be included in your projects root ``URLconf``.
+Userena has a ``URLconf`` which sets all the urls and views for you. This
+should be included in your project's root ``URLconf``. 
 
 For example, to place the URIs under the prefix ``/accounts/``, you could add
-the following to your project's root ``URLconf``.
+the following to your project's root ``URLconf``. 
+Add this code under ``urlpatterns`` in your urls.py file.
 
 .. code-block:: python
 
@@ -175,6 +201,14 @@ Django-guardian requires you to set the ``ANONYMOUS_USER_ID`` setting. I always
 set this to ``-1``. As noted before, you are also required to set the
 ``AUTH_PROFILE_MODULE`` to your custom defined profile.
 
+For example, add the following into your settings.py file:
+
+.. code-block:: python
+
+    ANONYMOUS_USER_ID = -1
+
+    AUTH_PROFILE_MODULE = 'accounts.MyProfile'
+
 To integrate Django with userena you should alter the following three settings
 to reflect the URI you have chosen for userena. For example, if userena lives
 under ``accounts``:
@@ -185,7 +219,7 @@ under ``accounts``:
     LOGIN_URL = '/accounts/signin/'
     LOGOUT_URL = '/accounts/signout/'
 
-The above should supply you with a fully functional account management app. for
+The above should supply you with a fully functional account management app for
 your project. You can look into the next chapter to fully customize userena to
 your likings.
 

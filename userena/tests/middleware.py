@@ -1,6 +1,5 @@
 from django.http import HttpRequest
 from django.utils.importlib import import_module
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
@@ -8,6 +7,10 @@ from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile
 from userena.middleware import UserenaLocaleMiddleware
 from userena import settings as userena_settings
+from userena.utils import get_user_model
+
+User = get_user_model()
+
 
 class UserenaLocaleMiddlewareTests(ProfileTestCase):
     """ Test the ``UserenaLocaleMiddleware`` """

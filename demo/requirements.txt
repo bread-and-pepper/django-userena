@@ -1,0 +1,20 @@
+# Django
+Django==1.4
+
+# Imaging library needed for easy_thumbnails
+http://effbot.org/downloads/Imaging-1.1.7.tar.gz
+
+# Thumbails used for mugshots
+easy-thumbnails
+
+# Django-guardian used for privacy settings
+django-guardian
+
+# Django-south for migrations
+South
+
+# Userena
+django-userena
+
+# Coverage for testing
+django_coverage

@@ -1,27 +1,24 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User
-from django.template.loader import render_to_string
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
-from django.core.exceptions import ImproperlyConfigured
-
-from userena.utils import get_gravatar, generate_sha1, get_protocol, get_datetime_now
-from userena.managers import UserenaManager, UserenaBaseProfileManager
-from userena import settings as userena_settings
-
-from guardian.shortcuts import get_perms
-from guardian.shortcuts import assign
-
+from django.db import models
+from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerImageField
+from guardian.shortcuts import get_perms
+from userena import settings as userena_settings
+from userena.managers import UserenaManager, UserenaBaseProfileManager
+from userena.utils import get_gravatar, generate_sha1, get_protocol, \
+    get_datetime_now, get_user_model, user_model_label
+import datetime
+from .mail import send_mail
 
-import datetime, random
 
 PROFILE_PERMISSIONS = (
             ('view_profile', 'Can view profile'),
 )
+
 
 def upload_to_mugshot(instance, filename):
     """
@@ -32,9 +29,14 @@ def upload_to_mugshot(instance, filename):
     """
     extension = filename.split('.')[-1].lower()
     salt, hash = generate_sha1(instance.id)
-    return '%(path)s%(hash)s.%(extension)s' % {'path': userena_settings.USERENA_MUGSHOT_PATH,
+    path = userena_settings.USERENA_MUGSHOT_PATH % {'username': instance.user.username,
+                                                    'id': instance.user.id,
+                                                    'date': instance.user.date_joined,
+                                                    'date_now': get_datetime_now().date()}
+    return '%(path)s%(hash)s.%(extension)s' % {'path': path,
                                                'hash': hash[:10],
                                                'extension': extension}
+
 
 class UserenaSignup(models.Model):
     """
@@ -42,7 +44,7 @@ class UserenaSignup(models.Model):
     functional user implementation on your Django website.
 
     """
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(user_model_label,
                                 verbose_name=_('user'),
                                 related_name='userena_signup')
 
@@ -70,7 +72,6 @@ class UserenaSignup(models.Model):
     email_confirmation_key_created = models.DateTimeField(_('creation date of email confirmation key'),
                                                           blank=True,
                                                           null=True)
-
 
     objects = UserenaManager()
 
@@ -117,39 +118,61 @@ class UserenaSignup(models.Model):
         a request is made to change this email address.
 
         """
-        context= {'user': self.user,
+        context = {'user': self.user,
                   'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES,
                   'new_email': self.email_unconfirmed,
                   'protocol': get_protocol(),
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
-
-        # Email to the old address
+        # Email to the old address, if present
         subject_old = render_to_string('userena/emails/confirmation_email_subject_old.txt',
                                        context)
         subject_old = ''.join(subject_old.splitlines())
 
-        message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
-                                       context)
+        if userena_settings.USERENA_HTML_EMAIL:
+            message_old_html = render_to_string('userena/emails/confirmation_email_message_old.html',
+                                                context)
+        else:
+            message_old_html = None
 
-        send_mail(subject_old,
-                  message_old,
-                  settings.DEFAULT_FROM_EMAIL,
-                  [self.user.email])
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_old_html or
+            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
+            message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
+                                       context)
+        else:
+            message_old = None
+
+        if self.user.email:
+            send_mail(subject_old,
+                      message_old,
+                      message_old_html,
+                      settings.DEFAULT_FROM_EMAIL,
+                    [self.user.email])
 
         # Email to the new address
         subject_new = render_to_string('userena/emails/confirmation_email_subject_new.txt',
                                        context)
         subject_new = ''.join(subject_new.splitlines())
 
-        message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
+        if userena_settings.USERENA_HTML_EMAIL:
+            message_new_html = render_to_string('userena/emails/confirmation_email_message_new.html',
+                                                context)
+        else:
+            message_new_html = None
+
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_new_html or
+            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
+            message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
                                        context)
+        else:
+            message_new = None
 
         send_mail(subject_new,
                   message_new,
+                  message_new_html,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.email_unconfirmed,])
+                  [self.email_unconfirmed, ])
 
     def activation_key_expired(self):
         """
@@ -179,7 +202,7 @@ class UserenaSignup(models.Model):
         user.
 
         """
-        context= {'user': self.user,
+        context = {'user': self.user,
                   'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES,
                   'protocol': get_protocol(),
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
@@ -190,12 +213,26 @@ class UserenaSignup(models.Model):
                                    context)
         subject = ''.join(subject.splitlines())
 
-        message = render_to_string('userena/emails/activation_email_message.txt',
+
+        if userena_settings.USERENA_HTML_EMAIL:
+            message_html = render_to_string('userena/emails/activation_email_message.html',
+                                            context)
+        else:
+            message_html = None
+
+        if (not userena_settings.USERENA_HTML_EMAIL or not message_html or
+            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
+            message = render_to_string('userena/emails/activation_email_message.txt',
                                    context)
+        else:
+            message = None
+
         send_mail(subject,
                   message,
+                  message_html,
                   settings.DEFAULT_FROM_EMAIL,
-                  [self.user.email,])
+                  [self.user.email, ])
+
 
 class UserenaBaseProfile(models.Model):
     """ Base model needed for extra profile functionality """
@@ -219,7 +256,7 @@ class UserenaBaseProfile(models.Model):
                                max_length=15,
                                choices=PRIVACY_CHOICES,
                                default=userena_settings.USERENA_DEFAULT_PRIVACY,
-                               help_text = _('Designates who can view your profile.'))
+                               help_text=_('Designates who can view your profile.'))
 
     objects = UserenaBaseProfileManager()
 
@@ -277,7 +314,8 @@ class UserenaBaseProfile(models.Model):
                                                                 'monsterid',
                                                                 'wavatar']:
                 return userena_settings.USERENA_MUGSHOT_DEFAULT
-            else: return None
+            else:
+                return None
 
     def get_full_name_or_username(self):
         """
@@ -340,9 +378,11 @@ class UserenaBaseProfile(models.Model):
         """
         # Simple cases first, we don't want to waste CPU and DB hits.
         # Everyone.
-        if self.privacy == 'open': return True
+        if self.privacy == 'open':
+            return True
         # Registered users.
-        elif self.privacy == 'registered' and isinstance(user, User):
+        elif self.privacy == 'registered' \
+        and isinstance(user, get_user_model()):
             return True
 
         # Checks done by guardian for owner and admins.
@@ -351,6 +391,7 @@ class UserenaBaseProfile(models.Model):
 
         # Fallback to closed profile.
         return False
+
 
 class UserenaLanguageBaseProfile(UserenaBaseProfile):
     """
