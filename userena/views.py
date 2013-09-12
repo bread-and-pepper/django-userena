@@ -414,6 +414,8 @@ def signin(request, auth_form=AuthenticationForm,
                     messages.success(request, _('You have been signed in.'),
                                      fail_silently=True)
 
+                #send a signal that a user has signed in
+                userena_signals.account_signin.send(sender=None,user=user) 
                 # Whereto now?
                 redirect_to = redirect_signin_function(
                     request.REQUEST.get(redirect_field_name), user)
@@ -448,7 +450,10 @@ def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT,
     """
     if request.user.is_authenticated() and userena_settings.USERENA_USE_MESSAGES: # pragma: no cover
         messages.success(request, _('You have been signed out.'), fail_silently=True)
-    return Signout(request, next_page, template_name, *args, **kwargs)
+    temp= Signout(request, next_page, template_name, *args, **kwargs)
+    #send a signal that the account has signed out
+    userena_signals.account_signout.send(sender=None,user=user) 
+    return temp
 
 @secure_required
 @permission_required_or_403('change_user', (get_user_model(), 'username', 'username'))
@@ -495,7 +500,7 @@ def email_change(request, username, email_form=ChangeEmailForm,
 
     """
     user = get_object_or_404(get_user_model(), username__iexact=username)
-
+    prev_email=user.email
     form = email_form(user)
 
     if request.method == 'POST':
@@ -506,7 +511,11 @@ def email_change(request, username, email_form=ChangeEmailForm,
         if form.is_valid():
             email_result = form.save()
 
-            if success_url: redirect_to = success_url
+            if success_url: 
+                # Send a signal that the email has changed
+                userena_signals.email_change.send(sender=None,
+                                                    user=user,prev_email=prev_email,new_email=user.email)
+                redirect_to = success_url
             else: redirect_to = reverse('userena_email_change_complete',
                                         kwargs={'username': user.username})
             return redirect(redirect_to)
@@ -648,7 +657,11 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
                 messages.success(request, _('Your profile has been updated.'),
                                  fail_silently=True)
 
-            if success_url: redirect_to = success_url
+            if success_url: 
+                # Send a signal that the profile has changed
+                userena_signals.profile_change.send(sender=None,
+                                                    user=user)
+                redirect_to = success_url
             else: redirect_to = reverse('userena_profile_detail', kwargs={'username': username})
             return redirect(redirect_to)
 
