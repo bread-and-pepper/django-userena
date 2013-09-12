@@ -452,7 +452,7 @@ def signout(request, next_page=userena_settings.USERENA_REDIRECT_ON_SIGNOUT,
         messages.success(request, _('You have been signed out.'), fail_silently=True)
     temp= Signout(request, next_page, template_name, *args, **kwargs)
     #send a signal that the account has signed out
-    userena_signals.account_signout.send(sender=None,user=user) 
+    userena_signals.account_signout.send(sender=None,user=request.user) 
     return temp
 
 @secure_required
