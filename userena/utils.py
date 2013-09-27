@@ -114,7 +114,7 @@ def get_profile_model():
            (not settings.AUTH_PROFILE_MODULE):
         raise SiteProfileNotAvailable
 
-    profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.split('.'))
+    profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.rsplit('.',1))
     if profile_mod is None:
         raise SiteProfileNotAvailable
     return profile_mod
