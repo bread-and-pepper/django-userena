@@ -1,0 +1,880 @@
+# Translations into Norwegian bokmål
+# Copyright (C) 2013
+# This file is distributed under the same license as the django-userena package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid "" 
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-04 23:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:31
+msgid "Username"
+msgstr "Brukernavn"
+
+#: forms.py:32 tests/forms.py:26
+msgid "Username must contain only letters, numbers, dots and underscores."
+msgstr "Brukernavn kan kun inneholde bokstaver, tall, punktum og understreker."
+
+#: forms.py:35 forms.py:162 templates/userena/profile_detail.html:35
+msgid "Email"
+msgstr "E-post"
+
+#: forms.py:38
+msgid "Create password"
+msgstr "Opprett passord"
+
+#: forms.py:41
+msgid "Repeat password"
+msgstr "Gjenta passord"
+
+#: forms.py:56
+msgid ""
+"This username is already taken but not confirmed. Please check your email "
+"for verification steps."
+msgstr ""
+"Dette brukernavnet opptatt, men ikke bekreftet. Vennligst sjekk din e-post "
+"for verifisering."
+
+#: forms.py:57 tests/forms.py:41
+msgid "This username is already taken."
+msgstr "Dette brukernavnet er opptatt."
+
+#: forms.py:59 tests/forms.py:49
+msgid "This username is not allowed."
+msgstr "Dette brukernavnet er ikke tillatt."
+
+#: forms.py:66
+msgid ""
+"This email is already in use but not confirmed. Please check your email for "
+"verification steps."
+msgstr ""
+"Denne e-postadressen er opptatt, men ikke bekreftet. Vennligst sjekk din e-"
+"post for verifisering."
+
+#: forms.py:67 forms.py:204 tests/forms.py:57
+msgid "This email is already in use. Please supply a different email."
+msgstr "Denne e-postadressen er opptatt. Vennligst oppgi en annen."
+
+#: forms.py:79 tests/forms.py:33
+msgid "The two password fields didn't match."
+msgstr "Oppgitte passord stemmer ikke overens."
+
+#: forms.py:123
+msgid "I have read and agree to the Terms of Service"
+msgstr "Jeg har lest og godtar bruksvilkårene"
+
+#: forms.py:124
+msgid "You must agree to the terms to register."
+msgstr "Du må godta bruksvilkårene for å registrere deg."
+
+#: forms.py:140
+#, python-format
+msgid "%(error)s"
+msgstr "%(error)s"
+
+#: forms.py:147
+msgid "Email or username"
+msgstr "E-post eller brukernavn"
+
+#: forms.py:148
+msgid "Either supply us with your email or username."
+msgstr "Oppgi enten e-post eller brukernavn."
+
+#: forms.py:149
+msgid "Password"
+msgstr "Passord"
+
+#: forms.py:153 forms.py:160
+#, python-format
+msgid "Remember me for %(days)s"
+msgstr "Husk meg i %(days)s"
+
+#: forms.py:163
+msgid "Please supply your email."
+msgstr "Vennligst oppgi din e-postadresse."
+
+#: forms.py:178
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr ""
+"Vennligst oppgi korrekt brukernavn eller e-post, og passord. Merk at store "
+"og små bokstaver må stemme for begge."
+
+#: forms.py:184 templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr "Ny e-post"
+
+#: forms.py:202
+msgid "You're already known under this email."
+msgstr "Du er allerede registrert med denne e-posten."
+
+#: forms.py:218
+msgid "First name"
+msgstr "Fornavn"
+
+#: forms.py:221
+msgid "Last name"
+msgstr "Etternavn"
+
+#: mail.py:35
+msgid "Either message_plain or message_html should be not None"
+msgstr "Kun én av message_plain eller message_html kan være None"
+
+#: managers.py:272
+#, python-format
+msgid "No profile found for %(username)s"
+msgstr "Ingen profil funnet for %(username)s"
+
+#: models.py:48 tests/profiles/models.py:18 tests/profiles/models.py:32
+msgid "user"
+msgstr "bruker"
+
+#: models.py:51
+msgid "last active"
+msgstr "sist aktiv"
+
+#: models.py:54
+msgid "The last date that the user was active."
+msgstr "Forrige dato brukeren var aktiv."
+
+#: models.py:56
+msgid "activation key"
+msgstr "aktiviseringsnøkkel"
+
+#: models.py:60
+msgid "notification send"
+msgstr "melding sendt"
+
+#: models.py:62
+msgid ""
+"Designates whether this user has already got a notification about activating "
+"their account."
+msgstr "Oppgir om denne brukeren har fått melding om å aktivisere sin konto."
+
+#: models.py:64
+msgid "unconfirmed email address"
+msgstr "ubekreftet e-postadresse"
+
+#: models.py:66
+msgid "Temporary email address when the user requests an email change."
+msgstr "Midlertidig e-postadresse ved endring."
+
+#: models.py:68
+msgid "unconfirmed email verification key"
+msgstr "ubekreftet verifiseringsnøkkel for e-post"
+
+#: models.py:72
+msgid "creation date of email confirmation key"
+msgstr "dato for opprettelse av verifiseringsnøkkel for e-post"
+
+#: models.py:79
+msgid "userena registration"
+msgstr "userena registrering"
+
+#: models.py:80
+msgid "userena registrations"
+msgstr "userena registreringer"
+
+#: models.py:240
+msgid "Open"
+msgstr "Åpen (for alle)"
+
+#: models.py:241
+msgid "Registered"
+msgstr "Registrerte (brukere)"
+
+#: models.py:242
+msgid "Closed"
+msgstr "Lukket"
+
+#: models.py:249
+msgid "mugshot"
+msgstr "profilbilde"
+
+#: models.py:253
+msgid "A personal image displayed in your profile."
+msgstr "Et personlig bilde som vises i din profil."
+
+#: models.py:255
+msgid "privacy"
+msgstr "personvern"
+
+#: models.py:259
+msgid "Designates who can view your profile."
+msgstr "Avgjør hvem som kan se din profil."
+
+#: models.py:339
+#, python-format
+msgid "%(first_name)s %(last_name)s"
+msgstr "%(first_name)s %(last_name)s"
+
+#: models.py:404
+msgid "language"
+msgstr "språk"
+
+#: settings.py:47
+msgid "a month"
+msgstr "en måned"
+
+#: views.py:111
+msgid "Signups are disabled."
+msgstr "Innmelding er ikke mulig."
+
+#: views.py:203
+msgid "Your account has been activated and you have been signed in."
+msgstr "Din konto har blitt aktivert og du er logget inn."
+
+#: views.py:303
+msgid "Your email address has been changed."
+msgstr "Din e-postadresse har blitt endret."
+
+#: views.py:414
+msgid "You have been signed in."
+msgstr "Du har blitt logget inn."
+
+#: views.py:452
+msgid "You have been signed out."
+msgstr "Du har blitt logget ut."
+
+#: views.py:657
+msgid "Your profile has been updated."
+msgstr "Din profil har blitt oppdatert."
+
+#: views.py:706
+msgid "You don't have permission to view this profile."
+msgstr "Du har ikke rettighet til å se denne profilen."
+
+#: contrib/umessages/admin.py:25
+msgid "Date/time"
+msgstr "Dato/tid"
+
+#: contrib/umessages/fields.py:57
+#, python-format
+msgid "The following usernames are incorrect: %(users)s."
+msgstr "Følgende brukernavn er feil: %(users)s."
+
+#: contrib/umessages/forms.py:10
+msgid "To"
+msgstr "Til"
+
+#: contrib/umessages/forms.py:11
+msgid "Message"
+msgstr "Melding"
+
+#: contrib/umessages/models.py:17
+msgid "from user"
+msgstr "fra bruker"
+
+#: contrib/umessages/models.py:20
+msgid "to user"
+msgstr "til bruker"
+
+#: contrib/umessages/models.py:24
+msgid "latest message"
+msgstr "siste melding"
+
+#: contrib/umessages/models.py:31
+msgid "contact"
+msgstr "kontakt"
+
+#: contrib/umessages/models.py:32
+msgid "contacts"
+msgstr "kontakter"
+
+#: contrib/umessages/models.py:35
+#, python-format
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s og %(um_to_user)s"
+
+#: contrib/umessages/models.py:61 contrib/umessages/models.py:77
+msgid "recipient"
+msgstr "mottaker"
+
+#: contrib/umessages/models.py:64 contrib/umessages/models.py:112
+msgid "message"
+msgstr "melding"
+
+#: contrib/umessages/models.py:66
+msgid "read at"
+msgstr "lest kl"
+
+#: contrib/umessages/models.py:70
+msgid "recipient deleted at"
+msgstr "mottaker slettet kl"
+
+#: contrib/umessages/models.py:78 contrib/umessages/models.py:99
+msgid "recipients"
+msgstr "mottakere"
+
+#: contrib/umessages/models.py:81
+#, python-format
+msgid "%(message)s"
+msgstr "%(message)s"
+
+#: contrib/umessages/models.py:90
+msgid "body"
+msgstr "kropp"
+
+#: contrib/umessages/models.py:94
+msgid "sender"
+msgstr "sender"
+
+#: contrib/umessages/models.py:101
+msgid "sent at"
+msgstr "sendt kl"
+
+#: contrib/umessages/models.py:104
+msgid "sender deleted at"
+msgstr "sender slettet kl"
+
+#: contrib/umessages/models.py:113
+msgid "messages"
+msgstr "meldinger"
+
+#: contrib/umessages/views.py:124
+msgid "Message is sent."
+msgstr "Meldingen er sendt."
+
+#: contrib/umessages/views.py:206
+msgid "Message is succesfully restored."
+msgid_plural "Messages are succesfully restored."
+msgstr[0] "Meldingen ble gjenopprettet."
+msgstr[1] "Meldingene ble gjenopprettet."
+
+#: contrib/umessages/views.py:210
+msgid "Message is successfully removed."
+msgid_plural "Messages are successfully removed."
+msgstr[0] "Meldingen er fjernet."
+msgstr[1] "Meldingene er fjernet."
+
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "Samtale med %(recipient)s"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "Mottatt %(sent_at)s"
+
+#: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:10
+msgid "Compose"
+msgstr "Skriv melding"
+
+#: contrib/umessages/templates/umessages/message_form.html:10
+msgid "Compose message"
+msgstr "Skriv melding"
+
+#: contrib/umessages/templates/umessages/message_form.html:13
+msgid "Send"
+msgstr "Send"
+
+#: contrib/umessages/templates/umessages/message_list.html:5
+msgid "Messages"
+msgstr "Meldinger"
+
+#: contrib/umessages/templates/umessages/message_list.html:9
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s nye meldinger."
+
+#: contrib/umessages/templates/umessages/message_list.html:21
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s nye)"
+
+#: templates/userena/activate_fail.html:4
+#: templates/userena/activate_retry.html:6
+msgid "Account activation failed."
+msgstr "Aktivisering av konto var mislykket."
+
+#: templates/userena/activate_fail.html:5
+#: templates/userena/activate_retry.html:7
+msgid "Your account could not be activated..."
+msgstr "Din konto kunne ikke aktiviseres..."
+
+#: templates/userena/activate_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr ""
+"Din konto kunne ikke aktiviseres. Dette kan være fordi aktiviseringslenken "
+"er for gammel."
+
+#: templates/userena/activate_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr ""
+"Vennligst prøv å melde deg inn igjen eller kontakt oss hvis du mener noe er "
+"feil."
+
+#: templates/userena/activate_retry.html:10
+msgid "Your account could not be activated because activation link is expired."
+msgstr ""
+"Din konto kunne ikke aktiveres fordi aktiveringslenken er utgått på dato."
+
+#: templates/userena/activate_retry.html:11
+msgid "Request a new activation link."
+msgstr "Be om ny aktiveringslenke."
+
+#: templates/userena/activate_retry_success.html:6
+msgid "Account re-activation succeeded."
+msgstr "Reaktivering av konto lyktes."
+
+#: templates/userena/activate_retry_success.html:7
+msgid "Account re-activation"
+msgstr "Reaktiver konto"
+
+#: templates/userena/activate_retry_success.html:10
+msgid "You requested a new activation of your account.."
+msgstr "Du ba om en ny aktivering av din konto.."
+
+#: templates/userena/activate_retry_success.html:11
+#: templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr "Vi har sendt en e-post med aktiveringslenke til oppgitt e-postadresse."
+
+#: templates/userena/activate_retry_success.html:12
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr ""
+"Vi vil lagre din informasjonn på vår server i %(userena_activation_days)s "
+"dager."
+
+#: templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr "Deaktivert konto"
+
+#: templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr "Din konto har blitt deaktivert"
+
+#: templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr "Det ser ut til at din konto har blitt deaktivert."
+
+#: templates/userena/disabled.html:8
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
+msgstr "Kontakt gjerne administrator hvis du mener vi har gjort deg urett."
+
+#: templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr "Verifisering av e-postadresse"
+
+#: templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr "Bekreft din nye e-postadresse"
+
+#: templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr "Du har mottett en e-post på %(email)s."
+
+#: templates/userena/email_change_complete.html:9
+#, python-format
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
+msgstr ""
+"Klikk på lenken i denne e-posten for å tilegne denne e-postadressen til din "
+"konto (%(username)s)"
+
+#: templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr "E-postadresse endret!"
+
+#: templates/userena/email_confirm_complete.html:8
+#, python-format
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
+msgstr ""
+"Din nye e-postadresse er lagret. Du kan fortsette å bruke %(site)s med denne "
+"adressen."
+
+#: templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr "Verifisering av e-post feilet."
+
+#: templates/userena/email_confirm_fail.html:5
+#: templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr "Din e-post kunne ikke verifiseres..."
+
+#: templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr "Du kan prøve å endre den igjen i dine kontoinnstillinger."
+
+#: templates/userena/email_form.html:5 templates/userena/password_form.html:7
+#: templates/userena/profile_form.html:7
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr "Konto &raquo; %(username)s"
+
+#: templates/userena/email_form.html:10
+#: templates/userena/password_form.html:12
+#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_form.html:13
+msgid "View profile"
+msgstr "Se profil"
+
+#: templates/userena/email_form.html:11
+#: templates/userena/password_form.html:13
+#: templates/userena/profile_form.html:14
+msgid "Edit profile"
+msgstr "Endre profil"
+
+#: templates/userena/email_form.html:12 templates/userena/password_form.html:5
+#: templates/userena/password_form.html:14
+#: templates/userena/password_form.html:22
+#: templates/userena/profile_detail.html:18
+#: templates/userena/profile_form.html:15
+msgid "Change password"
+msgstr "Endre passord"
+
+#: templates/userena/email_form.html:13 templates/userena/email_form.html:20
+#: templates/userena/password_form.html:15
+#: templates/userena/profile_detail.html:19
+#: templates/userena/profile_form.html:16
+msgid "Change email"
+msgstr "Endre e-post"
+
+#: templates/userena/email_form.html:17
+msgid "Change email address"
+msgstr "Endre e-postadresse"
+
+#: templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr "Passord endret"
+
+#: templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr "Ditt passord har blitt endret"
+
+#: templates/userena/password_complete.html:8
+msgid "From now on you can use your new password to signin"
+msgstr "Fra nå av kan du bruke ditt nye passord ved innlogging"
+
+#: templates/userena/password_form.html:18
+msgid "Change Password"
+msgstr "Endre passord"
+
+#: templates/userena/password_reset_complete.html:5
+msgid "Password reset"
+msgstr "Tilbakestill passord"
+
+#: templates/userena/password_reset_complete.html:6
+msgid "Your password has been reset"
+msgstr "Ditt passord har blitt tilbakestilt"
+
+#: templates/userena/password_reset_complete.html:9
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+"Du kan nå <a href=\"%(signin_url)s\">logge inn</a> med ditt nye passord."
+
+#: templates/userena/password_reset_confirm_form.html:4
+#: templates/userena/password_reset_confirm_form.html:13
+#: templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr "Tilbakestill passord"
+
+#: templates/userena/password_reset_confirm_form.html:9
+#: templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr "Tilbakestill passord"
+
+#: templates/userena/password_reset_done.html:4
+#: templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr "E-post om tilbakestilling av passord har blitt sendt"
+
+#: templates/userena/password_reset_done.html:8
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
+msgstr ""
+"Vi har sendt deg en e-post med beskrivelse av hvordan du kan tilbakestille "
+"passordet ditt."
+
+#: templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr "Send passord"
+
+#: templates/userena/profile_detail.html:5
+#, python-format
+msgid "%(username)s's profile."
+msgstr "%(username)ss profil."
+
+#: templates/userena/profile_detail.html:17
+msgid "Edit details"
+msgstr "Endre detaljer"
+
+#: templates/userena/profile_detail.html:27
+msgid "Your mugshot"
+msgstr "Ditt profilbilde"
+
+#: templates/userena/profile_detail.html:31
+msgid "Name"
+msgstr "Navn"
+
+#: templates/userena/profile_detail.html:39
+msgid "Age"
+msgstr "Alder"
+
+#: templates/userena/profile_detail.html:43
+msgid "Website"
+msgstr "Webside"
+
+#: templates/userena/profile_detail.html:47
+msgid "Location"
+msgstr "Sted"
+
+#: templates/userena/profile_detail.html:51
+msgid "About me"
+msgstr "Om meg"
+
+#: templates/userena/profile_form.html:5
+msgid "Account setup"
+msgstr "Kontoinnstillinger"
+
+#: templates/userena/profile_form.html:20
+msgid "Edit Profile"
+msgstr "Endre profil"
+
+#: templates/userena/profile_form.html:23
+msgid "Save changes"
+msgstr "Lagre endringer"
+
+#: templates/userena/profile_list.html:5
+msgid "Profiles"
+msgstr "Profiler"
+
+#: templates/userena/profile_list.html:22
+msgid "previous"
+msgstr "forrige"
+
+#: templates/userena/profile_list.html:26
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+"\n"
+"      Side %(page)s av %(num_pages)s\n"
+"      "
+
+#: templates/userena/profile_list.html:32
+msgid "next"
+msgstr "neste"
+
+#: templates/userena/signin_form.html:5 templates/userena/signin_form.html:11
+#: templates/userena/signin_form.html:29
+msgid "Signin"
+msgstr "Logg inn"
+
+#: templates/userena/signin_form.html:30
+msgid "Forgot your password?"
+msgstr "Har du glemt passordet ditt?"
+
+#: templates/userena/signout.html:4
+msgid "Signed out"
+msgstr "Utlogget"
+
+#: templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr "Du har blitt utlogget"
+
+#: templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr "Du har blitt utlogget. Sees igjen."
+
+#: templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr "Innmelding nesten ferdig!"
+
+#: templates/userena/signup_complete.html:6
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:28
+msgid "Signup"
+msgstr "Innmelding"
+
+#: templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr "Takk for at du melder deg inn hos oss!"
+
+#: templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr "Du kan nå bruke oppgitt legitimering for å logge inn."
+
+#: templates/userena/emails/activation_email_message.html:4
+#: templates/userena/emails/confirmation_email_message_new.html:4
+#, python-format
+msgid "Dear %(username)s,</p>"
+msgstr "Kjære %(username)s,</p>"
+
+#: templates/userena/emails/activation_email_message.html:5
+#, python-format
+msgid "<p>Thank you for signing up at %(site)s.</p>"
+msgstr "<p>Takk for at du melder deg inn på %(site)s.</p>"
+
+#: templates/userena/emails/activation_email_message.html:7
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "Klikk på lenken under for å aktivisere din konto:"
+
+#: templates/userena/emails/activation_email_message.html:11
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.html:13
+#: templates/userena/emails/confirmation_email_message_new.txt:12
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.html:18
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "Takk for at du brukte vårt nettsted!"
+
+#: templates/userena/emails/activation_email_message.html:12
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.html:14
+#: templates/userena/emails/confirmation_email_message_new.txt:14
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.html:19
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "Vennlig hilsen"
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Kjære %(username)s,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr "Takk for at du har meldt deg inn på %(site)s."
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "Din innmelding på %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.html:6
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr "Du har bedt om å få endret e-postadressen din på %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.html:9
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr "Vennligst bekreft denne e-postadressen ved å klikke på lenken under:"
+
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr "Vi har fått en forespørsel om å endre din e-postadresse på %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+"Vi har sendt en e-post til %(new_email)s som inneholder en "
+"verifiseringslenke. Klikk på lenken i e-posten for å aktivere din nye e-"
+"postadresse."
+
+#: templates/userena/emails/confirmation_email_subject_new.html:4
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr "Verifisering av e-post for %(site)s."
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr ""
+"Det har kommet en forespørsel om å endre din e-postadresse på %(site)s."
+
+#: templates/userena/emails/password_reset_message.html:5
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"            for your user account at %(site_name)s"
+msgstr ""
+"Du mottat denne e-posten fordi du har bedt om en tilbakestilling\n"
+"            av din brukerkonto på %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.html:9
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Vennligst gå til følgende side og velg nytt passord:"
+
+#: templates/userena/emails/password_reset_message.html:15
+#, python-format
+msgid "Your username, in case you've forgotten: %(username)s"
+msgstr "Ditt brukernavn i tilfelle du har glemt det: %(username)s"
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Du mottar denne e-posten fordi du har bedt oss tilbakestille\n"
+"ditt passord på %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"Ditt brukernavn i tilfelle du har glemt det: %(username)s\n"
+
+#: tests/profile.py:6 tests/profiles/models.py:12
+msgid "Male"
+msgstr "Mann"
+
+#: tests/profile.py:7 tests/profiles/models.py:13
+msgid "Female"
+msgstr "Kvinne"
+
+#: tests/profile.py:9 tests/profiles/models.py:21
+msgid "gender"
+msgstr "kjønn"
+
+#: tests/profile.py:13 tests/profiles/models.py:25
+msgid "website"
+msgstr "webside"
+
+#: tests/profile.py:14 tests/profiles/models.py:26
+msgid "location"
+msgstr "sted"
+
+#: tests/profile.py:15 tests/profiles/models.py:27
+msgid "about me"
+msgstr "om meg"
