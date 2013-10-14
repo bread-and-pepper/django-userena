@@ -20,11 +20,11 @@ follows:
 
 .. code-block:: python
 
-                # Unregister userena's
-                admin.site.unregister(YOUR_PROFILE_MODEL)
-
-                # Register your own admin class and attach it to the model
-                admin.site.register(YOUR_PROFILE_MODEL, YOUR_PROFILE_ADMIN)
+    # Unregister userena's
+    admin.site.unregister(YOUR_PROFILE_MODEL)
+                
+    # Register your own admin class and attach it to the model
+    admin.site.register(YOUR_PROFILE_MODEL, YOUR_PROFILE_ADMIN)
 
 Can I still add users manually?
 -------------------------------           
@@ -46,18 +46,19 @@ your own form, extending userena's form and supply this form with to the
 signup view. For example:
 
 .. code-block:: python
-                def save(self):
-                    """ My extra profile """
-                    # Let userena do it's thing
-                    user = super(SignupForm, self).save()
 
-                    # You do all the logic needed for your own extra profile
-                    custom_profile = ExtraProfile()
-                    custom_profile.extra_field = self.cleaned_data['field']
-                    custom_profile.save()
+    def save(self):
+        """ My extra profile """
+        # Let userena do it's thing
+        user = super(SignupForm, self).save()
 
-                    # Always return the new user
-                    return user
+        # You do all the logic needed for your own extra profile
+        custom_profile = ExtraProfile()
+        custom_profile.extra_field = self.cleaned_data['field']
+        custom_profile.save()
+
+        # Always return the new user
+        return user
 
 Important to note here is that you should always return the newly created
 `User` object. This is something that userena expects. Userena will take care
