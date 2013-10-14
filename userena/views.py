@@ -9,8 +9,9 @@ from django.template.context import RequestContext
 from django.views.generic.list import ListView
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 
 from userena.forms import (SignupForm, SignupFormOnlyEmail, AuthenticationForm,
                            ChangeEmailForm, EditProfileForm)
@@ -108,7 +109,7 @@ def signup(request, signup_form=SignupForm,
     """
     # If signup is disabled, return 403
     if userena_settings.USERENA_DISABLE_SIGNUP:
-        return HttpResponseForbidden(_("Signups are disabled."))
+        raise PermissionDenied
 
     # If no usernames are wanted and the default form is used, fallback to the
     # default form that doesn't display to enter the username.
@@ -742,7 +743,7 @@ def profile_detail(request, username,
         profile = profile_model.objects.create(user=user)
 
     if not profile.can_view_profile(request.user):
-        return HttpResponseForbidden(_("You don't have permission to view this profile."))
+        raise PermissionDenied
     if not extra_context: extra_context = dict()
     extra_context['profile'] = user.get_profile()
     extra_context['hide_email'] = userena_settings.USERENA_HIDE_EMAIL
