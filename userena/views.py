@@ -349,6 +349,45 @@ def direct_to_user_template(request, username, template_name,
     extra_context['profile'] = user.get_profile()
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
+
+def disabled_account(request, username, template_name, extra_context=None):
+    """
+    Checks if the account is disabled, if so, returns the disabled account template.
+
+    :param username:
+        String defining the username of the user that made the action.
+
+    :param template_name:
+        String defining the name of the template to use. Defaults to
+        ``userena/signup_complete.html``.
+
+    **Keyword arguments**
+
+    ``extra_context``
+        A dictionary containing extra variables that should be passed to the
+        rendered template. The ``account`` key is always the ``User``
+        that completed the action.
+
+    **Extra context**
+
+    ``viewed_user``
+        The currently :class:`User` that is viewed.
+
+    ``profile``
+        Profile of the viewed user.
+    
+    """
+    user = get_object_or_404(get_user_model(), username__iexact=username)
+
+    if user.is_active:
+        raise Http404
+
+    if not extra_context: extra_context = dict()
+    extra_context['viewed_user'] = user
+    extra_context['profile'] = user.get_profile()
+    return ExtraContextTemplateView.as_view(template_name=template_name,
+                                            extra_context=extra_context)(request)
+    
 @secure_required
 def signin(request, auth_form=AuthenticationForm,
            template_name='userena/signin_form.html',

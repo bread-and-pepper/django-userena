@@ -74,7 +74,7 @@ urlpatterns = patterns('',
 
     # Disabled account
     url(r'^(?P<username>[\.\w-]+)/disabled/$',
-       userena_views.direct_to_user_template,
+       userena_views.disabled_account,
        {'template_name': 'userena/disabled.html'},
        name='userena_disabled'),
 
