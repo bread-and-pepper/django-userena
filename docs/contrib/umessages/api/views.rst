@@ -5,15 +5,15 @@ Views
 
 .. automodule:: userena.contrib.umessages.views
 
-message_list
-------------
+MessageListView
+---------------
 
-.. autofunction:: userena.contrib.umessages.views.message_list
+.. autofunction:: userena.contrib.umessages.views.MessageListView
 
-message_detail
---------------
+MessageDetailListView
+---------------------
 
-.. autofunction:: userena.contrib.umessages.views.message_detail
+.. autofunction:: userena.contrib.umessages.views.MessageDetailListView
 
 message_compose
 ---------------

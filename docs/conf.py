@@ -17,8 +17,11 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'demo.settings'
+sys.path.append(os.path.abspath('../demo'))
 userena = __import__('userena')
+demo = __import__('demo')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'demo.settings'
+
 
 # -- General configuration -----------------------------------------------------
 
