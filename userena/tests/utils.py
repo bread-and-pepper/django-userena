@@ -14,7 +14,7 @@ class UtilsTests(TestCase):
     fixtures = ['users']
 
     def test_get_gravatar(self):
-        template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
+        template = '//www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
 
         # The hash for alice@example.com
         hash = hashlib.md5('alice@example.com').hexdigest()
@@ -41,18 +41,6 @@ class UtilsTests(TestCase):
         # Is it really a 404?
         response = self.client.get(http_404)
         self.failUnlessEqual(response.status_code, 404)
-
-        # Test the switch to HTTPS
-        userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE = True
-
-        template = 'https://secure.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
-        self.failUnlessEqual(get_gravatar('alice@example.com'),
-                             template % {'hash': hash,
-                                         'size': 80,
-                                         'type': 'identicon'})
-
-        # And set back to default
-        userena_settings.USERENA_MUGSHOT_GRAVATAR_SECURE = False
 
     def test_signin_redirect(self):
         """

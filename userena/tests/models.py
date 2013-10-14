@@ -198,7 +198,7 @@ class BaseProfileModelTest(ProfileTestCase):
         Test if the correct mugshot is returned when the user makes use of gravatar.
 
         """
-        template = 'http://www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
+        template = '//www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
         profile = Profile.objects.get(pk=1)
 
         gravatar_hash = hashlib.md5(profile.user.email).hexdigest()

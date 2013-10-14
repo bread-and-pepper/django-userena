@@ -75,7 +75,7 @@ class UserenaViewsTests(ProfileTestCase):
 
         # We must reload the object from database to get the new key
         user = User.objects.get(email='alice@example.com')
-        self.assertContains(response, "Account re-activation succeded")
+        self.assertContains(response, "Account re-activation succeeded")
 
         self.failIfEqual(old_key, user.userena_signup.activation_key)
         user = User.objects.get(email='alice@example.com')
@@ -129,6 +129,10 @@ class UserenaViewsTests(ProfileTestCase):
 
     def test_disabled_view(self):
         """ A ``GET`` to the ``disabled`` view """
+        response = self.client.get(reverse('userena_disabled',
+                                           kwargs={'username': 'john'}))
+        self.assertEqual(response.status_code, 404)
+        u = User.objects.filter(username='john').update(is_active=False)
         response = self.client.get(reverse('userena_disabled',
                                            kwargs={'username': 'john'}))
         self.assertEqual(response.status_code, 200)
