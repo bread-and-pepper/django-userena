@@ -239,7 +239,7 @@ Default: ``False`` (boolean)
 If ``True`` multipart emails are generated using html templates.
 
 USERENA_USE_PLAIN_TEMPLATE
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``True`` (boolean)
 
 Uses a text template for plain text part (when ``USERENA_HTML_EMAIL = True``).
