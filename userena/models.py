@@ -404,7 +404,8 @@ class UserenaLanguageBaseProfile(UserenaBaseProfile):
     language = models.CharField(_('language'),
                                 max_length=5,
                                 choices=settings.LANGUAGES,
-                                default=settings.LANGUAGE_CODE[:2])
+                                default=settings.LANGUAGE_CODE[:2],
+                                help_text=_('Default language.'))
 
     class Meta:
         abstract = True
