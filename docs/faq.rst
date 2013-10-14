@@ -20,11 +20,24 @@ follows:
 
 .. code-block:: python
 
-    # Unregister userena's
-    admin.site.unregister(YOUR_PROFILE_MODEL)
+                # Unregister userena's
+                admin.site.unregister(YOUR_PROFILE_MODEL)
 
-    # Register your own admin class and attach it to the model
-    admin.site.register(YOUR_PROFILE_MODEL, YOUR_PROFILE_ADMIN)
+                # Register your own admin class and attach it to the model
+                admin.site.register(YOUR_PROFILE_MODEL, YOUR_PROFILE_ADMIN)
+
+Can I still add users manually?
+-------------------------------           
+Yes, but Userena requires there to be a `UserenaSignup` object for every
+registered user. If it's not there, you could receive the following error:
+
+.. code-block:: python
+
+                Exception Type: DoesNotExist at /accounts/mynewuser/email/
+
+So, whenever you are manually creating a user (outside of Userena), don't
+forget to also create a `UserenaSignup` object.
+
 
 How do I add extra fields to forms?
 -----------------------------------
