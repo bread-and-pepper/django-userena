@@ -96,6 +96,8 @@ def generate_sha1(string, salt=None):
     :return: Tuple containing the salt and hash.
 
     """
+    if not isinstance(string, (str, unicode)):
+        string = str(string)
     if not salt:
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
     hash = sha_constructor(salt+str(string.encode('utf-8'))).hexdigest()
