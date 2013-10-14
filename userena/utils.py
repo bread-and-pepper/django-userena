@@ -98,7 +98,7 @@ def generate_sha1(string, salt=None):
     """
     if not salt:
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
-    hash = sha_constructor(salt+str(string)).hexdigest()
+    hash = sha_constructor(salt+str(string.encode('utf-8'))).hexdigest()
 
     return (salt, hash)
 
