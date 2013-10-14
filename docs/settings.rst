@@ -184,7 +184,7 @@ Template to use for rendering user profiles. This allows you to specify a
 template in your own project which extends ``userena/profile_detail.html``.
 
 USERENA_PROFILE_LIST_TEMPLATE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Default: ``userena/profile_list.html`` (string)
 
 Template to use for rendering users list. This allows you to specify a
@@ -198,7 +198,7 @@ Boolean value that defines if the ``profile_list`` view is enabled within the
 project. If so, users can view a list of different profiles.
 
 USERENA_DISABLE_SIGNUP
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 Default: ``False`` (boolean)
 
 Boolean value that defines if signups are disabled within the project. If so,
