@@ -455,7 +455,7 @@ msgid ""
 "We will store your signup information for %(userena_activation_days)s days "
 "on our server. "
 msgstr ""
-"Vi vil lagre din informasjonn på vår server i %(userena_activation_days)s "
+"Vi vil lagre din informasjon på vår server i %(userena_activation_days)s "
 "dager."
 
 #: templates/userena/disabled.html:4
