@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-31 15:33+0200\n"
-"PO-Revision-Date: 2013-08-31 16:24+0200\n"
+"POT-Creation-Date: 2013-11-30 17:14+0100\n"
+"PO-Revision-Date: 2013-11-30 17:15+0100\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "Language: gl\n"
@@ -134,8 +134,8 @@ msgstr "Apelidos"
 #: mail.py:35
 msgid "Either message_plain or message_html should be not None"
 msgstr ""
-"Polo menos un, «message_plain» ou «message_html», non debería ser «None» "
-"(nada)."
+"Polo menos un, «message_plain» ou «message_html», non debería ser "
+"«None» (nada)."
 
 #: managers.py:272
 #, python-format
@@ -167,8 +167,8 @@ msgid ""
 "Designates whether this user has already got a notification about activating "
 "their account."
 msgstr ""
-"Determina se o usuario xa recibiu unha notificación sobre a activación da súa "
-"conta."
+"Determina se o usuario xa recibiu unha notificación sobre a activación da "
+"súa conta."
 
 #: models.py:64
 msgid "unconfirmed email address"
@@ -232,37 +232,33 @@ msgstr "%(first_name)s %(last_name)s"
 msgid "language"
 msgstr "idioma"
 
+#: models.py:408
+msgid "Default language."
+msgstr "Idioma predeterminado."
+
 #: settings.py:47
 msgid "a month"
 msgstr "un mes"
 
-#: views.py:111
-msgid "Signups are disabled."
-msgstr "Desactivouse o rexistro de novas contas."
-
-#: views.py:203
+#: views.py:204
 msgid "Your account has been activated and you have been signed in."
 msgstr "Activouse a súa conta e iniciouse a súa sesión no sitio."
 
-#: views.py:303
+#: views.py:304
 msgid "Your email address has been changed."
 msgstr "Cambiouse o seu enderezo de correo."
 
-#: views.py:414
+#: views.py:454
 msgid "You have been signed in."
 msgstr "Accedeu ao sitio."
 
-#: views.py:450
+#: views.py:492
 msgid "You have been signed out."
 msgstr "Pechouse a súa sesión."
 
-#: views.py:648
+#: views.py:697
 msgid "Your profile has been updated."
 msgstr "Actualizouse o seu perfil."
-
-#: views.py:693
-msgid "You don't have permission to view this profile."
-msgstr "Non ten permiso para ver este perfil."
 
 #: contrib/umessages/admin.py:25
 msgid "Date/time"
@@ -439,8 +435,8 @@ msgid "Request a new activation link."
 msgstr "Solicitar unha nova ligazón de activación."
 
 #: templates/userena/activate_retry_success.html:6
-msgid "Account re-activation succeded."
-msgstr "Completouse a re-activación da súa conta."
+msgid "Account re-activation succeeded."
+msgstr "Re-activouse a súa conta."
 
 #: templates/userena/activate_retry_success.html:7
 msgid "Account re-activation"
@@ -758,6 +754,7 @@ msgstr "Prema a seguinte ligazón para activar a súa conta:"
 #: templates/userena/emails/activation_email_message.txt:10
 #: templates/userena/emails/confirmation_email_message_new.html:13
 #: templates/userena/emails/confirmation_email_message_new.txt:12
+#: templates/userena/emails/confirmation_email_message_old.html:13
 #: templates/userena/emails/confirmation_email_message_old.txt:8
 #: templates/userena/emails/password_reset_message.html:18
 #: templates/userena/emails/password_reset_message.txt:14
@@ -768,6 +765,7 @@ msgstr "Grazas por usar o noso sitio!"
 #: templates/userena/emails/activation_email_message.txt:12
 #: templates/userena/emails/confirmation_email_message_new.html:14
 #: templates/userena/emails/confirmation_email_message_new.txt:14
+#: templates/userena/emails/confirmation_email_message_old.html:16
 #: templates/userena/emails/confirmation_email_message_old.txt:10
 #: templates/userena/emails/password_reset_message.html:19
 #: templates/userena/emails/password_reset_message.txt:16
@@ -776,6 +774,7 @@ msgstr "Atentamente,"
 
 #: templates/userena/emails/activation_email_message.txt:2
 #: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.html:4
 #: templates/userena/emails/confirmation_email_message_old.txt:2
 #, python-format
 msgid "Dear %(username)s,"
@@ -803,6 +802,7 @@ msgid "Please confirm this email address by clicking on the link below:"
 msgstr ""
 "Para confirmar que esta nova conta de correo é súa, prema a seguinte ligazón:"
 
+#: templates/userena/emails/confirmation_email_message_old.html:6
 #: templates/userena/emails/confirmation_email_message_old.txt:4
 #, python-format
 msgid "There was a request to change your email address at %(site)s."
@@ -810,6 +810,7 @@ msgstr ""
 "Alguén, seguramente vostede, solicitou en %(site)s cambiar o seu enderezo de "
 "correo."
 
+#: templates/userena/emails/confirmation_email_message_old.html:10
 #: templates/userena/emails/confirmation_email_message_old.txt:6
 #, python-format
 msgid ""
@@ -893,3 +894,8 @@ msgstr "lugar"
 msgid "about me"
 msgstr "información persoal"
 
+#~ msgid "Signups are disabled."
+#~ msgstr "Desactivouse o rexistro de novas contas."
+
+#~ msgid "You don't have permission to view this profile."
+#~ msgstr "Non ten permiso para ver este perfil."
