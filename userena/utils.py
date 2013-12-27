@@ -11,6 +11,16 @@ from userena import settings as userena_settings
 
 import urllib, random, datetime
 
+try:
+    from django.utils.text import truncate_words
+except ImportError:
+    # Django >=1.5
+    from django.utils.text import Truncator
+    from django.utils.functional import allow_lazy
+    def truncate_words(s, num, end_text='...'):
+        truncate = end_text and ' %s' % end_text or ''
+        return Truncator(s).words(num, truncate=truncate)
+    truncate_words = allow_lazy(truncate_words, unicode)
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a Gravatar for a email address.

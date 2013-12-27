@@ -1,9 +1,7 @@
 from django.test import TestCase
-from django.core.urlresolvers import reverse
-from django.utils.text import truncate_words
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
-from userena.utils import get_user_model
+from userena.utils import get_user_model, truncate_words
 
 User = get_user_model()
 
