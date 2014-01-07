@@ -108,9 +108,11 @@ def generate_sha1(string, salt=None):
     """
     if not isinstance(string, (str, unicode)):
         string = str(string)
+    if isinstance(string, unicode):
+        string = string.encode("utf-8")
     if not salt:
         salt = sha_constructor(str(random.random())).hexdigest()[:5]
-    hash = sha_constructor(salt+str(string.encode('utf-8'))).hexdigest()
+    hash = sha_constructor(salt+string).hexdigest()
 
     return (salt, hash)
 
