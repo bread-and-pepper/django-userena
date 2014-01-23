@@ -5,7 +5,7 @@ from django.conf import settings
 
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
-from userena.tests.profiles.test import ProfileTestCase
+from userena.tests.profiles._test import ProfileTestCase
 from userena.tests.profiles.models import Profile
 from userena.utils import get_user_model
 

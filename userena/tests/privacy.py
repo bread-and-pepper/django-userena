@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 
-from userena.tests.profiles.test import ProfileTestCase
+from userena.tests.profiles._test import ProfileTestCase
 from userena.tests.profiles.models import Profile
 
 class PrivacyTests(ProfileTestCase):

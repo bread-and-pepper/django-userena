@@ -3,7 +3,7 @@ from django.utils.importlib import import_module
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
-from userena.tests.profiles.test import ProfileTestCase
+from userena.tests.profiles._test import ProfileTestCase
 from userena.tests.profiles.models import Profile
 from userena.middleware import UserenaLocaleMiddleware
 from userena import settings as userena_settings

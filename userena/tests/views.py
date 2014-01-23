@@ -7,7 +7,7 @@ from django.test.utils import override_settings
 
 from userena import forms
 from userena import settings as userena_settings
-from userena.tests.profiles.test import ProfileTestCase
+from userena.tests.profiles._test import ProfileTestCase
 from userena.utils import get_user_model
 
 User = get_user_model()
