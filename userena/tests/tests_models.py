@@ -126,9 +126,8 @@ class UserenaSignupModelTests(TestCase):
         self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
         self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
         self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<h1>Test message")>-1)
-        self.assertFalse(mail.outbox[0].body.find("# Test message")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertFalse(mail.outbox[0].body.find("<p>Thank you for signing up")>-1)
 
     def test_generated_plain_email(self):
         """
@@ -150,8 +149,8 @@ class UserenaSignupModelTests(TestCase):
         self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
         self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
         self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<h1>Test message")>-1)
-        self.assertTrue(mail.outbox[0].body.find("# Test message")>-1)
+        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertTrue(mail.outbox[0].body.find("Thank you for signing up")>-1)
 
 class BaseProfileModelTest(TestCase):
     """ Test the ``BaseProfile`` model """
