@@ -3,7 +3,8 @@ from django.contrib.auth import views as auth_views
 
 from userena import views as userena_views
 from userena import settings as userena_settings
-from userena.compat import auth_views_compat_quirks
+from userena.compat import auth_views_compat_quirks, password_reset_uid_kwarg
+
 
 def merged_dict(dict_a, dict_b):
     """Merges two dicts and returns output. It's purpose is to ease use of
@@ -36,9 +37,10 @@ urlpatterns = patterns('',
        auth_views.password_reset_done,
        {'template_name': 'userena/password_reset_done.html',},
        name='userena_password_reset_done'),
-    url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    url(r'^password/reset/confirm/(?P<%s>[0-9A-Za-z]+)-(?P<token>.+)/$' % password_reset_uid_kwarg,
        auth_views.password_reset_confirm,
-       {'template_name': 'userena/password_reset_confirm_form.html'},
+       merged_dict({'template_name': 'userena/password_reset_confirm_form.html',
+                    }, auth_views_compat_quirks['userena_password_reset_confirm']),
        name='userena_password_reset_confirm'),
     url(r'^password/reset/confirm/complete/$',
        auth_views.password_reset_complete,
