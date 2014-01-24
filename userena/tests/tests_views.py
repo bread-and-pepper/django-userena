@@ -1,3 +1,5 @@
+import re
+
 from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -464,4 +466,20 @@ class UserenaViewsTests(TestCase):
         self.assertIn(response.status_code, [200, 302])
         self.assertFalse(mail.outbox)
 
+    def test_password_reset_confirm(self):
+        # post reset request and search form confirmation url
+        self.client.post(reverse('userena_password_reset'),
+                         data={'email': 'john@example.com',})
+        confirm_mail = mail.outbox[0]
+        confirm_url = re.search(r'\bhttps?://\S+', confirm_mail.body).group()
 
+        # get confirmation request page
+        response = self.client.get(confirm_url)
+        self.assertEqual(response.status_code, 200)
+
+        # post new password and check if redirected with success
+        response = self.client.post(confirm_url,
+                                    data={'new_password1': 'pass',
+                                          'new_password2': 'pass',})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('userena_password_reset_complete'), str(response))

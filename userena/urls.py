@@ -42,7 +42,8 @@ urlpatterns = patterns('',
        name='userena_password_reset_confirm'),
     url(r'^password/reset/confirm/complete/$',
        auth_views.password_reset_complete,
-       {'template_name': 'userena/password_reset_complete.html'}),
+       {'template_name': 'userena/password_reset_complete.html'},
+        name='userena_password_reset_complete'),
 
     # Signup
     url(r'^(?P<username>[\.\w-]+)/signup/complete/$',
