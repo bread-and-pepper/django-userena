@@ -1,9 +1,9 @@
 from django.core.urlresolvers import reverse
+from django.test import TestCase
 
-from userena.tests.profiles.test import ProfileTestCase
 from userena.tests.profiles.models import Profile
 
-class PrivacyTests(ProfileTestCase):
+class PrivacyTests(TestCase):
     """
     Privacy testing of views concerning profiles.
 
