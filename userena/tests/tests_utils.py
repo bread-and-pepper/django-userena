@@ -67,13 +67,13 @@ class UtilsTests(TestCase):
         """
         # A non existent model should also raise ``SiteProfileNotAvailable``
         # error.
-        settings.AUTH_PROFILE_MODULE = 'userena.FakeProfile'
-        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+        with self.settings(AUTH_PROFILE_MODULE='userena.FakeProfile'):
+            self.assertRaises(SiteProfileNotAvailable, get_profile_model)
 
         # An error should be raised when there is no ``AUTH_PROFILE_MODULE``
         # supplied.
-        settings.AUTH_PROFILE_MODULE = None
-        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+        with self.settings(AUTH_PROFILE_MODULE=None):
+            self.assertRaises(SiteProfileNotAvailable, get_profile_model)
 
     def test_get_protocol(self):
         """ Test if the correct protocol is returned """
