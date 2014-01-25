@@ -14,11 +14,11 @@ Why userena?
 
 Because we have done the hard work for you. Userena supplies you with signup,
 signin, account editing, privacy settings and private messaging. All you have
-to do is plug it into your project and you will have a created account
+to do is plug it into your project and you will have created account
 management with the following options:
 
     - User has to **activate** their account by clicking on a activation link
-      in an email send to them.
+      in an email sent to them.
 
     - **Permissions** for viewing, changing and deleting accounts is
       implemented on an user and object basis with the help of django-guardian.
