@@ -124,7 +124,7 @@ class UserenaManager(UserManager):
             userena.user.save(using=self._db)
             userena.send_activation_email()
             return True
-        except Exception,e:
+        except Exception:
             return False
 
     def activate_user(self, activation_key):
