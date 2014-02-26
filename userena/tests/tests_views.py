@@ -1,3 +1,5 @@
+import re
+
 from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -445,3 +447,39 @@ class UserenaViewsTests(TestCase):
         userena_settings.USERENA_DISABLE_PROFILE_LIST = True
         response = self.client.get(reverse('userena_profile_list'))
         self.assertEqual(response.status_code, 404)
+
+    def test_password_reset_view_success(self):
+        """ A ``POST`` to the password reset view with email that exists"""
+        response = self.client.post(reverse('userena_password_reset'),
+                                    data={'email': 'john@example.com',})
+        # check if there was success redirect to userena_password_reset_done
+        # and email was sent
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('userena_password_reset_done'), str(response))
+        self.assertTrue(mail.outbox)
+
+    def test_password_reset_view_failure(self):
+        """ A ``POST`` to the password reset view with incorrect email"""
+        response = self.client.post(reverse('userena_password_reset'),
+                                    data={'email': 'no.such.user@example.com',})
+        # note: status code can be different depending on django version
+        self.assertIn(response.status_code, [200, 302])
+        self.assertFalse(mail.outbox)
+
+    def test_password_reset_confirm(self):
+        # post reset request and search form confirmation url
+        self.client.post(reverse('userena_password_reset'),
+                         data={'email': 'john@example.com',})
+        confirm_mail = mail.outbox[0]
+        confirm_url = re.search(r'\bhttps?://\S+', confirm_mail.body).group()
+
+        # get confirmation request page
+        response = self.client.get(confirm_url)
+        self.assertEqual(response.status_code, 200)
+
+        # post new password and check if redirected with success
+        response = self.client.post(confirm_url,
+                                    data={'new_password1': 'pass',
+                                          'new_password2': 'pass',})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('userena_password_reset_complete'), str(response))
