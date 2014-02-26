@@ -5,3 +5,4 @@ George Notaras: http://www.g-loaded.eu (for making userena 2.4 compatible)
 Jannis Leidel: http://enn.io (for fixing installation script)
 Guillaume Esquevin: http://www.platypus-creation.com (for improving translations)
 Aram Dulyan: http://interaction.net.au/ (for making userena compatible with Django 1.5 user model)
+Michał Jaworski: Add tox testing and updating Userena to work with Django 1.6.
