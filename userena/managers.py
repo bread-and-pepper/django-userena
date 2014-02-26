@@ -11,7 +11,8 @@ from userena.utils import generate_sha1, get_profile_model, get_datetime_now, \
     get_user_model
 from userena import signals as userena_signals
 
-from guardian.shortcuts import assign, get_perms
+from guardian.shortcuts import assign_perm, get_perms
+
 
 import re, datetime
 
@@ -75,11 +76,11 @@ class UserenaManager(UserManager):
 
         # Give permissions to view and change profile
         for perm in ASSIGNED_PERMISSIONS['profile']:
-            assign(perm[0], new_user, new_profile)
+            assign_perm(perm[0], new_user, new_profile)
 
         # Give permissions to view and change itself
         for perm in ASSIGNED_PERMISSIONS['user']:
-            assign(perm[0], new_user, new_user)
+            assign_perm(perm[0], new_user, new_user)
 
         if send_email:
             userena_profile.send_activation_email()
@@ -281,7 +282,7 @@ class UserenaManager(UserManager):
 
                     for perm in perms:
                         if perm[0] not in all_permissions:
-                            assign(perm[0], user, perm_object)
+                            assign_perm(perm[0], user, perm_object)
                             changed_users.append(user)
 
         return (changed_permissions, changed_users, warnings)
