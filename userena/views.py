@@ -218,7 +218,7 @@ def activate(request, activation_key,
             extra_context['activation_key'] = activation_key
             return ExtraContextTemplateView.as_view(template_name=retry_template_name,
                                                 extra_context=extra_context)(request)
-    except UserenaSignup.DoesNotExist,e:
+    except UserenaSignup.DoesNotExist:
         if not extra_context: extra_context = dict()
         return ExtraContextTemplateView.as_view(template_name=template_name,
                                                 extra_context=extra_context)(request)
