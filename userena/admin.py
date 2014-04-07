@@ -27,4 +27,4 @@ if userena_settings.USERENA_REGISTER_USER:
     admin.site.register(get_user_model(), UserenaAdmin)
     
 if userena_settings.USERENA_REGISTER_PROFILE:    
-    admin.site.register(get_profile_model())
+    admin.site.register(get_profile_model(), GuardedModelAdmin)
