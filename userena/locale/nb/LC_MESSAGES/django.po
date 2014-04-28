@@ -474,7 +474,7 @@ msgstr "Det ser ut til at din konto har blitt deaktivert."
 msgid ""
 "If you feel that injustice has been done to you, feel free to contact the "
 "administrators to find out why"
-msgstr "Kontakt gjerne administrator hvis du mener vi har gjort deg urett."
+msgstr "Kontakt gjerne administrator hvis du mener noe er feil."
 
 #: templates/userena/email_change_complete.html:4
 msgid "Email verification"
