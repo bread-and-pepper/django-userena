@@ -11,6 +11,13 @@ and thus the ``change_profile`` permission goes missing. To fix this, run the
 ``check_permissions`` in :ref:`commands`. This checks all permissions and adds
 those that are missing.
 
+I get a "``Site matching query does not exist.``" exception
+-----------------------------------------------------------
+
+This means that your settings.SITE_ID value is incorrect. See the instructions
+on SITE_ID in the [Installation section](http://docs.django-userena.org/en/latest/installation.html).
+
+
 <ProfileModel> is already registered exception
 ----------------------------------------------
 
