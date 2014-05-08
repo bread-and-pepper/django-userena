@@ -223,6 +223,23 @@ The above should supply you with a fully functional account management app for
 your project. You can look into the next chapter to fully customize userena to
 your likings.
 
+To integrate Userena with your domain you must create a Site for it in the
+Django admin screen (e.g. http://<yoursite.com>/admin/sites/ ) and then 
+put the id for that site in the SITE_ID setting variable.:
+
+.. code-block:: python
+   SITE_ID = <site.id of your site> # will probably be '1' if this is your 
+                                    # first.
+                                    
+To look up your site_id open a shell in manage.py (manage.py shell) and:
+
+.. code-block:: python
+   from django.contrib.sites.models import Site
+   for s in Site.objects.all():
+      print "id: {0}  name: {1}".format(s.id, s.name)
+
+Set SITE_ID to the id of the desired name.
+
 Permission check
 ~~~~~~~~~~~~~~~~
 
