@@ -215,7 +215,7 @@ under ``accounts``:
 
 .. code-block:: python
 
-    LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+    USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/'
     LOGIN_URL = '/accounts/signin/'
     LOGOUT_URL = '/accounts/signout/'
 
