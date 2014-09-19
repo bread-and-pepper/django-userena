@@ -101,9 +101,12 @@ class UserenaManager(UserManager):
             user.username = user.username.encode('utf-8')
         salt, activation_key = generate_sha1(user.username)
 
-        r, c = self.get_or_create(user=user,
+        try:
+            profile = self.get(user=user)
+        except self.model.DoesNotExist:
+            profile = self.create(user=user,
                            activation_key=activation_key)
-        return r
+        return profile
 
     def reissue_activation(self, activation_key):
         """
