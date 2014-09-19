@@ -162,7 +162,7 @@ def activate(request, activation_key,
     ``success_url``.  If the SHA1 is not found, the user will be shown the
     ``template_name`` template displaying a fail message.
     If the SHA1 is found but expired, ``retry_template_name`` is used instead,
-    so the user can proceed to :func:`activate_retry` to get a new actvation key.
+    so the user can proceed to :func:`activate_retry` to get a new activation key.
 
     :param activation_key:
         String of a SHA1 string of 40 characters long. A SHA1 is always 160bit
