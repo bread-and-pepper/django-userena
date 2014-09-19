@@ -101,8 +101,9 @@ class UserenaManager(UserManager):
             user.username = user.username.encode('utf-8')
         salt, activation_key = generate_sha1(user.username)
 
-        return self.create(user=user,
+        r, c = self.get_or_create(user=user,
                            activation_key=activation_key)
+        return r
 
     def reissue_activation(self, activation_key):
         """
