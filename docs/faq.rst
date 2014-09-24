@@ -132,9 +132,14 @@ form. First you override the signup form and add the fields.
             # First save the parent form and get the user.
             new_user = super(SignupFormExtra, self).save()
 
-            new_user.first_name = self.cleaned_data['first_name']
-            new_user.last_name = self.cleaned_data['last_name']
-            new_user.save()
+            # Get the profile, the `save` method above creates a profile for each
+            # user because it calls the manager method `create_user`.
+            # See: https://github.com/bread-and-pepper/django-userena/blob/master/userena/managers.py#L65
+            user_profile = new_user.get_profile()
+
+            user_profile.first_name = self.cleaned_data['first_name']
+            user_profile.last_name = self.cleaned_data['last_name']
+            user_profile.save()
 
             # Userena expects to get the new user from this form, so return the new
             # user.
