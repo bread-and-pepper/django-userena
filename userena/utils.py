@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import get_model
 
 try:
@@ -8,6 +7,7 @@ except ImportError:
     from django.utils.hashcompat import sha_constructor, md5_constructor
 
 from userena import settings as userena_settings
+from userena.compat import SiteProfileNotAvailable
 
 import urllib, random, datetime
 
@@ -133,6 +133,20 @@ def get_profile_model():
         raise SiteProfileNotAvailable
     return profile_mod
 
+def get_user_profile(user):
+    profile_model = get_profile_model()
+    try:
+        profile = user.get_profile()
+    except AttributeError:
+        related_name = profile_model._meta.get_field_by_name('user')[0]\
+                                    .related_query_name()
+        profile = getattr(user, related_name, None)
+    except profile_model.DoesNotExist:
+        profile = None
+    if profile:
+        return profile
+    return profile_model.objects.create(user=user)
+
 def get_protocol():
     """
     Returns a string with the current protocol.
@@ -172,5 +186,5 @@ user_model_label = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 try:
     from django.contrib.auth import get_user_model
 except ImportError:
-    from django.contrib.auth.models import User
-    get_user_model = lambda: User
+    def get_user_model():
+        return get_model(user_model_label)

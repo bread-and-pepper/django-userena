@@ -1,13 +1,11 @@
 from django.http import HttpRequest
 from django.test import TestCase
-from django.utils.importlib import import_module
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
 
 from userena.tests.profiles.models import Profile
 from userena.middleware import UserenaLocaleMiddleware
 from userena import settings as userena_settings
-from userena.utils import get_user_model
+from userena.utils import get_user_model, get_user_profile
 
 User = get_user_model()
 
@@ -37,7 +35,7 @@ class UserenaLocaleMiddlewareTests(TestCase):
 
         for pk, lang in users:
             user = User.objects.get(pk=pk)
-            profile = user.get_profile()
+            profile = get_user_profile(user=user)
 
             req = self._get_request_with_user(user)
 
@@ -55,7 +53,7 @@ class UserenaLocaleMiddlewareTests(TestCase):
         user = User.objects.get(pk=1)
 
         # User shouldn't have a profile
-        self.assertRaises(ObjectDoesNotExist, user.get_profile)
+        self.assertRaises(ObjectDoesNotExist, get_user_profile(user=user))
 
         req = self._get_request_with_user(user)
         UserenaLocaleMiddleware().process_request(req)

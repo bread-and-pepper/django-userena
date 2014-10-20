@@ -12,6 +12,7 @@ from userena.models import UserenaSignup
 from userena.utils import get_profile_model, get_user_model
 
 import random
+from collections import OrderedDict
 
 attrs_dict = {'class': 'required'}
 
@@ -225,10 +226,16 @@ class EditProfileForm(forms.ModelForm):
     def __init__(self, *args, **kw):
         super(EditProfileForm, self).__init__(*args, **kw)
         # Put the first and last name at the top
-        new_order = self.fields.keyOrder[:-2]
-        new_order.insert(0, 'first_name')
-        new_order.insert(1, 'last_name')
-        self.fields.keyOrder = new_order
+        try:  # in Django < 1.7
+            new_order = self.fields.keyOrder[:-2]
+            new_order.insert(0, 'first_name')
+            new_order.insert(1, 'last_name')
+            self.fields.keyOrder = new_order
+        except AttributeError:  # in Django > 1.7
+            new_order = [('first_name', self.fields['first_name']),
+                         ('last_name', self.fields['last_name'])]
+            new_order.extend(self.fields.items()[:-2])
+            self.fields = OrderedDict(new_order)
 
     class Meta:
         model = get_profile_model()

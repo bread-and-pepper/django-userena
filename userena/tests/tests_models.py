@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.sites.models import Site
 from django.core import mail
 from django.conf import settings
 from django.test import TestCase
@@ -7,7 +6,7 @@ from django.test import TestCase
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.models import Profile
-from userena.utils import get_user_model
+from userena.utils import get_user_model, get_user_profile
 
 import datetime, hashlib, re
 
@@ -32,7 +31,7 @@ class UserenaSignupModelTests(TestCase):
         """
         user = User.objects.get(pk=1)
         filename = 'my_avatar.png'
-        path = upload_to_mugshot(user.get_profile(), filename)
+        path = upload_to_mugshot(get_user_profile(user=user), filename)
 
         # Path should be changed from the original
         self.failIfEqual(filename, path)
@@ -224,7 +223,7 @@ class BaseProfileModelTest(TestCase):
     def test_get_full_name_or_username(self):
         """ Test if the full name or username are returned correcly """
         user = User.objects.get(pk=1)
-        profile = user.get_profile()
+        profile = get_user_profile(user=user)
 
         # Profile #1 has a first and last name
         full_name = profile.get_full_name_or_username()

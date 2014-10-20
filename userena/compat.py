@@ -3,8 +3,6 @@ from collections import defaultdict
 import django
 
 
-
-
 # this default dict will store all compat quirks for parameters of
 # django.contrib.auth views
 auth_views_compat_quirks = defaultdict(lambda: dict())
@@ -30,3 +28,10 @@ password_reset_uid_kwarg = 'uidb64'
 if django.VERSION < (1, 6, 0):
     # Django<1.6.0 uses uidb36, we construct urlpattern depending on this
     password_reset_uid_kwarg = 'uidb36'
+
+if django.VERSION < (1, 7, 0):
+    from django.contrib.auth.models import SiteProfileNotAvailable
+
+if django.VERSION >= (1, 7, 0):
+    class SiteProfileNotAvailable(Exception):
+        pass
