@@ -2,11 +2,11 @@ from urlparse import urlparse, parse_qs
 
 from django.test import TestCase
 from django.conf import settings
-from django.contrib.auth.models import SiteProfileNotAvailable
 
 from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
                            get_protocol, get_user_model)
 from userena import settings as userena_settings
+from userena.compat import SiteProfileNotAvailable
 
 import hashlib
 
