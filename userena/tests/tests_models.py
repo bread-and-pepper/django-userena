@@ -1,3 +1,5 @@
+from urlparse import urlparse, parse_qs
+
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites.models import Site
 from django.core import mail
@@ -197,25 +199,41 @@ class BaseProfileModelTest(TestCase):
         Test if the correct mugshot is returned when the user makes use of gravatar.
 
         """
-        template = '//www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(default)s'
         profile = Profile.objects.get(pk=1)
 
         gravatar_hash = hashlib.md5(profile.user.email).hexdigest()
 
         # Test with the default settings
-        self.failUnlessEqual(profile.get_mugshot_url(),
-                             template % {'hash': gravatar_hash,
-                                         'size': userena_settings.USERENA_MUGSHOT_SIZE,
-                                         'default': userena_settings.USERENA_MUGSHOT_DEFAULT})
+        mugshot_url = profile.get_mugshot_url()
+        parsed = urlparse(mugshot_url)
+
+        self.failUnlessEqual(parsed.netloc, 'www.gravatar.com')
+        self.failUnlessEqual(parsed.path, '/avatar/' + gravatar_hash)
+        self.failUnlessEqual(
+            parse_qs(parsed.query),
+            parse_qs('s=%(size)s&d=%(default)s' % {
+                'size': userena_settings.USERENA_MUGSHOT_SIZE,
+                'default': userena_settings.USERENA_MUGSHOT_DEFAULT
+            })
+        )
 
         # Change userena settings
         userena_settings.USERENA_MUGSHOT_SIZE = 180
         userena_settings.USERENA_MUGSHOT_DEFAULT = '404'
 
-        self.failUnlessEqual(profile.get_mugshot_url(),
-                             template % {'hash': gravatar_hash,
-                                         'size': userena_settings.USERENA_MUGSHOT_SIZE,
-                                         'default': userena_settings.USERENA_MUGSHOT_DEFAULT})
+        # and test again
+        mugshot_url = profile.get_mugshot_url()
+        parsed = urlparse(mugshot_url)
+
+        self.failUnlessEqual(parsed.netloc, 'www.gravatar.com')
+        self.failUnlessEqual(parsed.path, '/avatar/' + gravatar_hash)
+        self.failUnlessEqual(
+            parse_qs(parsed.query),
+            parse_qs('s=%(size)s&d=%(default)s' % {
+                'size': userena_settings.USERENA_MUGSHOT_SIZE,
+                'default': userena_settings.USERENA_MUGSHOT_DEFAULT
+            })
+        )
 
         # Settings back to default
         userena_settings.USERENA_MUGSHOT_SIZE = 80

@@ -1,3 +1,5 @@
+import re
+
 from django.test import TestCase
 from django import forms
 
@@ -38,10 +40,10 @@ class CommaSeperatedFieldTests(TestCase):
              'error': ('users', [u'The following usernames are incorrect: foo.'])},
             # Multiple invalid usernames
             {'data': {'users': 'foo, bar'},
-             'error': ('users', [u'The following usernames are incorrect: foo, bar.'])},
+             'error': ('users', [u'The following usernames are incorrect: (foo|bar), (foo|bar).'])},
             # Valid and invalid
             {'data': {'users': 'foo, john, bar'},
-             'error': ('users', [u'The following usernames are incorrect: foo, bar.'])},
+             'error': ('users', [u'The following usernames are incorrect: (foo|bar), (foo|bar).'])},
             # Extra whitespace
             {'data': {'users': 'foo,    john  '},
              'error': ('users', [u'The following usernames are incorrect: foo.'])},
@@ -50,5 +52,9 @@ class CommaSeperatedFieldTests(TestCase):
         for invalid_dict in invalid_data_dicts:
             form = CommaSeparatedTestForm(data=invalid_dict['data'])
             self.failIf(form.is_valid())
-            self.assertEqual(form.errors[invalid_dict['error'][0]],
-                             invalid_dict['error'][1])
+            # self.assertEqual(form.errors[invalid_dict['error'][0]],
+            #                  invalid_dict['error'][1])
+            self.assertTrue(re.match(
+                invalid_dict['error'][1][0],
+                form.errors[invalid_dict['error'][0]][0]
+            ))
