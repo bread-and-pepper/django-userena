@@ -4,13 +4,11 @@ from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.forms import PasswordChangeForm
-from django.conf import settings
 from django.test import TestCase
-from django.test.utils import override_settings
 
 from userena import forms
 from userena import settings as userena_settings
-from userena.utils import get_user_model
+from userena.utils import get_user_model, get_user_profile
 
 User = get_user_model()
 
@@ -162,13 +160,13 @@ class UserenaViewsTests(TestCase):
 
         # Back to default
         userena_settings.USERENA_WITHOUT_USERNAMES = False
-        
+
         # Check for 403 with signups disabled
         userena_settings.USERENA_DISABLE_SIGNUP = True
-        
+
         response = self.client.get(reverse('userena_signup'))
         self.assertEqual(response.status_code, 403)
-        
+
         # Back to default
         userena_settings.USERENA_DISABLE_SIGNUP = False
 
@@ -430,7 +428,7 @@ class UserenaViewsTests(TestCase):
                                                kwargs={'username': 'john'}))
 
         # Users hould be changed now.
-        profile = User.objects.get(username='john').get_profile()
+        profile = get_user_profile(user=User.objects.get(username='john'))
         self.assertEqual(profile.about_me, new_about_me)
 
 
