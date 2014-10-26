@@ -2,12 +2,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
-try:
-    from hashlib import sha1 as sha_constructor
-except ImportError:
-    from django.utils.hashcompat import sha_constructor
-
 from userena import settings as userena_settings
+from userena.compat import sha_constructor
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model, get_user_model
 

@@ -1,13 +1,9 @@
 from django.conf import settings
 from django.db.models import get_model
 
-try:
-    from hashlib import sha1 as sha_constructor, md5 as md5_constructor
-except ImportError:
-    from django.utils.hashcompat import sha_constructor, md5_constructor
-
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable
+from userena.compat import sha_constructor, md5_constructor
 
 import urllib, random, datetime
 
@@ -128,7 +124,11 @@ def get_profile_model():
            (not settings.AUTH_PROFILE_MODULE):
         raise SiteProfileNotAvailable
 
-    profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.rsplit('.', 1))
+    try:
+        profile_mod = get_model(*settings.AUTH_PROFILE_MODULE.rsplit('.', 1))
+    except LookupError:
+        profile_mod = None
+
     if profile_mod is None:
         raise SiteProfileNotAvailable
     return profile_mod

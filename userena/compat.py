@@ -36,3 +36,9 @@ if django.VERSION < (1, 7, 0):
 else:
     class SiteProfileNotAvailable(Exception):
         pass
+
+# old fallback to django hashcompat
+try:
+    from hashlib import sha1 as sha_constructor, md5 as md5_constructor
+except ImportError:
+    from django.utils.hashcompat import sha_constructor, md5_constructor
