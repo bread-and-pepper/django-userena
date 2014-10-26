@@ -8,7 +8,11 @@ from userena.models import UserenaSignup
 from userena.utils import get_profile_model, get_user_model
 
 import random
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except ImportError:
+    # Python 2.6 requires library
+    from ordereddict import OrderedDict
 
 attrs_dict = {'class': 'required'}
 

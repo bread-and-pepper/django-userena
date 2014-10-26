@@ -11,6 +11,12 @@ except IOError:
         "``long_description`` (%s)\n" % readme_file)
     sys.exit(1)
 
+install_requires = ['easy_thumbnails', 'django-guardian', 'html2text']
+try:
+    from collections import OrderedDict
+except ImportError:
+    install_requires.append('ordereddict')
+
 setup(name='django-userena',
       version=userena.get_version(),
       description='Complete user management application for Django',
@@ -22,14 +28,7 @@ setup(name='django-userena',
       download_url='https://github.com/bread-and-pepper/django-userena/downloads',
       packages = find_packages(exclude=['demo', 'demo.*']),
       include_package_data=True,
-      install_requires = [
-        'easy_thumbnails',
-        'django-guardian>=1.1.0.beta',
-        'html2text',
-        ### Required to build documentation
-        # 'sphinx',
-        # 'south',
-      ],
+      install_requires = install_requires,
       test_suite='tests.main',
       classifiers = ['Development Status :: 4 - Beta',
                      'Environment :: Web Environment',
