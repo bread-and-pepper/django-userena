@@ -1,12 +1,13 @@
 language: python
 python: 2.7
 env:
-  - TOX_ENV=py2.6-django1.6.1
-  - TOX_ENV=py2.7-django1.6.1
-  - TOX_ENV=py2.6-django1.5.5
-  - TOX_ENV=py2.7-django1.5.5
-  - TOX_ENV=py2.6-django1.4.10
-  - TOX_ENV=py2.7-django1.4.10
+  - TOX_ENV=py27-django1.7
+  - TOX_ENV=py26-django1.6
+  - TOX_ENV=py27-django1.6
+  - TOX_ENV=py26-django1.5
+  - TOX_ENV=py27-django1.5
+  - TOX_ENV=py26-django1.4
+  - TOX_ENV=py27-django1.4
 install:
   - pip install tox
 script:
