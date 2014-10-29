@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel>
+<title>Michał Jaworski's Git Achievements</title>
+<description></description>
+<link></link>
+<item><title>Apprentice Author (Level 1)</title><description>Made 2^Level commits using git commit.</description></item>
+<item><title>Apprentice Stone Mason (Level 1)</title><description>Added files to the index area for inclusion in the next commit with git add</description></item>
+<item><title>Apprentice Socialite (Level 1)</title><description>pushed a branch to a remote repository using git push</description></item>
+<item><title>Let there be light</title><description>Commit without a parent.</description></item>
+<item><title>Student</title><description>Accessed the documentation for a command with git [command] --help</description></item>
+</channel></rss>
