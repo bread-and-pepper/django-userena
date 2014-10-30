@@ -18,8 +18,6 @@ from django.conf import settings
 from django.db.models import get_app
 from django.test.utils import get_runner
 
-from south.management.commands import patch_for_test_db_setup
-
 
 def usage():
     return """
@@ -55,6 +53,7 @@ def main():
         # starting from 1.7.0 built in django migrations are run
         # for older releases this patch is required to enable testing with
         # migrations
+        from south.management.commands import patch_for_test_db_setup
         patch_for_test_db_setup()
 
     failures = test_runner.run_tests(test_modules or ['userena'])
