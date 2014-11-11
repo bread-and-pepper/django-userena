@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db.models import get_model
+from django.utils.six import text_type
 
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable
@@ -16,7 +17,7 @@ except ImportError:
     def truncate_words(s, num, end_text='...'):
         truncate = end_text and ' %s' % end_text or ''
         return Truncator(s).words(num, truncate=truncate)
-    truncate_words = allow_lazy(truncate_words, unicode)
+    truncate_words = allow_lazy(truncate_words, text_type)
 
 def get_gravatar(email, size=80, default='identicon'):
     """ Get's a Gravatar for a email address.
@@ -102,9 +103,9 @@ def generate_sha1(string, salt=None):
     :return: Tuple containing the salt and hash.
 
     """
-    if not isinstance(string, (str, unicode)):
+    if not isinstance(string, (str, text_type)):
         string = str(string)
-    if isinstance(string, unicode):
+    if isinstance(string, text_type):
         string = string.encode("utf-8")
     if not salt:
         salt = sha_constructor(str(random.random())).hexdigest()[:5]

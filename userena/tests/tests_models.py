@@ -4,6 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from django.conf import settings
 from django.test import TestCase
+from django.utils.six import text_type
 
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
@@ -108,7 +109,7 @@ class UserenaSignupModelTests(TestCase):
         userena_settings.USERENA_HTML_EMAIL = False
         new_user = UserenaSignup.objects.create_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertEqual(unicode(mail.outbox[0].message()).find("multipart/alternative"),-1)
+        self.assertEqual(text_type(mail.outbox[0].message()).find("multipart/alternative"),-1)
 
     def test_html_email(self):
         """
@@ -123,11 +124,11 @@ class UserenaSignupModelTests(TestCase):
         # Reset configuration
         userena_settings.USERENA_HTML_EMAIL = False
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
         self.assertFalse(mail.outbox[0].body.find("<p>Thank you for signing up")>-1)
 
     def test_generated_plain_email(self):
@@ -146,11 +147,11 @@ class UserenaSignupModelTests(TestCase):
         userena_settings.USERENA_USE_PLAIN_TEMPLATE = True
 
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
         self.assertTrue(mail.outbox[0].body.find("Thank you for signing up")>-1)
 
 class BaseProfileModelTest(TestCase):
