@@ -25,20 +25,20 @@ if django.VERSION >= (1, 6, 0):
 
 # below are backward compatibility fixes
 password_reset_uid_kwarg = 'uidb64'
-if django.VERSION < (1, 6, 0):
+if django.VERSION < (1, 6, 0):  # pragma: nocover
     # Django<1.6.0 uses uidb36, we construct urlpattern depending on this
     password_reset_uid_kwarg = 'uidb36'
 
 
 # SiteProfileNotAvailable compatibility
-if django.VERSION < (1, 7, 0):
+if django.VERSION < (1, 7, 0):  # pragma: nocover
     from django.contrib.auth.models import SiteProfileNotAvailable
-else:
+else:  # pragma: nocover
     class SiteProfileNotAvailable(Exception):
         pass
 
 # old fallback to django hashcompat
 try:
     from hashlib import sha1 as sha_constructor, md5 as md5_constructor
-except ImportError:
+except ImportError:  # pragma: nocover
     from django.utils.hashcompat import sha_constructor, md5_constructor
