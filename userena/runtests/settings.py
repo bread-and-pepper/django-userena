@@ -3,6 +3,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 import os
+import sys
 
 import django
 
@@ -155,6 +156,3 @@ LOGGING = {
 
 # Needed for Django guardian
 ANONYMOUS_USER_ID = -1
-
-# Test runner
-TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'

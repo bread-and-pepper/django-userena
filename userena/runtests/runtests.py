@@ -46,7 +46,11 @@ def main():
         # this is a compat hack because in django>=1.6.0 you must provide
         # module like "userena.contrib.umessages" not "umessages"
         test_modules = [
-            get_app(module_name).__name__[:-7] for module_name in test_modules
+            # be more strict by adding .tests to not run umessages tests twice
+            # if both userena and umessages are tested
+            get_app(module_name).__name__[:-7] + ".tests"
+            for module_name
+            in test_modules
         ]
 
     if django.VERSION < (1, 7, 0):
