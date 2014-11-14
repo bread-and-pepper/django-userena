@@ -21,8 +21,9 @@ exclude_lines =
     if __name__ == .__main__.:
 
 omit =
-    userena/tests/*
-    userena/runtests/*
+    */runtests/*
     */migrations/*
+    */tests/*
+    */south_migrations/*
 
 ignore_errors = True
