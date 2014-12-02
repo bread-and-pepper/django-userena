@@ -1,5 +1,6 @@
 from django.core.management.base import NoArgsCommand, BaseCommand
 from optparse import make_option
+from django.utils.encoding import smart_text
 
 from userena.models import UserenaSignup
 
@@ -21,7 +22,7 @@ class Command(NoArgsCommand):
             default=False,
             help="Displays that it's testing management command. Don't use it yourself."),
         )
-    
+
     help = 'Check that user permissions are correct.'
     def handle_noargs(self, **options):
         permissions, users, warnings  = UserenaSignup.objects.check_permissions()
@@ -35,7 +36,7 @@ class Command(NoArgsCommand):
                 self.stdout.write("Added permission: %s\n" % p)
 
             for u in users:
-                self.stdout.write("Changed permissions for user: %s\n" % u)
+                self.stdout.write("Changed permissions for user: %s\n" % smart_text(u, encoding='utf-8', strings_only=False))
 
             for w in warnings:
                 self.stdout.write("WARNING: %s\n" %w)
