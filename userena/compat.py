@@ -9,7 +9,7 @@ auth_views_compat_quirks = defaultdict(lambda: dict())
 
 # below are quirks we must use because we can't change some userena API's
 # like (url names)
-if django.VERSION >= (1, 6, 0): # pragma: no cover
+if django.VERSION >= (1, 6, 0):  # pragma: no cover
     # in django >= 1.6.0 django.contrib.auth.views.reset no longer looks
     # for django.contrib.auth.views.password_reset_done but for
     # password_reset_done named url. To avoid duplicating urls we

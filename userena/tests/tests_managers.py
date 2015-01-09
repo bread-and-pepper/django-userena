@@ -33,7 +33,7 @@ class UserenaManagerTests(TestCase):
         """
         # Check that the fields are set.
         new_user = UserenaSignup.objects.create_user(**self.user_info)
-        self.assertEqual(new_user.username, self.user_info['username'])
+        self.assertEqual(new_user.username.decode('utf-8'), self.user_info['username'])
         self.assertEqual(new_user.email, self.user_info['email'])
         self.failUnless(new_user.check_password(self.user_info['password']))
 

@@ -453,7 +453,7 @@ class UserenaViewsTests(TestCase):
         # check if there was success redirect to userena_password_reset_done
         # and email was sent
         self.assertEqual(response.status_code, 302)
-        self.assertIn(reverse('userena_password_reset_done'), str(response))
+        self.assertIn(reverse('userena_password_reset_done'), response.get('Location'))
         self.assertTrue(mail.outbox)
 
     def test_password_reset_view_failure(self):
@@ -480,4 +480,4 @@ class UserenaViewsTests(TestCase):
                                     data={'new_password1': 'pass',
                                           'new_password2': 'pass',})
         self.assertEqual(response.status_code, 302)
-        self.assertIn(reverse('userena_password_reset_complete'), str(response))
+        self.assertIn(reverse('userena_password_reset_complete'), response.get('Location'))

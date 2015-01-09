@@ -1,14 +1,13 @@
-from urlparse import urlparse, parse_qs
 
 from django.test import TestCase
 from django.conf import settings
+from django.utils.six.moves.urllib_parse import urlparse, parse_qs
 
 from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
                            get_protocol, get_user_model)
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable
 
-import hashlib
 
 class UtilsTests(TestCase):
     """ Test the extra utils methods """
@@ -75,6 +74,5 @@ class UtilsTests(TestCase):
         """ Test if the correct protocol is returned """
         self.failUnlessEqual(get_protocol(), 'http')
 
-        userena_settings.USERENA_USE_HTTPS = True
-        self.failUnlessEqual(get_protocol(), 'https')
-        userena_settings.USERENA_USE_HTTPS = False
+        with self.settings(USERENA_USE_HTTPS=True):
+            self.failUnlessEqual(get_protocol(), 'https')

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db.models import get_model
 from django.utils.six import text_type
+from django.utils.six.moves.urllib.parse import urlencode
 
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable
@@ -57,10 +58,12 @@ def get_gravatar(email, size=80, default='identicon'):
 
     gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
             {'base_url': base_url,
-             'gravatar_id': md5_constructor(email.lower()).hexdigest()}
+             'gravatar_id': md5_constructor(email.lower().encode('utf-8')).hexdigest()}
 
-    gravatar_url += urllib.urlencode({'s': str(size),
-                                      'd': default})
+    gravatar_url += urlencode({
+        's': str(size),
+        'd': default
+    })
     return gravatar_url
 
 def signin_redirect(redirect=None, user=None):
@@ -105,13 +108,14 @@ def generate_sha1(string, salt=None):
     """
     if not isinstance(string, (str, text_type)):
         string = str(string)
-    if isinstance(string, text_type):
-        string = string.encode("utf-8")
-    if not salt:
-        salt = sha_constructor(str(random.random())).hexdigest()[:5]
-    hash = sha_constructor(salt+string).hexdigest()
 
-    return (salt, hash)
+    if not salt:
+        salt = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
+
+    salted_bytes = (salt.encode('utf-8') + string.encode('utf-8'))
+    hash_ = sha_constructor(salted_bytes).hexdigest()
+
+    return salt, hash_
 
 def get_profile_model():
     """
@@ -157,7 +161,7 @@ def get_protocol():
 
     """
     protocol = 'http'
-    if userena_settings.USERENA_USE_HTTPS:
+    if getattr(settings, 'USERENA_USE_HTTPS', userena_settings.DEFAULT_USERENA_USE_HTTPS):
         protocol = 'https'
     return protocol
 

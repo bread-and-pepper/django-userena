@@ -1,21 +1,23 @@
-from urlparse import urlparse, parse_qs
+import datetime
+import hashlib
+import re
 
 from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from django.conf import settings
 from django.test import TestCase
 from django.utils.six import text_type
+from django.utils.six.moves.urllib_parse import urlparse, parse_qs
 
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.models import Profile
 from userena.utils import get_user_model, get_user_profile
 
-import datetime, hashlib, re
-
 User = get_user_model()
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
+
 
 class UserenaSignupModelTests(TestCase):
     """ Test the model of UserenaSignup """
@@ -201,7 +203,7 @@ class BaseProfileModelTest(TestCase):
         """
         profile = Profile.objects.get(pk=1)
 
-        gravatar_hash = hashlib.md5(profile.user.email).hexdigest()
+        gravatar_hash = hashlib.md5(profile.user.email.encode('utf-8')).hexdigest()
 
         # Test with the default settings
         mugshot_url = profile.get_mugshot_url()

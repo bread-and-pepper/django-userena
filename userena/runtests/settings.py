@@ -156,3 +156,5 @@ LOGGING = {
 
 # Needed for Django guardian
 ANONYMOUS_USER_ID = -1
+
+USERENA_USE_HTTPS = False
