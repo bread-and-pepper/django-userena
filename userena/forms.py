@@ -110,7 +110,7 @@ class SignupFormOnlyEmail(SignupForm):
     def save(self):
         """ Generate a random username before falling back to parent signup form """
         while True:
-            username = sha_constructor(str(random.random())).hexdigest()[:5]
+            username = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
             try:
                 get_user_model().objects.get(username__iexact=username)
             except get_user_model().DoesNotExist: break
@@ -234,7 +234,7 @@ class EditProfileForm(forms.ModelForm):
         except AttributeError:  # in Django > 1.7
             new_order = [('first_name', self.fields['first_name']),
                          ('last_name', self.fields['last_name'])]
-            new_order.extend(self.fields.items()[:-2])
+            new_order.extend(list(self.fields.items())[:-2])
             self.fields = OrderedDict(new_order)
 
     class Meta:

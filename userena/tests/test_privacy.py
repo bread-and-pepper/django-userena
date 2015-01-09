@@ -37,7 +37,7 @@ class PrivacyTests(TestCase):
         for user, status in users_status:
             if user:
                 self.client.login(**user)
-            response = self.client.get(url)
+            response = self.client.get(url, follow=True)
             self.failUnlessEqual(response.status_code, status)
 
     def test_detail_open_profile_view(self):

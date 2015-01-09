@@ -1,20 +1,23 @@
-from urlparse import urlparse, parse_qs
+import datetime
+import hashlib
+import re
 
 from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from django.conf import settings
 from django.test import TestCase
+from django.utils.six import text_type
+from django.utils.six.moves.urllib_parse import urlparse, parse_qs
 
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.models import Profile
 from userena.utils import get_user_model, get_user_profile
 
-import datetime, hashlib, re
-
 User = get_user_model()
 
 MUGSHOT_RE = re.compile('^[a-f0-9]{40}$')
+
 
 class UserenaSignupModelTests(TestCase):
     """ Test the model of UserenaSignup """
@@ -108,7 +111,7 @@ class UserenaSignupModelTests(TestCase):
         userena_settings.USERENA_HTML_EMAIL = False
         new_user = UserenaSignup.objects.create_user(**self.user_info)
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertEqual(unicode(mail.outbox[0].message()).find("multipart/alternative"),-1)
+        self.assertEqual(text_type(mail.outbox[0].message()).find("multipart/alternative"),-1)
 
     def test_html_email(self):
         """
@@ -123,11 +126,11 @@ class UserenaSignupModelTests(TestCase):
         # Reset configuration
         userena_settings.USERENA_HTML_EMAIL = False
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
         self.assertFalse(mail.outbox[0].body.find("<p>Thank you for signing up")>-1)
 
     def test_generated_plain_email(self):
@@ -146,11 +149,11 @@ class UserenaSignupModelTests(TestCase):
         userena_settings.USERENA_USE_PLAIN_TEMPLATE = True
 
         self.failUnlessEqual(len(mail.outbox), 1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("multipart/alternative")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/plain")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("text/html")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<html>")>-1)
-        self.assertTrue(unicode(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("multipart/alternative")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/plain")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("text/html")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<html>")>-1)
+        self.assertTrue(text_type(mail.outbox[0].message()).find("<p>Thank you for signing up")>-1)
         self.assertTrue(mail.outbox[0].body.find("Thank you for signing up")>-1)
 
 class BaseProfileModelTest(TestCase):
@@ -200,7 +203,7 @@ class BaseProfileModelTest(TestCase):
         """
         profile = Profile.objects.get(pk=1)
 
-        gravatar_hash = hashlib.md5(profile.user.email).hexdigest()
+        gravatar_hash = hashlib.md5(profile.user.email.encode('utf-8')).hexdigest()
 
         # Test with the default settings
         mugshot_url = profile.get_mugshot_url()
