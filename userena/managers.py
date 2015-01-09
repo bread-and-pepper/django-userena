@@ -71,8 +71,9 @@ class UserenaManager(UserManager):
         for perm in ASSIGNED_PERMISSIONS['user']:
             assign_perm(perm[0], new_user, new_user)
 
+        userena_profile = self.create_userena_profile(new_user)
+
         if send_email:
-            userena_profile = self.create_userena_profile(new_user)
             userena_profile.send_activation_email()
 
         return new_user
