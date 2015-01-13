@@ -4,13 +4,22 @@ env:
   - TOX_ENV=py26-django14
   - TOX_ENV=py26-django15
   - TOX_ENV=py26-django16
+
   - TOX_ENV=py27-django14
   - TOX_ENV=py27-django15
   - TOX_ENV=py27-django16
   - TOX_ENV=py27-django17
-  - TOX_ENV=py34-django15
-  - TOX_ENV=py34-django16
+
+  - TOX_ENV=py32-django15
+  - TOX_ENV=py32-django16
+  - TOX_ENV=py32-django17
+
+  - TOX_ENV=py33-django15
+  - TOX_ENV=py33-django16
+  - TOX_ENV=py33-django17
+
   - TOX_ENV=py34-django17
+
   - TOX_ENV=coverage
 install:
   - pip install tox
