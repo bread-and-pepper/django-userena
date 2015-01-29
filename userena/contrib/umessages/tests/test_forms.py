@@ -1,3 +1,6 @@
+#encoding:utf-8
+from __future__ import unicode_literals
+
 from django.test import TestCase
 
 from userena.contrib.umessages.forms import ComposeForm
@@ -19,7 +22,7 @@ class ComposeFormTests(TestCase):
             # No body
             {'data': {'to': 'john',
                       'body': ''},
-             'error': ('body', [u'This field is required.'])},
+             'error': ('body', ['This field is required.'])},
         ]
 
         for invalid_dict in invalid_data_dicts:

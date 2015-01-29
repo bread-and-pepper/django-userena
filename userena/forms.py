@@ -1,3 +1,6 @@
+#encoding:utf-8
+from __future__ import unicode_literals
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
@@ -121,7 +124,7 @@ class SignupFormOnlyEmail(SignupForm):
 class SignupFormTos(SignupForm):
     """ Add a Terms of Service button to the ``SignupForm``. """
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
-                             label=_(u'I have read and agree to the Terms of Service'),
+                             label=_('I have read and agree to the Terms of Service'),
                              error_messages={'required': _('You must agree to the terms to register.')})
 
 def identification_field_factory(label, error_required):
@@ -145,23 +148,23 @@ class AuthenticationForm(forms.Form):
     A custom form where the identification can be a e-mail address or username.
 
     """
-    identification = identification_field_factory(_(u"Email or username"),
-                                                  _(u"Either supply us with your email or username."))
+    identification = identification_field_factory(_("Email or username"),
+                                                  _("Either supply us with your email or username."))
     password = forms.CharField(label=_("Password"),
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(),
                                      required=False,
-                                     label=_(u'Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
+                                     label=_('Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
 
     def __init__(self, *args, **kwargs):
         """ A custom init because we need to change the label if no usernames is used """
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         # Dirty hack, somehow the label doesn't get translated without declaring
         # it again here.
-        self.fields['remember_me'].label = _(u'Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])}
+        self.fields['remember_me'].label = _('Remember me for %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])}
         if userena_settings.USERENA_WITHOUT_USERNAMES:
-            self.fields['identification'] = identification_field_factory(_(u"Email"),
-                                                                         _(u"Please supply your email."))
+            self.fields['identification'] = identification_field_factory(_("Email"),
+                                                                         _("Please supply your email."))
 
     def clean(self):
         """
@@ -176,13 +179,13 @@ class AuthenticationForm(forms.Form):
         if identification and password:
             user = authenticate(identification=identification, password=password)
             if user is None:
-                raise forms.ValidationError(_(u"Please enter a correct username or email and password. Note that both fields are case-sensitive."))
+                raise forms.ValidationError(_("Please enter a correct username or email and password. Note that both fields are case-sensitive."))
         return self.cleaned_data
 
 class ChangeEmailForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
-                             label=_(u"New email"))
+                             label=_("New email"))
 
     def __init__(self, user, *args, **kwargs):
         """
@@ -200,9 +203,9 @@ class ChangeEmailForm(forms.Form):
     def clean_email(self):
         """ Validate that the email is not already registered with another user """
         if self.cleaned_data['email'].lower() == self.user.email:
-            raise forms.ValidationError(_(u'You\'re already known under this email.'))
+            raise forms.ValidationError(_('You\'re already known under this email.'))
         if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']).exclude(email__iexact=self.user.email):
-            raise forms.ValidationError(_(u'This email is already in use. Please supply a different email.'))
+            raise forms.ValidationError(_('This email is already in use. Please supply a different email.'))
         return self.cleaned_data['email']
 
     def save(self):
@@ -216,10 +219,10 @@ class ChangeEmailForm(forms.Form):
 
 class EditProfileForm(forms.ModelForm):
     """ Base form used for fields that are always required """
-    first_name = forms.CharField(label=_(u'First name'),
+    first_name = forms.CharField(label=_('First name'),
                                  max_length=30,
                                  required=False)
-    last_name = forms.CharField(label=_(u'Last name'),
+    last_name = forms.CharField(label=_('Last name'),
                                 max_length=30,
                                 required=False)
 
