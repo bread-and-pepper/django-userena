@@ -1,3 +1,6 @@
+# encoding: utf-8
+from __future__ import unicode_literals
+
 from django.test import TestCase
 from django.utils.translation import ugettext_lazy as _
 
@@ -23,14 +26,14 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('username', [_(u'Username must contain only letters, numbers, dots and underscores.')])},
+             'error': ('username', [_('Username must contain only letters, numbers, dots and underscores.')])},
             # Password is not the same
             {'data': {'username': 'katy-',
                       'email': 'katy@newexample.com',
                       'password1': 'foo',
                       'password2': 'foo2',
                       'tos': 'on'},
-             'error': ('__all__', [_(u'The two password fields didn\'t match.')])},
+             'error': ('__all__', [_('The two password fields didn\'t match.')])},
 
             # Already taken username
             {'data': {'username': 'john',
@@ -38,7 +41,7 @@ class SignupFormTests(TestCase):
                       'password1': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('username', [_(u'This username is already taken.')])},
+             'error': ('username', [_('This username is already taken.')])},
 
             # Forbidden username
             {'data': {'username': 'SignUp',
@@ -46,7 +49,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo2',
                       'tos': 'on'},
-             'error': ('username', [_(u'This username is not allowed.')])},
+             'error': ('username', [_('This username is not allowed.')])},
 
             # Already taken email
             {'data': {'username': 'alice',
@@ -54,7 +57,7 @@ class SignupFormTests(TestCase):
                       'password': 'foo',
                       'password2': 'foo',
                       'tos': 'on'},
-             'error': ('email', [_(u'This email is already in use. Please supply a different email.')])},
+             'error': ('email', [_('This email is already in use. Please supply a different email.')])},
         ]
 
         for invalid_dict in invalid_data_dicts:
@@ -86,10 +89,10 @@ class AuthenticationFormTests(TestCase):
         invalid_data_dicts = [
             {'data': {'identification': '',
                       'password': 'inhalefish'},
-             'error': ('identification', [u'Either supply us with your email or username.'])},
+             'error': ('identification', ['Either supply us with your email or username.'])},
             {'data': {'identification': 'john',
                       'password': 'inhalefish'},
-             'error': ('__all__', [u'Please enter a correct username or email and password. Note that both fields are case-sensitive.'])}
+             'error': ('__all__', ['Please enter a correct username or email and password. Note that both fields are case-sensitive.'])}
         ]
 
         for invalid_dict in invalid_data_dicts:
@@ -169,10 +172,10 @@ class ChangeEmailFormTests(TestCase):
         invalid_data_dicts = [
             # No change in e-mail address
             {'data': {'email': 'john@example.com'},
-             'error': ('email', [u'You\'re already known under this email.'])},
+             'error': ('email', ['You\'re already known under this email.'])},
             # An e-mail address used by another
             {'data': {'email': 'jane@example.com'},
-             'error': ('email', [u'This email is already in use. Please supply a different email.'])},
+             'error': ('email', ['This email is already in use. Please supply a different email.'])},
         ]
         for invalid_dict in invalid_data_dicts:
             form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
