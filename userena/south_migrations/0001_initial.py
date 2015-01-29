@@ -1,5 +1,4 @@
 # encoding: utf-8
-from __future__ import unicode_literals
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
@@ -76,7 +75,7 @@ class Migration(SchemaMigration):
             'email_unconfirmed': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_active': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "userena_signup", 'unique': 'True', 'to': "orm['%s']" % user_model_label})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'userena_signup'", 'unique': 'True', 'to': "orm['%s']" % user_model_label})
         }
     }
 
