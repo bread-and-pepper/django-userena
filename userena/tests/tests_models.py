@@ -54,7 +54,7 @@ class UserenaSignupModelTests(TestCase):
 
         """
         signup = UserenaSignup.objects.get(pk=1)
-        self.failUnlessEqual(signup.__unicode__(),
+        self.failUnlessEqual(signup.__str__(),
                              signup.user.username)
 
     def test_change_email(self):
@@ -173,7 +173,7 @@ class BaseProfileModelTest(TestCase):
     def test_stringification(self):
         """ Profile should return a human-readable name as an object """
         profile = Profile.objects.get(pk=1)
-        self.failUnlessEqual(profile.__unicode__(),
+        self.failUnlessEqual(profile.__str__(),
                              'Profile of %s' % profile.user.username)
 
     def test_get_mugshot_url_without_gravatar(self):
