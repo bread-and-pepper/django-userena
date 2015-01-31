@@ -13,6 +13,7 @@ from userena.utils import generate_sha1, get_profile_model, get_datetime_now, \
 from userena import signals as userena_signals
 
 from guardian.shortcuts import assign_perm, get_perms
+from compat import smart_text
 
 
 import re
@@ -90,7 +91,7 @@ class UserenaManager(UserManager):
 
         """
         if isinstance(user.username, text_type):
-            user.username = user.username.encode('utf-8')
+            user.username = smart_text(user.username)
         salt, activation_key = generate_sha1(user.username)
 
         try:
