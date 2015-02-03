@@ -23,11 +23,17 @@ if django.VERSION >= (1, 6, 0):  # pragma: no cover
         'post_reset_redirect': 'userena_password_reset_complete',
     }
 
+
 # below are backward compatibility fixes
 password_reset_uid_kwarg = 'uidb64'
 if django.VERSION < (1, 6, 0):  # pragma: no cover
     # Django<1.6.0 uses uidb36, we construct urlpattern depending on this
     password_reset_uid_kwarg = 'uidb36'
+
+if django.VERSION < (1, 5, 0):
+    from django.utils.encoding import smart_unicode as smart_text
+else:
+    from django.utils.encoding import smart_text
 
 
 # SiteProfileNotAvailable compatibility
