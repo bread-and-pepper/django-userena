@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.test import TestCase
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, override
 
 from userena import forms
 from userena import settings as userena_settings
@@ -60,12 +60,16 @@ class SignupFormTests(TestCase):
              'error': ('email', [_('This email is already in use. Please supply a different email.')])},
         ]
 
-        for invalid_dict in invalid_data_dicts:
-            form = forms.SignupForm(data=invalid_dict['data'])
-            self.failIf(form.is_valid())
-            self.assertEqual(form.errors[invalid_dict['error'][0]],
-                             invalid_dict['error'][1])
-
+        # Override locale settings since we are checking for existence of error
+        # messaged written in english. Note: it should not be necessasy but
+        # we have experienced such locale issues during tests on Travis builds.
+        # See: https://github.com/bread-and-pepper/django-userena/issues/446
+        with override('en'):
+            for invalid_dict in invalid_data_dicts:
+                form = forms.SignupForm(data=invalid_dict['data'])
+                self.failIf(form.is_valid())
+                self.assertEqual(form.errors[invalid_dict['error'][0]],
+                                 invalid_dict['error'][1])
 
         # And finally, a valid form.
         form = forms.SignupForm(data={'username': 'foo.bla',
@@ -75,6 +79,7 @@ class SignupFormTests(TestCase):
                                       'tos': 'on'})
 
         self.failUnless(form.is_valid())
+
 
 class AuthenticationFormTests(TestCase):
     """ Test the ``AuthenticationForm`` """
@@ -95,11 +100,16 @@ class AuthenticationFormTests(TestCase):
              'error': ('__all__', ['Please enter a correct username or email and password. Note that both fields are case-sensitive.'])}
         ]
 
-        for invalid_dict in invalid_data_dicts:
-            form = forms.AuthenticationForm(data=invalid_dict['data'])
-            self.failIf(form.is_valid())
-            self.assertEqual(form.errors[invalid_dict['error'][0]],
-                             invalid_dict['error'][1])
+        # Override locale settings since we are checking for existence of error
+        # messaged written in english. Note: it should not be necessasy but
+        # we have experienced such locale issues during tests on Travis builds.
+        # See: https://github.com/bread-and-pepper/django-userena/issues/446
+        with override('en'):
+            for invalid_dict in invalid_data_dicts:
+                form = forms.AuthenticationForm(data=invalid_dict['data'])
+                self.failIf(form.is_valid())
+                self.assertEqual(form.errors[invalid_dict['error'][0]],
+                                 invalid_dict['error'][1])
 
         valid_data_dicts = [
             {'identification': 'john',
@@ -129,6 +139,7 @@ class AuthenticationFormTests(TestCase):
 
         # Restore default settings
         userena_settings.USERENA_WITHOUT_USERNAMES = False
+
 
 class SignupFormOnlyEmailTests(TestCase):
     """
@@ -163,6 +174,7 @@ class SignupFormOnlyEmailTests(TestCase):
 
         self.failUnless(len(user.username), 5)
 
+
 class ChangeEmailFormTests(TestCase):
     """ Test the ``ChangeEmailForm`` """
     fixtures = ['users']
@@ -177,11 +189,17 @@ class ChangeEmailFormTests(TestCase):
             {'data': {'email': 'jane@example.com'},
              'error': ('email', ['This email is already in use. Please supply a different email.'])},
         ]
-        for invalid_dict in invalid_data_dicts:
-            form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
-            self.failIf(form.is_valid())
-            self.assertEqual(form.errors[invalid_dict['error'][0]],
-                             invalid_dict['error'][1])
+
+        # Override locale settings since we are checking for existence of error
+        # messaged written in english. Note: it should not be necessasy but
+        # we have experienced such locale issues during tests on Travis builds.
+        # See: https://github.com/bread-and-pepper/django-userena/issues/446
+        with override('en'):
+            for invalid_dict in invalid_data_dicts:
+                form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
+                self.failIf(form.is_valid())
+                self.assertEqual(form.errors[invalid_dict['error'][0]],
+                                 invalid_dict['error'][1])
 
         # Test a valid post
         form = forms.ChangeEmailForm(user,
@@ -191,6 +209,7 @@ class ChangeEmailFormTests(TestCase):
     def test_form_init(self):
         """ The form must be initialized with a ``User`` instance. """
         self.assertRaises(TypeError, forms.ChangeEmailForm, None)
+
 
 class EditAccountFormTest(TestCase):
     """ Test the ``EditAccountForm`` """
