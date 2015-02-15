@@ -1,9 +1,8 @@
 from django.test import TestCase
-from django.core import mail
 
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
-from userena.utils import get_user_model
+from userena.utils import get_user_model, get_user_profile
 
 from guardian.shortcuts import get_perms
 
@@ -45,7 +44,7 @@ class UserenaManagerTests(TestCase):
         self.failUnless(re.match('^[a-f0-9]{40}$', new_user.userena_signup.activation_key))
 
         # User now has an profile.
-        self.failUnless(new_user.get_profile())
+        self.failUnless(get_user_profile(user=new_user))
 
         # User should be saved
         self.failUnlessEqual(User.objects.filter(email=self.user_info['email']).count(), 1)
@@ -61,6 +60,7 @@ class UserenaManagerTests(TestCase):
         """
         user = UserenaSignup.objects.create_user(**self.user_info)
         active_user = UserenaSignup.objects.activate_user(user.userena_signup.activation_key)
+        profile = get_user_profile(user=active_user)
 
         # The returned user should be the same as the one just created.
         self.failUnlessEqual(user, active_user)
@@ -69,8 +69,8 @@ class UserenaManagerTests(TestCase):
         self.failUnless(active_user.is_active)
 
         # The user should have permission to view and change its profile
-        self.failUnless('view_profile' in get_perms(active_user, active_user.get_profile()))
-        self.failUnless('change_profile' in get_perms(active_user, active_user.get_profile()))
+        self.failUnless('view_profile' in get_perms(active_user, profile))
+        self.failUnless('change_profile' in get_perms(active_user, profile))
 
         # The activation key should be the same as in the settings
         self.assertEqual(active_user.userena_signup.activation_key,
@@ -161,3 +161,15 @@ class UserenaManagerTests(TestCase):
         deleted_users = UserenaSignup.objects.delete_expired_users()
 
         self.failUnlessEqual(deleted_users[0].username, 'alice')
+
+
+class UserenaManagersIssuesTests(TestCase):
+    fixtures = ['users']
+
+    def test_issue_455_printing_user_model_from_userena_signup_objects_create_user(self):
+        """
+        Issue: https://github.com/bread-and-pepper/django-userena/issues/455
+        """
+        user = UserenaSignup.objects.create_user("test", "test@t.com", "test", active=True, send_email=False)
+        # printing of user should not raise any exception
+        print(user)

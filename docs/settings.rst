@@ -246,6 +246,27 @@ Uses a text template for plain text part (when ``USERENA_HTML_EMAIL = True``).
 When ``USERENA_HTML_EMAIL = False``, plain text templates are always used for
 emails even if ``USERENA_USE_PLAIN_TEMPLATE = False``.
 
+USERENA_REGISTER_PROFILE
+~~~~~~~~~~~~~~~~~~~~~~~~
+Default: ``True`` (boolean)
+
+If ``True`` userena will register the profile model with Django Admin for you. 
+It uses a GuardedModelAdmin when registering. This allows per user object permissions
+to be set via the admin.
+If ``False`` you will have to regiter the profile with the Django Admin yourself.
+
+USERENA_REGISTER_USER
+~~~~~~~~~~~~~~~~~~~~~
+Default: ``True`` (boolean)
+
+If ``True`` userena will first unregister the user model with the admin and 
+then reregister the user model using a GuardedModelAdmin. This allows you to 
+set per user object permissons.
+If ``False`` and you want to you set per user object permissions on the user model 
+via the admin you will have to unregister and reregiter the user model with the
+Django Admin yourself.
+
+
 Django settings
 ---------------
 

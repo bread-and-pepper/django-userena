@@ -1,9 +1,7 @@
 from django.test import TestCase
-from django.core.urlresolvers import reverse
-from django.utils.text import truncate_words
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
-from userena.utils import get_user_model
+from userena.utils import get_user_model, truncate_words
 
 User = get_user_model()
 
@@ -14,7 +12,7 @@ class MessageContactTests(TestCase):
         """ Test the human representation of a message """
         contact = MessageContact.objects.get(pk=1)
         correct_format = "john and jane"
-        self.failUnlessEqual(contact.__unicode__(),
+        self.failUnlessEqual(contact.__str__(),
                              correct_format)
 
     def test_opposite_user(self):
@@ -37,7 +35,7 @@ class MessageModelTests(TestCase):
         """ Test the human representation of a message """
         message = Message.objects.get(pk=1)
         truncated_body = truncate_words(message.body, 10)
-        self.failUnlessEqual(message.__unicode__(),
+        self.failUnlessEqual(message.__str__(),
                              truncated_body)
 
 class MessageRecipientModelTest(TestCase):
@@ -49,7 +47,7 @@ class MessageRecipientModelTest(TestCase):
 
         valid_unicode = '%s' % (recipient.message)
 
-        self.failUnlessEqual(recipient.__unicode__(),
+        self.failUnlessEqual(recipient.__str__(),
                              valid_unicode)
 
     def test_new(self):

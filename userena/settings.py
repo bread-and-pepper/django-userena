@@ -50,10 +50,12 @@ USERENA_FORBIDDEN_USERNAMES = getattr(settings,
                                       'USERENA_FORBIDDEN_USERNAMES',
                                       ('signup', 'signout', 'signin',
                                        'activate', 'me', 'password'))
+DEFAULT_USERENA_USE_HTTPS = False
 
-USERENA_USE_HTTPS = getattr(settings,
-                            'USERENA_USE_HTTPS',
-                            False)
+# NOTE: It is only for internal use. All those settings should be refactored to only defaults
+#       as specified in #452
+_USERENA_USE_HTTPS = getattr(settings, 'USERENA_USE_HTTPS', DEFAULT_USERENA_USE_HTTPS)
+
 
 USERENA_MUGSHOT_GRAVATAR = getattr(settings,
                                    'USERENA_MUGSHOT_GRAVATAR',
@@ -61,7 +63,7 @@ USERENA_MUGSHOT_GRAVATAR = getattr(settings,
 
 USERENA_MUGSHOT_GRAVATAR_SECURE = getattr(settings,
                                           'USERENA_MUGSHOT_GRAVATAR_SECURE',
-                                          USERENA_USE_HTTPS)
+                                          _USERENA_USE_HTTPS)
 
 USERENA_MUGSHOT_DEFAULT = getattr(settings,
                                   'USERENA_MUGSHOT_DEFAULT',

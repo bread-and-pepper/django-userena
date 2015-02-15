@@ -1,10 +1,17 @@
 from django.conf.urls import *
-from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
 
 from userena import views as userena_views
 from userena import settings as userena_settings
+from userena.compat import auth_views_compat_quirks, password_reset_uid_kwarg
+
+
+def merged_dict(dict_a, dict_b):
+    """Merges two dicts and returns output. It's purpose is to ease use of
+    ``auth_views_compat_quirks``
+    """
+    dict_a.update(dict_b)
+    return dict_a
 
 urlpatterns = patterns('',
     # Signup, signin and signout
@@ -21,25 +28,27 @@ urlpatterns = patterns('',
     # Reset password
     url(r'^password/reset/$',
        auth_views.password_reset,
-       {'template_name': 'userena/password_reset_form.html',
-        'email_template_name': 'userena/emails/password_reset_message.txt',
-        'extra_context': {'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES}
-        },
+       merged_dict({'template_name': 'userena/password_reset_form.html',
+                    'email_template_name': 'userena/emails/password_reset_message.txt',
+                    'extra_context': {'without_usernames': userena_settings.USERENA_WITHOUT_USERNAMES}
+                   }, auth_views_compat_quirks['userena_password_reset']),
        name='userena_password_reset'),
     url(r'^password/reset/done/$',
        auth_views.password_reset_done,
-       {'template_name': 'userena/password_reset_done.html'},
+       {'template_name': 'userena/password_reset_done.html',},
        name='userena_password_reset_done'),
-    url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    url(r'^password/reset/confirm/(?P<%s>[0-9A-Za-z]+)-(?P<token>.+)/$' % password_reset_uid_kwarg,
        auth_views.password_reset_confirm,
-       {'template_name': 'userena/password_reset_confirm_form.html'},
+       merged_dict({'template_name': 'userena/password_reset_confirm_form.html',
+                    }, auth_views_compat_quirks['userena_password_reset_confirm']),
        name='userena_password_reset_confirm'),
     url(r'^password/reset/confirm/complete/$',
        auth_views.password_reset_complete,
-       {'template_name': 'userena/password_reset_complete.html'}),
+       {'template_name': 'userena/password_reset_complete.html'},
+        name='userena_password_reset_complete'),
 
     # Signup
-    url(r'^(?P<username>[\.\w-]+)/signup/complete/$',
+    url(r'^(?P<username>[\@\.\w-]+)/signup/complete/$',
        userena_views.direct_to_user_template,
        {'template_name': 'userena/signup_complete.html',
         'extra_context': {'userena_activation_required': userena_settings.USERENA_ACTIVATION_REQUIRED,
@@ -57,14 +66,14 @@ urlpatterns = patterns('',
         name='userena_activate_retry'),
 
     # Change email and confirm it
-    url(r'^(?P<username>[\.\w-]+)/email/$',
+    url(r'^(?P<username>[\@\.\w-]+)/email/$',
        userena_views.email_change,
        name='userena_email_change'),
-    url(r'^(?P<username>[\.\w-]+)/email/complete/$',
+    url(r'^(?P<username>[\@\.\w-]+)/email/complete/$',
        userena_views.direct_to_user_template,
        {'template_name': 'userena/email_change_complete.html'},
        name='userena_email_change_complete'),
-    url(r'^(?P<username>[\.\w-]+)/confirm-email/complete/$',
+    url(r'^(?P<username>[\@\.\w-]+)/confirm-email/complete/$',
        userena_views.direct_to_user_template,
        {'template_name': 'userena/email_confirm_complete.html'},
        name='userena_email_confirm_complete'),
@@ -73,27 +82,27 @@ urlpatterns = patterns('',
        name='userena_email_confirm'),
 
     # Disabled account
-    url(r'^(?P<username>[\.\w-]+)/disabled/$',
+    url(r'^(?P<username>[\@\.\w-]+)/disabled/$',
        userena_views.disabled_account,
        {'template_name': 'userena/disabled.html'},
        name='userena_disabled'),
 
     # Change password
-    url(r'^(?P<username>[\.\w-]+)/password/$',
+    url(r'^(?P<username>[\@\.\w-]+)/password/$',
        userena_views.password_change,
        name='userena_password_change'),
-    url(r'^(?P<username>[\.\w-]+)/password/complete/$',
+    url(r'^(?P<username>[\@\.\w-]+)/password/complete/$',
        userena_views.direct_to_user_template,
        {'template_name': 'userena/password_complete.html'},
        name='userena_password_change_complete'),
 
     # Edit profile
-    url(r'^(?P<username>[\.\w-]+)/edit/$',
+    url(r'^(?P<username>[\@\.\w-]+)/edit/$',
        userena_views.profile_edit,
        name='userena_profile_edit'),
 
     # View profiles
-    url(r'^(?P<username>(?!signout|signup|signin)[\.\w-]+)/$',
+    url(r'^(?P<username>(?!signout|signup|signin)[\@\.\w-]+)/$',
        userena_views.profile_detail,
        name='userena_profile_detail'),
     url(r'^page/(?P<page>[0-9]+)/$',

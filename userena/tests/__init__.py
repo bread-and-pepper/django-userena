@@ -1,10 +1,13 @@
-from userena.tests.backends import *
-from userena.tests.commands import *
-from userena.tests.decorators import *
-from userena.tests.forms import *
-from userena.tests.managers import *
-from userena.tests.middleware import *
-from userena.tests.models import *
-from userena.tests.privacy import *
-from userena.tests.utils import *
-from userena.tests.views import *
+import django
+
+if django.VERSION < (1, 6):
+    from .test_backends import *
+    from .test_commands import *
+    from .test_privacy import *
+    from .tests_decorators import *
+    from .tests_forms import *
+    from .tests_managers import *
+    from .tests_middleware import *
+    from .tests_models import *
+    from .tests_utils import *
+    from .tests_views import *

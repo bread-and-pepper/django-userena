@@ -23,6 +23,7 @@ pip-log.txt
 
 # Testing
 .coverage
+.tox
 
 # Demo project
 demo/demo_project.db

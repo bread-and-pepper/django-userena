@@ -1,3 +1,6 @@
+# encoding: utf-8
+from __future__ import unicode_literals
+
 from django.test import TestCase
 from django.core.management import call_command
 from django.contrib.auth.models import Permission
@@ -60,7 +63,7 @@ class CheckPermissionTests(TestCase):
         # User should have all permissions again
         user_permissions = UserObjectPermission.objects.filter(user=user).values_list('permission__codename', flat=True)
 
-        required_permissions = [u'change_user', u'delete_user', u'change_profile', u'view_profile']
+        required_permissions = ['change_user', 'delete_user', 'change_profile', 'view_profile']
         for perm in required_permissions:
             if perm not in user_permissions:
                 self.fail()

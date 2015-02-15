@@ -5,15 +5,19 @@ from django.contrib.auth.models import UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from django.utils.six import text_type
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model, get_datetime_now, \
-    get_user_model
+    get_user_model, get_user_profile
 from userena import signals as userena_signals
+from userena.compat import smart_text
 
-from guardian.shortcuts import assign, get_perms
+from guardian.shortcuts import assign_perm, get_perms
 
-import re, datetime
+
+
+import re
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
@@ -56,30 +60,21 @@ class UserenaManager(UserManager):
         :return: :class:`User` instance representing the new user.
 
         """
-        now = get_datetime_now()
 
         new_user = get_user_model().objects.create_user(
             username, email, password)
         new_user.is_active = active
         new_user.save()
 
-        userena_profile = self.create_userena_profile(new_user)
-
-        # All users have an empty profile
-        profile_model = get_profile_model()
-        try:
-            new_profile = new_user.get_profile()
-        except profile_model.DoesNotExist:
-            new_profile = profile_model(user=new_user)
-            new_profile.save(using=self._db)
-
         # Give permissions to view and change profile
         for perm in ASSIGNED_PERMISSIONS['profile']:
-            assign(perm[0], new_user, new_profile)
+            assign_perm(perm[0], new_user, get_user_profile(user=new_user))
 
         # Give permissions to view and change itself
         for perm in ASSIGNED_PERMISSIONS['user']:
-            assign(perm[0], new_user, new_user)
+            assign_perm(perm[0], new_user, new_user)
+
+        userena_profile = self.create_userena_profile(new_user)
 
         if send_email:
             userena_profile.send_activation_email()
@@ -96,12 +91,16 @@ class UserenaManager(UserManager):
         :return: The newly created :class:`UserenaSignup` instance.
 
         """
-        if isinstance(user.username, unicode):
-            user.username = user.username.encode('utf-8')
+        if isinstance(user.username, text_type):
+            user.username = smart_text(user.username)
         salt, activation_key = generate_sha1(user.username)
 
-        return self.create(user=user,
+        try:
+            profile = self.get(user=user)
+        except self.model.DoesNotExist:
+            profile = self.create(user=user,
                            activation_key=activation_key)
+        return profile
 
     def reissue_activation(self, activation_key):
         """
@@ -124,7 +123,7 @@ class UserenaManager(UserManager):
             userena.user.save(using=self._db)
             userena.send_activation_email()
             return True
-        except Exception,e:
+        except Exception:
             return False
 
     def activate_user(self, activation_key):
@@ -267,7 +266,7 @@ class UserenaManager(UserManager):
         # requirement of django-guardian
         for user in get_user_model().objects.exclude(id=settings.ANONYMOUS_USER_ID):
             try:
-                user_profile = user.get_profile()
+                user_profile = get_user_profile(user=user)
             except ObjectDoesNotExist:
                 warnings.append(_("No profile found for %(username)s") \
                                     % {'username': user.username})
@@ -276,12 +275,12 @@ class UserenaManager(UserManager):
 
                 for model, perms in ASSIGNED_PERMISSIONS.items():
                     if model == 'profile':
-                        perm_object = user.get_profile()
+                        perm_object = get_user_profile(user=user)
                     else: perm_object = user
 
                     for perm in perms:
                         if perm[0] not in all_permissions:
-                            assign(perm[0], user, perm_object)
+                            assign_perm(perm[0], user, perm_object)
                             changed_users.append(user)
 
         return (changed_permissions, changed_users, warnings)

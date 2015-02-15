@@ -53,10 +53,10 @@ def get_unread_message_count_for(parser, token):
     try:
         tag_name, arg = token.contents.split(None, 1)
     except ValueError:
-        raise template.TemplateSyntaxError, "%s tag requires arguments" % token.contents.split()[0]
+        raise template.TemplateSyntaxError("%s tag requires arguments" % token.contents.split()[0])
     m = re.search(r'(.*?) as (\w+)', arg)
     if not m:
-        raise template.TemplateSyntaxError, "%s tag had invalid arguments" % tag_name
+        raise template.TemplateSyntaxError("%s tag had invalid arguments" % tag_name)
     user, var_name = m.groups()
     return MessageCount(user, var_name)
 
@@ -77,9 +77,9 @@ def get_unread_message_count_between(parser, token):
     try:
         tag_name, arg = token.contents.split(None, 1)
     except ValueError:
-        raise template.TemplateSyntaxError, "%s tag requires arguments" % token.contents.split()[0]
+        raise template.TemplateSyntaxError("%s tag requires arguments" % token.contents.split()[0])
     m = re.search(r'(.*?) and (.*?) as (\w+)', arg)
     if not m:
-        raise template.TemplateSyntaxError, "%s tag had invalid arguments" % tag_name
+        raise template.TemplateSyntaxError("%s tag had invalid arguments" % tag_name)
     um_from_user, um_to_user, var_name = m.groups()
     return MessageCount(um_from_user, var_name, um_to_user)

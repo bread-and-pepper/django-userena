@@ -1,46 +1,41 @@
+
 from django.test import TestCase
 from django.conf import settings
-from django.contrib.auth.models import SiteProfileNotAvailable
+from django.utils.six.moves.urllib_parse import urlparse, parse_qs
 
 from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
                            get_protocol, get_user_model)
 from userena import settings as userena_settings
-from userena.models import UserenaBaseProfile
+from userena.compat import SiteProfileNotAvailable
 
-import hashlib
 
 class UtilsTests(TestCase):
     """ Test the extra utils methods """
     fixtures = ['users']
 
     def test_get_gravatar(self):
-        template = '//www.gravatar.com/avatar/%(hash)s?s=%(size)s&d=%(type)s'
-
-        # The hash for alice@example.com
-        hash = hashlib.md5('alice@example.com').hexdigest()
+        template = 's=%(size)s&d=%(type)s'
 
         # Check the defaults.
-        self.failUnlessEqual(get_gravatar('alice@example.com'),
-                             template % {'hash': hash,
-                                         'size': 80,
-                                         'type': 'identicon'})
+        parsed = urlparse(get_gravatar('alice@example.com'))
+        self.failUnlessEqual(
+            parse_qs(parsed.query),
+            parse_qs(template % {'size': 80, 'type': 'identicon'})
+        )
 
         # Check different size
-        self.failUnlessEqual(get_gravatar('alice@example.com', size=200),
-                             template % {'hash': hash,
-                                         'size': 200,
-                                         'type': 'identicon'})
+        parsed = urlparse(get_gravatar('alice@example.com', size=200))
+        self.failUnlessEqual(
+            parse_qs(parsed.query),
+            parse_qs(template % {'size': 200, 'type': 'identicon'})
+        )
 
         # Check different default
-        http_404 = get_gravatar('alice@example.com', default='404')
-        self.failUnlessEqual(http_404,
-                             template % {'hash': hash,
-                                         'size': 80,
-                                         'type': '404'})
-
-        # Is it really a 404?
-        response = self.client.get(http_404)
-        self.failUnlessEqual(response.status_code, 404)
+        parsed = urlparse(get_gravatar('alice@example.com', default='404'))
+        self.failUnlessEqual(
+            parse_qs(parsed.query),
+            parse_qs(template % {'size': 80, 'type': '404'})
+        )
 
     def test_signin_redirect(self):
         """
@@ -67,18 +62,17 @@ class UtilsTests(TestCase):
         """
         # A non existent model should also raise ``SiteProfileNotAvailable``
         # error.
-        settings.AUTH_PROFILE_MODULE = 'userena.FakeProfile'
-        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+        with self.settings(AUTH_PROFILE_MODULE='userena.FakeProfile'):
+            self.assertRaises(SiteProfileNotAvailable, get_profile_model)
 
         # An error should be raised when there is no ``AUTH_PROFILE_MODULE``
         # supplied.
-        settings.AUTH_PROFILE_MODULE = None
-        self.assertRaises(SiteProfileNotAvailable, get_profile_model)
+        with self.settings(AUTH_PROFILE_MODULE=None):
+            self.assertRaises(SiteProfileNotAvailable, get_profile_model)
 
     def test_get_protocol(self):
         """ Test if the correct protocol is returned """
         self.failUnlessEqual(get_protocol(), 'http')
 
-        userena_settings.USERENA_USE_HTTPS = True
-        self.failUnlessEqual(get_protocol(), 'https')
-        userena_settings.USERENA_USE_HTTPS = False
+        with self.settings(USERENA_USE_HTTPS=True):
+            self.failUnlessEqual(get_protocol(), 'https')

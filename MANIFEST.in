@@ -6,6 +6,7 @@ include pip-requirements.txt
 recursive-include userena/fixtures *.json
 recursive-include userena/templates *.html *.txt
 recursive-include userena/locale *.po *.mo
+recursive-include userena/runtests/templates *.html *.txt
 recursive-include demo_project *.py
 recursive-include demo_project/templates *.html
 recursive-include userena/contrib/umessages/fixtures *.json

@@ -23,8 +23,9 @@ class Profile(UserenaBaseProfile):
                                               blank=True,
                                               null=True)
     website = models.URLField(_('website'), blank=True)
-    location =  models.CharField(_('location'), max_length=255, blank=True)
+    location = models.CharField(_('location'), max_length=255, blank=True)
     about_me = models.TextField(_('about me'), blank=True)
+    language = models.TextField(_('language'), blank=True)
 
 class SecondProfile(UserenaBaseProfile):
     user = models.OneToOneField(user_model_label,

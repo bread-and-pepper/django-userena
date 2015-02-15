@@ -1,3 +1,6 @@
+# encoding: utf-8
+from __future__ import unicode_literals
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -10,11 +13,11 @@ class SignupFormExtra(SignupForm):
     
 
     """
-    first_name = forms.CharField(label=_(u'First name'),
+    first_name = forms.CharField(label=_('First name'),
                                  max_length=30,
                                  required=False)
 
-    last_name = forms.CharField(label=_(u'Last name'),
+    last_name = forms.CharField(label=_('Last name'),
                                 max_length=30,
                                 required=False)
 
