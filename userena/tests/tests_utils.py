@@ -15,14 +15,9 @@ class UtilsTests(TestCase):
     fixtures = ['users']
 
     def test_generate_sha(self):
-        if sys.version_info.major==3:
-            s1 = '\xc5se'
-            s2 = '\xd8ystein'
-            s3 = '\xc6gir'
-        else:
-            s1 = u'\xc5se'.encode('utf-8')
-            s2 = u'\xd8ystein'.encode('utf-8')
-            s3 = u'\xc6gir'.encode('utf-8')
+        s1 = u'\xc5se'.encode('utf-8')
+        s2 = u'\xd8ystein'.encode('utf-8')
+        s3 = u'\xc6gir'.encode('utf-8')
         h1 = generate_sha1(s1)
         h2 = generate_sha1(s2)
         h3 = generate_sha1(s3)
