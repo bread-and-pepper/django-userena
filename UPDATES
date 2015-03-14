@@ -1,42 +1,82 @@
-This file contains all the backwards-incompatible changes.
+# UPDATES
 
-Version 1.4.0
+This file contains all the backwards-incompatible (since 1.0.1) and other
+significant (since 1.4.1) changes.
 
-- python 3 support added
 
-Version 1.3.2
+## Version 1.4.1
 
-- creating new user always creates new empty userena profile (fixes bug from 1.3.1)
+Fixes and improvements:
 
-Version 1.3.1
+- Set `html2text==2014.12.29` requirement in order to remove nasty hack
+  in `userena/mail.py` (#462).
+- Updated version in Sphinx docs (#461).
+- Added support for Python3.2 (#453).
+- Fixed issue causing malformed utf-8 usernames on user profile creation (#456).
+- Fixed issue with user creation on Python3.4 (#455).
+- Fixed randomly failing tests on travis (#446).
 
-- when USERENA_ACTIVATION_REQUIRED = False, creating new user does not automatically
-  create userena profile (bug)
 
-Version 1.2.2
+## Version 1.4.0
+
+Fixes and improvements:
+
+- Python3.3 and Python3.4 support added.
+
+
+## Version 1.3.2
+
+Backwards incompatibile changes:
+
+- Creating new user always creates new empty userena profile (fixes bug from 1.3.1).
+
+
+## Version 1.3.1
+
+Backwards incompatibile changes:
+
+- When USERENA_ACTIVATION_REQUIRED = False, creating new user does not automatically
+  create userena profile (bug).
+
+
+## Version 1.2.2
+
+Backwards incompatibile changes:
 
 - Changed backwards relationships names for Umessages contrib application from
   `to_user` to `um_to_user` and `from_user` to `um_from_user`.
 
-Version 1.2.0
+
+## Version 1.2.0
+
+Backwards incompatibile changes:
 
 - This version updates Userena to be able to use the new `User` model found in
   Django 1.5. This does require the django-guardion > 1.5-dev. To make this
   work, there is a `get_user_model` function in `userena/utils.py` which is used
   to get the correct `User` model.
 
-Version 1.1.2
+
+## Version 1.1.2
+
+Backwards incompatibile changes:
 
 - Activation view no longer contains username. If you override
   `userena/templates/userena/emails/activation_email_message.txt` and
   `userena/templates/userena/emails/confirmation_email_message_new.txt` be sure
   to remove username from the URL.
 
-Version 1.1
+
+## Version 1.1
+
+Backwards incompatibile changes:
 
 - Userena now requires Django >= 1.3 because of the use of class based views.
 
-Version 1.0.1
+
+## Version 1.0.1
+
+Backwards incompatibile changes:
 
 - Removed the ``user`` relationship outside ``UserenaBaseProfile`` model. This
   allows the user to define it's own relationship and fixes a conflict while
