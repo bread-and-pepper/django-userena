@@ -3,7 +3,6 @@ import sys, re
 from django.test import TestCase
 from django.conf import settings
 from django.utils.six.moves.urllib_parse import urlparse, parse_qs
-from django.utils.encoding import smart_text
 
 from userena.utils import (get_gravatar, signin_redirect, get_profile_model,
                            get_protocol, get_user_model, generate_sha1)
