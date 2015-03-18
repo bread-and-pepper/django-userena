@@ -1,4 +1,4 @@
-import sys, re
+import sys, re, six
 
 from django.test import TestCase
 from django.conf import settings
@@ -15,9 +15,9 @@ class UtilsTests(TestCase):
     fixtures = ['users']
 
     def test_generate_sha(self):
-        s1 = u'\xc5se'.encode('utf-8')
-        s2 = u'\xd8ystein'.encode('utf-8')
-        s3 = u'\xc6gir'.encode('utf-8')
+        s1 = six.u('\xc5se')
+        s2 = six.u('\xd8ystein')
+        s3 = six.u('\xc6gir')
         h1 = generate_sha1(s1)
         h2 = generate_sha1(s2)
         h3 = generate_sha1(s3)
