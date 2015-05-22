@@ -29,7 +29,7 @@ def upload_to_mugshot(instance, filename):
 
     """
     extension = filename.split('.')[-1].lower()
-    salt, hash = generate_sha1(instance.id)
+    salt, hash = generate_sha1(instance.pk)
     path = userena_settings.USERENA_MUGSHOT_PATH % {'username': instance.user.username,
                                                     'id': instance.user.id,
                                                     'date': instance.user.date_joined,
