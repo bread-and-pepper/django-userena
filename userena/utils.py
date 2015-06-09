@@ -1,10 +1,10 @@
 from django.conf import settings
-from django.db.models import get_model
+
 from django.utils.six import text_type
 from django.utils.six.moves.urllib.parse import urlencode
 
 from userena import settings as userena_settings
-from userena.compat import SiteProfileNotAvailable
+from userena.compat import SiteProfileNotAvailable, get_model
 from userena.compat import sha_constructor, md5_constructor
 
 import urllib, random, datetime
