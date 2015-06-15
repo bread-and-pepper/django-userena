@@ -48,3 +48,9 @@ try:
     from hashlib import sha1 as sha_constructor, md5 as md5_constructor
 except ImportError:  # pragma: no cover
     from django.utils.hashcompat import sha_constructor, md5_constructor
+
+if django.VERSION < (1, 7, 0):
+    from django.db.models import get_model
+else:
+    from django.apps import apps
+    get_model = apps.get_model
