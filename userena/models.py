@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
-from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerImageField
@@ -13,7 +12,7 @@ from userena.managers import UserenaManager, UserenaBaseProfileManager
 from userena.utils import get_gravatar, generate_sha1, get_protocol, \
     get_datetime_now, get_user_model, user_model_label
 import datetime
-from .mail import send_mail
+from .mail import UserenaConfirmationMail
 
 
 PROFILE_PERMISSIONS = (
@@ -127,54 +126,14 @@ class UserenaSignup(models.Model):
                   'confirmation_key': self.email_confirmation_key,
                   'site': Site.objects.get_current()}
 
-        # Email to the old address, if present
-        subject_old = render_to_string('userena/emails/confirmation_email_subject_old.txt',
-                                       context)
-        subject_old = ''.join(subject_old.splitlines())
-
-        if userena_settings.USERENA_HTML_EMAIL:
-            message_old_html = render_to_string('userena/emails/confirmation_email_message_old.html',
-                                                context)
-        else:
-            message_old_html = None
-
-        if (not userena_settings.USERENA_HTML_EMAIL or not message_old_html or
-            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
-            message_old = render_to_string('userena/emails/confirmation_email_message_old.txt',
-                                       context)
-        else:
-            message_old = None
+        mailer = UserenaConfirmationMail(context=context)
+        mailer.generate_mail("confirmation", "_old")
 
         if self.user.email:
-            send_mail(subject_old,
-                      message_old,
-                      message_old_html,
-                      settings.DEFAULT_FROM_EMAIL,
-                    [self.user.email])
+            mailer.send_mail(self.user.email)
 
-        # Email to the new address
-        subject_new = render_to_string('userena/emails/confirmation_email_subject_new.txt',
-                                       context)
-        subject_new = ''.join(subject_new.splitlines())
-
-        if userena_settings.USERENA_HTML_EMAIL:
-            message_new_html = render_to_string('userena/emails/confirmation_email_message_new.html',
-                                                context)
-        else:
-            message_new_html = None
-
-        if (not userena_settings.USERENA_HTML_EMAIL or not message_new_html or
-            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
-            message_new = render_to_string('userena/emails/confirmation_email_message_new.txt',
-                                       context)
-        else:
-            message_new = None
-
-        send_mail(subject_new,
-                  message_new,
-                  message_new_html,
-                  settings.DEFAULT_FROM_EMAIL,
-                  [self.email_unconfirmed, ])
+        mailer.generate_mail("confirmation", "_new")
+        mailer.send_mail(self.email_unconfirmed)
 
     def activation_key_expired(self):
         """
@@ -211,29 +170,9 @@ class UserenaSignup(models.Model):
                   'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
 
-        subject = render_to_string('userena/emails/activation_email_subject.txt',
-                                   context)
-        subject = ''.join(subject.splitlines())
-
-
-        if userena_settings.USERENA_HTML_EMAIL:
-            message_html = render_to_string('userena/emails/activation_email_message.html',
-                                            context)
-        else:
-            message_html = None
-
-        if (not userena_settings.USERENA_HTML_EMAIL or not message_html or
-            userena_settings.USERENA_USE_PLAIN_TEMPLATE):
-            message = render_to_string('userena/emails/activation_email_message.txt',
-                                   context)
-        else:
-            message = None
-
-        send_mail(subject,
-                  message,
-                  message_html,
-                  settings.DEFAULT_FROM_EMAIL,
-                  [self.user.email, ])
+        mailer = UserenaConfirmationMail(context=context)
+        mailer.generate_mail("activation")
+        mailer.send_mail(self.user.email)
 
 
 @python_2_unicode_compatible
