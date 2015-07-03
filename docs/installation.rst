@@ -86,6 +86,8 @@ your project. This means modifying ``AUTHENTICATION_BACKENDS``,
 
 Begin by adding ``userena``, ``guardian`` and ``easy_thumbnails`` to the
 ``INSTALLED_APPS`` in your settings.py file of your project.
+``django.contrib.sites`` must also be present if it is not already (see `Django docs
+<https://docs.djangoproject.com/en/1.8/ref/contrib/sites/>`_.).
 
 Next add ``UserenaAuthenticationBackend`` and ``ObjectPermissionBackend`` 
 also in your settings.py file, from django-guardian, at the top of ``AUTHENTICATION_BACKENDS``. 
