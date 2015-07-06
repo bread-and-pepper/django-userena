@@ -1,7 +1,10 @@
 from django.conf import settings
 
 from django.utils.six import text_type
-from django.utils.six.moves.urllib.parse import urlencode
+try:
+    from django.utils.six.moves.urllib.parse import urlencode
+except ImportError:
+    from six.moves.urllib.parse import urlencode
 from django.utils.encoding import smart_bytes
 
 from userena import settings as userena_settings
