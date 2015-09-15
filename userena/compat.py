@@ -22,6 +22,11 @@ if django.VERSION >= (1, 6, 0):  # pragma: no cover
     auth_views_compat_quirks['userena_password_reset_confirm'] = {
         'post_reset_redirect': 'userena_password_reset_complete',
     }
+if django.VERSION >= (1, 7, 0):
+    # Django 1.7 added a new argument to django.contrib.auth.views.password_reset
+    # called html_email_template_name which allows us to pass it the html version
+    # of the email
+    auth_views_compat_quirks['html_email_template_name'] = 'userena/emails/password_reset_message.html'
 
 
 # below are backward compatibility fixes
