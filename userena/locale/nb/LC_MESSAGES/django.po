@@ -455,7 +455,7 @@ msgid ""
 "We will store your signup information for %(userena_activation_days)s days "
 "on our server. "
 msgstr ""
-"Vi vil lagre din informasjonn på vår server i %(userena_activation_days)s "
+"Vi vil lagre din informasjon på vår server i %(userena_activation_days)s "
 "dager."
 
 #: templates/userena/disabled.html:4
@@ -474,7 +474,7 @@ msgstr "Det ser ut til at din konto har blitt deaktivert."
 msgid ""
 "If you feel that injustice has been done to you, feel free to contact the "
 "administrators to find out why"
-msgstr "Kontakt gjerne administrator hvis du mener vi har gjort deg urett."
+msgstr "Kontakt gjerne administrator hvis du mener noe er feil."
 
 #: templates/userena/email_change_complete.html:4
 msgid "Email verification"
@@ -731,7 +731,7 @@ msgstr "Du kan nå bruke oppgitt legitimering for å logge inn."
 #: templates/userena/emails/confirmation_email_message_new.html:4
 #, python-format
 msgid "Dear %(username)s,</p>"
-msgstr "Kjære %(username)s,</p>"
+msgstr "Hei %(username)s,</p>"
 
 #: templates/userena/emails/activation_email_message.html:5
 #, python-format
@@ -768,7 +768,7 @@ msgstr "Vennlig hilsen"
 #: templates/userena/emails/confirmation_email_message_old.txt:2
 #, python-format
 msgid "Dear %(username)s,"
-msgstr "Kjære %(username)s,"
+msgstr "Hei %(username)s,"
 
 #: templates/userena/emails/activation_email_message.txt:4
 #, python-format

@@ -1,7 +1,11 @@
 from django.conf import settings
 
 from django.utils.six import text_type
-from django.utils.six.moves.urllib.parse import urlencode
+try:
+    from django.utils.six.moves.urllib.parse import urlencode
+except ImportError:
+    from six.moves.urllib.parse import urlencode
+from django.utils.encoding import smart_bytes
 
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable, get_model
@@ -112,7 +116,7 @@ def generate_sha1(string, salt=None):
     if not salt:
         salt = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
 
-    salted_bytes = (salt.encode('utf-8') + string.encode('utf-8'))
+    salted_bytes = (smart_bytes(salt) + smart_bytes(string))
     hash_ = sha_constructor(salted_bytes).hexdigest()
 
     return salt, hash_
