@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Romanian translations
+# Copyright (C) 2015
+# This file is distributed under the same license as the django-userena.
+# Angel Ramboi <angel@ramboi.com>, 2015.
 #
 msgid ""
 msgstr ""
