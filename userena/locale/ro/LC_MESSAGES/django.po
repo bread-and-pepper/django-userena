@@ -1,0 +1,928 @@
+# Romanian translations
+# Copyright (C) 2015
+# This file is distributed under the same license as the django-userena.
+# Angel Ramboi <angel@ramboi.com>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: django-userena\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-16 11:03+0000\n"
+"PO-Revision-Date: 2015-11-16 12:40+0100\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.5\n"
+
+#: contrib/umessages/admin.py:25
+msgid "Date/time"
+msgstr "Dată/oră"
+
+#: contrib/umessages/fields.py:57
+#, python-format
+msgid "The following usernames are incorrect: %(users)s."
+msgstr "Următoarele nume de utilizator sunt incorecte: %(users)s."
+
+#: contrib/umessages/forms.py:10
+msgid "To"
+msgstr "Către"
+
+#: contrib/umessages/forms.py:11
+msgid "Message"
+msgstr "Mesaj"
+
+#: contrib/umessages/models.py:20
+msgid "from user"
+msgstr "de la utilizatorul"
+
+#: contrib/umessages/models.py:23
+msgid "to user"
+msgstr "către utilizatorul"
+
+#: contrib/umessages/models.py:27
+msgid "latest message"
+msgstr "ultimul mesaj"
+
+#: contrib/umessages/models.py:34
+msgid "contact"
+msgstr "contact"
+
+#: contrib/umessages/models.py:35
+msgid "contacts"
+msgstr "contacte"
+
+#: contrib/umessages/models.py:38
+#, python-format
+msgid "%(um_from_user)s and %(um_to_user)s"
+msgstr "%(um_from_user)s și %(um_to_user)s"
+
+#: contrib/umessages/models.py:66 contrib/umessages/models.py:82
+msgid "recipient"
+msgstr "destinatar"
+
+#: contrib/umessages/models.py:69 contrib/umessages/models.py:119
+msgid "message"
+msgstr "mesaj"
+
+#: contrib/umessages/models.py:71
+msgid "read at"
+msgstr "citit la"
+
+#: contrib/umessages/models.py:75
+msgid "recipient deleted at"
+msgstr "destinatar șters la"
+
+#: contrib/umessages/models.py:83 contrib/umessages/models.py:106
+msgid "recipients"
+msgstr "destinatari"
+
+#: contrib/umessages/models.py:86
+#, python-format
+msgid "%(message)s"
+msgstr "%(message)s"
+
+#: contrib/umessages/models.py:97
+msgid "body"
+msgstr "corp"
+
+#: contrib/umessages/models.py:101
+msgid "sender"
+msgstr "expeditor"
+
+#: contrib/umessages/models.py:108
+msgid "sent at"
+msgstr "trimis la"
+
+#: contrib/umessages/models.py:111
+msgid "sender deleted at"
+msgstr "expeditor șters la"
+
+#: contrib/umessages/models.py:120
+msgid "messages"
+msgstr "mesaje"
+
+#: contrib/umessages/templates/umessages/message_detail.html:4
+#, python-format
+msgid "Conversation with %(recipient)s"
+msgstr "Conversație cu %(recipient)s"
+
+#: contrib/umessages/templates/umessages/message_detail.html:12
+#, python-format
+msgid "Received on %(sent_at)s"
+msgstr "Primit la %(sent_at)s"
+
+#: contrib/umessages/templates/umessages/message_form.html:4
+#: contrib/umessages/templates/umessages/message_list.html:10
+msgid "Compose"
+msgstr "Compune"
+
+#: contrib/umessages/templates/umessages/message_form.html:10
+msgid "Compose message"
+msgstr "Compune mesaj"
+
+#: contrib/umessages/templates/umessages/message_form.html:13
+msgid "Send"
+msgstr "Trimite"
+
+#: contrib/umessages/templates/umessages/message_list.html:5
+msgid "Messages"
+msgstr "Mesaje"
+
+#: contrib/umessages/templates/umessages/message_list.html:9
+#, python-format
+msgid "%(unread_message_count)s new messages."
+msgstr "%(unread_message_count)s mesaje noi."
+
+#: contrib/umessages/templates/umessages/message_list.html:21
+#, python-format
+msgid "%(latest_message)s (%(unread_between_count)s new)"
+msgstr "%(latest_message)s (%(unread_between_count)s noi)"
+
+#: contrib/umessages/views.py:124
+msgid "Message is sent."
+msgstr "Mesajul a fost trimis."
+
+#: contrib/umessages/views.py:206
+msgid "Message is succesfully restored."
+msgid_plural "Messages are succesfully restored."
+msgstr[0] "Mesajul a fost recuperat cu succes."
+msgstr[1] "Mesajele au fost recuperate cu succes."
+msgstr[2] "Mesajele au fost recuperate cu succes."
+
+#: contrib/umessages/views.py:210
+msgid "Message is successfully removed."
+msgid_plural "Messages are successfully removed."
+msgstr[0] "Mesajul a fost șters."
+msgstr[1] "Mesajele au fost șterse."
+msgstr[2] "Mesajele au fost șterse."
+
+#: forms.py:35
+msgid "Username"
+msgstr "Utilizator"
+
+#: forms.py:36 tests/tests_forms.py:29
+msgid "Username must contain only letters, numbers, dots and underscores."
+msgstr ""
+"Numele de utilizator trebuie să conțină numai litere, numere, puncte şi "
+"linii de subliniere."
+
+#: forms.py:39 forms.py:166 templates/userena/profile_detail.html:35
+msgid "Email"
+msgstr "Email"
+
+#: forms.py:42
+msgid "Create password"
+msgstr "Crează parola"
+
+#: forms.py:45
+msgid "Repeat password"
+msgstr "Repetă parola"
+
+#: forms.py:60
+msgid ""
+"This username is already taken but not confirmed. Please check your email "
+"for verification steps."
+msgstr ""
+"Acest nume de utilizator este deja rezervat, dar nu e confirmat. Vă rugăm să "
+"verificați adresa de email pentru pașii de verificare."
+
+#: forms.py:61 tests/tests_forms.py:44
+msgid "This username is already taken."
+msgstr "Acest nume de utilizator este deja rezervat."
+
+#: forms.py:63 tests/tests_forms.py:52
+msgid "This username is not allowed."
+msgstr "Acest nume de utilizator nu este permis."
+
+#: forms.py:70
+msgid ""
+"This email is already in use but not confirmed. Please check your email for "
+"verification steps."
+msgstr ""
+"Această adresă de email este deja folosită, dar nu e confirmată. Vă rugăm să "
+"vă verificați adresa de email pentru pașii de verificare."
+
+#: forms.py:71 forms.py:208 tests/tests_forms.py:60
+msgid "This email is already in use. Please supply a different email."
+msgstr ""
+"Această adresă de email este deja în uz. Vă rugăm să furnizați o adresă "
+"diferită."
+
+#: forms.py:83 tests/tests_forms.py:36
+msgid "The two password fields didn't match."
+msgstr "Câmpurile cu parola trebuie să conțină aceeași valoare."
+
+#: forms.py:127
+msgid "I have read and agree to the Terms of Service"
+msgstr "Am citit și sunt de acord cu Termenii și condițiile."
+
+#: forms.py:128
+msgid "You must agree to the terms to register."
+msgstr ""
+"Trebuie să fiți de acord cu Termenii și condițiile pentru a vă înregistra."
+
+#: forms.py:144
+#, python-format
+msgid "%(error)s"
+msgstr "%(error)s"
+
+#: forms.py:151
+msgid "Email or username"
+msgstr "Email sau utilizator"
+
+#: forms.py:152
+msgid "Either supply us with your email or username."
+msgstr "Introduce-ți adresa de email sau utilizatorul."
+
+#: forms.py:153
+msgid "Password"
+msgstr "Parola"
+
+#: forms.py:157 forms.py:164
+#, python-format
+msgid "Remember me for %(days)s"
+msgstr "Tine-mă minte pentru %(days)s"
+
+#: forms.py:167
+msgid "Please supply your email."
+msgstr "Introduceți adresa de email."
+
+#: forms.py:182
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr ""
+"Introduceți un utilizator sau adresă de email și parolă corecte. Țineți "
+"minte că amândouă câmpurile țin cont de majuscule."
+
+#: forms.py:188 templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr "Email nou"
+
+#: forms.py:206
+msgid "You're already known under this email."
+msgstr "Sunteți deja cunoscut/ă cu acest email."
+
+#: forms.py:222
+msgid "First name"
+msgstr "Prenume"
+
+#: forms.py:225
+msgid "Last name"
+msgstr "Nume"
+
+#: mail.py:21
+msgid "Either message_plain or message_html should be not None"
+msgstr ""
+
+#: managers.py:271
+#, python-format
+msgid "No profile found for %(username)s"
+msgstr "Nu am găsit nici un profil pentru %(username)s"
+
+#: models.py:49 tests/profiles/models.py:18 tests/profiles/models.py:33
+msgid "user"
+msgstr "utilizator"
+
+#: models.py:52
+msgid "last active"
+msgstr "activ ultima oară"
+
+#: models.py:55
+msgid "The last date that the user was active."
+msgstr "Ultima dată la care utilizatorul a fost activ."
+
+#: models.py:57
+msgid "activation key"
+msgstr "cheie de activare"
+
+#: models.py:61
+msgid "notification send"
+msgstr "notificare trimisă"
+
+#: models.py:63
+msgid ""
+"Designates whether this user has already got a notification about activating "
+"their account."
+msgstr ""
+"Indică dacă acest utilizator a primit o notificare în legătură cu activarea "
+"contului."
+
+#: models.py:65
+msgid "unconfirmed email address"
+msgstr "email neconfirmat"
+
+#: models.py:67
+msgid "Temporary email address when the user requests an email change."
+msgstr "Email temporar când un utilizator cere schimbarea email-ului."
+
+#: models.py:69
+msgid "unconfirmed email verification key"
+msgstr "cheie de verificare a email-ului neconfirmată"
+
+#: models.py:73
+msgid "creation date of email confirmation key"
+msgstr "data creării cheii de confirmare a email-ului"
+
+#: models.py:80
+msgid "userena registration"
+msgstr "înregistrare userena"
+
+#: models.py:81
+msgid "userena registrations"
+msgstr "înregistrări userena"
+
+#: models.py:182
+msgid "Open"
+msgstr "Deschis"
+
+#: models.py:183
+msgid "Registered"
+msgstr "Înregistrat"
+
+#: models.py:184
+msgid "Closed"
+msgstr "Închis"
+
+#: models.py:191
+msgid "mugshot"
+msgstr "poză"
+
+#: models.py:195
+msgid "A personal image displayed in your profile."
+msgstr "O imagine personală care apare în pagina de profil."
+
+#: models.py:197
+msgid "privacy"
+msgstr "confidențialitate"
+
+#: models.py:201
+msgid "Designates who can view your profile."
+msgstr "Indică cine vă poate vizualiza profilul."
+
+#: models.py:281
+#, python-format
+msgid "%(first_name)s %(last_name)s"
+msgstr "%(last_name)s %(first_name)s"
+
+#: models.py:346 tests/profiles/models.py:28
+msgid "language"
+msgstr "limbă"
+
+#: models.py:350
+msgid "Default language."
+msgstr "Limbă implicită."
+
+#: runtests/settings.py:31
+msgid "English"
+msgstr "Engleză"
+
+#: runtests/settings.py:32
+msgid "Dutch"
+msgstr "Olandeză"
+
+#: runtests/settings.py:33
+msgid "French"
+msgstr "Franceză"
+
+#: runtests/settings.py:34
+msgid "Polish"
+msgstr "Poloneză"
+
+#: runtests/settings.py:35
+msgid "Portugese"
+msgstr "Portugheză"
+
+#: runtests/settings.py:36
+msgid "Brazilian Portuguese"
+msgstr "Portugheză braziliană"
+
+#: runtests/settings.py:37
+msgid "Spanish"
+msgstr "Spaniolă"
+
+#: runtests/settings.py:38
+msgid "Greek"
+msgstr "Greagă"
+
+#: settings.py:47
+msgid "a month"
+msgstr "o lună"
+
+#: templates/userena/activate_fail.html:4
+#: templates/userena/activate_retry.html:6
+msgid "Account activation failed."
+msgstr "Activarea contului a eșuat."
+
+#: templates/userena/activate_fail.html:5
+#: templates/userena/activate_retry.html:7
+msgid "Your account could not be activated..."
+msgstr "Contul d-voastră nu a putut fi activat..."
+
+#: templates/userena/activate_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr ""
+"Contul d-voastră nu a putut fi activat. Este posibil ca adresa de activare "
+"să fi expirat."
+
+#: templates/userena/activate_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr ""
+"Vă rugăm să încercați să vă înscrieți din nou sau contactați-ne dacă "
+"considerați că e ceva în neregulă cu site-ul."
+
+#: templates/userena/activate_retry.html:10
+msgid "Your account could not be activated because activation link is expired."
+msgstr ""
+"Contul d-voastră nu a putut fi activat din cauză că adresa de activare a "
+"expirat."
+
+#: templates/userena/activate_retry.html:11
+msgid "Request a new activation link."
+msgstr "Cere o noua adresă de activare."
+
+#: templates/userena/activate_retry_success.html:6
+msgid "Account re-activation succeeded."
+msgstr "Reactivarea contului a fost făcută cu succes."
+
+#: templates/userena/activate_retry_success.html:7
+msgid "Account re-activation"
+msgstr "Reactivarea contului"
+
+#: templates/userena/activate_retry_success.html:10
+msgid "You requested a new activation of your account.."
+msgstr "Ați cerut o nouă activare a contului d-voastră."
+
+#: templates/userena/activate_retry_success.html:11
+#: templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr ""
+"O adresă de verificare a fost trimisă la adresa de email furnizat de d-"
+"voastră."
+
+#: templates/userena/activate_retry_success.html:12
+#: templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr ""
+"Vom reține datele de înregistrare pentru %(userena_activation_days)s zile în "
+"baza de date."
+
+#: templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr "Cont dezactivat"
+
+#: templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr "Contul d-voastră a fost dezactivat"
+
+#: templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr "Se pare că contul d-voastră a fost dezactivat"
+
+#: templates/userena/disabled.html:8
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
+msgstr ""
+"Dacă credeți că ați fost nedreptățit vă rugăm să ne contactați pentru a ne "
+"da mai multe detalii"
+
+#: templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr "Verificare email"
+
+#: templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr "Confirmați noua adresă de email"
+
+#: templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr "Ați primit un email la %(email)s."
+
+#: templates/userena/email_change_complete.html:9
+#, python-format
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
+msgstr ""
+"Pentru a asocia această adresă cu contul d-voastră (%(username)s) apăsați pe "
+"adresa din acest email."
+
+#: templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr "Email schimbat!"
+
+#: templates/userena/email_confirm_complete.html:8
+#, python-format
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
+msgstr ""
+"Noul d-voastră email a fost salvat. Puteți continua să folosiți %(site)s cu "
+"acesta."
+
+#: templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr "Verificarea adresei de email eșuată."
+
+#: templates/userena/email_confirm_fail.html:5
+#: templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr "Adresa d-voastră de email nu a putut fi verificată..."
+
+#: templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr "Ați putea încerca să îl schimbați din nou din setările contului."
+
+#: templates/userena/email_form.html:5 templates/userena/password_form.html:7
+#: templates/userena/profile_form.html:7
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr "Cont &raquo; %(username)s"
+
+#: templates/userena/email_form.html:10 templates/userena/password_form.html:12
+#: templates/userena/profile_detail.html:16
+#: templates/userena/profile_form.html:13
+msgid "View profile"
+msgstr "Vezi profil"
+
+#: templates/userena/email_form.html:11 templates/userena/password_form.html:13
+#: templates/userena/profile_form.html:14
+msgid "Edit profile"
+msgstr "Modifică profil"
+
+#: templates/userena/email_form.html:12 templates/userena/password_form.html:5
+#: templates/userena/password_form.html:14
+#: templates/userena/password_form.html:22
+#: templates/userena/profile_detail.html:18
+#: templates/userena/profile_form.html:15
+msgid "Change password"
+msgstr "Schimbă parola"
+
+#: templates/userena/email_form.html:13 templates/userena/email_form.html:20
+#: templates/userena/password_form.html:15
+#: templates/userena/profile_detail.html:19
+#: templates/userena/profile_form.html:16
+msgid "Change email"
+msgstr "Schimbă email"
+
+#: templates/userena/email_form.html:17
+msgid "Change email address"
+msgstr "Schimbă adresa de email"
+
+#: templates/userena/emails/activation_email_message.html:4
+#: templates/userena/emails/confirmation_email_message_new.html:4
+#, python-format
+msgid "Dear %(username)s,</p>"
+msgstr "Dragă %(username)s,"
+
+#: templates/userena/emails/activation_email_message.html:5
+#, python-format
+msgid "<p>Thank you for signing up at %(site)s.</p>"
+msgstr "<p>Vă mulțumim pentru înscrierea la %(site)s.</p>"
+
+#: templates/userena/emails/activation_email_message.html:7
+#: templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr "Pentru a activa contul trebuie sa apăsați pe adresa de mai jos:"
+
+#: templates/userena/emails/activation_email_message.html:11
+#: templates/userena/emails/activation_email_message.txt:10
+#: templates/userena/emails/confirmation_email_message_new.html:13
+#: templates/userena/emails/confirmation_email_message_new.txt:12
+#: templates/userena/emails/confirmation_email_message_old.html:13
+#: templates/userena/emails/confirmation_email_message_old.txt:8
+#: templates/userena/emails/password_reset_message.html:18
+#: templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr "Mulțumim că ați folosit site-ul nostru!"
+
+#: templates/userena/emails/activation_email_message.html:12
+#: templates/userena/emails/activation_email_message.txt:12
+#: templates/userena/emails/confirmation_email_message_new.html:14
+#: templates/userena/emails/confirmation_email_message_new.txt:14
+#: templates/userena/emails/confirmation_email_message_old.html:16
+#: templates/userena/emails/confirmation_email_message_old.txt:10
+#: templates/userena/emails/password_reset_message.html:19
+#: templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr "Cu stimă"
+
+#: templates/userena/emails/activation_email_message.txt:2
+#: templates/userena/emails/confirmation_email_message_new.txt:2
+#: templates/userena/emails/confirmation_email_message_old.html:4
+#: templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr "Dragă %(username)s,"
+
+#: templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr "Vă mulțumim pentru înscrierea la %(site)s."
+
+#: templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr "Înscrierea ta la %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.html:6
+#: templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr "Ați cerut să vă schimbați adresa de email la %(site)s."
+
+#: templates/userena/emails/confirmation_email_message_new.html:9
+#: templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr "Vă rugăm să confirmați acest email apăsând pe adresa de mai jos:"
+
+#: templates/userena/emails/confirmation_email_message_old.html:6
+#: templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr ""
+"A fost inițiată o cerere de schimbare a adresei d-voastră de email la "
+"%(site)s."
+
+#: templates/userena/emails/confirmation_email_message_old.html:10
+#: templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+"Un email a fost trimis la %(new_email)s care conține adresa de verificare. "
+"Apăsași pe acea adresă pentru a-l activa."
+
+#: templates/userena/emails/confirmation_email_subject_new.html:4
+#: templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr "Verificare email pentru %(site)s."
+
+#: templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr ""
+"A fost inițiată o cerere de schimbare a email-ului d-voastră la %(site)s."
+
+#: templates/userena/emails/password_reset_message.html:5
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"            for your user account at %(site_name)s"
+msgstr ""
+"Ați primit acest email pentru ca ați cerut resetarea parolei\n"
+"            pentru contul tau la %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.html:9
+#: templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Vă rugăm să mergeți la pagina următoare pentru a alege o nouă parolă:"
+
+#: templates/userena/emails/password_reset_message.html:15
+#, python-format
+msgid "Your username, in case you've forgotten: %(username)s"
+msgstr "Numele de utilizator, în cazul în care ați uitat: %(username)s"
+
+#: templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+"Ați primit acest email pentru ca ați cerut resetarea parolei\n"
+"pentru contul tau la %(site_name)s"
+
+#: templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+"\n"
+"Numele de utilizator, în cazul în care ați uitat: %(username)s\n"
+
+#: templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr "Parolă modificată"
+
+#: templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr "Parola d-voastră a fost modificată"
+
+#: templates/userena/password_complete.html:8
+msgid "From now on you can use your new password to signin"
+msgstr "De acum încolo vă puteți folosi noua parolă pentru autentificare"
+
+#: templates/userena/password_form.html:18
+msgid "Change Password"
+msgstr "Schimbă parola"
+
+#: templates/userena/password_reset_complete.html:5
+msgid "Password reset"
+msgstr "Resetează parola"
+
+#: templates/userena/password_reset_complete.html:6
+msgid "Your password has been reset"
+msgstr "Parola a fost resetată"
+
+#: templates/userena/password_reset_complete.html:9
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+"Puteți să vă <a href=\"%(signin_url)s\">autentificați</a> cu noua parolă."
+
+#: templates/userena/password_reset_confirm_form.html:4
+#: templates/userena/password_reset_confirm_form.html:13
+#: templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr "Resetează parola"
+
+#: templates/userena/password_reset_confirm_form.html:9
+#: templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr "Resetează parola"
+
+#: templates/userena/password_reset_done.html:4
+#: templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr "Un email cu resetarea parolei a fost trimis"
+
+#: templates/userena/password_reset_done.html:8
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
+msgstr ""
+"Un email v-a fost trimis pentru a vă explica cum vă puteți reseta parola."
+
+#: templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr "Trimite parola"
+
+#: templates/userena/profile_detail.html:5
+#, python-format
+msgid "%(username)s's profile."
+msgstr "Profil %(username)s."
+
+#: templates/userena/profile_detail.html:17
+msgid "Edit details"
+msgstr "Modifică detalii"
+
+#: templates/userena/profile_detail.html:27
+msgid "Your mugshot"
+msgstr "Poza d-voastră"
+
+#: templates/userena/profile_detail.html:31
+msgid "Name"
+msgstr "Nume"
+
+#: templates/userena/profile_detail.html:39
+msgid "Age"
+msgstr "Vârsta"
+
+#: templates/userena/profile_detail.html:43
+msgid "Website"
+msgstr "Website"
+
+#: templates/userena/profile_detail.html:47
+msgid "Location"
+msgstr "Locație"
+
+#: templates/userena/profile_detail.html:51
+msgid "About me"
+msgstr "Despre mine"
+
+#: templates/userena/profile_form.html:5
+msgid "Account setup"
+msgstr "Setare cont"
+
+#: templates/userena/profile_form.html:20
+msgid "Edit Profile"
+msgstr "Modifică profil"
+
+#: templates/userena/profile_form.html:23
+msgid "Save changes"
+msgstr "Salvează modificările"
+
+#: templates/userena/profile_list.html:5
+msgid "Profiles"
+msgstr "Profile"
+
+#: templates/userena/profile_list.html:22
+msgid "previous"
+msgstr "anterior"
+
+#: templates/userena/profile_list.html:26
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+"\n"
+"      Pagina %(page)s din %(num_pages)s\n"
+"      "
+
+#: templates/userena/profile_list.html:32
+msgid "next"
+msgstr "următor"
+
+#: templates/userena/signin_form.html:5 templates/userena/signin_form.html:11
+#: templates/userena/signin_form.html:29
+msgid "Signin"
+msgstr "Autentificare"
+
+#: templates/userena/signin_form.html:30
+msgid "Forgot your password?"
+msgstr "V-ați uitat parola?"
+
+#: templates/userena/signout.html:4
+msgid "Signed out"
+msgstr "Deautentificat"
+
+#: templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr "Ați fost deautentificat"
+
+#: templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr "Ați fost deautentificat. La revedere."
+
+#: templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr "Înregistrarea e aproape gata!"
+
+#: templates/userena/signup_complete.html:6
+#: templates/userena/signup_form.html:4 templates/userena/signup_form.html:10
+#: templates/userena/signup_form.html:28
+msgid "Signup"
+msgstr "Înregistrare"
+
+#: templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr "Mulțumim că v-ați înregistrat la noi!"
+
+#: templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr ""
+"Puteți folosi combinația utilizator/parolă furnizate la înscriere pentru a "
+"vă autentifica."
+
+#: tests/profiles/models.py:12
+msgid "Male"
+msgstr "Masculin"
+
+#: tests/profiles/models.py:13
+msgid "Female"
+msgstr "Feminin"
+
+#: tests/profiles/models.py:21
+msgid "gender"
+msgstr "gen"
+
+#: tests/profiles/models.py:25
+msgid "website"
+msgstr "website"
+
+#: tests/profiles/models.py:26
+msgid "location"
+msgstr "locație"
+
+#: tests/profiles/models.py:27
+msgid "about me"
+msgstr "despre mine"
+
+#: views.py:201
+msgid "Your account has been activated and you have been signed in."
+msgstr "Contul d-voastră a fost activat și ați fost autentificat."
+
+#: views.py:301
+msgid "Your email address has been changed."
+msgstr "Adresa d-voastră de email a fost schimbată."
+
+#: views.py:451
+msgid "You have been signed in."
+msgstr "Ați fost autentificat."
+
+#: views.py:489
+msgid "You have been signed out."
+msgstr "Ați fost deautentificat."
+
+#: views.py:691
+msgid "Your profile has been updated."
+msgstr "Profilul d-voastră a fost actualizat."
