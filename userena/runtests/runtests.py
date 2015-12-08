@@ -15,7 +15,6 @@ if django.VERSION >= (1, 7, 0):
     django.setup()
 
 from django.conf import settings
-from django.db.models import get_app
 from django.test.utils import get_runner
 
 
@@ -42,13 +41,23 @@ def main():
         print(usage())
         sys.exit(1)
 
-    if django.VERSION >= (1, 6, 0):
+    if  (1, 6, 0) <= django.VERSION < (1, 9, 0):
         # this is a compat hack because in django>=1.6.0 you must provide
         # module like "userena.contrib.umessages" not "umessages"
+        from django.db.models import get_app
         test_modules = [
             # be more strict by adding .tests to not run umessages tests twice
             # if both userena and umessages are tested
             get_app(module_name).__name__[:-7] + ".tests"
+            for module_name
+            in test_modules
+        ]
+    elif django.VERSION >= (1, 9, 0):
+        from django.apps import apps
+        test_modules = [
+            # be more strict by adding .tests to not run umessages tests twice
+            # if both userena and umessages are tested
+            apps.get_app_config(module_name).name + ".tests"
             for module_name
             in test_modules
         ]
