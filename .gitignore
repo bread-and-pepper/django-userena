@@ -35,3 +35,6 @@ demo/media/admin
 
 # Temp vim files
 *.swp
+
+# Backup files
+*~
