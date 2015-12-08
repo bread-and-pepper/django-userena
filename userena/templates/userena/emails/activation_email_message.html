@@ -1,4 +1,4 @@
-{% load i18n %}{% autoescape off %}{% load url from future %}
+{% load i18n %}{% autoescape off %}
 <html>
 <body>
     {% if not without_usernames %}<p>{% blocktrans with user.username as username %}Dear {{ username }},</p>{% endblocktrans %}{% endif %}

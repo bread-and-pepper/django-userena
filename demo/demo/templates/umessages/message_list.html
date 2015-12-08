@@ -1,6 +1,5 @@
 {% extends 'umessages/base_message.html' %}
 {% load i18n umessages_tags %}
-{% load url from future %}
 
 {% block content_title %}{% get_unread_message_count_for user as unread_message_count %}
 <h2 class="content-title">Messages ({{ unread_message_count }} )</h2>{% endblock %}
