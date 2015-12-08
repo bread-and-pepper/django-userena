@@ -130,6 +130,10 @@ if django.VERSION < (1, 7, 0):
     # only older versions of django require south migrations
     INSTALLED_APPS += ('south',)
 
+if django.VERSION >= (1, 9, 0):
+    INSTALLED_APPS += ('easy_thumbnails',)
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
