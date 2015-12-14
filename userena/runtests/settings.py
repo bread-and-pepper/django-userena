@@ -129,6 +129,10 @@ INSTALLED_APPS = (
 if django.VERSION < (1, 7, 0):
     # only older versions of django require south migrations
     INSTALLED_APPS += ('south',)
+    SOUTH_MIGRATION_MODULES = {
+        'easy_thumbnails': 'easy_thumbnails.south_migrations',
+        'userena.contrib.umessages': 'userena.contrib.umessages.south_migrations',
+    }
 
 if django.VERSION >= (1, 9, 0):
     INSTALLED_APPS += ('easy_thumbnails',)
