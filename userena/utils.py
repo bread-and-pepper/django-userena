@@ -9,8 +9,8 @@ from django.utils.encoding import smart_bytes
 
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable, get_model
-from userena.compat import sha_constructor, md5_constructor
 
+from hashlib import sha1, md5
 import urllib, random, datetime
 
 try:
@@ -62,7 +62,7 @@ def get_gravatar(email, size=80, default='identicon'):
 
     gravatar_url = '%(base_url)s%(gravatar_id)s?' % \
             {'base_url': base_url,
-             'gravatar_id': md5_constructor(email.lower().encode('utf-8')).hexdigest()}
+             'gravatar_id': md5(email.lower().encode('utf-8')).hexdigest()}
 
     gravatar_url += urlencode({
         's': str(size),
@@ -114,10 +114,10 @@ def generate_sha1(string, salt=None):
         string = str(string)
 
     if not salt:
-        salt = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
+        salt = sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]
 
     salted_bytes = (smart_bytes(salt) + smart_bytes(string))
-    hash_ = sha_constructor(salted_bytes).hexdigest()
+    hash_ = sha1(salted_bytes).hexdigest()
 
     return salt, hash_
 

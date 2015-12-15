@@ -6,10 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
-from userena.compat import sha_constructor
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model, get_user_model
 
+from hashlib import sha1
 import random
 try:
     from collections import OrderedDict
@@ -113,7 +113,7 @@ class SignupFormOnlyEmail(SignupForm):
     def save(self):
         """ Generate a random username before falling back to parent signup form """
         while True:
-            username = sha_constructor(str(random.random()).encode('utf-8')).hexdigest()[:5]
+            username = sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]
             try:
                 get_user_model().objects.get(username__iexact=username)
             except get_user_model().DoesNotExist: break
