@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 from userena.contrib.umessages.forms import ComposeForm
 from userena.contrib.umessages.models import Message, MessageRecipient

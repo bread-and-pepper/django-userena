@@ -12,7 +12,6 @@ from userena.managers import ASSIGNED_PERMISSIONS
 from userena import settings as userena_settings
 from userena.utils import get_profile_model
 
-from guardian.shortcuts import remove_perm
 from guardian.models import UserObjectPermission
 
 import datetime
