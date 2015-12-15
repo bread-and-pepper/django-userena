@@ -4,7 +4,7 @@ import os
 import sys
 
 # fix sys path so we don't need to setup PYTHONPATH
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'userena.runtests.settings'
 
 import django
