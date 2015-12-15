@@ -1,6 +1,5 @@
 # Django settings for Userena demo project.
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 import os
 import sys
@@ -72,11 +71,42 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '_g-js)o8z#8=9pr1&amp;05h^1_#)91sbo-)g^(*=-+epxmt4kc9m#'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+
+if django.VERSION < (1, 8):
+    TEMPLATE_DEBUG = DEBUG
+
+    TEMPLATE_DIRS = (
+        os.path.join(PROJECT_ROOT, 'templates/'),
+    )
+
+    # List of callables that know how to import templates from various sources.
+    TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )
+else:
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [
+                # insert your TEMPLATE_DIRS here
+            ],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                    # list if you haven't customized them:
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.i18n',
+                    'django.template.context_processors.media',
+                    'django.template.context_processors.static',
+                    'django.template.context_processors.tz',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
+    ]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -112,10 +142,6 @@ USERENA_MUGSHOT_SIZE = 140
 
 ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'demo.wsgi.application'
-
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, 'templates/'),
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
