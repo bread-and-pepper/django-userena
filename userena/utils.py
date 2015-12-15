@@ -1,17 +1,14 @@
 from django.conf import settings
 
 from django.utils.six import text_type
-try:
-    from django.utils.six.moves.urllib.parse import urlencode
-except ImportError:
-    from six.moves.urllib.parse import urlencode
 from django.utils.encoding import smart_bytes
+from django.utils.http import urlencode
 
 from userena import settings as userena_settings
 from userena.compat import SiteProfileNotAvailable, get_model
 
 from hashlib import sha1, md5
-import urllib, random, datetime
+import random, datetime
 
 try:
     from django.utils.text import truncate_words
