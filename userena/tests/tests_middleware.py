@@ -1,10 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.test import TestCase
 
 from userena.tests.profiles.models import Profile
 from userena.middleware import UserenaLocaleMiddleware
 from userena import settings as userena_settings
-from userena.utils import get_user_model, get_user_profile, get_profile_model
+from userena.utils import get_user_profile, get_profile_model
 
 User = get_user_model()
 

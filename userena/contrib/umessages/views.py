@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
@@ -10,7 +11,7 @@ from django.views.generic.list import ListView
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
 from userena.contrib.umessages.forms import ComposeForm
-from userena.utils import get_datetime_now, get_user_model
+from userena.utils import get_datetime_now
 from userena import settings as userena_settings
 
 

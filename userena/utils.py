@@ -10,6 +10,7 @@ from userena.compat import SiteProfileNotAvailable, get_model
 
 from hashlib import sha1, md5
 import random, datetime
+import warnings
 
 
 def truncate_words(s, num, end_text='...'):
@@ -186,8 +187,10 @@ def get_datetime_now():
 
 user_model_label = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
-try:
+
+def get_user_model():
+    warnings.warn("Use Django's django.contrib.auth.get_user_model directly. "
+                  "This function will be removed in future versions of "
+                  "django-userena.", DeprecationWarning)
     from django.contrib.auth import get_user_model
-except ImportError:
-    def get_user_model():
-        return get_model(*user_model_label.rsplit('.', 1))
+    return get_user_model()

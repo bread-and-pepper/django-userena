@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager, Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import smart_text
@@ -10,7 +11,7 @@ from django.utils.six import text_type
 
 from userena import settings as userena_settings
 from userena.utils import generate_sha1, get_profile_model, get_datetime_now, \
-    get_user_model, get_user_profile
+    get_user_profile
 from userena import signals as userena_signals
 
 from guardian.shortcuts import assign_perm, get_perms

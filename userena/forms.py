@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
 from userena.models import UserenaSignup
-from userena.utils import get_profile_model, get_user_model
+from userena.utils import get_profile_model
 
 from hashlib import sha1
 import random

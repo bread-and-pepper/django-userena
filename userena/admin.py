@@ -1,11 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext as _
 from guardian.admin import GuardedModelAdmin
 
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
-from userena.utils import get_profile_model, get_user_model
+from userena.utils import get_profile_model
 
 class UserenaSignupInline(admin.StackedInline):
     model = UserenaSignup

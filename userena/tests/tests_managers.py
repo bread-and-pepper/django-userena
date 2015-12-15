@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from userena.models import UserenaSignup
 from userena import settings as userena_settings
-from userena.utils import get_user_model, get_user_profile
+from userena.utils import get_user_profile
 
 from guardian.shortcuts import get_perms
 

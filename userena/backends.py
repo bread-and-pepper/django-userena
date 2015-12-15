@@ -1,7 +1,7 @@
 import django.core.validators
+from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
-from userena.utils import get_user_model
 
 class UserenaAuthenticationBackend(ModelBackend):
     """

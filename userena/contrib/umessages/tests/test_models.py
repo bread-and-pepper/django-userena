@@ -1,9 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from userena.contrib.umessages.models import Message, MessageRecipient, MessageContact
-from userena.utils import get_user_model, truncate_words
+from userena.utils import truncate_words
 
 User = get_user_model()
+
 
 class MessageContactTests(TestCase):
     fixtures = ['users', 'messages']

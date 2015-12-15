@@ -2,6 +2,7 @@ import datetime
 import hashlib
 import re
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from django.conf import settings
@@ -12,7 +13,7 @@ from django.utils.six.moves.urllib_parse import urlparse, parse_qs
 from userena.models import UserenaSignup, upload_to_mugshot
 from userena import settings as userena_settings
 from userena.tests.profiles.models import Profile
-from userena.utils import get_user_model, get_user_profile
+from userena.utils import get_user_profile
 
 User = get_user_model()
 

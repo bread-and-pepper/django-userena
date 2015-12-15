@@ -1,10 +1,11 @@
 #encoding:utf-8
 from __future__ import unicode_literals
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from userena.contrib.umessages.forms import ComposeForm
-from userena.utils import get_user_model
+
 
 class ComposeFormTests(TestCase):
     """ Test the compose form. """

@@ -1,8 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from userena.contrib.umessages.models import (Message, MessageContact,
                                               MessageRecipient)
-from userena.utils import get_user_model
 
 User = get_user_model()
 

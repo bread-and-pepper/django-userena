@@ -1,6 +1,7 @@
 import re
 
 from datetime import datetime, timedelta
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.forms import PasswordChangeForm
@@ -8,7 +9,7 @@ from django.test import TestCase
 
 from userena import forms
 from userena import settings as userena_settings
-from userena.utils import get_user_model, get_user_profile
+from userena.utils import get_user_profile
 
 User = get_user_model()
 
