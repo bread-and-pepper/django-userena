@@ -23,30 +23,30 @@ class UtilsTests(TestCase):
         h2 = generate_sha1(s2)
         h3 = generate_sha1(s3)
         # Check valid SHA1 activation key
-        self.failUnless(re.match('^[a-f0-9]{40}$', h1[1]))
-        self.failUnless(re.match('^[a-f0-9]{40}$', h2[1]))
-        self.failUnless(re.match('^[a-f0-9]{40}$', h3[1]))
+        self.assertTrue(re.match('^[a-f0-9]{40}$', h1[1]))
+        self.assertTrue(re.match('^[a-f0-9]{40}$', h2[1]))
+        self.assertTrue(re.match('^[a-f0-9]{40}$', h3[1]))
 
     def test_get_gravatar(self):
         template = 's=%(size)s&d=%(type)s'
 
         # Check the defaults.
         parsed = urlparse(get_gravatar('alice@example.com'))
-        self.failUnlessEqual(
+        self.assertEqual(
             parse_qs(parsed.query),
             parse_qs(template % {'size': 80, 'type': 'identicon'})
         )
 
         # Check different size
         parsed = urlparse(get_gravatar('alice@example.com', size=200))
-        self.failUnlessEqual(
+        self.assertEqual(
             parse_qs(parsed.query),
             parse_qs(template % {'size': 200, 'type': 'identicon'})
         )
 
         # Check different default
         parsed = urlparse(get_gravatar('alice@example.com', default='404'))
-        self.failUnlessEqual(
+        self.assertEqual(
             parse_qs(parsed.query),
             parse_qs(template % {'size': 80, 'type': '404'})
         )
@@ -58,15 +58,15 @@ class UtilsTests(TestCase):
 
         """
         # Test with a requested redirect
-        self.failUnlessEqual(signin_redirect(redirect='/accounts/'), '/accounts/')
+        self.assertEqual(signin_redirect(redirect='/accounts/'), '/accounts/')
 
         # Test with only the user specified
         user = get_user_model().objects.get(pk=1)
-        self.failUnlessEqual(signin_redirect(user=user),
+        self.assertEqual(signin_redirect(user=user),
                              '/accounts/%s/' % user.username)
 
         # The ultimate fallback, probably never used
-        self.failUnlessEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)
+        self.assertEqual(signin_redirect(), settings.LOGIN_REDIRECT_URL)
 
     def test_get_profile_model(self):
         """
@@ -86,7 +86,7 @@ class UtilsTests(TestCase):
 
     def test_get_protocol(self):
         """ Test if the correct protocol is returned """
-        self.failUnlessEqual(get_protocol(), 'http')
+        self.assertEqual(get_protocol(), 'http')
 
         with self.settings(USERENA_USE_HTTPS=True):
-            self.failUnlessEqual(get_protocol(), 'https')
+            self.assertEqual(get_protocol(), 'https')

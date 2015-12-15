@@ -27,7 +27,7 @@ class MessageRecipientManagerTest(TestCase):
         # Jane has one unread message from john
         unread_messages = MessageRecipient.objects.count_unread_messages_for(jane)
 
-        self.failUnlessEqual(unread_messages, 1)
+        self.assertEqual(unread_messages, 1)
 
     def test_count_unread_messages_between(self):
         """ Test the unread messages count between two users """
@@ -37,7 +37,7 @@ class MessageRecipientManagerTest(TestCase):
         # Jane should have one unread message from john
         unread_messages = MessageRecipient.objects.count_unread_messages_between(jane, john)
 
-        self.failUnlessEqual(unread_messages, 1)
+        self.assertEqual(unread_messages, 1)
 
 class MessageContactManagerTest(TestCase):
     fixtures = ['users', 'messages']
@@ -48,9 +48,9 @@ class MessageContactManagerTest(TestCase):
         contacts = MessageContact.objects.get_contacts_for(john)
 
         # There is only one contact for John, and that's Jane.
-        self.failUnlessEqual(len(contacts), 1)
+        self.assertEqual(len(contacts), 1)
 
         jane = User.objects.get(pk=2)
-        self.failUnlessEqual(contacts[0].um_to_user,
+        self.assertEqual(contacts[0].um_to_user,
                              jane)
 

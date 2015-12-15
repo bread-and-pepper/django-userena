@@ -29,7 +29,7 @@ class MessagesViewsTests(TestCase):
         self.assertTemplateUsed(response,
                                 'umessages/message_form.html')
 
-        self.failUnless(isinstance(response.context['form'],
+        self.assertTrue(isinstance(response.context['form'],
                                    ComposeForm))
 
     def test_compose_post(self):
@@ -96,7 +96,7 @@ class MessagesViewsTests(TestCase):
         jane = User.objects.get(pk=2)
         mr = MessageRecipient.objects.get(message=Message.objects.get(pk=1),
                                           user=jane)
-        self.failUnless(mr.read_at)
+        self.assertTrue(mr.read_at)
 
     def test_valid_message_remove(self):
         """ ``POST`` to remove a message """
@@ -117,7 +117,7 @@ class MessagesViewsTests(TestCase):
         self.assertRedirects(response,
                              reverse('userena_umessages_list'))
         msg = Message.objects.get(pk=1)
-        self.failUnless(msg.sender_deleted_at)
+        self.assertTrue(msg.sender_deleted_at)
 
         # Test a valid post to delete a recipients message and a redirect
         client = self.client.login(username='jane', password='blowfish')
@@ -129,7 +129,7 @@ class MessagesViewsTests(TestCase):
         jane = User.objects.get(username='jane')
         mr = msg.messagerecipient_set.get(user=jane,
                                           message=msg)
-        self.failUnless(mr.deleted_at)
+        self.assertTrue(mr.deleted_at)
 
     def test_invalid_message_remove(self):
         """ ``POST`` to remove an invalid message """

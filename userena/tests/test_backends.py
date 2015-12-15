@@ -29,12 +29,12 @@ class UserenaAuthenticationBackendTests(TestCase):
         for invalid_dict in invalid_data_dicts:
             result = self.backend.authenticate(identification=invalid_dict['identification'],
                                                password=invalid_dict['password'])
-            self.failIf(isinstance(result, User))
+            self.assertFalse(isinstance(result, User))
 
         # Valid username and password
         result = self.backend.authenticate(identification='john',
                                            password='blowfish')
-        self.failUnless(isinstance(result, User))
+        self.assertTrue(isinstance(result, User))
 
     def test_with_email(self):
         """ Test the backend when email address is supplied """
@@ -50,18 +50,18 @@ class UserenaAuthenticationBackendTests(TestCase):
         for invalid_dict in invalid_data_dicts:
             result = self.backend.authenticate(identification=invalid_dict['identification'],
                                                password=invalid_dict['password'])
-            self.failIf(isinstance(result, User))
+            self.assertFalse(isinstance(result, User))
 
         # Valid e-email address and password
         result = self.backend.authenticate(identification='john@example.com',
                                            password='blowfish')
-        self.failUnless(isinstance(result, User))
+        self.assertTrue(isinstance(result, User))
 
     def test_get_user(self):
         """ Test that the user is returned """
         user = self.backend.get_user(1)
-        self.failUnlessEqual(user.username, 'john')
+        self.assertEqual(user.username, 'john')
 
         # None should be returned when false id.
         user = self.backend.get_user(99)
-        self.failIf(user)
+        self.assertFalse(user)

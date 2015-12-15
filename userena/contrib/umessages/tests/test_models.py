@@ -14,7 +14,7 @@ class MessageContactTests(TestCase):
         """ Test the human representation of a message """
         contact = MessageContact.objects.get(pk=1)
         correct_format = "john and jane"
-        self.failUnlessEqual(contact.__str__(),
+        self.assertEqual(contact.__str__(),
                              correct_format)
 
     def test_opposite_user(self):
@@ -24,10 +24,10 @@ class MessageContactTests(TestCase):
         jane = User.objects.get(pk=2)
 
         # Test the opposites
-        self.failUnlessEqual(contact.opposite_user(john),
+        self.assertEqual(contact.opposite_user(john),
                              jane)
 
-        self.failUnlessEqual(contact.opposite_user(jane),
+        self.assertEqual(contact.opposite_user(jane),
                              john)
 
 class MessageModelTests(TestCase):
@@ -37,7 +37,7 @@ class MessageModelTests(TestCase):
         """ Test the human representation of a message """
         message = Message.objects.get(pk=1)
         truncated_body = truncate_words(message.body, 10)
-        self.failUnlessEqual(message.__str__(),
+        self.assertEqual(message.__str__(),
                              truncated_body)
 
 class MessageRecipientModelTest(TestCase):
@@ -49,7 +49,7 @@ class MessageRecipientModelTest(TestCase):
 
         valid_unicode = '%s' % (recipient.message)
 
-        self.failUnlessEqual(recipient.__str__(),
+        self.assertEqual(recipient.__str__(),
                              valid_unicode)
 
     def test_new(self):
@@ -57,5 +57,5 @@ class MessageRecipientModelTest(TestCase):
         new_message = MessageRecipient.objects.get(pk=1)
         read_message = MessageRecipient.objects.get(pk=2)
 
-        self.failUnless(new_message.is_read())
-        self.failIf(read_message.is_read())
+        self.assertTrue(new_message.is_read())
+        self.assertFalse(read_message.is_read())

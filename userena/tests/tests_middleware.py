@@ -56,11 +56,11 @@ class UserenaLocaleMiddlewareTests(TestCase):
             req = self._get_request_with_user(user)
 
             # Check that the user has this preference
-            self.failUnlessEqual(profile.language, lang)
+            self.assertEqual(profile.language, lang)
 
             # Request should have a ``LANGUAGE_CODE`` with dutch
             UserenaLocaleMiddleware().process_request(req)
-            self.failUnlessEqual(req.LANGUAGE_CODE, lang)
+            self.assertEqual(req.LANGUAGE_CODE, lang)
 
     def test_without_profile(self):
         """ Middleware should do nothing when a user has no profile """
@@ -74,7 +74,7 @@ class UserenaLocaleMiddlewareTests(TestCase):
         req = self._get_request_with_user(user)
         UserenaLocaleMiddleware().process_request(req)
 
-        self.failIf(hasattr(req, 'LANGUAGE_CODE'))
+        self.assertFalse(hasattr(req, 'LANGUAGE_CODE'))
 
     def test_without_language_field(self):
         """ Middleware should do nothing if the profile has no language field """
@@ -85,4 +85,4 @@ class UserenaLocaleMiddlewareTests(TestCase):
 
         # Middleware should do nothing
         UserenaLocaleMiddleware().process_request(req)
-        self.failIf(hasattr(req, 'LANGUAGE_CODE'))
+        self.assertFalse(hasattr(req, 'LANGUAGE_CODE'))

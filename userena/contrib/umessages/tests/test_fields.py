@@ -54,7 +54,7 @@ class CommaSeperatedFieldTests(TestCase):
         ]
         for invalid_dict in invalid_data_dicts:
             form = CommaSeparatedTestForm(data=invalid_dict['data'])
-            self.failIf(form.is_valid())
+            self.assertFalse(form.is_valid())
             # self.assertEqual(form.errors[invalid_dict['error'][0]],
             #                  invalid_dict['error'][1])
             self.assertTrue(re.match(

@@ -40,7 +40,7 @@ class CleanExpiredTests(TestCase):
         # Clean it.
         call_command('clean_expired')
 
-        self.failUnlessEqual(User.objects.filter(username=self.user_info['username']).count(), 0)
+        self.assertEqual(User.objects.filter(username=self.user_info['username']).count(), 0)
 
 class CheckPermissionTests(TestCase):
     user_info = {'username': 'alice',
@@ -54,7 +54,7 @@ class CheckPermissionTests(TestCase):
 
         # Remove all permissions
         UserObjectPermission.objects.filter(user=user).delete()
-        self.failUnlessEqual(UserObjectPermission.objects.filter(user=user).count(),
+        self.assertEqual(UserObjectPermission.objects.filter(user=user).count(),
                              0)
 
         # Check it

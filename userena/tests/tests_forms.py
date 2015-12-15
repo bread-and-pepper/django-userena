@@ -67,7 +67,7 @@ class SignupFormTests(TestCase):
         with override('en'):
             for invalid_dict in invalid_data_dicts:
                 form = forms.SignupForm(data=invalid_dict['data'])
-                self.failIf(form.is_valid())
+                self.assertFalse(form.is_valid())
                 self.assertEqual(form.errors[invalid_dict['error'][0]],
                                  invalid_dict['error'][1])
 
@@ -78,7 +78,7 @@ class SignupFormTests(TestCase):
                                       'password2': 'foo',
                                       'tos': 'on'})
 
-        self.failUnless(form.is_valid())
+        self.assertTrue(form.is_valid())
 
 
 class AuthenticationFormTests(TestCase):
@@ -107,7 +107,7 @@ class AuthenticationFormTests(TestCase):
         with override('en'):
             for invalid_dict in invalid_data_dicts:
                 form = forms.AuthenticationForm(data=invalid_dict['data'])
-                self.failIf(form.is_valid())
+                self.assertFalse(form.is_valid())
                 self.assertEqual(form.errors[invalid_dict['error'][0]],
                                  invalid_dict['error'][1])
 
@@ -120,7 +120,7 @@ class AuthenticationFormTests(TestCase):
 
         for valid_dict in valid_data_dicts:
             form = forms.AuthenticationForm(valid_dict)
-            self.failUnless(form.is_valid())
+            self.assertTrue(form.is_valid())
 
     def test_signin_form_email(self):
         """
@@ -164,15 +164,15 @@ class SignupFormOnlyEmailTests(TestCase):
         form = forms.SignupFormOnlyEmail(data=valid_data)
 
         # Should have no username field
-        self.failIf(form.fields.get('username', False))
+        self.assertFalse(form.fields.get('username', False))
 
         # Form should be valid.
-        self.failUnless(form.is_valid())
+        self.assertTrue(form.is_valid())
 
         # Creates an unique username
         user = form.save()
 
-        self.failUnless(len(user.username), 5)
+        self.assertTrue(len(user.username), 5)
 
 
 class ChangeEmailFormTests(TestCase):
@@ -197,14 +197,14 @@ class ChangeEmailFormTests(TestCase):
         with override('en'):
             for invalid_dict in invalid_data_dicts:
                 form = forms.ChangeEmailForm(user, data=invalid_dict['data'])
-                self.failIf(form.is_valid())
+                self.assertFalse(form.is_valid())
                 self.assertEqual(form.errors[invalid_dict['error'][0]],
                                  invalid_dict['error'][1])
 
         # Test a valid post
         form = forms.ChangeEmailForm(user,
                                      data={'email': 'john@newexample.com'})
-        self.failUnless(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     def test_form_init(self):
         """ The form must be initialized with a ``User`` instance. """
