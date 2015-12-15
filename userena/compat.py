@@ -49,3 +49,14 @@ if django.VERSION < (1, 7, 0):
 else:
     from django.apps import apps
     get_model = apps.get_model
+
+
+# optparse/argparse compatibility helper for simple cases (long options only)
+# for an example useage see userena/management/commands/check_permissions.py
+if django.VERSION < (1, 8):
+    from optparse import make_option
+    def make_options(options):
+        return list(make_option(opt, **attrs) for opt, attrs in options)
+else:
+    def make_options(options):
+        return ()

@@ -1,8 +1,24 @@
-from optparse import make_option
 from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_text
 
+from userena.compat import make_options
 from userena.models import UserenaSignup
+
+arguments = (
+    ('--no-output', {
+        'action': 'store_false',
+        'dest': 'output',
+        'default': True,
+        'help': 'Hide informational output.'
+    }),
+    ('--test', {
+        'action': 'store_true',
+        'dest': 'test',
+        'default': False,
+        'help': "Displays that it's testing management command. Don't use it yourself."
+    }),
+)
+
 
 class Command(BaseCommand):
     """
@@ -10,18 +26,12 @@ class Command(BaseCommand):
     This command checks that all permissions are correct.
 
     """
-    option_list = BaseCommand.option_list + (
-        make_option('--no-output',
-            action='store_false',
-            dest='output',
-            default=True,
-            help='Hide informational output.'),
-        make_option('--test',
-            action='store_true',
-            dest='test',
-            default=False,
-            help="Displays that it's testing management command. Don't use it yourself."),
-        )
+    option_list = make_options(arguments)
+
+    def add_arguments(self, parser):
+            for arg, attrs in arguments:
+                parser.add_argument(arg, **attrs)
+
 
     help = 'Check that user permissions are correct.'
     def handle(self, **options):
