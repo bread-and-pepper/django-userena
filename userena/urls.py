@@ -1,8 +1,8 @@
-from django.conf.urls import *
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from userena import views as userena_views
 from userena import settings as userena_settings
+from userena import views as userena_views
 from userena.compat import auth_views_compat_quirks, password_reset_uid_kwarg
 
 
@@ -13,7 +13,7 @@ def merged_dict(dict_a, dict_b):
     dict_a.update(dict_b)
     return dict_a
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Signup, signin and signout
     url(r'^signup/$',
        userena_views.signup,
@@ -111,4 +111,4 @@ urlpatterns = patterns('',
     url(r'^$',
        userena_views.ProfileListView.as_view(),
        name='userena_profile_list'),
-)
+]
