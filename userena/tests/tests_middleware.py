@@ -16,7 +16,7 @@ def has_profile(user):
     try:
         profile = user.get_profile()
     except AttributeError:
-        related_name = profile_model._meta.get_field_by_name('user')[0]\
+        related_name = profile_model._meta.get_field('user')\
                                     .related_query_name()
         profile = getattr(user, related_name, None)
     except profile_model.DoesNotExist:
