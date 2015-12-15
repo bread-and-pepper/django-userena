@@ -1,10 +1,10 @@
-from django.core.management.base import NoArgsCommand, BaseCommand
 from optparse import make_option
+from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_text
 
 from userena.models import UserenaSignup
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     """
     For unknown reason, users can get wrong permissions.
     This command checks that all permissions are correct.
@@ -24,7 +24,7 @@ class Command(NoArgsCommand):
         )
 
     help = 'Check that user permissions are correct.'
-    def handle_noargs(self, **options):
+    def handle(self, **options):
         permissions, users, warnings  = UserenaSignup.objects.check_permissions()
         output = options.pop("output")
         test = options.pop("test")
