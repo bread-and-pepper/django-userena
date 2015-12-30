@@ -4,6 +4,11 @@ This file contains all the backwards-incompatible (since 1.0.1) and other
 significant (since 1.4.1) changes.
 
 
+## Version 1.5.1
+
+- Update url patterns to handle usernames starting with 'signup', 'signin',
+  'signout' strings (#502)
+
 ## Version 1.5.0
 
 Fixes and improvements:
