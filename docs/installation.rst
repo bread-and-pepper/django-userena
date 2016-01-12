@@ -17,7 +17,7 @@ warning::
 Installing django-userena.
 --------------------------
 
-You can install django-userena automagicly with ``pip``. Or by manually
+You can install django-userena automagically with ``pip``. Or by manually
 placing it on on your ``PYTHON_PATH``. The recommended way is the shown in
 :ref:`pip-install`.
 
