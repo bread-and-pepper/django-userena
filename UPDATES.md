@@ -4,6 +4,45 @@ This file contains all the backwards-incompatible (since 1.0.1) and other
 significant (since 1.4.1) changes.
 
 
+## Version 2.0.0
+
+Backwards incompatible changes:
+
+- Drop support for Django 1.4
+- Add support for Django 1.9
+- Added new Django 1.9 migration for `userena` and `userena.contrib.umessages`.
+  Old South migrations are still available in `userena.south_migrations` and
+  `userena.contrib.umessages.south_migrations` but are deprecated and may be
+  removed in future major releases. `South>1.0` is required for older versions
+  of Django.
+- `django-guardian` requirement bumped to `<=1.4.1` as newer version (1.4.2)
+  fails on tests.
+- removed all `{% load url from future %}` from userena templates for
+  compatibility with Django 1.9
+- `sha_constructor()`, `smart_text()`, and `md5_constructor` removed from
+  `userena.compat`
+- Use simple list literal as url patterns instead of
+  `django.conf.urls.patterns()` function
+
+Deprecated features:
+
+- `userena.utils.get_user_model` is deprecated and will be removed in version
+   3.0.0. Use `django.contrib.auth.get_user_model`
+
+Fixes and improvements:
+
+- More nodes added to the travis test matrix.
+- Some documentation moved to `.md` files.
+- Deprecated unittest aliases replaced in tests.
+- Updated list of trove classifiers.
+- Added option to execute `runtests` script with pattern parameter to limit
+  number of tests.
+- Added `{posargs}` to test command execution in `tox.ini` to improve developer
+  experience during tests.
+- Minor documentation improvements.
+- Set `django-guardian<1.4.0` version for Django 1.5 and 1.6 tests.
+
+
 ## Version 1.5.1
 
 - Update url patterns to handle usernames starting with 'signup', 'signin',
@@ -22,8 +61,8 @@ Fixes and improvements:
 - Fixes to translations (#499)
 - Added Romanian translations (#500)
 
-
 Backwards incompatible changes:
+
 - django-guardian has version fixed to `<=1.3.1` due to django 1.4 compatibility
 
 
@@ -104,4 +143,4 @@ Backwards incompatible changes:
 - Removed the ``user`` relationship outside ``UserenaBaseProfile`` model. This
   allows the user to define it's own relationship and fixes a conflict while
   running ``manage.py test``. To migrate, place the ``user`` field inside your
-  profile model, instead of inheriting it from the ``abstract`` class. 
+  profile model, instead of inheriting it from the ``abstract`` class.

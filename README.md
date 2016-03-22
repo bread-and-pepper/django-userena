@@ -15,3 +15,5 @@ Complete documentation about the
 [settings](http://docs.django-userena.org/en/latest/settings.html) and
 [F.A.Q.](http://docs.django-userena.org/en/latest/faq.html) is available on
 [Read the Docs](http://docs.django-userena.org/en/latest/index.html).
+
+For list of updates and changes see `UPDATES.md` file.

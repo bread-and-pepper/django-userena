@@ -20,18 +20,30 @@ from django.test.utils import get_runner
 
 def usage():
     return """
-    Usage: python runtests.py [UnitTestClass].[method]
+    Usage: python runtests.py [app] [-p <pattern>]
 
-    You can pass the Class name of the `UnitTestClass` you want to test.
-
-    Append a method name if you only want to test a specific method of that
-    class.
     """
 
 
 def main():
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=2, failfast=False)
+
+    # Ugly parameter parsing. We probably want to improve that in future
+    # or just use default django test command. This may be problematic,
+    # knowing how testing in Django changes from version to version.
+    if '-p' in sys.argv:
+        try:
+            pos = sys.argv.index('-p')
+            pattern = sys.argv.pop(pos) and sys.argv.pop(pos)
+        except IndexError:
+            print(usage())
+            sys.exit(1)
+    else:
+        pattern = None
+
+    test_modules = sys.argv[1:]
+
+    test_runner = TestRunner(verbosity=2, failfast=False, pattern=pattern)
 
     if len(sys.argv) > 1:
         test_modules = sys.argv[1:]
