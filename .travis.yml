@@ -32,6 +32,6 @@ install:
   # note: pip>=8.0.0 does not work on Python 3.2 but we want to test on py32
   # note: virtualenv>=14.0.0 bundles newer version of pip that does not work on
   #       py32
-  - pip install -U 'tox==2.2.1' 'pip<8.0.0'
+  - pip install -U 'tox==2.2.1' 'pip<8.0.0' 'virtualenv<14.0.0'
 script:
   - tox -e $TOX_ENV
