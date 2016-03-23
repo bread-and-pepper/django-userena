@@ -4,6 +4,13 @@ This file contains all the backwards-incompatible (since 1.0.1) and other
 significant (since 1.4.1) changes.
 
 
+## Version 2.0.1
+
+Fixes and improvements:
+
+- Fixed missing `README.md` that caused installation failure (#517).
+- Use universal wheels when distributing the package.
+
 ## Version 2.0.0
 
 Backwards incompatible changes:
