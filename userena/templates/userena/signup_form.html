@@ -18,8 +18,9 @@
     </p>
     {% else %}
     <p>
-    {{ field.label_tag }} 
+    {{ field.label_tag }}
     {{ field }}
+    {{ field.help_text }}
     </p>
     {% endif %}
     {% endfor %}

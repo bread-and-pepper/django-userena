@@ -1,14 +1,18 @@
 #encoding:utf-8
 from __future__ import unicode_literals
-
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from userena import settings as userena_settings
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model
+from userena.compat import (
+    validate_password,
+    password_validators_help_text_html
+)
 
 from hashlib import sha1
 import random
@@ -40,7 +44,9 @@ class SignupForm(forms.Form):
                              label=_("Email"))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("Create password"))
+                                label=_("Create password"),
+                                validators=[validate_password],
+                                help_text=mark_safe(password_validators_help_text_html()))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
                                 label=_("Repeat password"))

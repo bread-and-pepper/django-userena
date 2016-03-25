@@ -68,6 +68,19 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '_g-js)o8z#8=9pr1&amp;05h^1_#)91sbo-)g^(*=-+epxmt4kc9m#'
 
+
+# example password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 8}
+    }
+]
+
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -118,8 +131,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'guardian',
-    'south',
     'userena',
+    'easy_thumbnails',
     'userena.contrib.umessages',
     'profiles',
 )

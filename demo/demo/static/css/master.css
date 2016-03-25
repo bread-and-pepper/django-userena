@@ -760,6 +760,13 @@ div#lang_form input[type=submit] {
 }
 
 
+form p + ul {
+    margin-top: 1em;
+    font-size: 0.7em;
+    font-family: 'Droid Sans', helvetica, arial, Geneva, sans-serif;
+    color: #999;
+    text-shadow: #ffffff 1px 1px 0;
+}
 /*	notifications
 ................................... */
 

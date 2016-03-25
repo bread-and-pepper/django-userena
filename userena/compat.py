@@ -60,3 +60,18 @@ if django.VERSION < (1, 8):
 else:
     def make_options(options):
         return ()
+
+
+try:
+    from django.contrib.auth.password_validation import (
+        validate_password,
+        password_validators_help_text_html,
+    )
+
+except (ImportError, AttributeError):
+    # Password validation is not available for Django < 1.9.3
+    def get_password_validators(value):
+        return None
+
+    def password_validators_help_text_html():
+        return None
