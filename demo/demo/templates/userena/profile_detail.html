@@ -7,7 +7,7 @@
 {% block content %}
 
 
-    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+    {# Dirty hack. Will use django-guardian in the future. #}
     {% if user.username == profile.user.username %}
     <ul id="profile-nav">
         <li class="selected"><a href="{% url 'userena_profile_detail' user.username %}">{% trans "View profile" %}</a></li>

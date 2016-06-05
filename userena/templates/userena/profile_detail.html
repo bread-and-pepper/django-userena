@@ -7,7 +7,7 @@
 {% block content %}
   <div class="white-box">
     {% block profile_navigation %}
-      {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+      {# Dirty hack. Will use django-guardian in the future. #}
       {% if user.username == profile.user.username %}
         <ul id="box-nav">
           {% block profile_navigation_items %}
