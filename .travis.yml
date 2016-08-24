@@ -2,6 +2,16 @@ language: python
 python: 2.7
 sudo: false
 
+# note: python3.5 is not preinstalled on docker-based (i.e. sudo: false)
+#       Travis workers at the moment of this writing, so we need to get
+#       it via addon repository.
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python3.5
+
 env:
   - TOX_ENV=py26-django15
   - TOX_ENV=py26-django16
